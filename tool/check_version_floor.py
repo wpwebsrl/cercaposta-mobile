@@ -1,19 +1,30 @@
 #!/usr/bin/env python3
 """Fail if the app's pubspec version is below the server's supported floor.
 
-The floor lives in the backend compatibility registry (backend/app/core/compat.py).
-A Dart test can't read outside mobile/, so this monorepo-only guard runs in CI
-(.github/workflows/mobile.yml). Run from the mobile/ directory.
-See docs/aggiornamenti.md.
+The floor lives in the server's compatibility registry (backend/app/core/compat.py),
+which is a SEPARATE private repository: in CI (where only this repo is checked out)
+the guard skips with a notice, and the floor must be verified before each release.
+Locally the registry is found automatically when the server repo is checked out as
+a sibling directory (../cercaposta or ../backend layout), or point to it explicitly:
+
+    CERCAPOSTA_COMPAT=/path/to/backend/app/core/compat.py python tool/check_version_floor.py
 """
 from __future__ import annotations
 
+import os
 import re
 import sys
 from pathlib import Path
 
 MOBILE = Path(__file__).resolve().parents[1]
-COMPAT = MOBILE.parent / "backend" / "app" / "core" / "compat.py"
+_REL = Path("backend") / "app" / "core" / "compat.py"
+_CANDIDATES = [
+    Path(p) for p in ([os.environ["CERCAPOSTA_COMPAT"]] if os.environ.get("CERCAPOSTA_COMPAT") else [])
+] + [
+    MOBILE.parent / _REL,                 # historical monorepo layout (mobile/ inside the server repo)
+    MOBILE.parent / "cercaposta" / _REL,  # sibling checkout: D:\sviluppo\{cercaposta,cercaposta-mobile}
+]
+COMPAT = next((p for p in _CANDIDATES if p.exists()), _CANDIDATES[-1])
 
 
 def parse_semver(value: str) -> tuple[int, int, int]:
@@ -48,7 +59,8 @@ def floor_for(source: str, client: str) -> str:
 
 def main() -> int:
     if not COMPAT.exists():
-        print("compat.py not found — skipping floor guard (not a monorepo checkout)")
+        print("compat.py not found — skipping floor guard (server repo not available; "
+              "verify the floor manually before releasing)")
         return 0
     source = COMPAT.read_text(encoding="utf-8")
     current = pubspec_version()
