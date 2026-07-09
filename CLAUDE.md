@@ -81,7 +81,7 @@ visibile ma non riutilizzabile.
 - `lib/main.dart` → router `lib/core/router/app_router.dart` → shell `lib/features/home/`
 - Auth/sessioni/biometria: `lib/core/auth/` (`auth_controller.dart` gestisce anche 426 e
   keepalive); API: `lib/core/api/` (Dio + interceptor 426 in `api_providers.dart`)
-- Feature: `lib/features/{login,search,email,chat,settings,server,about,splash}/`
+- Feature: `lib/features/{login,search,email,chat,notifications,settings,server,about,splash}/`
 - Modelli: `lib/shared/models/` · Tema: `lib/core/theme/app_theme.dart`
 - Test: `test/` (widget + unit; girano in CI su ogni push)
 
