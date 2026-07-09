@@ -1,0 +1,3 @@
+app_identifier("it.cercaposta.app")
+# Nessun apple_id/team_id qui: l'autenticazione avviene con la App Store Connect
+# API key (secret ASC_*), la firma con firma automatica (-allowProvisioningUpdates).

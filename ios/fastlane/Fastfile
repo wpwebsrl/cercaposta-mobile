@@ -1,0 +1,61 @@
+# Fastlane per l'app iOS "Cerca posta".
+#
+# Firma e caricamento su TestFlight guidati interamente dalla CI (runner macOS di
+# GitHub Actions): nessun Mac locale necessario. L'autenticazione usa una App
+# Store Connect API key (.p8) passata via variabili d'ambiente / GitHub Secrets;
+# la firma e' AUTOMATICA (xcodebuild -allowProvisioningUpdates crea/aggiorna il
+# provisioning profile "App Store" al volo). Alternativa piu' riproducibile per
+# il futuro: fastlane match (certificati in un repo git dedicato).
+#
+# Uso: bundle exec fastlane beta
+# Env richieste: ASC_KEY_ID, ASC_ISSUER_ID, ASC_KEY_P8_BASE64, APPLE_TEAM_ID.
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Compila l'app e la carica su TestFlight (firma automatica via ASC API key)"
+  lane :beta do
+    key_id = ENV.fetch("ASC_KEY_ID")
+    issuer_id = ENV.fetch("ASC_ISSUER_ID")
+    team_id = ENV.fetch("APPLE_TEAM_ID")
+    key_path = File.expand_path("~/.appstoreconnect/private_keys/AuthKey_#{key_id}.p8")
+
+    api_key = app_store_connect_api_key(
+      key_id: key_id,
+      issuer_id: issuer_id,
+      key_filepath: key_path,
+    )
+
+    # Firma automatica in CI: l'ARCHIVE ha bisogno dei flag espliciti della ASC
+    # API key (gym non li inietta lì), mentre l'EXPORT li riceve gia' da gym
+    # tramite app_store_connect_api_key: passarli anche in export_xcargs darebbe
+    # "option '-authenticationKeyPath' may only be provided once".
+    archive_auth = "-allowProvisioningUpdates " \
+                   "-authenticationKeyPath \"#{key_path}\" " \
+                   "-authenticationKeyID #{key_id} " \
+                   "-authenticationKeyIssuerID #{issuer_id}"
+
+    build_app(
+      workspace: "Runner.xcworkspace",
+      scheme: "Runner",
+      configuration: "Release",
+      export_method: "app-store",
+      xcargs: "DEVELOPMENT_TEAM=#{team_id} #{archive_auth}",
+      export_options: {
+        signingStyle: "automatic",
+        teamID: team_id,
+      },
+      output_directory: "build",
+      output_name: "Runner.ipa",
+      clean: true,
+    )
+
+    upload_to_testflight(
+      api_key: api_key,
+      # Non aspettare la fine dell'elaborazione Apple: la build compare in
+      # TestFlight dopo qualche minuto. Nessun invio in review (solo beta).
+      skip_waiting_for_build_processing: true,
+      skip_submission: true,
+    )
+  end
+end

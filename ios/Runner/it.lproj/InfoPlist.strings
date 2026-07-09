@@ -1,0 +1,5 @@
+/* Permessi di sistema iOS — italiano. */
+"NSMicrophoneUsageDescription" = "Il microfono serve per la ricerca vocale nell'archivio email.";
+"NSSpeechRecognitionUsageDescription" = "Il riconoscimento vocale converte la tua voce in testo per la ricerca. L'elaborazione avviene sul dispositivo.";
+"NSFaceIDUsageDescription" = "Face ID sblocca l'accesso al tuo archivio cifrato.";
+"NSLocalNetworkUsageDescription" = "Si connette al tuo server CercaPosta, che può trovarsi sulla rete locale.";

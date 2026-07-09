@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-label="CercaPosta">
+  <defs>
+    <linearGradient id="cp-mail" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#57CC9E"/>
+      <stop offset="1" stop-color="#3CAE7E"/>
+    </linearGradient>
+  </defs>
+  <!-- Sfondo opaco (richiesto da iOS, niente alpha) -->
+  <rect width="1024" height="1024" fill="#FFFFFF"/>
+  <!-- Logo brand centrato con margine (~16%) -->
+  <g transform="translate(86.25,34.25) scale(13)">
+    <rect x="2" y="10" width="54" height="42" rx="5" fill="url(#cp-mail)"/>
+    <path d="M5.5 14 L29 33 L52.5 14" fill="none" stroke="#ffffff"
+          stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="44" cy="44" r="11" fill="none" stroke="#4F46E5" stroke-width="6"/>
+    <line x1="53" y1="53" x2="60.5" y2="60.5" stroke="#4F46E5" stroke-width="6" stroke-linecap="round"/>
+  </g>
+</svg>

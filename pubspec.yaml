@@ -1,0 +1,105 @@
+name: cercaposta
+description: "CercaPosta mobile app"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.8.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+
+  # HTTP + SSE — client unico: dio (interceptor Bearer/refresh, SSE via ResponseType.stream).
+  # Niente package:http per evitare un secondo client che bypassi la catena auth.
+  dio: ^5.8.0+1
+
+  # Secure storage (Keychain / Keystore)
+  flutter_secure_storage: ^9.2.4
+
+  # Biometria (Face ID / impronta)
+  local_auth: ^2.3.0
+
+  # Speech-to-text on-device
+  speech_to_text: ^7.0.1
+
+  # State management
+  flutter_riverpod: ^2.6.1
+
+  # Navigazione
+  go_router: ^15.1.2
+
+  # i18n
+  intl: ^0.20.2
+
+  # HTML rendering (corpo email). flutter_widget_from_html_core è il renderer
+  # mantenuto (flutter_html è archiviato): rende le immagini inline `data:`/`cid:`
+  # e i link via onTapUrl senza fetch di rete.
+  flutter_widget_from_html_core: ^0.17.2
+
+  # Anteprima allegati PDF in-app (rendering da byte in memoria, niente file su disco)
+  pdfx: ^2.9.1
+
+  # Shared preferences (impostazioni non sensibili)
+  shared_preferences: ^2.5.3
+
+  # URL launcher (link nel corpo email e citazioni chat → browser)
+  url_launcher: ^6.3.1
+
+  # Condivisione allegati / .eml tramite lo share sheet di sistema (byte in memoria)
+  share_plus: ^12.0.2
+
+  # Info dispositivo (device_name per le sessioni) e versione app (check min_app_version)
+  device_info_plus: ^11.3.0
+  package_info_plus: ^8.3.0
+
+  # Icone extra
+  material_symbols_icons: ^4.2803.0
+
+  # SVG (logo animato della pagina Info: i 4 layer del brand renderizzati e
+  # animati singolarmente — vedi assets/logo/)
+  flutter_svg: ^2.0.17
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  build_runner: ^2.4.14
+  flutter_launcher_icons: ^0.14.3
+  # Splash nativo (schermata iniziale) — genera i file nativi Android/iOS.
+  flutter_native_splash: ^2.4.4
+
+# Generazione icone app da assets/icon/ (sorgenti SVG + PNG rasterizzati a 1024px).
+# Rigenera con: dart run flutter_launcher_icons
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon/app_icon.png"
+  remove_alpha_ios: true
+  min_sdk_android: 23
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: "assets/icon/app_icon_foreground.png"
+
+# Splash nativo: logo del brand centrato su sfondo pieno (chiaro/scuro).
+# Rigenera con: dart run flutter_native_splash:create
+flutter_native_splash:
+  color: "#FFFFFF"
+  color_dark: "#111418"
+  image: "assets/icon/app_icon_foreground.png"
+  image_dark: "assets/icon/app_icon_foreground.png"
+  android_12:
+    color: "#FFFFFF"
+    color_dark: "#111418"
+    image: "assets/icon/app_icon_foreground.png"
+    image_dark: "assets/icon/app_icon_foreground.png"
+
+flutter:
+  uses-material-design: true
+  # gen-l10n: gli .arb sono sorgenti compile-time (→ lib/core/i18n), NON asset di runtime.
+  generate: true
+  assets:
+    - assets/logo/

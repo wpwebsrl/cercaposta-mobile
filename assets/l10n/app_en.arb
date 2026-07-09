@@ -1,0 +1,313 @@
+{
+  "@@locale": "en",
+  "appName": "Cerca posta",
+  "actionCancel": "Cancel",
+  "actionConfirm": "Confirm",
+  "actionClose": "Close",
+  "actionRetry": "Retry",
+  "actionSave": "Save",
+  "actionApply": "Apply",
+  "actionClear": "Clear",
+  "actionContinue": "Continue",
+  "actionRemove": "Remove",
+  "actionOpenInBrowser": "Open in browser",
+  "loading": "Loading…",
+  "today": "Today",
+  "yesterday": "Yesterday",
+  "serverTitle": "Choose server",
+  "serverSubtitle": "Enter the address of your CercaPosta server.",
+  "serverUrlLabel": "Server address",
+  "serverUrlHint": "https://mail.example.com",
+  "serverValidating": "Validating server…",
+  "serverInvalid": "Invalid address or server unreachable",
+  "serverNotCercaPosta": "This server is not a CercaPosta instance",
+  "serverSavedTitle": "Saved servers",
+  "serverNeedsSetup": "This server still needs to be set up from the web.",
+  "serverUpdateRequired": "Update the app to use this server.",
+  "loginTitle": "Sign in",
+  "loginUsername": "Username",
+  "loginPassword": "Password",
+  "loginButton": "Sign in",
+  "loginChangeServer": "Change server",
+  "loginBiometric": "Sign in with biometrics",
+  "loginBiometricReason": "Access your email archive",
+  "loginEnableBiometricTitle": "Quick sign-in",
+  "loginEnableBiometricBody": "Sign in with Face ID / fingerprint next time? Your credentials are stored securely on the device.",
+  "sharedFromLabel": "from {name}",
+  "@sharedFromLabel": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "sharedReaderBanner": "Folder shared by {name} — read-only",
+  "@sharedReaderBanner": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "totpTitle": "Two-step verification",
+  "totpSubtitle": "Enter the code from your authenticator app.",
+  "totpCode": "6-digit code",
+  "totpButton": "Verify",
+  "unlockTitle": "Unlock archive",
+  "unlockDescription": "Your archive is encrypted. Enter your password to access its contents.",
+  "unlockPassword": "Password",
+  "unlockButton": "Unlock",
+  "unlockBiometric": "Unlock with biometrics",
+  "unlockEnableBiometricTitle": "Quick unlock",
+  "unlockEnableBiometricBody": "Unlock the archive with biometrics next time? Your password is stored securely on the device.",
+  "unlockEnableBiometricYes": "Yes, enable",
+  "unlockEnableBiometricNo": "No, thanks",
+  "unlockReason": "Unlock your encrypted archive",
+  "firstPasswordTitle": "Set a new password",
+  "firstPasswordSubtitle": "On first access you must choose a personal password (the admin will never know it).",
+  "firstPasswordNew": "New password",
+  "firstPasswordConfirm": "Confirm password",
+  "firstPasswordMismatch": "Passwords do not match",
+  "kitTitle": "Emergency kit",
+  "kitBody": "Store this code somewhere safe: it recovers your archive if you forget your password. It is shown ONLY now.",
+  "kitCopy": "Copy",
+  "kitCopied": "Copied to clipboard",
+  "recoveryTitle": "Archive recovery",
+  "recoverySubtitle": "Your password was reset by the administrator. Enter your emergency kit code and choose a new password.",
+  "recoverySecretLabel": "Recovery code",
+  "navSearch": "Search",
+  "navChat": "AI Chat",
+  "navSettings": "Settings",
+  "searchHint": "Search… (from:, tag:, has:pdf…)",
+  "searchVoice": "Voice search",
+  "searchVoiceListening": "Listening…",
+  "searchVoiceUnavailable": "Speech recognition unavailable",
+  "searchVoicePermission": "Microphone permission denied",
+  "searchFilters": "Filters",
+  "searchNoResults": "No results",
+  "searchLoading": "Searching…",
+  "searchEmptyPrompt": "Search your archive by keywords or with operators.",
+  "searchResultsCount": "{count, plural, =0{No results} =1{1 result} other{{count} results}}",
+  "@searchResultsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "attachmentsCount": "{count, plural, =1{1 attachment} other{{count} attachments}}",
+  "@attachmentsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "filtersTitle": "Filters",
+  "filterFrom": "From",
+  "filterTo": "To / CC",
+  "filterSubject": "Subject",
+  "filterHasAttachments": "Has attachments",
+  "filterAttachmentExt": "Attachment type (e.g. pdf)",
+  "filterDateFrom": "After",
+  "filterDateTo": "Before",
+  "filterTags": "Tags",
+  "filterFolders": "Folders",
+  "foldersTitle": "Folders",
+  "foldersAll": "All folders",
+  "foldersRefresh": "Refresh",
+  "foldersEmpty": "No folders in the archive",
+  "foldersExpand": "Expand",
+  "foldersCollapse": "Collapse",
+  "foldersMultiple": "{count} folders",
+  "@foldersMultiple": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "aboutTitle": "About",
+  "aboutCompany": "WpWeb S.r.l.",
+  "aboutBuildLabel": "build",
+  "aboutWebsite": "Visit wpweb.com",
+  "aboutCredits": "Cerca posta is a WpWeb product: a smart, encrypted, searchable email archive.\nAll your email, finally in one place.\nYears of messages, conversations and attachments, gathered and put in order.\nNo more scattered mailboxes, old backups or forgotten files.\nCerca posta brings it all into one secure archive, always within reach.\nFinding an email is no longer a treasure hunt.\nType what you remember, the way you'd say it out loud.\nA name, a date, a word: results appear in an instant.\nDon't recall the exact words? No problem.\nCerca posta understands the meaning of your search, not just the words.\nLooking for “last year's plumber quote”?\nIt finds it, even if that email never used the word “quote”.\nThere's also a smart assistant that reads your email for you.\nAsk it questions in your own words and get clear answers.\n“When did I confirm the dentist appointment?”\n“What's the IBAN the supplier sent me?”\nIt answers by citing the right emails, so you can always check for yourself.\nAttachments become searchable too.\nPDFs, documents, spreadsheets and even the text inside images.\nThat invoice, that contract, that photo: just a search away.\nNo more hours spent scrolling your inbox for one detail.\nFilter by folder, by tag, by sender or by date.\nNarrow your search in a few clicks and get straight to the point.\nEvery message opens clean and easy to read.\nAnd most important of all: your data stays yours, and yours alone.\nEverything is encrypted at rest with your personal key.\nA stolen database or backup stays unreadable.\nThe security key is yours and yours only.\nCerca posta is a read-only archive.\nIt never sends, replies to, or changes anything in your original mailboxes.\nIt preserves and protects, without ever touching the source.\nIt's made for people with lots of email and little time.\nProfessionals, companies, firms, offices and institutions.\nSimple for anyone to use.\nNo manual, no fuss.\nOpen it, type what you're after, find it. That's all.\nThe memory of your correspondence, always with you.\nWhat you need, exactly when you need it.\nRecover in seconds what you thought was lost for good.\nRetrieve information, agreements and decisions made over email.\nTurn years of mail into a living, searchable resource.\nMore order, less stress.\nMore time for what truly matters.\nFast when you search, discreet when it keeps.\nReliable every time you need it.\nSecure by design, simple by choice.\nYour email archive, smart and protected.\nSearchable in everything, clear from the very start.\nCerca posta: find everything, lose nothing.\nA WpWeb product.\nTechnology that simplifies digital life.\nThank you for choosing Cerca posta.",
+  "emailLoading": "Loading message…",
+  "emailNoBody": "No content to display.",
+  "emailRawMissing": "The original message is no longer available: only metadata is shown.",
+  "emailAttachments": "Attachments",
+  "emailThread": "Conversation",
+  "emailOpenAttachment": "Open attachment",
+  "emailShowRemoteImages": "Show remote images",
+  "emailPecBadge": "PEC",
+  "emailTo": "To",
+  "emailCc": "CC",
+  "emailDate": "Date",
+  "attachmentLoading": "Loading preview…",
+  "attachmentUnsupported": "Preview not available for this file type.",
+  "chatTitle": "AI Chat",
+  "chatHint": "Ask a question about your archive…",
+  "chatSend": "Send",
+  "chatNotConfigured": "AI chat is not configured on this server.",
+  "chatDisabled": "AI chat is disabled on this server.",
+  "chatNew": "New conversation",
+  "chatHistory": "History",
+  "chatHistoryEmpty": "No saved conversations.",
+  "chatCitations": "Sources",
+  "chatPhaseUnderstanding": "Understanding…",
+  "chatPhaseSearching": "Searching…",
+  "chatPhaseEmbedding": "Semantic analysis…",
+  "chatPhaseReranking": "Reranking…",
+  "chatPhaseGenerating": "Generating answer…",
+  "chatEmbeddingFailed": "Semantic search unavailable: results are keyword-only.",
+  "settingsTitle": "Settings",
+  "settingsServer": "Server",
+  "settingsAccount": "Account",
+  "settingsLanguage": "Language",
+  "settingsLanguageSystem": "System",
+  "settingsLanguageIt": "Italian",
+  "settingsLanguageEn": "English",
+  "settingsTheme": "Theme",
+  "settingsThemeLight": "Light",
+  "settingsThemeDark": "Dark",
+  "settingsThemeAuto": "Automatic",
+  "settingsBiometric": "Biometric sign-in and unlock",
+  "settingsBiometricEnablePrompt": "Enter your account password to enable biometric sign-in and unlock.",
+  "settingsSessions": "Devices & sessions",
+  "settingsLogout": "Sign out",
+  "settingsAbout": "About",
+  "settingsVersion": "Version {version}",
+  "@settingsVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "sessionsTitle": "Devices & sessions",
+  "sessionsCurrent": "This device",
+  "sessionsRevoke": "Disconnect",
+  "sessionsRevokeAll": "Disconnect all",
+  "sessionsRevokeAllConfirm": "Disconnect all devices? You will need to sign in again on each one.",
+  "sessionsEmpty": "No active sessions.",
+  "sessionsLastSeen": "Last seen: {when}",
+  "@sessionsLastSeen": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "sessionsCreated": "Active since: {when}",
+  "@sessionsCreated": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "sessionsIp": "IP address: {ip}",
+  "@sessionsIp": {
+    "placeholders": {
+      "ip": {
+        "type": "String"
+      }
+    }
+  },
+  "serverHttpsRequired": "The server must use HTTPS. Plain http:// addresses are not allowed.",
+  "serverRemoveSaved": "Remove from saved servers",
+  "searchClear": "Clear search",
+  "searchLoadMoreError": "Failed to load. Tap to retry.",
+  "filterSize": "Size",
+  "filterSizeGreater": "greater than",
+  "filterSizeLess": "less than",
+  "filterAccount": "Account (source ID)",
+  "emailBcc": "BCC",
+  "emailShareEml": "Share email (.eml)",
+  "emailLinkError": "Could not open the link",
+  "attachmentShare": "Share",
+  "attachmentShareError": "Could not share the attachment",
+  "chatStop": "Stop",
+  "chatDelete": "Delete conversation",
+  "chatDeleteConfirm": "Delete this conversation?",
+  "chatRename": "Rename",
+  "chatRenameTitle": "Rename conversation",
+  "chatStatusError": "Could not check chat status",
+  "settingsChangeServer": "Change server",
+  "settingsChangeServerConfirm": "Change server? You'll be signed out of the current one.",
+  "errorWeakPasswordDetail": "The password must include: {requirements}",
+  "@errorWeakPasswordDetail": {
+    "placeholders": {
+      "requirements": {
+        "type": "String"
+      }
+    }
+  },
+  "pwMinLength": "a greater length",
+  "pwRequireLower": "a lowercase letter",
+  "pwRequireUpper": "an uppercase letter",
+  "pwRequireDigit": "a digit",
+  "pwRequireSymbol": "a symbol",
+  "pwMinCharClasses": "more character types",
+  "updateAvailable": "A newer version of the app is available.",
+  "updateRequiredTitle": "Update required",
+  "updateRequiredBody": "This app version ({current}) is no longer supported by the server. Update to the latest version to keep using Cerca posta.",
+  "updateRequiredButton": "Update now",
+  "updateStoreError": "Couldn't open the store. Update manually from the App Store or Play Store.",
+  "emailPecSection": "PEC transport envelope",
+  "emailPecTransportFrom": "Transported by",
+  "emailPecTransportSubject": "Envelope subject",
+  "emailPecTransportDate": "Transport date",
+  "emailPecDaticert": "Certification (daticert.xml) present",
+  "settingsStorage": "Storage",
+  "settingsStorageValue": "{used} of {quota} ({percent}%)",
+  "@settingsStorageValue": {
+    "placeholders": {
+      "used": {
+        "type": "String"
+      },
+      "quota": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsStorageUnlimited": "{used} · unlimited",
+  "@settingsStorageUnlimited": {
+    "placeholders": {
+      "used": {
+        "type": "String"
+      }
+    }
+  },
+  "errorInvalidCredentials": "Invalid credentials",
+  "errorAccountBanned": "Account temporarily locked due to too many attempts",
+  "errorInvalidToken": "Session expired, please sign in again",
+  "errorInvalidRefresh": "Session invalid, please sign in again",
+  "errorForbidden": "Operation not allowed",
+  "errorAdminNotOnMobile": "Admin features are not available on mobile",
+  "errorTotpInvalidCode": "Invalid code",
+  "errorTotpExpired": "Code expired, please sign in again",
+  "errorDekLocked": "Archive locked. Unlock with your password.",
+  "errorRecoveryFailed": "Recovery failed. Check your recovery code.",
+  "errorWeakPassword": "The password does not meet the security requirements",
+  "errorTotpSetupRequired": "Your account requires two-step verification: set it up from the web before signing in from the app",
+  "errorChatNotConfigured": "AI chat not configured",
+  "errorChatLlmError": "AI model error: {detail}",
+  "@errorChatLlmError": {
+    "placeholders": {
+      "detail": {
+        "type": "String"
+      }
+    }
+  },
+  "errorNotFound": "Not found",
+  "errorPreviewUnsupported": "Preview not available for this format",
+  "errorPreviewFailed": "Could not generate the preview",
+  "errorRawMissing": "File no longer available",
+  "errorValidation": "Invalid data",
+  "errorNetwork": "Network error. Check your connection.",
+  "errorGeneric": "Unexpected error"
+}

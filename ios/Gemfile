@@ -1,0 +1,4 @@
+source "https://rubygems.org"
+
+# Fastlane per firma + upload TestFlight sul runner macOS della CI.
+gem "fastlane"

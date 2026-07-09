@@ -1,0 +1,320 @@
+{
+  "@@locale": "it",
+  "appName": "Cerca posta",
+  "actionCancel": "Annulla",
+  "actionConfirm": "Conferma",
+  "actionClose": "Chiudi",
+  "actionRetry": "Riprova",
+  "actionSave": "Salva",
+  "actionApply": "Applica",
+  "actionClear": "Pulisci",
+  "actionContinue": "Continua",
+  "actionRemove": "Rimuovi",
+  "actionOpenInBrowser": "Apri nel browser",
+  "loading": "Caricamento…",
+  "today": "Oggi",
+  "yesterday": "Ieri",
+  "serverTitle": "Scegli il server",
+  "serverSubtitle": "Inserisci l'indirizzo del tuo server Cerca posta.",
+  "serverUrlLabel": "Indirizzo server",
+  "serverUrlHint": "https://mail.esempio.it",
+  "serverValidating": "Validazione del server…",
+  "serverInvalid": "Indirizzo non valido o server non raggiungibile",
+  "serverNotCercaPosta": "Questo server non è un'istanza Cerca posta",
+  "serverSavedTitle": "Server salvati",
+  "serverNeedsSetup": "Questo server va ancora configurato dal web.",
+  "serverUpdateRequired": "Aggiorna l'app per usare questo server.",
+  "loginTitle": "Accedi",
+  "loginUsername": "Nome utente",
+  "loginPassword": "Password",
+  "loginButton": "Accedi",
+  "loginChangeServer": "Cambia server",
+  "loginBiometric": "Accedi con la biometria",
+  "loginBiometricReason": "Accedi al tuo archivio email",
+  "loginEnableBiometricTitle": "Accesso rapido",
+  "loginEnableBiometricBody": "Vuoi accedere con Face ID / impronta la prossima volta? Le credenziali vengono salvate in modo sicuro sul dispositivo.",
+  "sharedFromLabel": "da {name}",
+  "@sharedFromLabel": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "sharedReaderBanner": "Cartella condivisa da {name} — sola lettura",
+  "@sharedReaderBanner": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "totpTitle": "Verifica in due passaggi",
+  "totpSubtitle": "Inserisci il codice dell'app di autenticazione.",
+  "totpCode": "Codice a 6 cifre",
+  "totpButton": "Verifica",
+  "unlockTitle": "Sblocca archivio",
+  "unlockDescription": "Il tuo archivio è cifrato. Inserisci la password per accedere ai contenuti.",
+  "unlockPassword": "Password",
+  "unlockButton": "Sblocca",
+  "unlockBiometric": "Sblocca con la biometria",
+  "unlockEnableBiometricTitle": "Sblocco rapido",
+  "unlockEnableBiometricBody": "Vuoi sbloccare l'archivio con la biometria ai prossimi avvii? La password viene salvata in modo sicuro sul dispositivo.",
+  "unlockEnableBiometricYes": "Sì, abilita",
+  "unlockEnableBiometricNo": "No, grazie",
+  "unlockReason": "Sblocca il tuo archivio cifrato",
+  "firstPasswordTitle": "Imposta nuova password",
+  "firstPasswordSubtitle": "Al primo accesso devi scegliere una password personale (l'amministratore non la conoscerà).",
+  "firstPasswordNew": "Nuova password",
+  "firstPasswordConfirm": "Conferma password",
+  "firstPasswordMismatch": "Le password non coincidono",
+  "kitTitle": "Kit di emergenza",
+  "kitBody": "Conserva questo codice in un luogo sicuro: serve a recuperare l'archivio se dimentichi la password. Viene mostrato SOLO ora.",
+  "kitCopy": "Copia",
+  "kitCopied": "Copiato negli appunti",
+  "recoveryTitle": "Recupero archivio",
+  "recoverySubtitle": "La password è stata reimpostata dall'amministratore. Inserisci il codice del kit di emergenza e scegli una nuova password.",
+  "recoverySecretLabel": "Codice di recupero",
+  "navSearch": "Cerca",
+  "navChat": "Chat AI",
+  "navSettings": "Impostazioni",
+  "searchHint": "Cerca… (da:, tag:, ha:pdf…)",
+  "searchVoice": "Ricerca vocale",
+  "searchVoiceListening": "In ascolto…",
+  "searchVoiceUnavailable": "Riconoscimento vocale non disponibile",
+  "searchVoicePermission": "Permesso microfono negato",
+  "searchFilters": "Filtri",
+  "searchNoResults": "Nessun risultato",
+  "searchLoading": "Ricerca in corso…",
+  "searchEmptyPrompt": "Cerca nel tuo archivio per parole chiave o con gli operatori.",
+  "searchResultsCount": "{count, plural, =0{Nessun risultato} =1{1 risultato} other{{count} risultati}}",
+  "@searchResultsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "attachmentsCount": "{count, plural, =1{1 allegato} other{{count} allegati}}",
+  "@attachmentsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "filtersTitle": "Filtri",
+  "filterFrom": "Da",
+  "filterTo": "A / CC",
+  "filterSubject": "Oggetto",
+  "filterHasAttachments": "Con allegati",
+  "filterAttachmentExt": "Tipo allegato (es. pdf)",
+  "filterDateFrom": "Dopo il",
+  "filterDateTo": "Prima del",
+  "filterTags": "Tag",
+  "filterFolders": "Cartelle",
+  "foldersTitle": "Cartelle",
+  "foldersAll": "Tutte le cartelle",
+  "foldersRefresh": "Aggiorna",
+  "foldersEmpty": "Nessuna cartella nell'archivio",
+  "foldersExpand": "Espandi",
+  "foldersCollapse": "Comprimi",
+  "foldersMultiple": "{count} cartelle",
+  "@foldersMultiple": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "aboutTitle": "Informazioni",
+  "aboutCompany": "WpWeb S.r.l.",
+  "aboutBuildLabel": "build",
+  "aboutWebsite": "Visita wpweb.com",
+  "aboutCredits": "Cerca posta è un prodotto WpWeb: archivio email intelligente, cifrato e ricercabile.\nTutte le tue email, finalmente in un unico posto.\nAnni di messaggi, conversazioni e allegati, raccolti e messi in ordine.\nNiente più caselle sparse, vecchi backup o file dimenticati.\nCerca posta riunisce tutto in un archivio sicuro, sempre a portata di mano.\nTrovare un'email non è più una caccia al tesoro.\nScrivi quello che ricordi, come lo diresti a voce.\nUn nome, una data, una parola: i risultati arrivano in un istante.\nE se non ricordi le parole esatte? Nessun problema.\nCerca posta capisce il significato di ciò che cerchi, non solo le parole.\nCerchi «il preventivo dell'idraulico dell'anno scorso»?\nLo trova, anche se in quell'email la parola «preventivo» non c'era.\nC'è anche un assistente intelligente che legge le email al posto tuo.\nFagli domande con parole tue e ricevi risposte chiare.\n«Quando ho confermato l'appuntamento dal dentista?»\n«Qual è l'IBAN che mi ha mandato il fornitore?»\nRisponde citando le email giuste, così puoi sempre verificare di persona.\nAnche gli allegati diventano cercabili.\nPDF, documenti, fogli di calcolo e persino il testo dentro le immagini.\nQuella fattura, quel contratto, quella foto: a portata di ricerca.\nBasta ore passate a scorrere la posta in cerca di un dettaglio.\nFiltra per cartella, per etichetta, per mittente o per periodo.\nRestringi la ricerca con pochi clic e vai dritto al punto.\nOgni messaggio si apre pulito e ben leggibile.\nE la cosa più importante: i tuoi dati restano tuoi, e solo tuoi.\nTutto è cifrato a riposo con la tua chiave personale.\nUn database o un backup rubati restano illeggibili.\nLa chiave di sicurezza è soltanto tua.\nCerca posta è un archivio in sola lettura.\nNon invia, non risponde e non modifica nulla nelle caselle di origine.\nConserva e protegge, senza mai toccare la fonte.\nÈ pensato per chi ha tante email e poco tempo.\nProfessionisti, aziende, studi, uffici e amministrazioni.\nÈ semplice da usare per chiunque.\nNessun manuale, nessuna complicazione.\nApri, scrivi cosa cerchi, trova. Tutto qui.\nLa memoria della tua corrispondenza, sempre con te.\nQuello che ti serve, esattamente quando ti serve.\nRitrova in pochi secondi ciò che credevi perso per sempre.\nRecupera informazioni, accordi e decisioni prese via email.\nTrasforma anni di posta in una risorsa viva e consultabile.\nPiù ordine, meno stress.\nPiù tempo per ciò che conta davvero.\nVeloce quando cerchi, discreto quando custodisce.\nAffidabile ogni volta che ti serve.\nSicuro per progettazione, semplice per scelta.\nIl tuo archivio email, intelligente e protetto.\nCercabile in tutto, comprensibile da subito.\nCerca posta: ritrova tutto, non perdere niente.\nUn prodotto WpWeb.\nTecnologia che semplifica la vita digitale.\nGrazie per aver scelto Cerca posta.",
+  "emailLoading": "Caricamento messaggio…",
+  "emailNoBody": "Nessun contenuto da mostrare.",
+  "emailRawMissing": "Il messaggio originale non è più disponibile: vengono mostrati solo i metadati.",
+  "emailAttachments": "Allegati",
+  "emailThread": "Conversazione",
+  "emailOpenAttachment": "Apri allegato",
+  "emailShowRemoteImages": "Mostra immagini remote",
+  "emailPecBadge": "PEC",
+  "emailTo": "A",
+  "emailCc": "CC",
+  "emailDate": "Data",
+  "attachmentLoading": "Caricamento anteprima…",
+  "attachmentUnsupported": "Anteprima non disponibile per questo tipo di file.",
+  "chatTitle": "Chat AI",
+  "chatHint": "Fai una domanda sull'archivio…",
+  "chatSend": "Invia",
+  "chatNotConfigured": "La chat AI non è configurata su questo server.",
+  "chatDisabled": "La chat AI è disattivata su questo server.",
+  "chatNew": "Nuova conversazione",
+  "chatHistory": "Cronologia",
+  "chatHistoryEmpty": "Nessuna conversazione salvata.",
+  "chatCitations": "Fonti",
+  "chatPhaseUnderstanding": "Comprensione…",
+  "chatPhaseSearching": "Ricerca…",
+  "chatPhaseEmbedding": "Analisi semantica…",
+  "chatPhaseReranking": "Riordino…",
+  "chatPhaseGenerating": "Generazione risposta…",
+  "chatEmbeddingFailed": "Ricerca semantica non disponibile: risultati basati sulle sole parole chiave.",
+  "settingsTitle": "Impostazioni",
+  "settingsServer": "Server",
+  "settingsAccount": "Account",
+  "settingsLanguage": "Lingua",
+  "settingsLanguageSystem": "Sistema",
+  "settingsLanguageIt": "Italiano",
+  "settingsLanguageEn": "Inglese",
+  "settingsTheme": "Tema",
+  "settingsThemeLight": "Chiaro",
+  "settingsThemeDark": "Scuro",
+  "settingsThemeAuto": "Automatico",
+  "settingsBiometric": "Accesso e sblocco con biometria",
+  "settingsBiometricEnablePrompt": "Inserisci la password del tuo account per abilitare l'accesso e lo sblocco con la biometria.",
+  "settingsSessions": "Dispositivi e sessioni",
+  "settingsLogout": "Esci",
+  "settingsAbout": "Informazioni",
+  "settingsVersion": "Versione {version}",
+  "@settingsVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "sessionsTitle": "Dispositivi e sessioni",
+  "sessionsCurrent": "Questo dispositivo",
+  "sessionsRevoke": "Disconnetti",
+  "sessionsRevokeAll": "Disconnetti tutti",
+  "sessionsRevokeAllConfirm": "Disconnettere tutti i dispositivi? Dovrai accedere di nuovo su ognuno.",
+  "sessionsEmpty": "Nessuna sessione attiva.",
+  "sessionsLastSeen": "Ultimo accesso: {when}",
+  "@sessionsLastSeen": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "sessionsCreated": "Attiva dal: {when}",
+  "@sessionsCreated": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "sessionsIp": "Indirizzo IP: {ip}",
+  "@sessionsIp": {
+    "placeholders": {
+      "ip": {
+        "type": "String"
+      }
+    }
+  },
+  "serverHttpsRequired": "Il server deve usare HTTPS. Gli indirizzi http:// non sono ammessi.",
+  "serverRemoveSaved": "Rimuovi dai server salvati",
+  "searchClear": "Cancella la ricerca",
+  "searchLoadMoreError": "Errore di caricamento. Tocca per riprovare.",
+  "filterSize": "Dimensione",
+  "filterSizeGreater": "maggiore di",
+  "filterSizeLess": "minore di",
+  "filterAccount": "Account (ID sorgente)",
+  "emailBcc": "CCN",
+  "emailShareEml": "Condividi email (.eml)",
+  "emailLinkError": "Impossibile aprire il link",
+  "attachmentShare": "Condividi",
+  "attachmentShareError": "Impossibile condividere l'allegato",
+  "chatStop": "Interrompi",
+  "chatDelete": "Elimina conversazione",
+  "chatDeleteConfirm": "Eliminare questa conversazione?",
+  "chatRename": "Rinomina",
+  "chatRenameTitle": "Rinomina conversazione",
+  "chatStatusError": "Impossibile verificare lo stato della chat",
+  "settingsChangeServer": "Cambia server",
+  "settingsChangeServerConfirm": "Cambiare server? Verrai disconnesso da quello attuale.",
+  "errorWeakPasswordDetail": "La password deve includere: {requirements}",
+  "@errorWeakPasswordDetail": {
+    "placeholders": {
+      "requirements": {
+        "type": "String"
+      }
+    }
+  },
+  "pwMinLength": "una lunghezza maggiore",
+  "pwRequireLower": "una lettera minuscola",
+  "pwRequireUpper": "una lettera maiuscola",
+  "pwRequireDigit": "una cifra",
+  "pwRequireSymbol": "un simbolo",
+  "pwMinCharClasses": "più tipi di carattere",
+  "updateAvailable": "È disponibile una versione più recente dell'app.",
+  "updateRequiredTitle": "Aggiornamento necessario",
+  "updateRequiredBody": "Questa versione dell'app ({current}) non è più supportata dal server. Aggiorna all'ultima versione per continuare a usare Cerca posta.",
+  "@updateRequiredBody": {
+    "placeholders": {
+      "current": {
+        "type": "String"
+      }
+    }
+  },
+  "updateRequiredButton": "Aggiorna ora",
+  "updateStoreError": "Impossibile aprire lo store. Aggiorna manualmente dall'App Store o dal Play Store.",
+  "emailPecSection": "Busta di trasporto PEC",
+  "emailPecTransportFrom": "Trasporto da",
+  "emailPecTransportSubject": "Oggetto busta",
+  "emailPecTransportDate": "Data trasporto",
+  "emailPecDaticert": "Certificazione (daticert.xml) presente",
+  "settingsStorage": "Spazio archivio",
+  "settingsStorageValue": "{used} di {quota} ({percent}%)",
+  "@settingsStorageValue": {
+    "placeholders": {
+      "used": {
+        "type": "String"
+      },
+      "quota": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsStorageUnlimited": "{used} · illimitato",
+  "@settingsStorageUnlimited": {
+    "placeholders": {
+      "used": {
+        "type": "String"
+      }
+    }
+  },
+  "errorInvalidCredentials": "Credenziali non valide",
+  "errorAccountBanned": "Account temporaneamente bloccato per troppi tentativi",
+  "errorInvalidToken": "Sessione scaduta, accedi di nuovo",
+  "errorInvalidRefresh": "Sessione non valida, accedi di nuovo",
+  "errorForbidden": "Operazione non consentita",
+  "errorAdminNotOnMobile": "Le funzioni di amministrazione non sono disponibili da mobile",
+  "errorTotpInvalidCode": "Codice non valido",
+  "errorTotpExpired": "Codice scaduto, accedi di nuovo",
+  "errorDekLocked": "Archivio bloccato. Sblocca con la password.",
+  "errorRecoveryFailed": "Recupero fallito. Verifica il codice di recupero.",
+  "errorWeakPassword": "La password non rispetta i requisiti di sicurezza",
+  "errorTotpSetupRequired": "Il tuo account richiede la verifica in due passaggi: configurala dal web prima di accedere dall'app",
+  "errorChatNotConfigured": "Chat AI non configurata",
+  "errorChatLlmError": "Errore del modello AI: {detail}",
+  "@errorChatLlmError": {
+    "placeholders": {
+      "detail": {
+        "type": "String"
+      }
+    }
+  },
+  "errorNotFound": "Elemento non trovato",
+  "errorPreviewUnsupported": "Anteprima non disponibile per questo formato",
+  "errorPreviewFailed": "Impossibile generare l'anteprima",
+  "errorRawMissing": "File non più disponibile",
+  "errorValidation": "Dati non validi",
+  "errorNetwork": "Errore di rete. Verifica la connessione.",
+  "errorGeneric": "Errore imprevisto"
+}

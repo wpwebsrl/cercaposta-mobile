@@ -1,0 +1,5 @@
+/* Permessi di sistema iOS — inglese (vedi anche Info.plist, valori base). */
+"NSMicrophoneUsageDescription" = "The microphone is used for voice search in your email archive.";
+"NSSpeechRecognitionUsageDescription" = "Speech recognition converts your voice into text for search. Processing happens on-device.";
+"NSFaceIDUsageDescription" = "Face ID unlocks access to your encrypted archive.";
+"NSLocalNetworkUsageDescription" = "Connects to your CercaPosta server, which may be on your local network.";
