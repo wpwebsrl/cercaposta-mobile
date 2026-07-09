@@ -7,6 +7,7 @@ import 'dio_factory.dart';
 import 'services/chat_api.dart';
 import 'services/message_api.dart';
 import 'services/meta_api.dart';
+import 'services/notification_api.dart';
 import 'services/search_api.dart';
 import 'services/session_api.dart';
 import 'services/taxonomy_api.dart';
@@ -87,6 +88,9 @@ final searchApiProvider = Provider<SearchApi>(
 );
 final messageApiProvider = Provider<MessageApi>(
   (ref) => MessageApi(ref.watch(apiDioProvider)),
+);
+final notificationApiProvider = Provider<NotificationApi>(
+  (ref) => NotificationApi(ref.watch(apiDioProvider)),
 );
 final chatApiProvider = Provider<ChatApi>(
   (ref) => ChatApi(ref.watch(apiDioProvider)),

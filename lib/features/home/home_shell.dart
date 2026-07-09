@@ -5,6 +5,8 @@ import 'package:local_auth/local_auth.dart';
 import '../../core/auth/auth_controller.dart';
 import '../../core/i18n/app_localizations.dart';
 import '../chat/chat_screen.dart';
+import '../notifications/notifications_controller.dart';
+import '../notifications/notifications_screen.dart';
 import '../search/search_screen.dart';
 import '../settings/settings_screen.dart';
 import 'home_tab.dart';
@@ -18,7 +20,12 @@ class HomeShell extends ConsumerStatefulWidget {
 }
 
 class _HomeShellState extends ConsumerState<HomeShell> {
-  static const _tabs = <Widget>[SearchScreen(), ChatScreen(), SettingsScreen()];
+  static const _tabs = <Widget>[
+    SearchScreen(),
+    ChatScreen(),
+    NotificationsScreen(),
+    SettingsScreen(),
+  ];
 
   @override
   void initState() {
@@ -60,6 +67,7 @@ class _HomeShellState extends ConsumerState<HomeShell> {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
     final index = ref.watch(homeTabProvider);
+    final unread = ref.watch(notificationUnreadCountProvider).valueOrNull ?? 0;
     final updateNeeded = ref.watch(updateRequiredProvider).valueOrNull ?? false;
     if (updateNeeded) {
       // Below the server's feature floor: mobile can't auto-update, so hard-block to the
@@ -83,6 +91,16 @@ class _HomeShellState extends ConsumerState<HomeShell> {
             icon: const Icon(Icons.forum_outlined),
             selectedIcon: const Icon(Icons.forum),
             label: l.navChat,
+          ),
+          NavigationDestination(
+            icon: unread > 0
+                ? Badge(
+                    label: Text('$unread'),
+                    child: const Icon(Icons.notifications_outlined),
+                  )
+                : const Icon(Icons.notifications_outlined),
+            selectedIcon: const Icon(Icons.notifications),
+            label: l.navNotifications,
           ),
           NavigationDestination(
             icon: const Icon(Icons.settings_outlined),

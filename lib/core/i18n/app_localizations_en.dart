@@ -212,6 +212,26 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navSettings => 'Settings';
 
   @override
+  String get navNotifications => 'Notifications';
+
+  @override
+  String get notificationsTitle => 'Notifications';
+
+  @override
+  String get notificationsEmpty => 'No notifications.';
+
+  @override
+  String get notificationsDismiss => 'Dismiss';
+
+  @override
+  String get notifReprocessTitle =>
+      'Reprocess your archive to match recent updates';
+
+  @override
+  String get notifReprocessBody =>
+      'An app update improved how already-archived emails are handled (for example, images embedded in signatures no longer count as attachments). Reprocessing the archive is started from the web app.';
+
+  @override
   String get searchHint => 'Search… (from:, tag:, has:pdf…)';
 
   @override

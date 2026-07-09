@@ -482,6 +482,42 @@ abstract class AppLocalizations {
   /// **'Impostazioni'**
   String get navSettings;
 
+  /// No description provided for @navNotifications.
+  ///
+  /// In it, this message translates to:
+  /// **'Notifiche'**
+  String get navNotifications;
+
+  /// No description provided for @notificationsTitle.
+  ///
+  /// In it, this message translates to:
+  /// **'Notifiche'**
+  String get notificationsTitle;
+
+  /// No description provided for @notificationsEmpty.
+  ///
+  /// In it, this message translates to:
+  /// **'Nessuna notifica.'**
+  String get notificationsEmpty;
+
+  /// No description provided for @notificationsDismiss.
+  ///
+  /// In it, this message translates to:
+  /// **'Ignora'**
+  String get notificationsDismiss;
+
+  /// No description provided for @notifReprocessTitle.
+  ///
+  /// In it, this message translates to:
+  /// **'Rielabora l\'archivio per adattarlo agli aggiornamenti'**
+  String get notifReprocessTitle;
+
+  /// No description provided for @notifReprocessBody.
+  ///
+  /// In it, this message translates to:
+  /// **'Un aggiornamento dell\'app ha migliorato il modo in cui vengono gestite le email già in archivio (ad esempio le immagini incorporate nelle firme non contano più come allegati). La rielaborazione dell\'archivio si avvia dall\'app web.'**
+  String get notifReprocessBody;
+
   /// No description provided for @searchHint.
   ///
   /// In it, this message translates to:

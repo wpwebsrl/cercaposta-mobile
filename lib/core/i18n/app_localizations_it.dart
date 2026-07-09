@@ -213,6 +213,26 @@ class AppLocalizationsIt extends AppLocalizations {
   String get navSettings => 'Impostazioni';
 
   @override
+  String get navNotifications => 'Notifiche';
+
+  @override
+  String get notificationsTitle => 'Notifiche';
+
+  @override
+  String get notificationsEmpty => 'Nessuna notifica.';
+
+  @override
+  String get notificationsDismiss => 'Ignora';
+
+  @override
+  String get notifReprocessTitle =>
+      'Rielabora l\'archivio per adattarlo agli aggiornamenti';
+
+  @override
+  String get notifReprocessBody =>
+      'Un aggiornamento dell\'app ha migliorato il modo in cui vengono gestite le email già in archivio (ad esempio le immagini incorporate nelle firme non contano più come allegati). La rielaborazione dell\'archivio si avvia dall\'app web.';
+
+  @override
   String get searchHint => 'Cerca… (da:, tag:, ha:pdf…)';
 
   @override
