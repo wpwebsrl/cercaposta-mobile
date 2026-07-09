@@ -6,6 +6,7 @@ import 'package:speech_to_text/speech_to_text.dart';
 import '../../core/api/error_messages.dart';
 import '../../core/auth/auth_controller.dart';
 import '../../core/i18n/app_localizations.dart';
+import '../../core/live/live_refresh.dart';
 import '../../shared/format.dart';
 import '../../shared/models/search.dart';
 import '../../shared/tag_colors.dart';
@@ -28,6 +29,11 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   final _speech = SpeechToText();
   bool _listening = false;
   bool _hasQueryText = false;
+  // Result order: newest-first by default (like web/desktop). 'relevance' | 'date_desc' | 'date_asc'.
+  String _sort = 'date_desc';
+  // liveArchiveRev at the last search: when the live channel reports a higher one, the archive
+  // changed under the current results → offer a «new results» refresh (never auto-rerun on mobile).
+  int _baselineRev = 0;
 
   @override
   void initState() {
@@ -57,9 +63,16 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     if (has != _hasQueryText) setState(() => _hasQueryText = has);
   }
 
+  /// Every search goes through here so the chosen [_sort] is always applied and the «new
+  /// results» baseline is re-armed (the current results are, by definition, up to date).
+  Future<void> _runSearch() {
+    _baselineRev = ref.read(liveArchiveRevProvider);
+    return ref.read(searchProvider.notifier).search(_query.text, sort: _sort);
+  }
+
   void _run() {
     FocusScope.of(context).unfocus();
-    ref.read(searchProvider.notifier).search(_query.text);
+    _runSearch();
   }
 
   /// Clear button (×): empty the omnibox and re-run so results reset to the
@@ -67,7 +80,20 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   void _clearQuery() {
     _query.clear();
     FocusScope.of(context).unfocus();
-    ref.read(searchProvider.notifier).search('');
+    _runSearch();
+  }
+
+  void _setSort(String sort) {
+    if (sort == _sort) return;
+    setState(() => _sort = sort);
+    _runSearch();
+  }
+
+  /// Pull-to-refresh: reload the folders/shares AND re-run the current query, so a manual pull
+  /// always shows the freshest data (docs/eventi-live.md).
+  Future<void> _pullRefresh() async {
+    refreshFolders(ref);
+    await _runSearch();
   }
 
   /// Stop a live mic session when leaving the search tab: the IndexedStack keeps
@@ -140,7 +166,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     final current = ref.read(folderScopeProvider);
     if (scope?.key == current?.key) return;
     ref.read(folderScopeProvider.notifier).set(scope);
-    ref.read(searchProvider.notifier).search(_query.text);
+    _runSearch();
   }
 
   /// The scope bar never lies: drawer scope when set (it wins server-side),
@@ -301,59 +327,157 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
       return _Centered(icon: Icons.search, text: l.searchEmptyPrompt);
     }
     if (state.hits.isEmpty) {
-      return _Centered(icon: Icons.inbox_outlined, text: l.searchNoResults);
+      // Still allow a pull-to-refresh over the empty state (a folder may have just filled).
+      return RefreshIndicator(
+        onRefresh: _pullRefresh,
+        child: ListView(
+          children: <Widget>[
+            SizedBox(
+              height: MediaQuery.sizeOf(context).height * 0.6,
+              child: _Centered(
+                icon: Icons.inbox_outlined,
+                text: l.searchNoResults,
+              ),
+            ),
+          ],
+        ),
+      );
     }
     final locale = ref.watch(authProvider).user?.locale ?? 'it-IT';
+    // The archive changed under the current results (live channel) → offer a manual refresh.
+    final newResults = ref.watch(liveArchiveRevProvider) > _baselineRev;
     return Column(
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              l.searchResultsCount(state.total),
-              style: Theme.of(context).textTheme.labelMedium,
+          padding: const EdgeInsets.fromLTRB(12, 4, 4, 4),
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                child: Text(
+                  l.searchResultsCount(state.total),
+                  style: Theme.of(context).textTheme.labelMedium,
+                ),
+              ),
+              _SortMenu(sort: _sort, onChanged: _setSort),
+            ],
+          ),
+        ),
+        if (newResults) _NewResultsBanner(onTap: _runSearch),
+        const Divider(height: 1),
+        Expanded(
+          child: RefreshIndicator(
+            onRefresh: _pullRefresh,
+            child: ListView.separated(
+              controller: _scroll,
+              itemCount: state.hits.length + (state.finished ? 0 : 1),
+              separatorBuilder: (_, __) => const Divider(height: 1),
+              itemBuilder: (context, i) {
+                if (i >= state.hits.length) {
+                  if (state.loadMoreFailed) {
+                    return InkWell(
+                      onTap: () => ref.read(searchProvider.notifier).loadMore(),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Icon(
+                              Icons.refresh,
+                              size: 18,
+                              color: Theme.of(context).colorScheme.error,
+                            ),
+                            const SizedBox(width: 8),
+                            Flexible(child: Text(l.searchLoadMoreError)),
+                          ],
+                        ),
+                      ),
+                    );
+                  }
+                  return const Padding(
+                    padding: EdgeInsets.all(16),
+                    child: Center(child: CircularProgressIndicator()),
+                  );
+                }
+                return _ResultTile(hit: state.hits[i], locale: locale);
+              },
             ),
           ),
         ),
-        const Divider(height: 1),
-        Expanded(
-          child: ListView.separated(
-            controller: _scroll,
-            itemCount: state.hits.length + (state.finished ? 0 : 1),
-            separatorBuilder: (_, __) => const Divider(height: 1),
-            itemBuilder: (context, i) {
-              if (i >= state.hits.length) {
-                if (state.loadMoreFailed) {
-                  return InkWell(
-                    onTap: () => ref.read(searchProvider.notifier).loadMore(),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.refresh,
-                            size: 18,
-                            color: Theme.of(context).colorScheme.error,
-                          ),
-                          const SizedBox(width: 8),
-                          Flexible(child: Text(l.searchLoadMoreError)),
-                        ],
-                      ),
-                    ),
-                  );
-                }
-                return const Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Center(child: CircularProgressIndicator()),
-                );
-              }
-              return _ResultTile(hit: state.hits[i], locale: locale);
-            },
+      ],
+    );
+  }
+}
+
+/// Result-order menu (relevance / newest / oldest) shown on the results header row.
+class _SortMenu extends StatelessWidget {
+  const _SortMenu({required this.sort, required this.onChanged});
+  final String sort;
+  final ValueChanged<String> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
+    String label(String s) => switch (s) {
+      'date_desc' => l.sortNewest,
+      'date_asc' => l.sortOldest,
+      _ => l.sortRelevance,
+    };
+    return PopupMenuButton<String>(
+      initialValue: sort,
+      tooltip: l.sortTooltip,
+      onSelected: onChanged,
+      itemBuilder: (context) => <PopupMenuEntry<String>>[
+        PopupMenuItem<String>(value: 'relevance', child: Text(l.sortRelevance)),
+        PopupMenuItem<String>(value: 'date_desc', child: Text(l.sortNewest)),
+        PopupMenuItem<String>(value: 'date_asc', child: Text(l.sortOldest)),
+      ],
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            const Icon(Icons.swap_vert, size: 18),
+            const SizedBox(width: 4),
+            Text(label(sort), style: Theme.of(context).textTheme.labelMedium),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Tappable «new results» banner: the archive changed while these results were on screen.
+class _NewResultsBanner extends StatelessWidget {
+  const _NewResultsBanner({required this.onTap});
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
+    final cs = Theme.of(context).colorScheme;
+    return Material(
+      color: cs.primaryContainer,
+      child: InkWell(
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Icon(Icons.refresh, size: 16, color: cs.onPrimaryContainer),
+              const SizedBox(width: 8),
+              Text(
+                l.searchNewResults,
+                style: TextStyle(
+                  color: cs.onPrimaryContainer,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 13,
+                ),
+              ),
+            ],
           ),
         ),
-      ],
+      ),
     );
   }
 }

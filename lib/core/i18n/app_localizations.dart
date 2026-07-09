@@ -560,6 +560,36 @@ abstract class AppLocalizations {
   /// **'Nessun risultato'**
   String get searchNoResults;
 
+  /// No description provided for @searchNewResults.
+  ///
+  /// In it, this message translates to:
+  /// **'Nuovi risultati'**
+  String get searchNewResults;
+
+  /// No description provided for @sortTooltip.
+  ///
+  /// In it, this message translates to:
+  /// **'Ordina i risultati'**
+  String get sortTooltip;
+
+  /// No description provided for @sortRelevance.
+  ///
+  /// In it, this message translates to:
+  /// **'Rilevanza'**
+  String get sortRelevance;
+
+  /// No description provided for @sortNewest.
+  ///
+  /// In it, this message translates to:
+  /// **'Più recenti'**
+  String get sortNewest;
+
+  /// No description provided for @sortOldest.
+  ///
+  /// In it, this message translates to:
+  /// **'Più vecchie'**
+  String get sortOldest;
+
   /// No description provided for @searchLoading.
   ///
   /// In it, this message translates to:

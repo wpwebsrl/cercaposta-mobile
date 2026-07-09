@@ -5,6 +5,7 @@ import '../auth/auth_controller.dart';
 import '../providers.dart';
 import 'dio_factory.dart';
 import 'services/chat_api.dart';
+import 'services/events_api.dart';
 import 'services/message_api.dart';
 import 'services/meta_api.dart';
 import 'services/notification_api.dart';
@@ -91,6 +92,9 @@ final messageApiProvider = Provider<MessageApi>(
 );
 final notificationApiProvider = Provider<NotificationApi>(
   (ref) => NotificationApi(ref.watch(apiDioProvider)),
+);
+final eventsApiProvider = Provider<EventsApi>(
+  (ref) => EventsApi(ref.watch(apiDioProvider)),
 );
 final chatApiProvider = Provider<ChatApi>(
   (ref) => ChatApi(ref.watch(apiDioProvider)),

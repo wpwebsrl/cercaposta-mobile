@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'core/auth/auth_controller.dart';
 import 'core/auth/keepalive.dart';
 import 'core/config/app_info.dart';
+import 'core/live/live_refresh.dart';
 import 'core/i18n/app_localizations.dart';
 import 'core/providers.dart';
 import 'core/router/app_router.dart';
@@ -46,6 +47,9 @@ class _CercaPostaAppState extends ConsumerState<CercaPostaApp> {
   Widget build(BuildContext context) {
     // Foreground keepalive (session + DEK stay alive while the app is open).
     ref.watch(sessionKeepaliveProvider);
+    // Foreground live refresh: folders, shares and the notification badge update on their own
+    // (docs/eventi-live.md) — poll + resume tick, no persistent stream.
+    ref.watch(liveRefreshProvider);
     final settings = ref.watch(settingsProvider);
     final router = ref.watch(routerProvider);
     return MaterialApp.router(

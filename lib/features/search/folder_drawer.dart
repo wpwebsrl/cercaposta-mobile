@@ -36,6 +36,16 @@ final shareTreeProvider = FutureProvider.family<FolderTreeResult, String>((
   return ref.watch(taxonomyApiProvider).shareTree(shareId);
 });
 
+/// Reload EVERYTHING the drawer shows: own folders AND the received shares (and their
+/// subtrees). The manual refresh used to invalidate only the own tree, so a share received
+/// or revoked after launch never appeared/disappeared until the app was restarted — the live
+/// refresh (docs/eventi-live.md) and pull-to-refresh call this too.
+void refreshFolders(WidgetRef ref) {
+  ref.invalidate(foldersTreeProvider);
+  ref.invalidate(sharesReceivedProvider);
+  ref.invalidate(shareTreeProvider);
+}
+
 /// Outlook-style folder panel: slides in from the left without covering the
 /// whole screen. The first entry restores "all folders" ([onSelect] gets null =
 /// everything the user can see, own + shared); tapping a folder scopes the search
@@ -85,7 +95,7 @@ class FolderDrawer extends ConsumerWidget {
                   ),
                   IconButton(
                     tooltip: l.foldersRefresh,
-                    onPressed: () => ref.invalidate(foldersTreeProvider),
+                    onPressed: () => refreshFolders(ref),
                     icon: const Icon(Icons.refresh, size: 20),
                   ),
                 ],
@@ -111,7 +121,7 @@ class FolderDrawer extends ConsumerWidget {
                 error: (e, _) => _DrawerMessage(
                   text: localizeApiError(l, e),
                   action: TextButton(
-                    onPressed: () => ref.invalidate(foldersTreeProvider),
+                    onPressed: () => refreshFolders(ref),
                     child: Text(l.actionRetry),
                   ),
                 ),

@@ -254,6 +254,21 @@ class AppLocalizationsIt extends AppLocalizations {
   String get searchNoResults => 'Nessun risultato';
 
   @override
+  String get searchNewResults => 'Nuovi risultati';
+
+  @override
+  String get sortTooltip => 'Ordina i risultati';
+
+  @override
+  String get sortRelevance => 'Rilevanza';
+
+  @override
+  String get sortNewest => 'Più recenti';
+
+  @override
+  String get sortOldest => 'Più vecchie';
+
+  @override
   String get searchLoading => 'Ricerca in corso…';
 
   @override
