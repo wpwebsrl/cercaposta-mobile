@@ -144,28 +144,80 @@ class _FollowupsScreenState extends ConsumerState<FollowupsScreen> {
     );
   }
 
-  /// Two-line segment label: name on top, active count (bold) centered below.
-  Widget _tabLabel(String text, int count) => Column(
-    mainAxisSize: MainAxisSize.min,
-    children: <Widget>[
-      Text(
-        text,
-        textAlign: TextAlign.center,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        style: const TextStyle(fontSize: 12.5, height: 1.1),
+  /// Full-width two-segment selector. Custom (not Material's SegmentedButton, which
+  /// sizes to its content and left the labels centered with margins and touching the
+  /// pill borders): Expanded segments split the width evenly, with real horizontal
+  /// padding so the text breathes. Same look — rounded pill, selection fill, divider.
+  Widget _tabs(AppLocalizations l, int theirCount, int myCount) {
+    final cs = Theme.of(context).colorScheme;
+    final radius = BorderRadius.circular(24);
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: cs.outline),
+        borderRadius: radius,
       ),
-      const SizedBox(height: 1),
-      Text(
-        '$count',
-        style: const TextStyle(
-          fontSize: 13.5,
-          fontWeight: FontWeight.w700,
-          height: 1.1,
+      child: ClipRRect(
+        borderRadius: radius,
+        child: IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Expanded(
+                child: _segment(
+                  l.followupsTabTheirTurn,
+                  theirCount,
+                  'their_turn',
+                ),
+              ),
+              Container(width: 1, color: cs.outline),
+              Expanded(
+                child: _segment(l.followupsTabMyTurn, myCount, 'my_turn'),
+              ),
+            ],
+          ),
         ),
       ),
-    ],
-  );
+    );
+  }
+
+  /// One segment: name on top, active count (bold) centered below.
+  Widget _segment(String text, int count, String value) {
+    final cs = Theme.of(context).colorScheme;
+    final selected = _tab == value;
+    final fg = selected ? cs.onSecondaryContainer : cs.onSurface;
+    return Material(
+      color: selected ? cs.secondaryContainer : Colors.transparent,
+      child: InkWell(
+        onTap: () => setState(() => _tab = value),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                text,
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(fontSize: 13, height: 1.15, color: fg),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                '$count',
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
+                  height: 1.15,
+                  color: fg,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
   Widget _content(AppLocalizations l) {
     final status = _status;
@@ -179,29 +231,7 @@ class _FollowupsScreenState extends ConsumerState<FollowupsScreen> {
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.fromLTRB(12, 10, 12, 6),
-          child: SegmentedButton<String>(
-            // No check icon + label above / count below: keeps the two segments from
-            // overflowing on narrow phones (the icon + "label · N" on one line didn't fit).
-            showSelectedIcon: false,
-            style: const ButtonStyle(
-              visualDensity: VisualDensity.compact,
-              padding: WidgetStatePropertyAll(
-                EdgeInsets.symmetric(horizontal: 6, vertical: 7),
-              ),
-            ),
-            segments: <ButtonSegment<String>>[
-              ButtonSegment<String>(
-                value: 'their_turn',
-                label: _tabLabel(l.followupsTabTheirTurn, theirCount),
-              ),
-              ButtonSegment<String>(
-                value: 'my_turn',
-                label: _tabLabel(l.followupsTabMyTurn, myCount),
-              ),
-            ],
-            selected: <String>{_tab},
-            onSelectionChanged: (s) => setState(() => _tab = s.first),
-          ),
+          child: _tabs(l, theirCount, myCount),
         ),
         if (status?.paused != null) _PauseBanner(reason: status!.paused!),
         Expanded(
