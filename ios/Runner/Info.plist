@@ -64,6 +64,14 @@
 	     iOS 14+ richiede questa descrizione o la connessione al LAN fallisce in silenzio. -->
 		<key>NSLocalNetworkUsageDescription</key>
 		<string>Connects to your CercaPosta server, which may be on your local network.</string>
+		<!-- Richieste da flutter_quill (plugin nativo quill_native_bridge, che referenzia
+	     le API Photos: `import Photos` + PHPhotoLibrary in saveImageToGallery). L'app NON
+	     usa queste funzioni (editor solo testo), ma Apple pretende comunque la purpose
+	     string per i simboli linkati (ITMS-90683), altrimenti rifiuta l'upload. -->
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>Allows the message editor to add images from your photo library.</string>
+		<key>NSPhotoLibraryAddUsageDescription</key>
+		<string>Allows the message editor to save images to your photo library.</string>
 		<!-- L'app usa solo crittografia standard (HTTPS/TLS, Keychain, biometria):
 	     rientra nell'esenzione, quindi niente prompt di export-compliance a ogni
 	     upload TestFlight. Se un domani si aggiunge crittografia non-standard,
