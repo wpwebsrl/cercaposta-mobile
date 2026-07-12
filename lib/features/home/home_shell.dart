@@ -13,6 +13,10 @@ import '../settings/settings_screen.dart';
 import 'home_tab.dart';
 import 'update_check.dart';
 
+/// Cap a nav badge to "9+" (like the web AppShell): a raw count in the hundreds is
+/// alarming and overflows the tiny badge.
+String _badgeLabel(int n) => n > 9 ? '9+' : '$n';
+
 class HomeShell extends ConsumerStatefulWidget {
   const HomeShell({super.key});
 
@@ -99,7 +103,7 @@ class _HomeShellState extends ConsumerState<HomeShell> {
           NavigationDestination(
             icon: overdue > 0
                 ? Badge(
-                    label: Text('$overdue'),
+                    label: Text(_badgeLabel(overdue)),
                     backgroundColor: Colors.orange.shade800,
                     child: const Icon(Icons.hourglass_empty),
                   )
@@ -110,7 +114,7 @@ class _HomeShellState extends ConsumerState<HomeShell> {
           NavigationDestination(
             icon: unread > 0
                 ? Badge(
-                    label: Text('$unread'),
+                    label: Text(_badgeLabel(unread)),
                     child: const Icon(Icons.notifications_outlined),
                   )
                 : const Icon(Icons.notifications_outlined),
