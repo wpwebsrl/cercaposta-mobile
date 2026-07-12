@@ -72,7 +72,10 @@ jobs:
   # (e le PR da fork non ricevono comunque i secrets — default GitHub).
   release-ios:
     if: github.event_name == 'workflow_dispatch' && (inputs.platform == 'ios' || inputs.platform == 'both')
-    runs-on: macos-latest
+    # macos-26 (Xcode 26 di default): Apple RIFIUTA gli upload TestFlight/App Store
+    # costruiti con SDK precedenti all'iOS 26 (errore 409 "SDK version issue").
+    # `macos-latest` usa ancora Xcode 16.4 (SDK iOS 18.5) → non idoneo all'upload.
+    runs-on: macos-26
     steps:
       - uses: actions/checkout@v5
       - uses: subosito/flutter-action@v2
