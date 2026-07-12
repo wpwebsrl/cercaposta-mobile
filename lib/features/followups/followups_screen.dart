@@ -144,6 +144,29 @@ class _FollowupsScreenState extends ConsumerState<FollowupsScreen> {
     );
   }
 
+  /// Two-line segment label: name on top, active count (bold) centered below.
+  Widget _tabLabel(String text, int count) => Column(
+    mainAxisSize: MainAxisSize.min,
+    children: <Widget>[
+      Text(
+        text,
+        textAlign: TextAlign.center,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: const TextStyle(fontSize: 12.5, height: 1.1),
+      ),
+      const SizedBox(height: 1),
+      Text(
+        '$count',
+        style: const TextStyle(
+          fontSize: 13.5,
+          fontWeight: FontWeight.w700,
+          height: 1.1,
+        ),
+      ),
+    ],
+  );
+
   Widget _content(AppLocalizations l) {
     final status = _status;
     final theirCount = _items
@@ -157,15 +180,23 @@ class _FollowupsScreenState extends ConsumerState<FollowupsScreen> {
         Padding(
           padding: const EdgeInsets.fromLTRB(12, 10, 12, 6),
           child: SegmentedButton<String>(
-            style: const ButtonStyle(visualDensity: VisualDensity.compact),
+            // No check icon + label above / count below: keeps the two segments from
+            // overflowing on narrow phones (the icon + "label · N" on one line didn't fit).
+            showSelectedIcon: false,
+            style: const ButtonStyle(
+              visualDensity: VisualDensity.compact,
+              padding: WidgetStatePropertyAll(
+                EdgeInsets.symmetric(horizontal: 6, vertical: 7),
+              ),
+            ),
             segments: <ButtonSegment<String>>[
               ButtonSegment<String>(
                 value: 'their_turn',
-                label: Text('${l.followupsTabTheirTurn} · $theirCount'),
+                label: _tabLabel(l.followupsTabTheirTurn, theirCount),
               ),
               ButtonSegment<String>(
                 value: 'my_turn',
-                label: Text('${l.followupsTabMyTurn} · $myCount'),
+                label: _tabLabel(l.followupsTabMyTurn, myCount),
               ),
             ],
             selected: <String>{_tab},
