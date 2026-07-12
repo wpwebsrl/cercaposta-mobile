@@ -210,7 +210,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get navChat => 'Chat AI';
 
   @override
-  String get navSettings => 'Impostazioni';
+  String get navSettings => 'Opzioni';
 
   @override
   String get navNotifications => 'Notifiche';
@@ -223,6 +223,13 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get notificationsDismiss => 'Ignora';
+
+  @override
+  String get notificationsDismissAll => 'Elimina tutte';
+
+  @override
+  String get notificationsDismissAllConfirm =>
+      'Vuoi eliminare tutte le notifiche? L\'operazione non si può annullare.';
 
   @override
   String get notifReprocessTitle =>

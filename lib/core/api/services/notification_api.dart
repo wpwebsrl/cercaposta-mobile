@@ -28,4 +28,8 @@ class NotificationApi {
 
   Future<void> dismiss(String id) =>
       _dio.post<dynamic>('/notifications/$id/dismiss');
+
+  /// Dismiss every notification at once (also marks unread ones read, so the badge
+  /// drops). Still-due system/follow-up notifications aren't re-materialized.
+  Future<void> dismissAll() => _dio.post<dynamic>('/notifications/dismiss-all');
 }

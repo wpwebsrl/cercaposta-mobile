@@ -479,7 +479,7 @@ abstract class AppLocalizations {
   /// No description provided for @navSettings.
   ///
   /// In it, this message translates to:
-  /// **'Impostazioni'**
+  /// **'Opzioni'**
   String get navSettings;
 
   /// No description provided for @navNotifications.
@@ -505,6 +505,18 @@ abstract class AppLocalizations {
   /// In it, this message translates to:
   /// **'Ignora'**
   String get notificationsDismiss;
+
+  /// No description provided for @notificationsDismissAll.
+  ///
+  /// In it, this message translates to:
+  /// **'Elimina tutte'**
+  String get notificationsDismissAll;
+
+  /// No description provided for @notificationsDismissAllConfirm.
+  ///
+  /// In it, this message translates to:
+  /// **'Vuoi eliminare tutte le notifiche? L\'operazione non si può annullare.'**
+  String get notificationsDismissAllConfirm;
 
   /// No description provided for @notifReprocessTitle.
   ///

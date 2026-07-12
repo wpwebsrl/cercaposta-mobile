@@ -212,7 +212,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navSettings => 'Settings';
 
   @override
-  String get navNotifications => 'Notifications';
+  String get navNotifications => 'Alerts';
 
   @override
   String get notificationsTitle => 'Notifications';
@@ -222,6 +222,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notificationsDismiss => 'Dismiss';
+
+  @override
+  String get notificationsDismissAll => 'Clear all';
+
+  @override
+  String get notificationsDismissAllConfirm =>
+      'Delete all notifications? This cannot be undone.';
 
   @override
   String get notifReprocessTitle =>

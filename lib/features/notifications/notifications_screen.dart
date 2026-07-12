@@ -70,6 +70,35 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
     }
   }
 
+  Future<void> _dismissAll() async {
+    final l = AppLocalizations.of(context)!;
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(l.notificationsDismissAll),
+        content: Text(l.notificationsDismissAllConfirm),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: Text(l.actionCancel),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: Text(l.notificationsDismissAll),
+          ),
+        ],
+      ),
+    );
+    if (ok != true) return;
+    try {
+      await ref.read(notificationApiProvider).dismissAll();
+      ref.invalidate(notificationUnreadCountProvider);
+      await _load();
+    } on Object catch (e) {
+      if (mounted) showSnack(context, localizeApiError(l, e), error: true);
+    }
+  }
+
   // Query-only client: the reprocess is started from the web app. Open it there.
   Future<void> _openInWeb() async {
     final l = AppLocalizations.of(context)!;
@@ -86,7 +115,17 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(title: Text(l.notificationsTitle)),
+      appBar: AppBar(
+        title: Text(l.notificationsTitle),
+        actions: <Widget>[
+          if (!_loading && _error == null && _items.isNotEmpty)
+            IconButton(
+              icon: const Icon(Icons.delete_sweep_outlined),
+              tooltip: l.notificationsDismissAll,
+              onPressed: _dismissAll,
+            ),
+        ],
+      ),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : _error != null
