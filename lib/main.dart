@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -59,7 +60,12 @@ class _CercaPostaAppState extends ConsumerState<CercaPostaApp> {
       darkTheme: AppTheme.dark(),
       themeMode: settings.themeMode,
       locale: settings.locale,
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      // FlutterQuillLocalizations powers the reminder editor's toolbar tooltips and
+      // its link dialog (docs/followup.md → mobile reminder composition).
+      localizationsDelegates: <LocalizationsDelegate<dynamic>>[
+        ...AppLocalizations.localizationsDelegates,
+        FlutterQuillLocalizations.delegate,
+      ],
       supportedLocales: AppLocalizations.supportedLocales,
       routerConfig: router,
     );

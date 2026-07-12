@@ -1441,6 +1441,474 @@ abstract class AppLocalizations {
   /// In it, this message translates to:
   /// **'Errore imprevisto'**
   String get errorGeneric;
+
+  /// No description provided for @errorFollowupNotRemindable.
+  ///
+  /// In it, this message translates to:
+  /// **'Questa attesa non può più essere sollecitata.'**
+  String get errorFollowupNotRemindable;
+
+  /// No description provided for @errorFollowupNotConfigured.
+  ///
+  /// In it, this message translates to:
+  /// **'Il modello di analisi non è configurato su questo server.'**
+  String get errorFollowupNotConfigured;
+
+  /// No description provided for @errorFollowupDraftFailed.
+  ///
+  /// In it, this message translates to:
+  /// **'Impossibile generare il sollecito. Riprova.'**
+  String get errorFollowupDraftFailed;
+
+  /// No description provided for @errorFollowupSendNoSource.
+  ///
+  /// In it, this message translates to:
+  /// **'Nessun account di origine abilitato all\'invio per questo messaggio.'**
+  String get errorFollowupSendNoSource;
+
+  /// No description provided for @errorSendConsentRequired.
+  ///
+  /// In it, this message translates to:
+  /// **'L\'account Microsoft 365 va ri-autorizzato all\'invio dall\'app web.'**
+  String get errorSendConsentRequired;
+
+  /// No description provided for @errorMailAuthFailed.
+  ///
+  /// In it, this message translates to:
+  /// **'Autenticazione all\'account di posta non riuscita.'**
+  String get errorMailAuthFailed;
+
+  /// No description provided for @errorMailSendFailed.
+  ///
+  /// In it, this message translates to:
+  /// **'Invio non riuscito. Riprova più tardi.'**
+  String get errorMailSendFailed;
+
+  /// No description provided for @navFollowups.
+  ///
+  /// In it, this message translates to:
+  /// **'In attesa'**
+  String get navFollowups;
+
+  /// No description provided for @followupsTitle.
+  ///
+  /// In it, this message translates to:
+  /// **'In attesa'**
+  String get followupsTitle;
+
+  /// No description provided for @followupsTabTheirTurn.
+  ///
+  /// In it, this message translates to:
+  /// **'Aspetto risposta'**
+  String get followupsTabTheirTurn;
+
+  /// No description provided for @followupsTabMyTurn.
+  ///
+  /// In it, this message translates to:
+  /// **'Devo rispondere'**
+  String get followupsTabMyTurn;
+
+  /// No description provided for @followupsEmpty.
+  ///
+  /// In it, this message translates to:
+  /// **'Nessuna attesa aperta.'**
+  String get followupsEmpty;
+
+  /// No description provided for @followupsRecentlyClosed.
+  ///
+  /// In it, this message translates to:
+  /// **'Chiuse di recente'**
+  String get followupsRecentlyClosed;
+
+  /// No description provided for @followupsDisabledTitle.
+  ///
+  /// In it, this message translates to:
+  /// **'Funzione non attiva'**
+  String get followupsDisabledTitle;
+
+  /// No description provided for @followupsDisabledBody.
+  ///
+  /// In it, this message translates to:
+  /// **'Le attese di risposta si attivano dal tuo profilo nell\'app web.'**
+  String get followupsDisabledBody;
+
+  /// No description provided for @followupsUnavailableTitle.
+  ///
+  /// In it, this message translates to:
+  /// **'Richiede un server aggiornato'**
+  String get followupsUnavailableTitle;
+
+  /// No description provided for @followupsUnavailableBody.
+  ///
+  /// In it, this message translates to:
+  /// **'Questo server non offre ancora la gestione delle attese di risposta.'**
+  String get followupsUnavailableBody;
+
+  /// No description provided for @followupsPausedEndpoint.
+  ///
+  /// In it, this message translates to:
+  /// **'Analisi in pausa: l\'endpoint AI non risponde. L\'archivio continua a sincronizzare.'**
+  String get followupsPausedEndpoint;
+
+  /// No description provided for @followupsPausedCap.
+  ///
+  /// In it, this message translates to:
+  /// **'Analisi in pausa: raggiunto il tetto giornaliero.'**
+  String get followupsPausedCap;
+
+  /// No description provided for @followupsPausedBilling.
+  ///
+  /// In it, this message translates to:
+  /// **'Analisi in pausa: limite del piano AI raggiunto.'**
+  String get followupsPausedBilling;
+
+  /// No description provided for @followupsActionOpen.
+  ///
+  /// In it, this message translates to:
+  /// **'Apri conversazione'**
+  String get followupsActionOpen;
+
+  /// No description provided for @followupsActionReminder.
+  ///
+  /// In it, this message translates to:
+  /// **'Prepara sollecito'**
+  String get followupsActionReminder;
+
+  /// No description provided for @followupsActionDone.
+  ///
+  /// In it, this message translates to:
+  /// **'Fatto'**
+  String get followupsActionDone;
+
+  /// No description provided for @followupsActionSnooze1.
+  ///
+  /// In it, this message translates to:
+  /// **'Posticipa di 1 giorno'**
+  String get followupsActionSnooze1;
+
+  /// No description provided for @followupsActionSnooze3.
+  ///
+  /// In it, this message translates to:
+  /// **'Posticipa di 3 giorni'**
+  String get followupsActionSnooze3;
+
+  /// No description provided for @followupsActionDismiss.
+  ///
+  /// In it, this message translates to:
+  /// **'Ignora'**
+  String get followupsActionDismiss;
+
+  /// No description provided for @followupsActionShareEml.
+  ///
+  /// In it, this message translates to:
+  /// **'Condividi email (.eml)'**
+  String get followupsActionShareEml;
+
+  /// No description provided for @followupsActionError.
+  ///
+  /// In it, this message translates to:
+  /// **'Operazione non riuscita'**
+  String get followupsActionError;
+
+  /// No description provided for @followupsChipAnswered.
+  ///
+  /// In it, this message translates to:
+  /// **'Ha risposto'**
+  String get followupsChipAnswered;
+
+  /// No description provided for @followupsChipDismissed.
+  ///
+  /// In it, this message translates to:
+  /// **'Ignorata'**
+  String get followupsChipDismissed;
+
+  /// No description provided for @followupsChipSnoozed.
+  ///
+  /// In it, this message translates to:
+  /// **'Posticipata al {date}'**
+  String followupsChipSnoozed(String date);
+
+  /// No description provided for @followupsChipReminded.
+  ///
+  /// In it, this message translates to:
+  /// **'Sollecitato il {date}'**
+  String followupsChipReminded(String date);
+
+  /// No description provided for @followupsChipRemindedMany.
+  ///
+  /// In it, this message translates to:
+  /// **'Sollecitato il {date} ×{count}'**
+  String followupsChipRemindedMany(String date, int count);
+
+  /// No description provided for @followupsChipOverdue.
+  ///
+  /// In it, this message translates to:
+  /// **'{days, plural, =1{Scaduta da 1 giorno} other{Scaduta da {days} giorni}}'**
+  String followupsChipOverdue(int days);
+
+  /// No description provided for @followupsChipDueToday.
+  ///
+  /// In it, this message translates to:
+  /// **'Scade oggi'**
+  String get followupsChipDueToday;
+
+  /// No description provided for @followupsChipDueTomorrow.
+  ///
+  /// In it, this message translates to:
+  /// **'Scade domani'**
+  String get followupsChipDueTomorrow;
+
+  /// No description provided for @followupsChipDueOn.
+  ///
+  /// In it, this message translates to:
+  /// **'Scade il {date}'**
+  String followupsChipDueOn(String date);
+
+  /// No description provided for @reminderTitle.
+  ///
+  /// In it, this message translates to:
+  /// **'Prepara sollecito'**
+  String get reminderTitle;
+
+  /// No description provided for @reminderGenerating.
+  ///
+  /// In it, this message translates to:
+  /// **'Generazione bozza…'**
+  String get reminderGenerating;
+
+  /// No description provided for @reminderFailed.
+  ///
+  /// In it, this message translates to:
+  /// **'Impossibile generare la bozza.'**
+  String get reminderFailed;
+
+  /// No description provided for @reminderSubject.
+  ///
+  /// In it, this message translates to:
+  /// **'Oggetto'**
+  String get reminderSubject;
+
+  /// No description provided for @reminderMessage.
+  ///
+  /// In it, this message translates to:
+  /// **'Messaggio'**
+  String get reminderMessage;
+
+  /// No description provided for @reminderRegister.
+  ///
+  /// In it, this message translates to:
+  /// **'Registro'**
+  String get reminderRegister;
+
+  /// No description provided for @reminderRegisterAuto.
+  ///
+  /// In it, this message translates to:
+  /// **'Auto'**
+  String get reminderRegisterAuto;
+
+  /// No description provided for @reminderRegisterTu.
+  ///
+  /// In it, this message translates to:
+  /// **'Tu'**
+  String get reminderRegisterTu;
+
+  /// No description provided for @reminderRegisterLei.
+  ///
+  /// In it, this message translates to:
+  /// **'Lei'**
+  String get reminderRegisterLei;
+
+  /// No description provided for @reminderRegisterUsed.
+  ///
+  /// In it, this message translates to:
+  /// **'Registro: {register} ({source})'**
+  String reminderRegisterUsed(String register, String source);
+
+  /// No description provided for @reminderRegisterSourceManual.
+  ///
+  /// In it, this message translates to:
+  /// **'scelto'**
+  String get reminderRegisterSourceManual;
+
+  /// No description provided for @reminderRegisterSourceContact.
+  ///
+  /// In it, this message translates to:
+  /// **'ricordato per il contatto'**
+  String get reminderRegisterSourceContact;
+
+  /// No description provided for @reminderRegisterSourceDetected.
+  ///
+  /// In it, this message translates to:
+  /// **'rilevato dallo stile'**
+  String get reminderRegisterSourceDetected;
+
+  /// No description provided for @reminderRegisterSourceDefault.
+  ///
+  /// In it, this message translates to:
+  /// **'predefinito'**
+  String get reminderRegisterSourceDefault;
+
+  /// No description provided for @reminderRememberContact.
+  ///
+  /// In it, this message translates to:
+  /// **'Ricorda per il contatto'**
+  String get reminderRememberContact;
+
+  /// No description provided for @reminderRemembered.
+  ///
+  /// In it, this message translates to:
+  /// **'Registro ricordato per questo contatto'**
+  String get reminderRemembered;
+
+  /// No description provided for @reminderLanguage.
+  ///
+  /// In it, this message translates to:
+  /// **'Lingua'**
+  String get reminderLanguage;
+
+  /// No description provided for @reminderLanguageAuto.
+  ///
+  /// In it, this message translates to:
+  /// **'Auto'**
+  String get reminderLanguageAuto;
+
+  /// No description provided for @reminderInstructionsHint.
+  ///
+  /// In it, this message translates to:
+  /// **'Indicazioni per rigenerare (facoltative)'**
+  String get reminderInstructionsHint;
+
+  /// No description provided for @reminderRegenerate.
+  ///
+  /// In it, this message translates to:
+  /// **'Rigenera'**
+  String get reminderRegenerate;
+
+  /// No description provided for @reminderIncludeOriginal.
+  ///
+  /// In it, this message translates to:
+  /// **'Cita l\'email originale in coda'**
+  String get reminderIncludeOriginal;
+
+  /// No description provided for @reminderAppendedNote.
+  ///
+  /// In it, this message translates to:
+  /// **'Firma, avviso AI ed eventuale citazione vengono aggiunti automaticamente.'**
+  String get reminderAppendedNote;
+
+  /// No description provided for @reminderSendFromNote.
+  ///
+  /// In it, this message translates to:
+  /// **'Partirà dal tuo account {from}'**
+  String reminderSendFromNote(String from);
+
+  /// No description provided for @reminderPreview.
+  ///
+  /// In it, this message translates to:
+  /// **'Anteprima email'**
+  String get reminderPreview;
+
+  /// No description provided for @reminderPreviewTitle.
+  ///
+  /// In it, this message translates to:
+  /// **'Anteprima email'**
+  String get reminderPreviewTitle;
+
+  /// No description provided for @reminderSendNow.
+  ///
+  /// In it, this message translates to:
+  /// **'Invia da Cerca posta'**
+  String get reminderSendNow;
+
+  /// No description provided for @reminderOpenMailApp.
+  ///
+  /// In it, this message translates to:
+  /// **'Apri nell\'app di posta'**
+  String get reminderOpenMailApp;
+
+  /// No description provided for @reminderMarkSent.
+  ///
+  /// In it, this message translates to:
+  /// **'L\'ho inviato'**
+  String get reminderMarkSent;
+
+  /// No description provided for @reminderSent.
+  ///
+  /// In it, this message translates to:
+  /// **'Sollecito inviato da {from}'**
+  String reminderSent(String from);
+
+  /// No description provided for @reminderMailError.
+  ///
+  /// In it, this message translates to:
+  /// **'Impossibile aprire l\'app di posta'**
+  String get reminderMailError;
+
+  /// No description provided for @notifFollowupNoReplyTitle.
+  ///
+  /// In it, this message translates to:
+  /// **'{name} non ti ha risposto'**
+  String notifFollowupNoReplyTitle(String name);
+
+  /// No description provided for @notifFollowupNoReplyBody.
+  ///
+  /// In it, this message translates to:
+  /// **'«{summary}» — da {days} giorni senza risposta.'**
+  String notifFollowupNoReplyBody(String summary, int days);
+
+  /// No description provided for @notifFollowupReplyDueTitle.
+  ///
+  /// In it, this message translates to:
+  /// **'Dovresti rispondere a {name}'**
+  String notifFollowupReplyDueTitle(String name);
+
+  /// No description provided for @notifFollowupReplyDueBody.
+  ///
+  /// In it, this message translates to:
+  /// **'«{summary}» — la scadenza è passata da {days} giorni.'**
+  String notifFollowupReplyDueBody(String summary, int days);
+
+  /// No description provided for @notifFollowupDueSoonTitle.
+  ///
+  /// In it, this message translates to:
+  /// **'Scadenza in arrivo'**
+  String get notifFollowupDueSoonTitle;
+
+  /// No description provided for @notifFollowupDueSoonBody.
+  ///
+  /// In it, this message translates to:
+  /// **'«{summary}» — {name}: scade il {date}.'**
+  String notifFollowupDueSoonBody(String summary, String name, String date);
+
+  /// No description provided for @notifFollowupReminderSentTitle.
+  ///
+  /// In it, this message translates to:
+  /// **'Sollecito inviato a {name}'**
+  String notifFollowupReminderSentTitle(String name);
+
+  /// No description provided for @notifFollowupReminderSentBody.
+  ///
+  /// In it, this message translates to:
+  /// **'«{summary}» — il sollecito automatico è stato inviato.'**
+  String notifFollowupReminderSentBody(String summary);
+
+  /// No description provided for @notifFollowupDigestTitle.
+  ///
+  /// In it, this message translates to:
+  /// **'Riepilogo attese di risposta'**
+  String get notifFollowupDigestTitle;
+
+  /// No description provided for @notifFollowupDigestBody.
+  ///
+  /// In it, this message translates to:
+  /// **'{overdue} scadute · {dueToday} in scadenza oggi · {waitingMe} risposte da inviare.'**
+  String notifFollowupDigestBody(int overdue, int dueToday, int waitingMe);
+
+  /// No description provided for @notifOpenConversation.
+  ///
+  /// In it, this message translates to:
+  /// **'Apri conversazione'**
+  String get notifOpenConversation;
 }
 
 class _AppLocalizationsDelegate

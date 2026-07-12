@@ -12,9 +12,16 @@ class NotificationApi {
     return NotificationList.fromJson(mapOf(resp.data));
   }
 
-  Future<int> unreadCount() async {
+  /// Unread badge + the follow-up overdue count in ONE call: the endpoint returns
+  /// both, and `followup_overdue` is a cleartext count (robust to a locked vault)
+  /// that drives the amber badge on the «In attesa» nav entry.
+  Future<({int unread, int followupOverdue})> counts() async {
     final resp = await _dio.get<dynamic>('/notifications/unread-count');
-    return jsonInt(mapOf(resp.data), 'unread_count');
+    final j = mapOf(resp.data);
+    return (
+      unread: jsonInt(j, 'unread_count'),
+      followupOverdue: jsonInt(j, 'followup_overdue'),
+    );
   }
 
   Future<void> markAllRead() => _dio.post<dynamic>('/notifications/read-all');

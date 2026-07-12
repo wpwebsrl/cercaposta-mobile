@@ -1,7 +1,7 @@
 name: cercaposta
 description: "CercaPosta mobile app"
 publish_to: 'none'
-version: 1.0.0+1
+version: 1.1.0+1
 
 environment:
   sdk: ^3.8.1
@@ -36,10 +36,16 @@ dependencies:
   # i18n
   intl: ^0.20.2
 
-  # HTML rendering (corpo email). flutter_widget_from_html_core è il renderer
-  # mantenuto (flutter_html è archiviato): rende le immagini inline `data:`/`cid:`
+  # HTML rendering (corpo email + anteprima fedele del sollecito). flutter_widget_from_html_core
+  # è il renderer mantenuto (flutter_html è archiviato): rende le immagini inline `data:`/`cid:`
   # e i link via onTapUrl senza fetch di rete.
   flutter_widget_from_html_core: ^0.17.2
+
+  # Editor rich del MESSAGGIO di sollecito (parità con la toolbar di desktop/web: grassetto,
+  # corsivo, sottolineato, barrato, link, elenchi). Il modello Delta viene convertito in HTML
+  # dal nostro `delta_html.dart`, che emette SOLO il sottoinsieme ammesso dal sanitizzatore
+  # server — niente convertitori di terze parti. È l'unico editor WYSIWYG dell'app.
+  flutter_quill: ^11.4.0
 
   # Anteprima allegati PDF in-app (rendering da byte in memoria, niente file su disco)
   pdfx: ^2.9.1

@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../features/about/about_screen.dart';
 import '../../features/email/attachment_viewer_screen.dart';
 import '../../features/email/email_screen.dart';
+import '../../features/followups/reminder_screen.dart';
 import '../../features/home/home_shell.dart';
 import '../../features/login/first_password_screen.dart';
 import '../../features/login/login_screen.dart';
@@ -15,6 +16,7 @@ import '../../features/login/update_required_screen.dart';
 import '../../features/server/server_screen.dart';
 import '../../features/settings/sessions_screen.dart';
 import '../../features/splash/splash_screen.dart';
+import '../../shared/models/followup.dart';
 import '../auth/auth_controller.dart';
 import '../providers.dart';
 
@@ -103,6 +105,17 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (_, __) => const UpdateRequiredScreen(),
       ),
       GoRoute(path: '/home', builder: (_, __) => const HomeShell()),
+      GoRoute(
+        path: '/followups/reminder',
+        builder: (_, state) {
+          final item = state.extra;
+          // Reached only from the «In attesa» page, which passes the item; a stray
+          // deep-link without it falls back to the shell rather than crashing.
+          return item is FollowupItem
+              ? ReminderScreen(item: item)
+              : const HomeShell();
+        },
+      ),
       GoRoute(path: '/sessions', builder: (_, __) => const SessionsScreen()),
       GoRoute(path: '/about', builder: (_, __) => const AboutScreen()),
       GoRoute(

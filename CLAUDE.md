@@ -23,6 +23,12 @@ visibile ma non riutilizzabile.
    macchina (`error.code`): si traducono in `lib/core/api/error_messages.dart`.
 3. **Client di sola interrogazione**: niente funzioni di invio/modifica email, niente
    funzioni admin (il claim `client` = `ios`/`android` le blocca anche lato server).
+   **Unica eccezione deliberata**: il **sollecito follow-up** «Invia da Cerca posta»
+   (pagina «In attesa» → `reminder_screen.dart`), come su desktop/web — l'invio lo
+   esegue il **server** dall'account di origine dell'utente (endpoint `send-reminder`,
+   sempre azionato dall'utente; specifica §8.7 del repo server). Il client non spedisce
+   nulla da sé; compone il messaggio (editor rich `flutter_quill` → HTML) e lo passa al
+   server, oppure lo apre nell'app di posta via `mailto`.
 4. **Codice**: Dart con `flutter analyze` pulito e `dart format` (la CI fallisce altrimenti);
    identificatori e commenti in inglese; stringhe utente SOLO negli ARB.
 5. **UI densa e curata**, coerente light/dark, come il web (densità, tipografia 13-14px).

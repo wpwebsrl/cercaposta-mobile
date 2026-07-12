@@ -5,6 +5,7 @@ import 'package:local_auth/local_auth.dart';
 import '../../core/auth/auth_controller.dart';
 import '../../core/i18n/app_localizations.dart';
 import '../chat/chat_screen.dart';
+import '../followups/followups_screen.dart';
 import '../notifications/notifications_controller.dart';
 import '../notifications/notifications_screen.dart';
 import '../search/search_screen.dart';
@@ -23,6 +24,7 @@ class _HomeShellState extends ConsumerState<HomeShell> {
   static const _tabs = <Widget>[
     SearchScreen(),
     ChatScreen(),
+    FollowupsScreen(),
     NotificationsScreen(),
     SettingsScreen(),
   ];
@@ -67,7 +69,9 @@ class _HomeShellState extends ConsumerState<HomeShell> {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
     final index = ref.watch(homeTabProvider);
-    final unread = ref.watch(notificationUnreadCountProvider).valueOrNull ?? 0;
+    final counts = ref.watch(notificationUnreadCountProvider).valueOrNull;
+    final unread = counts?.unread ?? 0;
+    final overdue = counts?.followupOverdue ?? 0;
     final updateNeeded = ref.watch(updateRequiredProvider).valueOrNull ?? false;
     if (updateNeeded) {
       // Below the server's feature floor: mobile can't auto-update, so hard-block to the
@@ -91,6 +95,17 @@ class _HomeShellState extends ConsumerState<HomeShell> {
             icon: const Icon(Icons.forum_outlined),
             selectedIcon: const Icon(Icons.forum),
             label: l.navChat,
+          ),
+          NavigationDestination(
+            icon: overdue > 0
+                ? Badge(
+                    label: Text('$overdue'),
+                    backgroundColor: Colors.orange.shade800,
+                    child: const Icon(Icons.hourglass_empty),
+                  )
+                : const Icon(Icons.hourglass_empty),
+            selectedIcon: const Icon(Icons.hourglass_full),
+            label: l.navFollowups,
           ),
           NavigationDestination(
             icon: unread > 0

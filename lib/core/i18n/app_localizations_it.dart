@@ -749,4 +749,289 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get errorGeneric => 'Errore imprevisto';
+
+  @override
+  String get errorFollowupNotRemindable =>
+      'Questa attesa non può più essere sollecitata.';
+
+  @override
+  String get errorFollowupNotConfigured =>
+      'Il modello di analisi non è configurato su questo server.';
+
+  @override
+  String get errorFollowupDraftFailed =>
+      'Impossibile generare il sollecito. Riprova.';
+
+  @override
+  String get errorFollowupSendNoSource =>
+      'Nessun account di origine abilitato all\'invio per questo messaggio.';
+
+  @override
+  String get errorSendConsentRequired =>
+      'L\'account Microsoft 365 va ri-autorizzato all\'invio dall\'app web.';
+
+  @override
+  String get errorMailAuthFailed =>
+      'Autenticazione all\'account di posta non riuscita.';
+
+  @override
+  String get errorMailSendFailed => 'Invio non riuscito. Riprova più tardi.';
+
+  @override
+  String get navFollowups => 'In attesa';
+
+  @override
+  String get followupsTitle => 'In attesa';
+
+  @override
+  String get followupsTabTheirTurn => 'Aspetto risposta';
+
+  @override
+  String get followupsTabMyTurn => 'Devo rispondere';
+
+  @override
+  String get followupsEmpty => 'Nessuna attesa aperta.';
+
+  @override
+  String get followupsRecentlyClosed => 'Chiuse di recente';
+
+  @override
+  String get followupsDisabledTitle => 'Funzione non attiva';
+
+  @override
+  String get followupsDisabledBody =>
+      'Le attese di risposta si attivano dal tuo profilo nell\'app web.';
+
+  @override
+  String get followupsUnavailableTitle => 'Richiede un server aggiornato';
+
+  @override
+  String get followupsUnavailableBody =>
+      'Questo server non offre ancora la gestione delle attese di risposta.';
+
+  @override
+  String get followupsPausedEndpoint =>
+      'Analisi in pausa: l\'endpoint AI non risponde. L\'archivio continua a sincronizzare.';
+
+  @override
+  String get followupsPausedCap =>
+      'Analisi in pausa: raggiunto il tetto giornaliero.';
+
+  @override
+  String get followupsPausedBilling =>
+      'Analisi in pausa: limite del piano AI raggiunto.';
+
+  @override
+  String get followupsActionOpen => 'Apri conversazione';
+
+  @override
+  String get followupsActionReminder => 'Prepara sollecito';
+
+  @override
+  String get followupsActionDone => 'Fatto';
+
+  @override
+  String get followupsActionSnooze1 => 'Posticipa di 1 giorno';
+
+  @override
+  String get followupsActionSnooze3 => 'Posticipa di 3 giorni';
+
+  @override
+  String get followupsActionDismiss => 'Ignora';
+
+  @override
+  String get followupsActionShareEml => 'Condividi email (.eml)';
+
+  @override
+  String get followupsActionError => 'Operazione non riuscita';
+
+  @override
+  String get followupsChipAnswered => 'Ha risposto';
+
+  @override
+  String get followupsChipDismissed => 'Ignorata';
+
+  @override
+  String followupsChipSnoozed(String date) {
+    return 'Posticipata al $date';
+  }
+
+  @override
+  String followupsChipReminded(String date) {
+    return 'Sollecitato il $date';
+  }
+
+  @override
+  String followupsChipRemindedMany(String date, int count) {
+    return 'Sollecitato il $date ×$count';
+  }
+
+  @override
+  String followupsChipOverdue(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'Scaduta da $days giorni',
+      one: 'Scaduta da 1 giorno',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get followupsChipDueToday => 'Scade oggi';
+
+  @override
+  String get followupsChipDueTomorrow => 'Scade domani';
+
+  @override
+  String followupsChipDueOn(String date) {
+    return 'Scade il $date';
+  }
+
+  @override
+  String get reminderTitle => 'Prepara sollecito';
+
+  @override
+  String get reminderGenerating => 'Generazione bozza…';
+
+  @override
+  String get reminderFailed => 'Impossibile generare la bozza.';
+
+  @override
+  String get reminderSubject => 'Oggetto';
+
+  @override
+  String get reminderMessage => 'Messaggio';
+
+  @override
+  String get reminderRegister => 'Registro';
+
+  @override
+  String get reminderRegisterAuto => 'Auto';
+
+  @override
+  String get reminderRegisterTu => 'Tu';
+
+  @override
+  String get reminderRegisterLei => 'Lei';
+
+  @override
+  String reminderRegisterUsed(String register, String source) {
+    return 'Registro: $register ($source)';
+  }
+
+  @override
+  String get reminderRegisterSourceManual => 'scelto';
+
+  @override
+  String get reminderRegisterSourceContact => 'ricordato per il contatto';
+
+  @override
+  String get reminderRegisterSourceDetected => 'rilevato dallo stile';
+
+  @override
+  String get reminderRegisterSourceDefault => 'predefinito';
+
+  @override
+  String get reminderRememberContact => 'Ricorda per il contatto';
+
+  @override
+  String get reminderRemembered => 'Registro ricordato per questo contatto';
+
+  @override
+  String get reminderLanguage => 'Lingua';
+
+  @override
+  String get reminderLanguageAuto => 'Auto';
+
+  @override
+  String get reminderInstructionsHint =>
+      'Indicazioni per rigenerare (facoltative)';
+
+  @override
+  String get reminderRegenerate => 'Rigenera';
+
+  @override
+  String get reminderIncludeOriginal => 'Cita l\'email originale in coda';
+
+  @override
+  String get reminderAppendedNote =>
+      'Firma, avviso AI ed eventuale citazione vengono aggiunti automaticamente.';
+
+  @override
+  String reminderSendFromNote(String from) {
+    return 'Partirà dal tuo account $from';
+  }
+
+  @override
+  String get reminderPreview => 'Anteprima email';
+
+  @override
+  String get reminderPreviewTitle => 'Anteprima email';
+
+  @override
+  String get reminderSendNow => 'Invia da Cerca posta';
+
+  @override
+  String get reminderOpenMailApp => 'Apri nell\'app di posta';
+
+  @override
+  String get reminderMarkSent => 'L\'ho inviato';
+
+  @override
+  String reminderSent(String from) {
+    return 'Sollecito inviato da $from';
+  }
+
+  @override
+  String get reminderMailError => 'Impossibile aprire l\'app di posta';
+
+  @override
+  String notifFollowupNoReplyTitle(String name) {
+    return '$name non ti ha risposto';
+  }
+
+  @override
+  String notifFollowupNoReplyBody(String summary, int days) {
+    return '«$summary» — da $days giorni senza risposta.';
+  }
+
+  @override
+  String notifFollowupReplyDueTitle(String name) {
+    return 'Dovresti rispondere a $name';
+  }
+
+  @override
+  String notifFollowupReplyDueBody(String summary, int days) {
+    return '«$summary» — la scadenza è passata da $days giorni.';
+  }
+
+  @override
+  String get notifFollowupDueSoonTitle => 'Scadenza in arrivo';
+
+  @override
+  String notifFollowupDueSoonBody(String summary, String name, String date) {
+    return '«$summary» — $name: scade il $date.';
+  }
+
+  @override
+  String notifFollowupReminderSentTitle(String name) {
+    return 'Sollecito inviato a $name';
+  }
+
+  @override
+  String notifFollowupReminderSentBody(String summary) {
+    return '«$summary» — il sollecito automatico è stato inviato.';
+  }
+
+  @override
+  String get notifFollowupDigestTitle => 'Riepilogo attese di risposta';
+
+  @override
+  String notifFollowupDigestBody(int overdue, int dueToday, int waitingMe) {
+    return '$overdue scadute · $dueToday in scadenza oggi · $waitingMe risposte da inviare.';
+  }
+
+  @override
+  String get notifOpenConversation => 'Apri conversazione';
 }

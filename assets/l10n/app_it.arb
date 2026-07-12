@@ -327,5 +327,171 @@
   "errorRawMissing": "File non più disponibile",
   "errorValidation": "Dati non validi",
   "errorNetwork": "Errore di rete. Verifica la connessione.",
-  "errorGeneric": "Errore imprevisto"
+  "errorGeneric": "Errore imprevisto",
+  "errorFollowupNotRemindable": "Questa attesa non può più essere sollecitata.",
+  "errorFollowupNotConfigured": "Il modello di analisi non è configurato su questo server.",
+  "errorFollowupDraftFailed": "Impossibile generare il sollecito. Riprova.",
+  "errorFollowupSendNoSource": "Nessun account di origine abilitato all'invio per questo messaggio.",
+  "errorSendConsentRequired": "L'account Microsoft 365 va ri-autorizzato all'invio dall'app web.",
+  "errorMailAuthFailed": "Autenticazione all'account di posta non riuscita.",
+  "errorMailSendFailed": "Invio non riuscito. Riprova più tardi.",
+  "navFollowups": "In attesa",
+  "followupsTitle": "In attesa",
+  "followupsTabTheirTurn": "Aspetto risposta",
+  "followupsTabMyTurn": "Devo rispondere",
+  "followupsEmpty": "Nessuna attesa aperta.",
+  "followupsRecentlyClosed": "Chiuse di recente",
+  "followupsDisabledTitle": "Funzione non attiva",
+  "followupsDisabledBody": "Le attese di risposta si attivano dal tuo profilo nell'app web.",
+  "followupsUnavailableTitle": "Richiede un server aggiornato",
+  "followupsUnavailableBody": "Questo server non offre ancora la gestione delle attese di risposta.",
+  "followupsPausedEndpoint": "Analisi in pausa: l'endpoint AI non risponde. L'archivio continua a sincronizzare.",
+  "followupsPausedCap": "Analisi in pausa: raggiunto il tetto giornaliero.",
+  "followupsPausedBilling": "Analisi in pausa: limite del piano AI raggiunto.",
+  "followupsActionOpen": "Apri conversazione",
+  "followupsActionReminder": "Prepara sollecito",
+  "followupsActionDone": "Fatto",
+  "followupsActionSnooze1": "Posticipa di 1 giorno",
+  "followupsActionSnooze3": "Posticipa di 3 giorni",
+  "followupsActionDismiss": "Ignora",
+  "followupsActionShareEml": "Condividi email (.eml)",
+  "followupsActionError": "Operazione non riuscita",
+  "followupsChipAnswered": "Ha risposto",
+  "followupsChipDismissed": "Ignorata",
+  "followupsChipSnoozed": "Posticipata al {date}",
+  "@followupsChipSnoozed": {
+    "placeholders": {
+      "date": { "type": "String" }
+    }
+  },
+  "followupsChipReminded": "Sollecitato il {date}",
+  "@followupsChipReminded": {
+    "placeholders": {
+      "date": { "type": "String" }
+    }
+  },
+  "followupsChipRemindedMany": "Sollecitato il {date} ×{count}",
+  "@followupsChipRemindedMany": {
+    "placeholders": {
+      "date": { "type": "String" },
+      "count": { "type": "int" }
+    }
+  },
+  "followupsChipOverdue": "{days, plural, =1{Scaduta da 1 giorno} other{Scaduta da {days} giorni}}",
+  "@followupsChipOverdue": {
+    "placeholders": {
+      "days": { "type": "int" }
+    }
+  },
+  "followupsChipDueToday": "Scade oggi",
+  "followupsChipDueTomorrow": "Scade domani",
+  "followupsChipDueOn": "Scade il {date}",
+  "@followupsChipDueOn": {
+    "placeholders": {
+      "date": { "type": "String" }
+    }
+  },
+  "reminderTitle": "Prepara sollecito",
+  "reminderGenerating": "Generazione bozza…",
+  "reminderFailed": "Impossibile generare la bozza.",
+  "reminderSubject": "Oggetto",
+  "reminderMessage": "Messaggio",
+  "reminderRegister": "Registro",
+  "reminderRegisterAuto": "Auto",
+  "reminderRegisterTu": "Tu",
+  "reminderRegisterLei": "Lei",
+  "reminderRegisterUsed": "Registro: {register} ({source})",
+  "@reminderRegisterUsed": {
+    "placeholders": {
+      "register": { "type": "String" },
+      "source": { "type": "String" }
+    }
+  },
+  "reminderRegisterSourceManual": "scelto",
+  "reminderRegisterSourceContact": "ricordato per il contatto",
+  "reminderRegisterSourceDetected": "rilevato dallo stile",
+  "reminderRegisterSourceDefault": "predefinito",
+  "reminderRememberContact": "Ricorda per il contatto",
+  "reminderRemembered": "Registro ricordato per questo contatto",
+  "reminderLanguage": "Lingua",
+  "reminderLanguageAuto": "Auto",
+  "reminderInstructionsHint": "Indicazioni per rigenerare (facoltative)",
+  "reminderRegenerate": "Rigenera",
+  "reminderIncludeOriginal": "Cita l'email originale in coda",
+  "reminderAppendedNote": "Firma, avviso AI ed eventuale citazione vengono aggiunti automaticamente.",
+  "reminderSendFromNote": "Partirà dal tuo account {from}",
+  "@reminderSendFromNote": {
+    "placeholders": {
+      "from": { "type": "String" }
+    }
+  },
+  "reminderPreview": "Anteprima email",
+  "reminderPreviewTitle": "Anteprima email",
+  "reminderSendNow": "Invia da Cerca posta",
+  "reminderOpenMailApp": "Apri nell'app di posta",
+  "reminderMarkSent": "L'ho inviato",
+  "reminderSent": "Sollecito inviato da {from}",
+  "@reminderSent": {
+    "placeholders": {
+      "from": { "type": "String" }
+    }
+  },
+  "reminderMailError": "Impossibile aprire l'app di posta",
+  "notifFollowupNoReplyTitle": "{name} non ti ha risposto",
+  "@notifFollowupNoReplyTitle": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "notifFollowupNoReplyBody": "«{summary}» — da {days} giorni senza risposta.",
+  "@notifFollowupNoReplyBody": {
+    "placeholders": {
+      "summary": { "type": "String" },
+      "days": { "type": "int" }
+    }
+  },
+  "notifFollowupReplyDueTitle": "Dovresti rispondere a {name}",
+  "@notifFollowupReplyDueTitle": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "notifFollowupReplyDueBody": "«{summary}» — la scadenza è passata da {days} giorni.",
+  "@notifFollowupReplyDueBody": {
+    "placeholders": {
+      "summary": { "type": "String" },
+      "days": { "type": "int" }
+    }
+  },
+  "notifFollowupDueSoonTitle": "Scadenza in arrivo",
+  "notifFollowupDueSoonBody": "«{summary}» — {name}: scade il {date}.",
+  "@notifFollowupDueSoonBody": {
+    "placeholders": {
+      "summary": { "type": "String" },
+      "name": { "type": "String" },
+      "date": { "type": "String" }
+    }
+  },
+  "notifFollowupReminderSentTitle": "Sollecito inviato a {name}",
+  "@notifFollowupReminderSentTitle": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "notifFollowupReminderSentBody": "«{summary}» — il sollecito automatico è stato inviato.",
+  "@notifFollowupReminderSentBody": {
+    "placeholders": {
+      "summary": { "type": "String" }
+    }
+  },
+  "notifFollowupDigestTitle": "Riepilogo attese di risposta",
+  "notifFollowupDigestBody": "{overdue} scadute · {dueToday} in scadenza oggi · {waitingMe} risposte da inviare.",
+  "@notifFollowupDigestBody": {
+    "placeholders": {
+      "overdue": { "type": "int" },
+      "dueToday": { "type": "int" },
+      "waitingMe": { "type": "int" }
+    }
+  },
+  "notifOpenConversation": "Apri conversazione"
 }

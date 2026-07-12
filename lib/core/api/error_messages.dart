@@ -43,6 +43,20 @@ String localizeApiError(AppLocalizations l, Object error) {
       return l.errorChatNotConfigured;
     case 'chat.llm_error':
       return l.errorChatLlmError(e.detail ?? '');
+    case 'followup.not_remindable':
+      return l.errorFollowupNotRemindable;
+    case 'followup.not_configured':
+      return l.errorFollowupNotConfigured;
+    case 'followup.draft_failed':
+      return l.errorFollowupDraftFailed;
+    case 'followup.send_no_source':
+      return l.errorFollowupSendNoSource;
+    case 'sources.send_consent_required':
+      return l.errorSendConsentRequired;
+    case 'mail.auth_failed':
+      return l.errorMailAuthFailed;
+    case 'mail.send_failed':
+      return l.errorMailSendFailed;
     case 'common.not_found':
       return l.errorNotFound;
     case 'messages.preview_unsupported':
