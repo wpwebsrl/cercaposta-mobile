@@ -1,7 +1,7 @@
 name: cercaposta
 description: "CercaPosta mobile app"
 publish_to: 'none'
-version: 1.1.0+1
+version: 1.2.0+1
 
 environment:
   sdk: ^3.8.1
@@ -58,6 +58,15 @@ dependencies:
 
   # Condivisione allegati / .eml tramite lo share sheet di sistema (byte in memoria)
   share_plus: ^12.0.2
+
+  # «Apri nell'app di posta»: l'.eml (composto dal server con le immagini inline appiattite a
+  # data:) viene scritto in una directory temporanea (path_provider) e aperto con l'app di
+  # sistema predefinita per i .eml (open_filex). Fallback allo share sheet se non c'è un handler.
+  open_filex: ^4.3.2
+  path_provider: ^2.1.0
+
+  # Azioni a scorrimento sulle righe: swipe sui risultati di ricerca → «Apri nell'app di posta».
+  flutter_slidable: ^3.1.0
 
   # Info dispositivo (device_name per le sessioni) e versione app (check min_app_version)
   device_info_plus: ^11.3.0

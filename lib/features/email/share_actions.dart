@@ -47,25 +47,3 @@ Future<void> shareAttachment(
     }
   }
 }
-
-/// Share the raw `.eml` of a message.
-Future<void> shareEml(
-  BuildContext context,
-  MessageApi api,
-  String messageId,
-  String subject,
-) async {
-  final l = AppLocalizations.of(context)!;
-  try {
-    final bytes = await api.rawEml(messageId);
-    await _share(
-      bytes,
-      'message/rfc822',
-      '${_safeName(subject.isEmpty ? messageId : subject)}.eml',
-    );
-  } on Object {
-    if (context.mounted) {
-      showSnack(context, l.attachmentShareError, error: true);
-    }
-  }
-}

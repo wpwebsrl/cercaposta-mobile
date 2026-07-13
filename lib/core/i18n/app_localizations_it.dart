@@ -580,9 +580,6 @@ class AppLocalizationsIt extends AppLocalizations {
   String get emailBcc => 'CCN';
 
   @override
-  String get emailShareEml => 'Condividi email (.eml)';
-
-  @override
   String get emailLinkError => 'Impossibile aprire il link';
 
   @override
@@ -847,7 +844,13 @@ class AppLocalizationsIt extends AppLocalizations {
   String get followupsActionDismiss => 'Ignora';
 
   @override
-  String get followupsActionShareEml => 'Condividi email (.eml)';
+  String get actionOpenInMail => 'Apri nell\'app di posta';
+
+  @override
+  String get actionOpenInMailShort => 'App di posta';
+
+  @override
+  String get openMailError => 'Impossibile aprire l\'email nell\'app di posta';
 
   @override
   String get followupsActionError => 'Operazione non riuscita';

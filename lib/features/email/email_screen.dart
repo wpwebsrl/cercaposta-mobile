@@ -12,6 +12,7 @@ import '../../shared/format.dart';
 import '../../shared/models/message.dart';
 import '../../shared/tag_colors.dart';
 import '../../shared/widgets/snack.dart';
+import 'open_in_mail.dart';
 import 'share_actions.dart';
 
 class EmailScreen extends ConsumerStatefulWidget {
@@ -101,9 +102,9 @@ class _EmailScreenState extends ConsumerState<EmailScreen> {
         actions: <Widget>[
           if (d != null && !d.rawMissing)
             IconButton(
-              tooltip: l.emailShareEml,
-              icon: const Icon(Icons.share_outlined),
-              onPressed: () => shareEml(
+              tooltip: l.actionOpenInMail,
+              icon: const Icon(Icons.drafts_outlined),
+              onPressed: () => openInMailApp(
                 context,
                 ref.read(messageApiProvider),
                 d.id,

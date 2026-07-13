@@ -577,9 +577,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get emailBcc => 'BCC';
 
   @override
-  String get emailShareEml => 'Share email (.eml)';
-
-  @override
   String get emailLinkError => 'Could not open the link';
 
   @override
@@ -841,7 +838,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get followupsActionDismiss => 'Dismiss';
 
   @override
-  String get followupsActionShareEml => 'Share email (.eml)';
+  String get actionOpenInMail => 'Open in the mail app';
+
+  @override
+  String get actionOpenInMailShort => 'Mail app';
+
+  @override
+  String get openMailError => 'Couldn\'t open the email in a mail app';
 
   @override
   String get followupsActionError => 'Action failed';

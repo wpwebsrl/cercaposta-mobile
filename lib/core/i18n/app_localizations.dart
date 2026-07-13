@@ -1136,12 +1136,6 @@ abstract class AppLocalizations {
   /// **'CCN'**
   String get emailBcc;
 
-  /// No description provided for @emailShareEml.
-  ///
-  /// In it, this message translates to:
-  /// **'Condividi email (.eml)'**
-  String get emailShareEml;
-
   /// No description provided for @emailLinkError.
   ///
   /// In it, this message translates to:
@@ -1610,11 +1604,23 @@ abstract class AppLocalizations {
   /// **'Ignora'**
   String get followupsActionDismiss;
 
-  /// No description provided for @followupsActionShareEml.
+  /// No description provided for @actionOpenInMail.
   ///
   /// In it, this message translates to:
-  /// **'Condividi email (.eml)'**
-  String get followupsActionShareEml;
+  /// **'Apri nell\'app di posta'**
+  String get actionOpenInMail;
+
+  /// No description provided for @actionOpenInMailShort.
+  ///
+  /// In it, this message translates to:
+  /// **'App di posta'**
+  String get actionOpenInMailShort;
+
+  /// No description provided for @openMailError.
+  ///
+  /// In it, this message translates to:
+  /// **'Impossibile aprire l\'email nell\'app di posta'**
+  String get openMailError;
 
   /// No description provided for @followupsActionError.
   ///

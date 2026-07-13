@@ -9,7 +9,7 @@ import '../../core/i18n/app_localizations.dart';
 import '../../shared/format.dart';
 import '../../shared/models/followup.dart';
 import '../../shared/widgets/snack.dart';
-import '../email/share_actions.dart';
+import '../email/open_in_mail.dart';
 import '../notifications/notifications_controller.dart';
 import 'followups_controller.dart';
 
@@ -24,7 +24,7 @@ class FollowupsScreen extends ConsumerStatefulWidget {
   ConsumerState<FollowupsScreen> createState() => _FollowupsScreenState();
 }
 
-enum _RowAction { open, reminder, done, snooze1, snooze3, dismiss, shareEml }
+enum _RowAction { open, reminder, done, snooze1, snooze3, dismiss, openMail }
 
 class _FollowupsScreenState extends ConsumerState<FollowupsScreen> {
   List<FollowupItem> _items = const <FollowupItem>[];
@@ -102,9 +102,9 @@ class _FollowupsScreenState extends ConsumerState<FollowupsScreen> {
           );
         case _RowAction.dismiss:
           await api.dismiss(item.id);
-        case _RowAction.shareEml:
+        case _RowAction.openMail:
           if (!mounted) return;
-          await shareEml(
+          await openInMailApp(
             context,
             ref.read(messageApiProvider),
             item.messageId,
@@ -391,8 +391,8 @@ class _FollowupsScreenState extends ConsumerState<FollowupsScreen> {
           child: _menuTile(Icons.block, l.followupsActionDismiss),
         ),
         PopupMenuItem<_RowAction>(
-          value: _RowAction.shareEml,
-          child: _menuTile(Icons.share_outlined, l.followupsActionShareEml),
+          value: _RowAction.openMail,
+          child: _menuTile(Icons.drafts_outlined, l.actionOpenInMail),
         ),
       ],
     );

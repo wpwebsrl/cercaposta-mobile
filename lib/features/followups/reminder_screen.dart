@@ -321,7 +321,12 @@ class _ReminderScreenState extends ConsumerState<ReminderScreen> {
     return mapped == l.errorGeneric ? l.reminderFailed : mapped;
   }
 
+  /// Register picker. The segmented control (Auto/Tu/Lei) takes the full row width;
+  /// the «remember for the contact» action lives on its own line below — sharing the
+  /// first row with a long text button squeezed the segments into an unreadable mess
+  /// on narrow phones. The «register used» hint fills the left of that second line.
   Widget _registerRow(AppLocalizations l, ReminderDraft? draft) {
+    final used = draft?.registerUsed ?? '';
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -356,26 +361,35 @@ class _ReminderScreenState extends ConsumerState<ReminderScreen> {
                     : (s) => setState(() => _register = s.first),
               ),
             ),
+          ],
+        ),
+        Row(
+          children: <Widget>[
+            Expanded(
+              child: used.isEmpty
+                  ? const SizedBox.shrink()
+                  : Text(
+                      l.reminderRegisterUsed(
+                        _registerLabel(l, used),
+                        _registerSourceLabel(l, draft!.registerSource),
+                      ),
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+            ),
             TextButton(
+              style: TextButton.styleFrom(
+                visualDensity: VisualDensity.compact,
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+              ),
               onPressed: (_locked || _register.isEmpty) ? null : _remember,
               child: Text(l.reminderRememberContact),
             ),
           ],
         ),
-        if ((draft?.registerUsed ?? '').isNotEmpty)
-          Padding(
-            padding: const EdgeInsets.only(top: 2),
-            child: Text(
-              l.reminderRegisterUsed(
-                _registerLabel(l, draft!.registerUsed),
-                _registerSourceLabel(l, draft.registerSource),
-              ),
-              style: TextStyle(
-                fontSize: 12,
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-              ),
-            ),
-          ),
       ],
     );
   }
