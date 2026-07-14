@@ -61,6 +61,19 @@ platform :ios do
     # canonico «match AppStore <bundle>».
     profile = ENV["sigh_#{APP_ID}_appstore_profile-name"] || "match AppStore #{APP_ID}"
 
+    # Firma manuale SOLO sul target dell'app (Runner). Passare i signing settings globalmente via
+    # xcargs li applicava anche ai target dei Pods, che NON supportano i provisioning profile
+    # («... does not support provisioning profiles»). Toccando solo Runner.xcodeproj, i Pods
+    # restano in firma automatica senza profilo e l'archive va a buon fine.
+    update_code_signing_settings(
+      use_automatic_signing: false,
+      path: "Runner.xcodeproj",
+      team_id: ENV.fetch("APPLE_TEAM_ID"),
+      code_sign_identity: "Apple Distribution",
+      profile_name: profile,
+      targets: ["Runner"],
+    )
+
     build_app(
       workspace: "Runner.xcworkspace",
       scheme: "Runner",
@@ -74,12 +87,6 @@ platform :ios do
       # Firma MANUALE col profilo di match anche per l'ARCHIVE (non solo l'export): niente
       # -allowProvisioningUpdates (che creerebbe certificati). Il team + il profilo vengono
       # dai secret / da match.
-      # CODE_SIGN_IDENTITY esplicito: senza, l'archive cerca un certificato «iOS Development»
-      # (default) e fallisce, perché match ha installato il certificato di DISTRIBUZIONE.
-      xcargs: "DEVELOPMENT_TEAM=#{ENV.fetch('APPLE_TEAM_ID')} " \
-              "CODE_SIGN_STYLE=Manual " \
-              "CODE_SIGN_IDENTITY=\"Apple Distribution\" " \
-              "PROVISIONING_PROFILE_SPECIFIER=\"#{profile}\"",
       output_directory: "build",
       output_name: "Runner.ipa",
       clean: true,
