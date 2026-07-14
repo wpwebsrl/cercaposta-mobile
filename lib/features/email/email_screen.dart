@@ -12,7 +12,6 @@ import '../../shared/format.dart';
 import '../../shared/models/message.dart';
 import '../../shared/tag_colors.dart';
 import '../../shared/widgets/snack.dart';
-import 'open_in_mail.dart';
 import 'share_actions.dart';
 
 class EmailScreen extends ConsumerStatefulWidget {
@@ -99,19 +98,6 @@ class _EmailScreenState extends ConsumerState<EmailScreen> {
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
-        actions: <Widget>[
-          if (d != null && !d.rawMissing)
-            IconButton(
-              tooltip: l.actionOpenInMail,
-              icon: const Icon(Icons.drafts_outlined),
-              onPressed: () => openInMailApp(
-                context,
-                ref.read(messageApiProvider),
-                d.id,
-                d.subject,
-              ),
-            ),
-        ],
       ),
       body: _loading
           ? const Center(child: CircularProgressIndicator())

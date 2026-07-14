@@ -72,16 +72,4 @@ class MessageApi {
     );
     return Uint8List.fromList(resp.data ?? const <int>[]);
   }
-
-  /// Fetch the viewer-friendly `.eml` for «apri nell'app di posta»: the server composes it with
-  /// inline `cid:` images flattened to self-contained `data:` URIs, so embedded images render
-  /// when the file is opened in an external mail app (which often can't resolve `cid:` from an
-  /// imported .eml). Real attachments are preserved.
-  Future<Uint8List> viewerEml(String messageId) async {
-    final resp = await _dio.get<List<int>>(
-      '/messages/$messageId/eml-inline',
-      options: Options(responseType: ResponseType.bytes),
-    );
-    return Uint8List.fromList(resp.data ?? const <int>[]);
-  }
 }

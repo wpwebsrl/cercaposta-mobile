@@ -844,15 +844,6 @@ class AppLocalizationsIt extends AppLocalizations {
   String get followupsActionDismiss => 'Ignora';
 
   @override
-  String get actionOpenInMail => 'Apri nell\'app di posta';
-
-  @override
-  String get actionOpenInMailShort => 'App di posta';
-
-  @override
-  String get openMailError => 'Impossibile aprire l\'email nell\'app di posta';
-
-  @override
   String get followupsActionError => 'Operazione non riuscita';
 
   @override
@@ -962,6 +953,12 @@ class AppLocalizationsIt extends AppLocalizations {
   String get reminderRegenerate => 'Rigenera';
 
   @override
+  String get reminderExpand => 'Schermo intero';
+
+  @override
+  String get reminderInstructions => 'Indicazioni';
+
+  @override
   String get reminderIncludeOriginal => 'Cita l\'email originale in coda';
 
   @override
@@ -983,18 +980,9 @@ class AppLocalizationsIt extends AppLocalizations {
   String get reminderSendNow => 'Invia da Cerca posta';
 
   @override
-  String get reminderOpenMailApp => 'Apri nell\'app di posta';
-
-  @override
-  String get reminderMarkSent => 'L\'ho inviato';
-
-  @override
   String reminderSent(String from) {
     return 'Sollecito inviato da $from';
   }
-
-  @override
-  String get reminderMailError => 'Impossibile aprire l\'app di posta';
 
   @override
   String notifFollowupNoReplyTitle(String name) {

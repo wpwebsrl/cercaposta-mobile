@@ -355,9 +355,6 @@
   "followupsActionSnooze1": "Posticipa di 1 giorno",
   "followupsActionSnooze3": "Posticipa di 3 giorni",
   "followupsActionDismiss": "Ignora",
-  "actionOpenInMail": "Apri nell'app di posta",
-  "actionOpenInMailShort": "App di posta",
-  "openMailError": "Impossibile aprire l'email nell'app di posta",
   "followupsActionError": "Operazione non riuscita",
   "followupsChipAnswered": "Ha risposto",
   "followupsChipDismissed": "Ignorata",
@@ -420,6 +417,8 @@
   "reminderLanguageAuto": "Auto",
   "reminderInstructionsHint": "Indicazioni per rigenerare (facoltative)",
   "reminderRegenerate": "Rigenera",
+  "reminderExpand": "Schermo intero",
+  "reminderInstructions": "Indicazioni",
   "reminderIncludeOriginal": "Cita l'email originale in coda",
   "reminderAppendedNote": "Firma, avviso AI ed eventuale citazione vengono aggiunti automaticamente.",
   "reminderSendFromNote": "Partirà dal tuo account {from}",
@@ -431,15 +430,12 @@
   "reminderPreview": "Anteprima email",
   "reminderPreviewTitle": "Anteprima email",
   "reminderSendNow": "Invia da Cerca posta",
-  "reminderOpenMailApp": "Apri nell'app di posta",
-  "reminderMarkSent": "L'ho inviato",
   "reminderSent": "Sollecito inviato da {from}",
   "@reminderSent": {
     "placeholders": {
       "from": { "type": "String" }
     }
   },
-  "reminderMailError": "Impossibile aprire l'app di posta",
   "notifFollowupNoReplyTitle": "{name} non ti ha risposto",
   "@notifFollowupNoReplyTitle": {
     "placeholders": {

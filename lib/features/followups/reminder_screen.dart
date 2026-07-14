@@ -3,7 +3,6 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill/quill_delta.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/api/api_providers.dart';
 import '../../core/api/error_messages.dart';
@@ -11,15 +10,13 @@ import '../../core/i18n/app_localizations.dart';
 import '../../shared/models/followup.dart';
 import '../../shared/widgets/snack.dart';
 import 'delta_html.dart';
-import 'reminder_mailto.dart';
 import 'reminder_preview_screen.dart';
 
 /// «Prepara sollecito» (WP4.3 / solleciti v2-v3, parity with the desktop dialog):
 /// the analysis model drafts the MESSAGE; the user edits it with basic formatting
 /// (bold/italic/underline/strike/link/lists) via flutter_quill. The signature /
-/// AI-disclosure / quoted original are appended by the server. The user then SENDS
-/// it directly from the origin account via «Invia da Cerca posta», or opens it in
-/// their own mail app (mailto), or confirms «l'ho inviato».
+/// AI-disclosure / quoted original are appended by the server. The user reviews it with
+/// «Anteprima email» and SENDS it from the origin account via «Invia da Cerca posta».
 class ReminderScreen extends ConsumerStatefulWidget {
   const ReminderScreen({super.key, required this.item});
 
@@ -170,35 +167,6 @@ class _ReminderScreenState extends ConsumerState<ReminderScreen> {
     }
   }
 
-  Future<void> _openMailApp() async {
-    final l = AppLocalizations.of(context)!;
-    final draft = _draft;
-    if (draft == null) return;
-    final url = reminderMailtoUrl(
-      address: widget.item.counterpartAddress,
-      subject: _subject.text,
-      prefix: draft.reminderPrefix,
-      body: _bodyText(),
-      suffix: draft.reminderSuffix,
-    );
-    try {
-      final ok = await launchUrl(Uri.parse(url));
-      if (!ok && mounted) showSnack(context, l.reminderMailError, error: true);
-    } on Object {
-      if (mounted) showSnack(context, l.reminderMailError, error: true);
-    }
-  }
-
-  Future<void> _markSent() async {
-    final l = AppLocalizations.of(context)!;
-    try {
-      await ref.read(followupApiProvider).markReminded(widget.item.id);
-      if (mounted) context.pop(true);
-    } on Object catch (e) {
-      if (mounted) showSnack(context, localizeApiError(l, e), error: true);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
@@ -234,9 +202,20 @@ class _ReminderScreenState extends ConsumerState<ReminderScreen> {
           const SizedBox(height: 4),
           _regenerateRow(l),
           const SizedBox(height: 14),
-          Text(
-            l.reminderMessage,
-            style: Theme.of(context).textTheme.labelLarge,
+          Row(
+            children: <Widget>[
+              Text(
+                l.reminderMessage,
+                style: Theme.of(context).textTheme.labelLarge,
+              ),
+              const Spacer(),
+              IconButton(
+                tooltip: l.reminderExpand,
+                visualDensity: VisualDensity.compact,
+                icon: const Icon(Icons.open_in_full, size: 18),
+                onPressed: _locked ? null : () => _openMessageFullscreen(l),
+              ),
+            ],
           ),
           const SizedBox(height: 4),
           _editor(l),
@@ -424,6 +403,12 @@ class _ReminderScreenState extends ConsumerState<ReminderScreen> {
     );
   }
 
+  /// Instructions field + explicit «Rigenera». Changing register or language does NOT
+  /// auto-regenerate: each draft is an LLM call (billing) and would discard the user's edits, so
+  /// register/language/instructions are applied with one tap here (parity with desktop/web). The
+  /// field is outlined and the button high-contrast so both read clearly in dark mode — before, an
+  /// empty borderless field showed only a caret (a stray vertical line) and the tonal button
+  /// blended into the dark background.
   Widget _regenerateRow(AppLocalizations l) {
     return Row(
       children: <Widget>[
@@ -434,11 +419,23 @@ class _ReminderScreenState extends ConsumerState<ReminderScreen> {
             decoration: InputDecoration(
               isDense: true,
               hintText: l.reminderInstructionsHint,
+              border: const OutlineInputBorder(),
+              suffixIcon: IconButton(
+                tooltip: l.reminderExpand,
+                icon: const Icon(Icons.open_in_full, size: 18),
+                onPressed: _locked
+                    ? null
+                    : () => _openInstructionsFullscreen(l),
+              ),
+              suffixIconConstraints: const BoxConstraints(
+                minWidth: 40,
+                minHeight: 40,
+              ),
             ),
           ),
         ),
         const SizedBox(width: 8),
-        FilledButton.tonalIcon(
+        OutlinedButton.icon(
           onPressed: _locked ? null : _runDraft,
           icon: const Icon(Icons.refresh, size: 18),
           label: Text(l.reminderRegenerate),
@@ -451,16 +448,8 @@ class _ReminderScreenState extends ConsumerState<ReminderScreen> {
   /// reads like the outgoing mail (dark text on white) in both app themes, with a
   /// minimal toolbar matching the desktop/web surface.
   Widget _editor(AppLocalizations l) {
-    final editorTheme = ThemeData(
-      useMaterial3: true,
-      brightness: Brightness.light,
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: const Color(0xFF3CAE7E),
-        brightness: Brightness.light,
-      ),
-    );
     return Theme(
-      data: editorTheme,
+      data: _editorLightTheme(),
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -472,48 +461,26 @@ class _ReminderScreenState extends ConsumerState<ReminderScreen> {
           children: <Widget>[
             QuillSimpleToolbar(
               controller: _quill,
-              config: const QuillSimpleToolbarConfig(
-                multiRowsDisplay: false,
-                showDividers: false,
-                showFontFamily: false,
-                showFontSize: false,
-                showSmallButton: false,
-                showInlineCode: false,
-                showColorButton: false,
-                showBackgroundColorButton: false,
-                showClearFormat: false,
-                showAlignmentButtons: false,
-                showHeaderStyle: false,
-                showListCheck: false,
-                showCodeBlock: false,
-                showQuote: false,
-                showIndent: false,
-                showUndo: false,
-                showRedo: false,
-                showSearchButton: false,
-                showSubscript: false,
-                showSuperscript: false,
-                showBoldButton: true,
-                showItalicButton: true,
-                showUnderLineButton: true,
-                showStrikeThrough: true,
-                showListBullets: true,
-                showListNumbers: true,
-                showLink: true,
-              ),
+              config: _kEditorToolbarConfig,
             ),
             const Divider(height: 1),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 4),
-              child: QuillEditor(
-                controller: _quill,
-                focusNode: _editorFocus,
-                scrollController: _editorScroll,
-                config: QuillEditorConfig(
-                  placeholder: l.reminderMessage,
-                  padding: const EdgeInsets.all(8),
-                  minHeight: 160,
-                  maxHeight: 320,
+              // Force dark text: the forced-light Theme above does NOT reset DefaultTextStyle, and
+              // flutter_quill derives its base text color from DefaultTextStyle.of(context) — so in
+              // the app's dark theme the editor text came out light-grey on white (unreadable).
+              child: DefaultTextStyle.merge(
+                style: const TextStyle(color: Colors.black87),
+                child: QuillEditor(
+                  controller: _quill,
+                  focusNode: _editorFocus,
+                  scrollController: _editorScroll,
+                  config: QuillEditorConfig(
+                    placeholder: l.reminderMessage,
+                    padding: const EdgeInsets.all(8),
+                    minHeight: 160,
+                    maxHeight: 320,
+                  ),
                 ),
               ),
             ),
@@ -523,10 +490,44 @@ class _ReminderScreenState extends ConsumerState<ReminderScreen> {
     );
   }
 
+  Future<void> _openMessageFullscreen(AppLocalizations l) async {
+    await Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        fullscreenDialog: true,
+        builder: (_) =>
+            _FullscreenQuillPage(controller: _quill, title: l.reminderMessage),
+      ),
+    );
+    if (mounted) {
+      setState(() {}); // reflect edits made full-screen (e.g. preview)
+    }
+  }
+
+  Future<void> _openInstructionsFullscreen(AppLocalizations l) async {
+    await Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        fullscreenDialog: true,
+        builder: (_) => _FullscreenTextPage(
+          controller: _instructions,
+          title: l.reminderInstructions,
+          hint: l.reminderInstructionsHint,
+        ),
+      ),
+    );
+    if (mounted) setState(() {});
+  }
+
+  /// Actions: preview FIRST (you review the message, then decide), send below it.
   List<Widget> _actions(AppLocalizations l, ReminderDraft? draft) {
     final ready = draft != null && !_locked;
     return <Widget>[
-      if (draft?.sendAvailable ?? false)
+      OutlinedButton.icon(
+        onPressed: ready ? _openPreview : null,
+        icon: const Icon(Icons.visibility_outlined),
+        label: Text(l.reminderPreview),
+      ),
+      if (draft?.sendAvailable ?? false) ...<Widget>[
+        const SizedBox(height: 8),
         FilledButton.icon(
           onPressed: (ready && !_sending) ? _sendNow : null,
           icon: _sending
@@ -538,24 +539,7 @@ class _ReminderScreenState extends ConsumerState<ReminderScreen> {
               : const Icon(Icons.send),
           label: Text(l.reminderSendNow),
         ),
-      const SizedBox(height: 8),
-      OutlinedButton.icon(
-        onPressed: ready ? _openPreview : null,
-        icon: const Icon(Icons.visibility_outlined),
-        label: Text(l.reminderPreview),
-      ),
-      const SizedBox(height: 8),
-      OutlinedButton.icon(
-        onPressed: ready ? _openMailApp : null,
-        icon: const Icon(Icons.mail_outline),
-        label: Text(l.reminderOpenMailApp),
-      ),
-      const SizedBox(height: 8),
-      TextButton.icon(
-        onPressed: ready ? _markSent : null,
-        icon: const Icon(Icons.check),
-        label: Text(l.reminderMarkSent),
-      ),
+      ],
     ];
   }
 
@@ -572,4 +556,149 @@ class _ReminderScreenState extends ConsumerState<ReminderScreen> {
         'detected' => l.reminderRegisterSourceDetected,
         _ => l.reminderRegisterSourceDefault,
       };
+}
+
+/// Forced-light theme for the message editor so it reads like the outgoing mail (dark text on
+/// white) in both app themes. Shared by the inline editor and the full-screen editor.
+ThemeData _editorLightTheme() => ThemeData(
+  useMaterial3: true,
+  brightness: Brightness.light,
+  colorScheme: ColorScheme.fromSeed(
+    seedColor: const Color(0xFF3CAE7E),
+    brightness: Brightness.light,
+  ),
+);
+
+/// Minimal Quill toolbar (bold/italic/underline/strike/link/lists), shared by the inline and
+/// full-screen editors — parity with the desktop/web reminder surface.
+const _kEditorToolbarConfig = QuillSimpleToolbarConfig(
+  multiRowsDisplay: false,
+  showDividers: false,
+  showFontFamily: false,
+  showFontSize: false,
+  showSmallButton: false,
+  showInlineCode: false,
+  showColorButton: false,
+  showBackgroundColorButton: false,
+  showClearFormat: false,
+  showAlignmentButtons: false,
+  showHeaderStyle: false,
+  showListCheck: false,
+  showCodeBlock: false,
+  showQuote: false,
+  showIndent: false,
+  showUndo: false,
+  showRedo: false,
+  showSearchButton: false,
+  showSubscript: false,
+  showSuperscript: false,
+  showBoldButton: true,
+  showItalicButton: true,
+  showUnderLineButton: true,
+  showStrikeThrough: true,
+  showListBullets: true,
+  showListNumbers: true,
+  showLink: true,
+);
+
+/// Full-screen message editor: a bigger canvas for long text, bound to the SAME QuillController as
+/// the inline editor so edits sync back automatically when the page is closed.
+class _FullscreenQuillPage extends StatefulWidget {
+  const _FullscreenQuillPage({required this.controller, required this.title});
+  final QuillController controller;
+  final String title;
+
+  @override
+  State<_FullscreenQuillPage> createState() => _FullscreenQuillPageState();
+}
+
+class _FullscreenQuillPageState extends State<_FullscreenQuillPage> {
+  final _focus = FocusNode();
+  final _scroll = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _focus.requestFocus();
+    });
+  }
+
+  @override
+  void dispose() {
+    _focus.dispose();
+    _scroll.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text(widget.title)),
+      body: Theme(
+        data: _editorLightTheme(),
+        child: Container(
+          color: Colors.white,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              QuillSimpleToolbar(
+                controller: widget.controller,
+                config: _kEditorToolbarConfig,
+              ),
+              const Divider(height: 1),
+              Expanded(
+                child: DefaultTextStyle.merge(
+                  style: const TextStyle(color: Colors.black87),
+                  child: QuillEditor(
+                    controller: widget.controller,
+                    focusNode: _focus,
+                    scrollController: _scroll,
+                    config: const QuillEditorConfig(
+                      padding: EdgeInsets.all(12),
+                      expands: true,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Full-screen plain-text editor (the regenerate instructions), bound to the SAME controller so
+/// edits sync back on close.
+class _FullscreenTextPage extends StatelessWidget {
+  const _FullscreenTextPage({
+    required this.controller,
+    required this.title,
+    required this.hint,
+  });
+  final TextEditingController controller;
+  final String title;
+  final String hint;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text(title)),
+      body: Padding(
+        padding: const EdgeInsets.all(12),
+        child: TextField(
+          controller: controller,
+          autofocus: true,
+          maxLines: null,
+          expands: true,
+          textAlignVertical: TextAlignVertical.top,
+          decoration: InputDecoration(
+            hintText: hint,
+            border: const OutlineInputBorder(),
+          ),
+        ),
+      ),
+    );
+  }
 }

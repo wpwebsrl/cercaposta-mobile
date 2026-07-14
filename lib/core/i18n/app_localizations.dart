@@ -1604,24 +1604,6 @@ abstract class AppLocalizations {
   /// **'Ignora'**
   String get followupsActionDismiss;
 
-  /// No description provided for @actionOpenInMail.
-  ///
-  /// In it, this message translates to:
-  /// **'Apri nell\'app di posta'**
-  String get actionOpenInMail;
-
-  /// No description provided for @actionOpenInMailShort.
-  ///
-  /// In it, this message translates to:
-  /// **'App di posta'**
-  String get actionOpenInMailShort;
-
-  /// No description provided for @openMailError.
-  ///
-  /// In it, this message translates to:
-  /// **'Impossibile aprire l\'email nell\'app di posta'**
-  String get openMailError;
-
   /// No description provided for @followupsActionError.
   ///
   /// In it, this message translates to:
@@ -1802,6 +1784,18 @@ abstract class AppLocalizations {
   /// **'Rigenera'**
   String get reminderRegenerate;
 
+  /// No description provided for @reminderExpand.
+  ///
+  /// In it, this message translates to:
+  /// **'Schermo intero'**
+  String get reminderExpand;
+
+  /// No description provided for @reminderInstructions.
+  ///
+  /// In it, this message translates to:
+  /// **'Indicazioni'**
+  String get reminderInstructions;
+
   /// No description provided for @reminderIncludeOriginal.
   ///
   /// In it, this message translates to:
@@ -1838,29 +1832,11 @@ abstract class AppLocalizations {
   /// **'Invia da Cerca posta'**
   String get reminderSendNow;
 
-  /// No description provided for @reminderOpenMailApp.
-  ///
-  /// In it, this message translates to:
-  /// **'Apri nell\'app di posta'**
-  String get reminderOpenMailApp;
-
-  /// No description provided for @reminderMarkSent.
-  ///
-  /// In it, this message translates to:
-  /// **'L\'ho inviato'**
-  String get reminderMarkSent;
-
   /// No description provided for @reminderSent.
   ///
   /// In it, this message translates to:
   /// **'Sollecito inviato da {from}'**
   String reminderSent(String from);
-
-  /// No description provided for @reminderMailError.
-  ///
-  /// In it, this message translates to:
-  /// **'Impossibile aprire l\'app di posta'**
-  String get reminderMailError;
 
   /// No description provided for @notifFollowupNoReplyTitle.
   ///

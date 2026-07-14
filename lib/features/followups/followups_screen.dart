@@ -9,7 +9,6 @@ import '../../core/i18n/app_localizations.dart';
 import '../../shared/format.dart';
 import '../../shared/models/followup.dart';
 import '../../shared/widgets/snack.dart';
-import '../email/open_in_mail.dart';
 import '../notifications/notifications_controller.dart';
 import 'followups_controller.dart';
 
@@ -24,7 +23,7 @@ class FollowupsScreen extends ConsumerStatefulWidget {
   ConsumerState<FollowupsScreen> createState() => _FollowupsScreenState();
 }
 
-enum _RowAction { open, reminder, done, snooze1, snooze3, dismiss, openMail }
+enum _RowAction { open, reminder, done, snooze1, snooze3, dismiss }
 
 class _FollowupsScreenState extends ConsumerState<FollowupsScreen> {
   List<FollowupItem> _items = const <FollowupItem>[];
@@ -102,15 +101,6 @@ class _FollowupsScreenState extends ConsumerState<FollowupsScreen> {
           );
         case _RowAction.dismiss:
           await api.dismiss(item.id);
-        case _RowAction.openMail:
-          if (!mounted) return;
-          await openInMailApp(
-            context,
-            ref.read(messageApiProvider),
-            item.messageId,
-            item.summary,
-          );
-          return;
       }
       // The overdue badge count may have changed (done/dismiss/snooze).
       ref.invalidate(notificationUnreadCountProvider);
@@ -372,7 +362,7 @@ class _FollowupsScreenState extends ConsumerState<FollowupsScreen> {
         if (item.canRemind)
           PopupMenuItem<_RowAction>(
             value: _RowAction.reminder,
-            child: _menuTile(Icons.mail_outline, l.followupsActionReminder),
+            child: _menuTile(Icons.send_outlined, l.followupsActionReminder),
           ),
         PopupMenuItem<_RowAction>(
           value: _RowAction.done,
@@ -389,10 +379,6 @@ class _FollowupsScreenState extends ConsumerState<FollowupsScreen> {
         PopupMenuItem<_RowAction>(
           value: _RowAction.dismiss,
           child: _menuTile(Icons.block, l.followupsActionDismiss),
-        ),
-        PopupMenuItem<_RowAction>(
-          value: _RowAction.openMail,
-          child: _menuTile(Icons.drafts_outlined, l.actionOpenInMail),
         ),
       ],
     );

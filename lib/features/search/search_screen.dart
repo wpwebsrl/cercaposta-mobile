@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:go_router/go_router.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
-import '../../core/api/api_providers.dart';
 import '../../core/api/error_messages.dart';
 import '../../core/auth/auth_controller.dart';
 import '../../core/i18n/app_localizations.dart';
@@ -13,7 +11,6 @@ import '../../shared/format.dart';
 import '../../shared/models/search.dart';
 import '../../shared/tag_colors.dart';
 import '../../shared/widgets/snack.dart';
-import '../email/open_in_mail.dart';
 import '../home/home_tab.dart';
 import 'filter_sheet.dart';
 import 'folder_drawer.dart';
@@ -495,110 +492,86 @@ class _ResultTile extends ConsumerWidget {
     final l = AppLocalizations.of(context)!;
     final colors =
         ref.watch(tagColorsProvider).valueOrNull ?? const <String, TagInfo>{};
-    // Swipe from the trailing edge to reveal «Apri nell'app di posta» (the same server-composed
-    // .eml as the followups menu, images flattened to data:). A stable key per hit lets Slidable
-    // track rows across list rebuilds.
-    return Slidable(
-      key: ValueKey(hit.id),
-      endActionPane: ActionPane(
-        motion: const DrawerMotion(),
-        extentRatio: 0.34,
-        children: <Widget>[
-          SlidableAction(
-            onPressed: (ctx) => openInMailApp(
-              ctx,
-              ref.read(messageApiProvider),
-              hit.id,
-              hit.subject,
-            ),
-            icon: Icons.drafts_outlined,
-            label: l.actionOpenInMailShort,
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            foregroundColor: Theme.of(context).colorScheme.onPrimary,
-          ),
-        ],
+    return ListTile(
+      title: Text(
+        hit.subject.isEmpty ? '—' : hit.subject,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
       ),
-      child: ListTile(
-        title: Text(
-          hit.subject.isEmpty ? '—' : hit.subject,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
-        ),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                if (hit.sharedOwnerName != null)
-                  Padding(
-                    padding: const EdgeInsetsDirectional.only(end: 4),
-                    child: Tooltip(
-                      message: l.sharedFromLabel(hit.sharedOwnerName!),
-                      child: Icon(
-                        Icons.people_outline,
-                        size: 13,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              if (hit.sharedOwnerName != null)
+                Padding(
+                  padding: const EdgeInsetsDirectional.only(end: 4),
+                  child: Tooltip(
+                    message: l.sharedFromLabel(hit.sharedOwnerName!),
+                    child: Icon(
+                      Icons.people_outline,
+                      size: 13,
+                      color: Theme.of(context).colorScheme.primary,
                     ),
                   ),
-                Expanded(
-                  child: Text(
-                    hit.fromLabel,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
                 ),
-                if (hit.date != null)
-                  Text(
-                    formatDateTimeShort(hit.date, locale),
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-              ],
+              Expanded(
+                child: Text(
+                  hit.fromLabel,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ),
+              if (hit.date != null)
+                Text(
+                  formatDateTimeShort(hit.date, locale),
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+            ],
+          ),
+          if (hit.snippet.isNotEmpty)
+            Text(
+              hit.snippet,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.bodySmall,
             ),
-            if (hit.snippet.isNotEmpty)
-              Text(
-                hit.snippet,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.bodySmall,
+          if (hit.hasAttachments || hit.tags.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.only(top: 2),
+              child: Wrap(
+                spacing: 6,
+                runSpacing: 2,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: <Widget>[
+                  if (hit.hasAttachments)
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        const Icon(Icons.attach_file, size: 13),
+                        Text(
+                          l.attachmentsCount(hit.attachmentCount),
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
+                      ],
+                    ),
+                  // Hits carry lowercased tag names: resolve to the real color and
+                  // original casing via the session tag map (fallback to the raw name).
+                  ...hit.tags.take(3).map((t) {
+                    final info = colors[t.toLowerCase()];
+                    return _MiniTag(
+                      name: info?.name ?? t,
+                      colorName: info?.color,
+                    );
+                  }),
+                ],
               ),
-            if (hit.hasAttachments || hit.tags.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.only(top: 2),
-                child: Wrap(
-                  spacing: 6,
-                  runSpacing: 2,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  children: <Widget>[
-                    if (hit.hasAttachments)
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          const Icon(Icons.attach_file, size: 13),
-                          Text(
-                            l.attachmentsCount(hit.attachmentCount),
-                            style: Theme.of(context).textTheme.bodySmall,
-                          ),
-                        ],
-                      ),
-                    // Hits carry lowercased tag names: resolve to the real color and
-                    // original casing via the session tag map (fallback to the raw name).
-                    ...hit.tags.take(3).map((t) {
-                      final info = colors[t.toLowerCase()];
-                      return _MiniTag(
-                        name: info?.name ?? t,
-                        colorName: info?.color,
-                      );
-                    }),
-                  ],
-                ),
-              ),
-          ],
-        ),
-        onTap: () => context.push('/message/${hit.id}'),
+            ),
+        ],
       ),
+      onTap: () => context.push('/message/${hit.id}'),
     );
   }
 }

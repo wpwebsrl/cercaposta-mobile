@@ -838,15 +838,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get followupsActionDismiss => 'Dismiss';
 
   @override
-  String get actionOpenInMail => 'Open in the mail app';
-
-  @override
-  String get actionOpenInMailShort => 'Mail app';
-
-  @override
-  String get openMailError => 'Couldn\'t open the email in a mail app';
-
-  @override
   String get followupsActionError => 'Action failed';
 
   @override
@@ -956,6 +947,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reminderRegenerate => 'Regenerate';
 
   @override
+  String get reminderExpand => 'Full screen';
+
+  @override
+  String get reminderInstructions => 'Instructions';
+
+  @override
   String get reminderIncludeOriginal => 'Quote the original email at the end';
 
   @override
@@ -977,18 +974,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reminderSendNow => 'Send from Cerca posta';
 
   @override
-  String get reminderOpenMailApp => 'Open in the mail app';
-
-  @override
-  String get reminderMarkSent => 'I\'ve sent it';
-
-  @override
   String reminderSent(String from) {
     return 'Reminder sent from $from';
   }
-
-  @override
-  String get reminderMailError => 'Couldn\'t open the mail app';
 
   @override
   String notifFollowupNoReplyTitle(String name) {
