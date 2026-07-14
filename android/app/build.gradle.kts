@@ -18,7 +18,10 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace = "it.cercaposta.app"
-    compileSdk = flutter.compileSdkVersion
+    // Fissati a 36 invece dei default di Flutter 3.32 (che sono 35): dal 31 agosto 2026
+    // Google Play rifiuta nuove app E aggiornamenti che non targettino Android 16 (API 36).
+    // Togliere l'override quando si passerà a Flutter 3.35+, che porta già 36 di suo.
+    compileSdk = 36
     // Pinned esplicitamente: alcuni plugin (es. flutter_secure_storage, path_provider)
     // richiedono questa versione NDK, più recente del default di Flutter.
     ndkVersion = "27.0.12077973"
@@ -38,7 +41,7 @@ android {
         // minSdk 23: requisito di local_auth (BiometricPrompt) e necessario
         // per il backend AES di flutter_secure_storage (EncryptedSharedPreferences).
         minSdk = 23
-        targetSdk = flutter.targetSdkVersion
+        targetSdk = 36
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
