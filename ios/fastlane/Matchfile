@@ -1,0 +1,14 @@
+# Config di fastlane match: UN SOLO certificato di distribuzione App Store + profilo, cifrati in
+# uno storage git PRIVATO e riusati dalla CI a ogni build — basta con il churn di certificati che
+# riempiva la quota dell'account Apple («maximum number of certificates»).
+#
+# URL dello storage e auth arrivano dai secret (MATCH_GIT_URL / MATCH_GIT_BASIC_AUTHORIZATION),
+# la passphrase da MATCH_PASSWORD: nulla di sensibile è hardcoded qui (repo pubblico). Il repo di
+# storage puo' essere un repo PRIVATO GitHub o il vostro OneDev — lo decide il secret MATCH_GIT_URL.
+storage_mode("git")
+git_url(ENV["MATCH_GIT_URL"])
+type("appstore")
+app_identifier(["it.cercaposta.app"])
+# readonly di default: la release (lane `beta`) NON crea/modifica nulla su Apple né sullo storage;
+# solo il bootstrap (lane `certificates`) passa readonly:false, una volta sola.
+readonly(true)

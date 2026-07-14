@@ -74,8 +74,18 @@ visibile ma non riutilizzabile.
   - La CI inietta l'identità di build (`--dart-define=APP_BUILD`/`APP_BUILD_DATE`,
     mostrata nell'About). Nota: `STORE_URL_IOS` (link TestFlight per il bottone
     «Aggiorna» iOS) è un dart-define opzionale non ancora passato dalla CI.
+- **Firma iOS via fastlane match** (`ios/fastlane/`): UN certificato di distribuzione + profilo
+  App Store salvati cifrati in uno storage git PRIVATO e riusati dalla CI — niente piu' churn di
+  certificati (era quello a riempire la quota Apple, «maximum number of certificates», facendo
+  fallire l'archive con «No profiles for 'it.cercaposta.app' were found»). **Bootstrap UNA TANTUM**:
+  (1) revoca i vecchi certificati di distribuzione su developer.apple.com (libera uno slot);
+  (2) prepara un repo git privato vuoto (GitHub privato o OneDev); (3) imposta i secret
+  `MATCH_PASSWORD` / `MATCH_GIT_URL` / `MATCH_GIT_BASIC_AUTHORIZATION`; (4) **Actions →
+  ios-signing-bootstrap → Run** (lane `fastlane certificates`, crea+salva). Da lì in poi
+  `release-ios` (`fastlane beta`) usa match in **read-only** e non tocca piu' la quota.
 - **Secrets richiesti** (Settings → Secrets → Actions; MAI valori nel codice):
   `ASC_KEY_ID`, `ASC_ISSUER_ID`, `APPLE_TEAM_ID`, `ASC_KEY_P8_BASE64`,
+  `MATCH_PASSWORD`, `MATCH_GIT_URL`, `MATCH_GIT_BASIC_AUTHORIZATION`,
   `ANDROID_KEYSTORE_BASE64`, `ANDROID_KEY_PROPERTIES`. Le PR da fork non li ricevono
   (default GitHub: non cambiarlo). Su push/PR girano solo job SENZA segreti
   (analyze+test Android e compilazione iOS unsigned).
