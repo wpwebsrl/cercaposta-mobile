@@ -235,11 +235,7 @@ class _EmailScreenState extends ConsumerState<EmailScreen> {
           ),
         if (!d.hasBody && !d.rawMissing) _notice(context, l.emailNoBody),
         if (d.bodyHtml != null && d.bodyHtml!.isNotEmpty)
-          HtmlWidget(
-            d.bodyHtml!,
-            onTapUrl: _onTapUrl,
-            textStyle: theme.textTheme.bodyMedium,
-          )
+          _EmailBody(html: d.bodyHtml!, onTapUrl: _onTapUrl)
         else if (d.bodyText.isNotEmpty)
           SelectableText(d.bodyText),
         if (d.attachments.isNotEmpty) ...<Widget>[
@@ -449,6 +445,43 @@ class _EmailScreenState extends ConsumerState<EmailScreen> {
           child: Text(text, style: Theme.of(context).textTheme.bodySmall),
         ),
       ],
+    ),
+  );
+}
+
+/// The email body, on a fixed white sheet with dark text whatever the app theme — the same
+/// surface [ReminderPreviewScreen] already uses.
+///
+/// Mail is authored against an implicit white canvas, and the server now keeps the sender's own
+/// `style=""` intact (it used to strip it, which is why the dark Material background looked fine
+/// before). Painting that onto the dark theme would put a sender's `color:#1a1a1a` on a dark
+/// surface and make the message unreadable. Every real mail client renders mail on white for this
+/// exact reason; dark-mode conversion is a separate feature that needs a full CSS engine.
+class _EmailBody extends StatelessWidget {
+  const _EmailBody({required this.html, required this.onTapUrl});
+
+  final String html;
+  final Future<bool> Function(String) onTapUrl;
+
+  @override
+  Widget build(BuildContext context) => Container(
+    padding: const EdgeInsets.all(10),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(6),
+    ),
+    child: DefaultTextStyle(
+      style: const TextStyle(color: Color(0xFF1B1F24), fontSize: 14),
+      child: HtmlWidget(
+        html,
+        onTapUrl: onTapUrl,
+        // Mail sizes its images for a ~600px desktop column, so on a phone they overflow the
+        // screen. Mirrors the `img{max-width:100%}` the web reader injects into its iframe.
+        // `height:auto` is not needed here: fwfh keeps the aspect ratio when only width is
+        // constrained, whereas a browser would honour a stale `height=""` and distort.
+        customStylesBuilder: (e) =>
+            e.localName == 'img' ? const <String, String>{'max-width': '100%'} : null,
+      ),
     ),
   );
 }
