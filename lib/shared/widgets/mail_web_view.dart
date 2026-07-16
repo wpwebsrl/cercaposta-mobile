@@ -41,7 +41,15 @@ String buildReaderDocument(String bodyHtml, {required bool allowRemote}) {
 <meta http-equiv="Content-Security-Policy" content="$csp">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<style>body{font-family:system-ui,sans-serif;font-size:13.5px;margin:12px;line-height:1.5;word-break:break-word}
+<style>body{font-family:system-ui,sans-serif;font-size:13.5px;margin:12px;line-height:1.5;overflow-wrap:break-word}
+/* overflow-wrap, NOT `word-break:break-word` — they look interchangeable and are not. Chromium
+   resolves that legacy alias to `overflow-wrap:ANYWHERE`, which is defined to count its break
+   opportunities when computing min-content width; so a table cell holding «Status» claimed it could
+   live in the width of «S», auto-layout took the offer, and a GitHub notification came out with the
+   column collapsed and the word stacked letter by letter (Outlook rendered it fine). `break-word`
+   still rescues a long unbreakable URL from overflowing the pane — the reason the rule exists — but
+   keeps its hands off intrinsic sizing. Measured guard in the server repo's desktop
+   test_mail_view.py: the header was 6.1 lines tall before, 1 after. */
 /* height:auto so an image keeps its aspect ratio when max-width clamps the width. It has to be
    !important: Outlook writes the size into an INLINE style — a real one from the archive is
    `<img width="1643" height="847" style="width:17.113in;height:8.8214in">` — and an inline
