@@ -1,7 +1,7 @@
 name: cercaposta
 description: "CercaPosta mobile app"
 publish_to: 'none'
-version: 1.2.1+1
+version: 1.2.2+1
 
 environment:
   sdk: ^3.8.1
