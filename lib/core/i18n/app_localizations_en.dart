@@ -408,6 +408,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get emailDate => 'Date';
 
   @override
+  String get emailFrom => 'From';
+
+  @override
+  String get emailDetails => 'Details';
+
+  @override
+  String get emailThreadEmpty => 'No other messages in this conversation.';
+
+  @override
   String get attachmentLoading => 'Loading preview…';
 
   @override

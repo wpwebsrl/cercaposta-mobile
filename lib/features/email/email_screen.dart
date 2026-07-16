@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -11,6 +10,7 @@ import '../../core/i18n/app_localizations.dart';
 import '../../shared/format.dart';
 import '../../shared/models/message.dart';
 import '../../shared/tag_colors.dart';
+import '../../shared/widgets/mail_web_view.dart';
 import '../../shared/widgets/snack.dart';
 import 'share_actions.dart';
 
@@ -27,6 +27,7 @@ class _EmailScreenState extends ConsumerState<EmailScreen> {
   List<ThreadEntry> _thread = const <ThreadEntry>[];
   bool _loading = true;
   bool _allowRemote = false;
+  bool _detailsOpen = false;
   Object? _error;
 
   @override
@@ -67,15 +68,16 @@ class _EmailScreenState extends ConsumerState<EmailScreen> {
     }
   }
 
-  /// Open a tapped link in the corpo email. Allowlist http/https/mailto (matching
-  /// the desktop hardening); other schemes are ignored so the renderer doesn't act
-  /// on them. Returning true means "handled by us" either way.
-  Future<bool> _onTapUrl(String url) async {
+  /// Open a link tapped inside the email body. This is the single place that decides which
+  /// schemes an archived email may send the user to: http/https/mailto only, matching the web and
+  /// desktop readers. Anything else is dropped silently — the view never navigates regardless
+  /// (see [MailWebView]), so a refused scheme simply does nothing.
+  Future<void> _onTapUrl(String url) async {
     final l = AppLocalizations.of(context)!;
     final uri = Uri.tryParse(url);
     if (uri == null ||
         !<String>{'http', 'https', 'mailto'}.contains(uri.scheme)) {
-      return false;
+      return;
     }
     try {
       final ok = await launchUrl(uri, mode: LaunchMode.externalApplication);
@@ -83,7 +85,6 @@ class _EmailScreenState extends ConsumerState<EmailScreen> {
     } on Object {
       if (mounted) showSnack(context, l.emailLinkError, error: true);
     }
-    return true;
   }
 
   @override
@@ -121,9 +122,17 @@ class _EmailScreenState extends ConsumerState<EmailScreen> {
               ),
             )
           : _content(context, l, d!, locale),
+      bottomNavigationBar: d == null || _loading || _error != null
+          ? null
+          : _bottomBar(l, d, locale),
     );
   }
 
+  /// The body owns the screen, as in a real mail client: a one-line header that opens on tap,
+  /// the body filling everything below it with its own scrolling, and attachments/thread reachable
+  /// from a bar at the bottom. The body CANNOT go in a scrolling list any more: the engine renders
+  /// into its own viewport and has no measurable height, so it needs a bounded box — which is also
+  /// why nesting it in a list would leave two scrollers fighting over the same finger.
   Widget _content(
     BuildContext context,
     AppLocalizations l,
@@ -131,18 +140,14 @@ class _EmailScreenState extends ConsumerState<EmailScreen> {
     String locale,
   ) {
     final theme = Theme.of(context);
-    return ListView(
-      padding: const EdgeInsets.all(16),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         // Read through a folder share: say whose archive this is (read-only).
         if (d.sharedOwnerName != null)
           Container(
-            margin: const EdgeInsets.only(bottom: 8),
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-            decoration: BoxDecoration(
-              color: theme.colorScheme.surfaceContainerHigh,
-              borderRadius: BorderRadius.circular(6),
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            color: theme.colorScheme.surfaceContainerHigh,
             child: Row(
               children: <Widget>[
                 Icon(
@@ -160,65 +165,20 @@ class _EmailScreenState extends ConsumerState<EmailScreen> {
               ],
             ),
           ),
-        Row(
-          children: <Widget>[
-            Expanded(
-              child: Text(
-                d.subject.isEmpty ? '—' : d.subject,
-                style: theme.textTheme.titleMedium,
-              ),
+        _headerStrip(context, l, d, locale),
+        // Expanded details take their natural height, capped: a mail with thirty recipients must
+        // not push the body off the screen.
+        if (_detailsOpen)
+          ConstrainedBox(
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(context).size.height * 0.4,
             ),
-            if (d.isPec)
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.primaryContainer,
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                child: Text(
-                  l.emailPecBadge,
-                  style: theme.textTheme.labelSmall?.copyWith(
-                    color: theme.colorScheme.onPrimaryContainer,
-                  ),
-                ),
-              ),
-          ],
-        ),
-        const SizedBox(height: 8),
-        _kv(context, d.fromLabel, d.fromAddress),
-        if (d.to.isNotEmpty) _line(context, l.emailTo, d.to.join(', ')),
-        if (d.cc.isNotEmpty) _line(context, l.emailCc, d.cc.join(', ')),
-        if (d.bcc.isNotEmpty) _line(context, l.emailBcc, d.bcc.join(', ')),
-        if (d.dateSent != null)
-          _line(context, l.emailDate, formatDateTime(d.dateSent, locale)),
-        if (d.folders.isNotEmpty)
-          Padding(
-            padding: const EdgeInsets.only(top: 6),
-            child: Wrap(
-              spacing: 6,
-              children: d.folders
-                  .map(
-                    (f) => Chip(
-                      avatar: const Icon(Icons.folder_outlined, size: 14),
-                      label: Text(f),
-                      visualDensity: VisualDensity.compact,
-                    ),
-                  )
-                  .toList(),
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.fromLTRB(12, 0, 12, 10),
+              child: _details(context, l, d, locale),
             ),
           ),
-        if (d.tags.isNotEmpty)
-          Padding(
-            padding: const EdgeInsets.only(top: 6),
-            child: Wrap(
-              spacing: 6,
-              runSpacing: 4,
-              children: d.tags.map((t) => _tagChip(context, t)).toList(),
-            ),
-          ),
-        if (d.isPec && (d.pec?.hasAny ?? false))
-          _pecPanel(context, l, d.pec!, locale),
-        const Divider(height: 24),
+        const Divider(height: 1),
         if (d.rawMissing)
           _notice(context, l.emailRawMissing)
         else if (d.hasRemoteImages && !_allowRemote)
@@ -234,13 +194,185 @@ class _EmailScreenState extends ConsumerState<EmailScreen> {
             ),
           ),
         if (!d.hasBody && !d.rawMissing) _notice(context, l.emailNoBody),
-        if (d.bodyHtml != null && d.bodyHtml!.isNotEmpty)
-          _EmailBody(html: d.bodyHtml!, onTapUrl: _onTapUrl)
-        else if (d.bodyText.isNotEmpty)
-          SelectableText(d.bodyText),
-        if (d.attachments.isNotEmpty) ...<Widget>[
-          const Divider(height: 24),
-          Text(l.emailAttachments, style: theme.textTheme.titleSmall),
+        Expanded(child: _body(context, d)),
+      ],
+    );
+  }
+
+  /// The email body itself. HTML goes to a real engine; plain text stays on a Flutter widget —
+  /// two different renderers, so they are switched between rather than merged.
+  Widget _body(BuildContext context, MessageDetail d) {
+    if (d.bodyHtml != null && d.bodyHtml!.isNotEmpty) {
+      return MailWebView(
+        document: buildReaderDocument(d.bodyHtml!, allowRemote: _allowRemote),
+        onTapUrl: _onTapUrl,
+      );
+    }
+    if (d.bodyText.isNotEmpty) {
+      return Container(
+        color: Colors.white,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(12),
+          child: SelectableText(
+            d.bodyText,
+            style: const TextStyle(color: Color(0xFF1B1F24), fontSize: 13.5),
+          ),
+        ),
+      );
+    }
+    return const SizedBox.shrink();
+  }
+
+  /// One line: who wrote it, when, and a chevron for everything else.
+  Widget _headerStrip(
+    BuildContext context,
+    AppLocalizations l,
+    MessageDetail d,
+    String locale,
+  ) {
+    final theme = Theme.of(context);
+    return InkWell(
+      onTap: () => setState(() => _detailsOpen = !_detailsOpen),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(12, 8, 8, 8),
+        child: Row(
+          children: <Widget>[
+            CircleAvatar(
+              radius: 14,
+              child: Text(
+                d.fromLabel.isNotEmpty
+                    ? d.fromLabel.substring(0, 1).toUpperCase()
+                    : '?',
+              ),
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                d.fromLabel.isEmpty ? d.fromAddress : d.fromLabel,
+                style: const TextStyle(fontWeight: FontWeight.w600),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            if (d.isPec)
+              Container(
+                margin: const EdgeInsets.only(left: 6),
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.primaryContainer,
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: Text(
+                  l.emailPecBadge,
+                  style: theme.textTheme.labelSmall?.copyWith(
+                    color: theme.colorScheme.onPrimaryContainer,
+                  ),
+                ),
+              ),
+            if (d.dateSent != null)
+              Padding(
+                padding: const EdgeInsets.only(left: 8),
+                child: Text(
+                  formatDateShort(d.dateSent, locale),
+                  style: theme.textTheme.bodySmall,
+                ),
+              ),
+            Icon(
+              _detailsOpen ? Icons.expand_less : Icons.expand_more,
+              size: 20,
+              semanticLabel: l.emailDetails,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// Everything the one-line header leaves out — shown only when it is opened.
+  Widget _details(
+    BuildContext context,
+    AppLocalizations l,
+    MessageDetail d,
+    String locale,
+  ) => Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: <Widget>[
+      if (d.fromAddress.isNotEmpty && d.fromAddress != d.fromLabel)
+        _line(context, l.emailFrom, d.fromAddress),
+      if (d.to.isNotEmpty) _line(context, l.emailTo, d.to.join(', ')),
+      if (d.cc.isNotEmpty) _line(context, l.emailCc, d.cc.join(', ')),
+      if (d.bcc.isNotEmpty) _line(context, l.emailBcc, d.bcc.join(', ')),
+      if (d.dateSent != null)
+        _line(context, l.emailDate, formatDateTime(d.dateSent, locale)),
+      if (d.folders.isNotEmpty)
+        Padding(
+          padding: const EdgeInsets.only(top: 6),
+          child: Wrap(
+            spacing: 6,
+            children: d.folders
+                .map(
+                  (f) => Chip(
+                    avatar: const Icon(Icons.folder_outlined, size: 14),
+                    label: Text(f),
+                    visualDensity: VisualDensity.compact,
+                  ),
+                )
+                .toList(),
+          ),
+        ),
+      if (d.tags.isNotEmpty)
+        Padding(
+          padding: const EdgeInsets.only(top: 6),
+          child: Wrap(
+            spacing: 6,
+            runSpacing: 4,
+            children: d.tags.map((t) => _tagChip(context, t)).toList(),
+          ),
+        ),
+      if (d.isPec && (d.pec?.hasAny ?? false))
+        _pecPanel(context, l, d.pec!, locale),
+    ],
+  );
+
+  /// Attachments and thread, one tap away instead of below a body that now never ends.
+  Widget? _bottomBar(AppLocalizations l, MessageDetail d, String locale) {
+    if (d.attachments.isEmpty && d.threadId == null) return null;
+    return BottomAppBar(
+      height: 52,
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: Row(
+        children: <Widget>[
+          if (d.attachments.isNotEmpty)
+            TextButton.icon(
+              onPressed: () => _showAttachments(l, d, locale),
+              icon: const Icon(Icons.attach_file, size: 18),
+              label: Text(l.attachmentsCount(d.attachments.length)),
+            ),
+          const Spacer(),
+          if (d.threadId != null)
+            TextButton.icon(
+              onPressed: () => _showThread(l, locale),
+              icon: const Icon(Icons.forum_outlined, size: 18),
+              label: Text(l.emailThread),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _showAttachments(
+    AppLocalizations l,
+    MessageDetail d,
+    String locale,
+  ) => showModalBottomSheet<void>(
+    context: context,
+    showDragHandle: true,
+    builder: (ctx) => SafeArea(
+      child: ListView(
+        shrinkWrap: true,
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        children: <Widget>[
+          Text(l.emailAttachments, style: Theme.of(ctx).textTheme.titleSmall),
           const SizedBox(height: 4),
           ...d.attachments.map(
             (a) => ListTile(
@@ -256,56 +388,76 @@ class _EmailScreenState extends ConsumerState<EmailScreen> {
                 tooltip: l.attachmentShare,
                 icon: const Icon(Icons.share_outlined),
                 onPressed: () => shareAttachment(
-                  context,
+                  ctx,
                   ref.read(messageApiProvider),
                   d.id,
                   a.id,
                   a.filename,
                 ),
               ),
-              onTap: () => context.push(
-                '/message/${d.id}/attachment/${a.id}',
-                extra: a.filename,
-              ),
+              onTap: () {
+                Navigator.of(ctx).pop();
+                context.push(
+                  '/message/${d.id}/attachment/${a.id}',
+                  extra: a.filename,
+                );
+              },
             ),
           ),
         ],
-        if (d.threadId != null) ...<Widget>[
-          const Divider(height: 24),
-          if (_thread.isEmpty)
-            OutlinedButton.icon(
-              onPressed: _loadThread,
-              icon: const Icon(Icons.forum_outlined),
-              label: Text(l.emailThread),
-            )
-          else ...<Widget>[
-            Text(l.emailThread, style: theme.textTheme.titleSmall),
-            ..._thread.map(
-              (t) => ListTile(
-                contentPadding: EdgeInsets.zero,
-                dense: true,
-                title: Text(
-                  t.subject.isEmpty ? '—' : t.subject,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                subtitle: Text(
-                  t.fromLabel,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                trailing: Text(
-                  formatDateShort(t.dateSent, locale),
-                  style: theme.textTheme.bodySmall,
-                ),
-                onTap: t.id == widget.messageId
-                    ? null
-                    : () => context.push('/message/${t.id}'),
+      ),
+    ),
+  );
+
+  Future<void> _showThread(AppLocalizations l, String locale) async {
+    if (_thread.isEmpty) await _loadThread();
+    if (!mounted) return;
+    await showModalBottomSheet<void>(
+      context: context,
+      showDragHandle: true,
+      builder: (ctx) => SafeArea(
+        child: _thread.isEmpty
+            ? Padding(
+                padding: const EdgeInsets.all(24),
+                child: Text(l.emailThreadEmpty, textAlign: TextAlign.center),
+              )
+            : ListView(
+                shrinkWrap: true,
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                children: <Widget>[
+                  Text(
+                    l.emailThread,
+                    style: Theme.of(ctx).textTheme.titleSmall,
+                  ),
+                  ..._thread.map(
+                    (t) => ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      dense: true,
+                      title: Text(
+                        t.subject.isEmpty ? '—' : t.subject,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      subtitle: Text(
+                        t.fromLabel,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      trailing: Text(
+                        formatDateShort(t.dateSent, locale),
+                        style: Theme.of(ctx).textTheme.bodySmall,
+                      ),
+                      onTap: t.id == widget.messageId
+                          ? null
+                          : () {
+                              Navigator.of(ctx).pop();
+                              context.push('/message/${t.id}');
+                            },
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ],
-        ],
-      ],
+      ),
     );
   }
 
@@ -394,26 +546,6 @@ class _EmailScreenState extends ConsumerState<EmailScreen> {
     ),
   );
 
-  Widget _kv(BuildContext context, String name, String address) => Row(
-    children: <Widget>[
-      CircleAvatar(
-        radius: 14,
-        child: Text(name.isNotEmpty ? name.substring(0, 1).toUpperCase() : '?'),
-      ),
-      const SizedBox(width: 8),
-      Expanded(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(name, style: const TextStyle(fontWeight: FontWeight.w600)),
-            if (address.isNotEmpty && address != name)
-              Text(address, style: Theme.of(context).textTheme.bodySmall),
-          ],
-        ),
-      ),
-    ],
-  );
-
   Widget _line(BuildContext context, String label, String value) => Padding(
     padding: const EdgeInsets.only(top: 4),
     child: RichText(
@@ -445,43 +577,6 @@ class _EmailScreenState extends ConsumerState<EmailScreen> {
           child: Text(text, style: Theme.of(context).textTheme.bodySmall),
         ),
       ],
-    ),
-  );
-}
-
-/// The email body, on a fixed white sheet with dark text whatever the app theme — the same
-/// surface [ReminderPreviewScreen] already uses.
-///
-/// Mail is authored against an implicit white canvas, and the server now keeps the sender's own
-/// `style=""` intact (it used to strip it, which is why the dark Material background looked fine
-/// before). Painting that onto the dark theme would put a sender's `color:#1a1a1a` on a dark
-/// surface and make the message unreadable. Every real mail client renders mail on white for this
-/// exact reason; dark-mode conversion is a separate feature that needs a full CSS engine.
-class _EmailBody extends StatelessWidget {
-  const _EmailBody({required this.html, required this.onTapUrl});
-
-  final String html;
-  final Future<bool> Function(String) onTapUrl;
-
-  @override
-  Widget build(BuildContext context) => Container(
-    padding: const EdgeInsets.all(10),
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(6),
-    ),
-    child: DefaultTextStyle(
-      style: const TextStyle(color: Color(0xFF1B1F24), fontSize: 14),
-      child: HtmlWidget(
-        html,
-        onTapUrl: onTapUrl,
-        // Mail sizes its images for a ~600px desktop column, so on a phone they overflow the
-        // screen. Mirrors the `img{max-width:100%}` the web reader injects into its iframe.
-        // `height:auto` is not needed here: fwfh keeps the aspect ratio when only width is
-        // constrained, whereas a browser would honour a stale `height=""` and distort.
-        customStylesBuilder: (e) =>
-            e.localName == 'img' ? const <String, String>{'max-width': '100%'} : null,
-      ),
     ),
   );
 }

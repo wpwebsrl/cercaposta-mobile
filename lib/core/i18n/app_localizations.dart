@@ -824,6 +824,24 @@ abstract class AppLocalizations {
   /// **'Data'**
   String get emailDate;
 
+  /// No description provided for @emailFrom.
+  ///
+  /// In it, this message translates to:
+  /// **'Da'**
+  String get emailFrom;
+
+  /// No description provided for @emailDetails.
+  ///
+  /// In it, this message translates to:
+  /// **'Dettagli'**
+  String get emailDetails;
+
+  /// No description provided for @emailThreadEmpty.
+  ///
+  /// In it, this message translates to:
+  /// **'Nessun altro messaggio in questa conversazione.'**
+  String get emailThreadEmpty;
+
   /// No description provided for @attachmentLoading.
   ///
   /// In it, this message translates to:

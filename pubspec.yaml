@@ -36,10 +36,12 @@ dependencies:
   # i18n
   intl: ^0.20.2
 
-  # HTML rendering (corpo email + anteprima fedele del sollecito). flutter_widget_from_html_core
-  # è il renderer mantenuto (flutter_html è archiviato): rende le immagini inline `data:`/`cid:`
-  # e i link via onTapUrl senza fetch di rete.
-  flutter_widget_from_html_core: ^0.17.2
+  # Rendering del corpo email + anteprima fedele del sollecito, su un motore di browser VERO —
+  # come il web (iframe) e il desktop (QtWebEngine): è la terza superficie dello stesso contratto.
+  # Ha sostituito flutter_widget_from_html_core, che è un renderer a widget e implementa un
+  # sottoinsieme di CSS: ignorava i blocchi <style>, e una newsletter che tiene tipografia e
+  # centratura in classi CSS restava in resa piatta. Vedi lib/shared/widgets/mail_web_view.dart.
+  webview_flutter: ^4.13.1
 
   # Editor rich del MESSAGGIO di sollecito (parità con la toolbar di desktop/web: grassetto,
   # corsivo, sottolineato, barrato, link, elenchi). Il modello Delta viene convertito in HTML

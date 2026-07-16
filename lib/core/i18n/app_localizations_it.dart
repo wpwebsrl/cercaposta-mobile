@@ -409,6 +409,16 @@ class AppLocalizationsIt extends AppLocalizations {
   String get emailDate => 'Data';
 
   @override
+  String get emailFrom => 'Da';
+
+  @override
+  String get emailDetails => 'Dettagli';
+
+  @override
+  String get emailThreadEmpty =>
+      'Nessun altro messaggio in questa conversazione.';
+
+  @override
   String get attachmentLoading => 'Caricamento anteprima…';
 
   @override

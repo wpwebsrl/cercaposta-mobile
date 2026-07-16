@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 
 import '../../core/api/api_providers.dart';
 import '../../core/api/error_messages.dart';
 import '../../core/i18n/app_localizations.dart';
 import '../../shared/models/followup.dart';
+import '../../shared/widgets/mail_web_view.dart';
 
 /// True-to-recipient preview of the reminder: the full email as it will arrive
 /// (signature and inline images included), composed server-side by the SAME path as
-/// the .eml / direct send — never a client-side copy. Rendered with the same
-/// `HtmlWidget` as the email reader, on a fixed white surface so it reads like mail.
+/// the .eml / direct send — never a client-side copy. Rendered on the same browser
+/// engine as the email reader, at the recipient's own width — see
+/// [buildPreviewDocument] for why that width is fixed and not the phone's.
 class ReminderPreviewScreen extends ConsumerStatefulWidget {
   const ReminderPreviewScreen({
     super.key,
@@ -118,20 +119,12 @@ class _ReminderPreviewScreenState extends ConsumerState<ReminderPreviewScreen> {
           ),
         ),
         const Divider(height: 1),
-        // Fixed white surface + dark text, independent of the app theme, so the
-        // email preview reads like a mail client (the signature images arrive as
-        // inline data: URIs, rendered by HtmlWidget without any network fetch).
+        // The engine brings its own white surface and its own scrolling (hence the Expanded:
+        // it needs a bounded height, not a list to grow inside). The signature's images arrive
+        // as inline data: URIs, so nothing here reaches the network — and the document's CSP
+        // makes sure of it even if the quoted original smuggled a tracking pixel through.
         Expanded(
-          child: Container(
-            color: Colors.white,
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(14),
-              child: DefaultTextStyle(
-                style: const TextStyle(color: Color(0xFF222222), fontSize: 14),
-                child: HtmlWidget(preview.html),
-              ),
-            ),
-          ),
+          child: MailWebView(document: buildPreviewDocument(preview.html)),
         ),
       ],
     );
