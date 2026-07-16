@@ -32,12 +32,15 @@ void main() {
       expect(doc, contains('color:#1b1f24'));
     });
 
-    test('clamps images to the screen without distorting them', () {
+    test('clamps images to the screen without stretching them', () {
+      // The clamp must beat the SENDER's own inline height, or it distorts instead of resizing.
+      // Outlook writes `<img width="1643" height="847" style="width:17.113in;height:8.8214in">`,
+      // and an inline declaration outranks a normal rule in our <head>: max-width squeezed the
+      // width, the inline height stayed, and every Outlook screenshot came out stretched.
+      // Measured on Chromium at a 420px viewport: 405x847 without !important, 420x210 with it.
       final String doc = buildReaderDocument('<p>x</p>', allowRemote: false);
       expect(doc, contains('max-width:100%'));
-      // height:auto or an image with explicit width AND height attributes gets squashed when
-      // max-width kicks in.
-      expect(doc, contains('height:auto'));
+      expect(doc, contains('height:auto!important'));
     });
 
     test('lays out at the device width, not a desktop window', () {

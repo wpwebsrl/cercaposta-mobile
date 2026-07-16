@@ -42,9 +42,17 @@ String buildReaderDocument(String bodyHtml, {required bool allowRemote}) {
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>body{font-family:system-ui,sans-serif;font-size:13.5px;margin:12px;line-height:1.5;word-break:break-word}
-/* height:auto so images with explicit width/height attributes keep their aspect ratio when
-   max-width clamps the width — otherwise they distort. */
-img{max-width:100%;height:auto}
+/* height:auto so an image keeps its aspect ratio when max-width clamps the width. It has to be
+   !important: Outlook writes the size into an INLINE style — a real one from the archive is
+   `<img width="1643" height="847" style="width:17.113in;height:8.8214in">` — and an inline
+   declaration beats a normal rule in here, so max-width squeezed the width while the inline height
+   stayed put and every Outlook screenshot came out STRETCHED. Measured on Chromium at a 420px
+   viewport: 405x847 with plain `height:auto`, 420x210 with this one. Keep the three surfaces in
+   step (ReaderPane.tsx, desktop's mail_view.py, here) — this bug hit all three at once.
+   Known limit, pre-existing and NOT fixed by this: a spacer (`<img width="600" height="3">` on a
+   1x1 file) inflates, because once loaded the engine uses the file's real ratio, not the declared
+   one. That needs the server to rewrite the markup. */
+img{max-width:100%;height:auto!important}
 /* Always white, in BOTH themes: mail is authored against an implicit white canvas and carries the
    sender's own colours, so on a dark surface a sender's color:#1a1a1a would be unreadable. Same
    rule as web and desktop. Our rules are in <head>; the email's <style> lands in <body> and so
