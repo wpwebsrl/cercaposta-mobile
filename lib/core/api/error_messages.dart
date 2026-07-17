@@ -51,6 +51,12 @@ String localizeApiError(AppLocalizations l, Object error) {
       return l.errorFollowupDraftFailed;
     case 'followup.send_no_source':
       return l.errorFollowupSendNoSource;
+    // The two the «mark as awaiting» sheet raises most: without these the user would
+    // get «errore generico» on the one refusal that is actually actionable.
+    case 'followup.already_active':
+      return l.errorFollowupAlreadyActive;
+    case 'followup.no_counterpart':
+      return l.errorFollowupNoCounterpart;
     case 'sources.send_consent_required':
       return l.errorSendConsentRequired;
     case 'mail.auth_failed':

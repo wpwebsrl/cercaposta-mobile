@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../features/about/about_screen.dart';
 import '../../features/email/attachment_viewer_screen.dart';
 import '../../features/email/email_screen.dart';
+import '../../features/email/headers_screen.dart';
 import '../../features/followups/reminder_screen.dart';
 import '../../features/home/home_shell.dart';
 import '../../features/login/first_password_screen.dart';
@@ -122,6 +123,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/message/:id',
         builder: (_, state) =>
             EmailScreen(messageId: state.pathParameters['id'] ?? ''),
+      ),
+      GoRoute(
+        path: '/message/:id/headers',
+        builder: (_, state) =>
+            MessageHeadersScreen(messageId: state.pathParameters['id'] ?? ''),
       ),
       GoRoute(
         path: '/message/:id/attachment/:attId',

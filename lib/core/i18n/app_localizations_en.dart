@@ -1035,4 +1035,52 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notifOpenConversation => 'Open conversation';
+
+  @override
+  String get actionCopy => 'Copy';
+
+  @override
+  String get actionCopied => 'Copied to clipboard';
+
+  @override
+  String get emailHeadersTitle => 'Message headers';
+
+  @override
+  String get emailHeadersEmpty => 'No headers available';
+
+  @override
+  String get followupMarkTitle => 'Mark as awaiting a reply';
+
+  @override
+  String get followupMarkTheirTurn => 'I am waiting for a reply';
+
+  @override
+  String get followupMarkTheirTurnHint =>
+      'I wrote and I am waiting for them to answer';
+
+  @override
+  String get followupMarkMyTurn => 'I owe a reply';
+
+  @override
+  String get followupMarkMyTurnHint => 'They wrote and the ball is in my court';
+
+  @override
+  String get followupMarkDue => 'Deadline (optional)';
+
+  @override
+  String get followupMarkPickDue => 'Pick a date';
+
+  @override
+  String get followupMarkConfirm => 'Create';
+
+  @override
+  String get followupMarkCreated => 'Marked as awaiting a reply';
+
+  @override
+  String get errorFollowupAlreadyActive =>
+      'There is already an open expectation on this conversation.';
+
+  @override
+  String get errorFollowupNoCounterpart =>
+      'Cannot tell who should reply: try the other direction.';
 }

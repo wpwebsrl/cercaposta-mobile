@@ -400,5 +400,20 @@
   "notifFollowupReminderSentBody": "«{summary}» — the automatic reminder was sent.",
   "notifFollowupDigestTitle": "Reply-expectations summary",
   "notifFollowupDigestBody": "{overdue} overdue · {dueToday} due today · {waitingMe} replies to send.",
-  "notifOpenConversation": "Open conversation"
+  "notifOpenConversation": "Open conversation",
+  "actionCopy": "Copy",
+  "actionCopied": "Copied to clipboard",
+  "emailHeadersTitle": "Message headers",
+  "emailHeadersEmpty": "No headers available",
+  "followupMarkTitle": "Mark as awaiting a reply",
+  "followupMarkTheirTurn": "I am waiting for a reply",
+  "followupMarkTheirTurnHint": "I wrote and I am waiting for them to answer",
+  "followupMarkMyTurn": "I owe a reply",
+  "followupMarkMyTurnHint": "They wrote and the ball is in my court",
+  "followupMarkDue": "Deadline (optional)",
+  "followupMarkPickDue": "Pick a date",
+  "followupMarkConfirm": "Create",
+  "followupMarkCreated": "Marked as awaiting a reply",
+  "errorFollowupAlreadyActive": "There is already an open expectation on this conversation.",
+  "errorFollowupNoCounterpart": "Cannot tell who should reply: try the other direction."
 }

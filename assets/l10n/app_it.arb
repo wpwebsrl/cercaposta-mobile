@@ -364,26 +364,36 @@
   "followupsChipSnoozed": "Posticipata al {date}",
   "@followupsChipSnoozed": {
     "placeholders": {
-      "date": { "type": "String" }
+      "date": {
+        "type": "String"
+      }
     }
   },
   "followupsChipReminded": "Sollecitato il {date}",
   "@followupsChipReminded": {
     "placeholders": {
-      "date": { "type": "String" }
+      "date": {
+        "type": "String"
+      }
     }
   },
   "followupsChipRemindedMany": "Sollecitato il {date} ×{count}",
   "@followupsChipRemindedMany": {
     "placeholders": {
-      "date": { "type": "String" },
-      "count": { "type": "int" }
+      "date": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
     }
   },
   "followupsChipOverdue": "{days, plural, =1{Scaduta da 1 giorno} other{Scaduta da {days} giorni}}",
   "@followupsChipOverdue": {
     "placeholders": {
-      "days": { "type": "int" }
+      "days": {
+        "type": "int"
+      }
     }
   },
   "followupsChipDueToday": "Scade oggi",
@@ -391,7 +401,9 @@
   "followupsChipDueOn": "Scade il {date}",
   "@followupsChipDueOn": {
     "placeholders": {
-      "date": { "type": "String" }
+      "date": {
+        "type": "String"
+      }
     }
   },
   "reminderTitle": "Prepara sollecito",
@@ -406,8 +418,12 @@
   "reminderRegisterUsed": "Registro: {register} ({source})",
   "@reminderRegisterUsed": {
     "placeholders": {
-      "register": { "type": "String" },
-      "source": { "type": "String" }
+      "register": {
+        "type": "String"
+      },
+      "source": {
+        "type": "String"
+      }
     }
   },
   "reminderRegisterSourceManual": "scelto",
@@ -427,7 +443,9 @@
   "reminderSendFromNote": "Partirà dal tuo account {from}",
   "@reminderSendFromNote": {
     "placeholders": {
-      "from": { "type": "String" }
+      "from": {
+        "type": "String"
+      }
     }
   },
   "reminderPreview": "Anteprima email",
@@ -436,64 +454,154 @@
   "reminderSent": "Sollecito inviato da {from}",
   "@reminderSent": {
     "placeholders": {
-      "from": { "type": "String" }
+      "from": {
+        "type": "String"
+      }
     }
   },
   "notifFollowupNoReplyTitle": "{name} non ti ha risposto",
   "@notifFollowupNoReplyTitle": {
     "placeholders": {
-      "name": { "type": "String" }
+      "name": {
+        "type": "String"
+      }
     }
   },
   "notifFollowupNoReplyBody": "«{summary}» — da {days} giorni senza risposta.",
   "@notifFollowupNoReplyBody": {
     "placeholders": {
-      "summary": { "type": "String" },
-      "days": { "type": "int" }
+      "summary": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      }
     }
   },
   "notifFollowupReplyDueTitle": "Dovresti rispondere a {name}",
   "@notifFollowupReplyDueTitle": {
     "placeholders": {
-      "name": { "type": "String" }
+      "name": {
+        "type": "String"
+      }
     }
   },
   "notifFollowupReplyDueBody": "«{summary}» — la scadenza è passata da {days} giorni.",
   "@notifFollowupReplyDueBody": {
     "placeholders": {
-      "summary": { "type": "String" },
-      "days": { "type": "int" }
+      "summary": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      }
     }
   },
   "notifFollowupDueSoonTitle": "Scadenza in arrivo",
   "notifFollowupDueSoonBody": "«{summary}» — {name}: scade il {date}.",
   "@notifFollowupDueSoonBody": {
     "placeholders": {
-      "summary": { "type": "String" },
-      "name": { "type": "String" },
-      "date": { "type": "String" }
+      "summary": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
     }
   },
   "notifFollowupReminderSentTitle": "Sollecito inviato a {name}",
   "@notifFollowupReminderSentTitle": {
     "placeholders": {
-      "name": { "type": "String" }
+      "name": {
+        "type": "String"
+      }
     }
   },
   "notifFollowupReminderSentBody": "«{summary}» — il sollecito automatico è stato inviato.",
   "@notifFollowupReminderSentBody": {
     "placeholders": {
-      "summary": { "type": "String" }
+      "summary": {
+        "type": "String"
+      }
     }
   },
   "notifFollowupDigestTitle": "Riepilogo attese di risposta",
   "notifFollowupDigestBody": "{overdue} scadute · {dueToday} in scadenza oggi · {waitingMe} risposte da inviare.",
   "@notifFollowupDigestBody": {
     "placeholders": {
-      "overdue": { "type": "int" },
-      "dueToday": { "type": "int" },
-      "waitingMe": { "type": "int" }
+      "overdue": {
+        "type": "int"
+      },
+      "dueToday": {
+        "type": "int"
+      },
+      "waitingMe": {
+        "type": "int"
+      }
     }
   },
-  "notifOpenConversation": "Apri conversazione"
+  "notifOpenConversation": "Apri conversazione",
+  "actionCopy": "Copia",
+  "@actionCopy": {
+    "description": "Generic action: copy to clipboard"
+  },
+  "actionCopied": "Copiato negli appunti",
+  "@actionCopied": {
+    "description": "Feedback after copying to the clipboard"
+  },
+  "emailHeadersTitle": "Intestazioni del messaggio",
+  "@emailHeadersTitle": {
+    "description": "Title of the screen showing the raw RFC822 headers of a message"
+  },
+  "emailHeadersEmpty": "Nessuna intestazione disponibile",
+  "@emailHeadersEmpty": {
+    "description": "Shown when the message has no readable headers"
+  },
+  "followupMarkTitle": "Segna in attesa di risposta",
+  "@followupMarkTitle": {
+    "description": "Mark-as-awaiting sheet"
+  },
+  "followupMarkTheirTurn": "Aspetto una risposta",
+  "@followupMarkTheirTurn": {
+    "description": "Mark-as-awaiting sheet"
+  },
+  "followupMarkTheirTurnHint": "Ho scritto io e attendo che rispondano",
+  "@followupMarkTheirTurnHint": {
+    "description": "Mark-as-awaiting sheet"
+  },
+  "followupMarkMyTurn": "Devo rispondere io",
+  "@followupMarkMyTurn": {
+    "description": "Mark-as-awaiting sheet"
+  },
+  "followupMarkMyTurnHint": "Mi hanno scritto e la palla è nel mio campo",
+  "@followupMarkMyTurnHint": {
+    "description": "Mark-as-awaiting sheet"
+  },
+  "followupMarkDue": "Scadenza (facoltativa)",
+  "@followupMarkDue": {
+    "description": "Mark-as-awaiting sheet"
+  },
+  "followupMarkPickDue": "Scegli data",
+  "@followupMarkPickDue": {
+    "description": "Mark-as-awaiting sheet"
+  },
+  "followupMarkConfirm": "Crea",
+  "@followupMarkConfirm": {
+    "description": "Mark-as-awaiting sheet"
+  },
+  "followupMarkCreated": "Segnata in attesa di risposta",
+  "@followupMarkCreated": {
+    "description": "Mark-as-awaiting sheet"
+  },
+  "errorFollowupAlreadyActive": "C’è già un’attesa aperta su questa conversazione.",
+  "@errorFollowupAlreadyActive": {
+    "description": "Error followup.already_active: an active expectation exists on this thread+direction"
+  },
+  "errorFollowupNoCounterpart": "Non riesco a capire chi deve rispondere: prova con l’altra direzione.",
+  "@errorFollowupNoCounterpart": {
+    "description": "Error followup.no_counterpart: the direction cannot apply to this message"
+  }
 }

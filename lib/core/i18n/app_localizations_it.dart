@@ -1042,4 +1042,53 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get notifOpenConversation => 'Apri conversazione';
+
+  @override
+  String get actionCopy => 'Copia';
+
+  @override
+  String get actionCopied => 'Copiato negli appunti';
+
+  @override
+  String get emailHeadersTitle => 'Intestazioni del messaggio';
+
+  @override
+  String get emailHeadersEmpty => 'Nessuna intestazione disponibile';
+
+  @override
+  String get followupMarkTitle => 'Segna in attesa di risposta';
+
+  @override
+  String get followupMarkTheirTurn => 'Aspetto una risposta';
+
+  @override
+  String get followupMarkTheirTurnHint =>
+      'Ho scritto io e attendo che rispondano';
+
+  @override
+  String get followupMarkMyTurn => 'Devo rispondere io';
+
+  @override
+  String get followupMarkMyTurnHint =>
+      'Mi hanno scritto e la palla è nel mio campo';
+
+  @override
+  String get followupMarkDue => 'Scadenza (facoltativa)';
+
+  @override
+  String get followupMarkPickDue => 'Scegli data';
+
+  @override
+  String get followupMarkConfirm => 'Crea';
+
+  @override
+  String get followupMarkCreated => 'Segnata in attesa di risposta';
+
+  @override
+  String get errorFollowupAlreadyActive =>
+      'C’è già un’attesa aperta su questa conversazione.';
+
+  @override
+  String get errorFollowupNoCounterpart =>
+      'Non riesco a capire chi deve rispondere: prova con l’altra direzione.';
 }

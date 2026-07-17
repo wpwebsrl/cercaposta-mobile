@@ -27,6 +27,44 @@ class FollowupApi {
     return FollowupStatus.fromJson(mapOf(resp.data));
   }
 
+  /// Mark a message as awaiting a reply. `direction` is `their_turn` (I wrote, I want
+  /// an answer) or `my_turn` (they wrote, I owe one); `dueAt` null lets the server work
+  /// the deadline out from the policy's working days.
+  ///
+  /// The server refuses a direction the message cannot support — asking `their_turn` on
+  /// mail you received yields `followup.no_counterpart`, since there is no addressee to
+  /// wait on — and rejects a second active expectation on the same thread and direction
+  /// with `followup.already_active`. Both are surfaced to the user, not swallowed.
+  Future<void> create(
+    String messageId,
+    String direction, {
+    DateTime? dueAt,
+  }) async {
+    await _dio.post<dynamic>(
+      '/followups',
+      data: <String, dynamic>{
+        'message_id': messageId,
+        'direction': direction,
+        if (dueAt != null) 'due_at': dueAt.toUtc().toIso8601String(),
+      },
+    );
+  }
+
+  /// The user's own addresses, used only to guess which direction to preselect.
+  /// Never throws: a failed guess must not block marking a message (parity with the
+  /// desktop, whose own_addresses() swallows errors for the same reason).
+  Future<List<String>> ownAddresses() async {
+    try {
+      final resp = await _dio.get<dynamic>('/followups/policy');
+      return jsonStrList(
+        mapOf(resp.data),
+        'own_addresses',
+      ).map((a) => a.toLowerCase()).toList();
+    } on Object {
+      return const <String>[];
+    }
+  }
+
   Future<void> done(String id) => _dio.post<dynamic>('/followups/$id/done');
 
   Future<void> dismiss(String id) =>

@@ -1921,6 +1921,96 @@ abstract class AppLocalizations {
   /// In it, this message translates to:
   /// **'Apri conversazione'**
   String get notifOpenConversation;
+
+  /// Generic action: copy to clipboard
+  ///
+  /// In it, this message translates to:
+  /// **'Copia'**
+  String get actionCopy;
+
+  /// Feedback after copying to the clipboard
+  ///
+  /// In it, this message translates to:
+  /// **'Copiato negli appunti'**
+  String get actionCopied;
+
+  /// Title of the screen showing the raw RFC822 headers of a message
+  ///
+  /// In it, this message translates to:
+  /// **'Intestazioni del messaggio'**
+  String get emailHeadersTitle;
+
+  /// Shown when the message has no readable headers
+  ///
+  /// In it, this message translates to:
+  /// **'Nessuna intestazione disponibile'**
+  String get emailHeadersEmpty;
+
+  /// Mark-as-awaiting sheet
+  ///
+  /// In it, this message translates to:
+  /// **'Segna in attesa di risposta'**
+  String get followupMarkTitle;
+
+  /// Mark-as-awaiting sheet
+  ///
+  /// In it, this message translates to:
+  /// **'Aspetto una risposta'**
+  String get followupMarkTheirTurn;
+
+  /// Mark-as-awaiting sheet
+  ///
+  /// In it, this message translates to:
+  /// **'Ho scritto io e attendo che rispondano'**
+  String get followupMarkTheirTurnHint;
+
+  /// Mark-as-awaiting sheet
+  ///
+  /// In it, this message translates to:
+  /// **'Devo rispondere io'**
+  String get followupMarkMyTurn;
+
+  /// Mark-as-awaiting sheet
+  ///
+  /// In it, this message translates to:
+  /// **'Mi hanno scritto e la palla è nel mio campo'**
+  String get followupMarkMyTurnHint;
+
+  /// Mark-as-awaiting sheet
+  ///
+  /// In it, this message translates to:
+  /// **'Scadenza (facoltativa)'**
+  String get followupMarkDue;
+
+  /// Mark-as-awaiting sheet
+  ///
+  /// In it, this message translates to:
+  /// **'Scegli data'**
+  String get followupMarkPickDue;
+
+  /// Mark-as-awaiting sheet
+  ///
+  /// In it, this message translates to:
+  /// **'Crea'**
+  String get followupMarkConfirm;
+
+  /// Mark-as-awaiting sheet
+  ///
+  /// In it, this message translates to:
+  /// **'Segnata in attesa di risposta'**
+  String get followupMarkCreated;
+
+  /// Error followup.already_active: an active expectation exists on this thread+direction
+  ///
+  /// In it, this message translates to:
+  /// **'C’è già un’attesa aperta su questa conversazione.'**
+  String get errorFollowupAlreadyActive;
+
+  /// Error followup.no_counterpart: the direction cannot apply to this message
+  ///
+  /// In it, this message translates to:
+  /// **'Non riesco a capire chi deve rispondere: prova con l’altra direzione.'**
+  String get errorFollowupNoCounterpart;
 }
 
 class _AppLocalizationsDelegate

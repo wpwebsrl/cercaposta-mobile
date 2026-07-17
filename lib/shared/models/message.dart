@@ -69,6 +69,37 @@ class PecInfo {
   );
 }
 
+/// One entry of the `recipients` map returned by `GET /messages/{id}`, which the
+/// server sends as `{"to": [{"name": …, "address": …}], "cc": […], "bcc": […]}`.
+///
+/// Kept as a pair rather than a preformatted string: `name` is often empty and the
+/// address alone must then stand on its own, exactly as the web reader does.
+class Recipient {
+  const Recipient({required this.name, required this.address});
+
+  final String name;
+  final String address;
+
+  /// `Name <address>` when both are known, otherwise whichever is there — parity
+  /// with `personLabel` on the web and `Recipient.display()` on the desktop.
+  String get display {
+    if (name.isEmpty) return address;
+    if (address.isEmpty) return name;
+    return '$name <$address>';
+  }
+
+  factory Recipient.fromJson(Map<String, dynamic> j) =>
+      Recipient(name: jsonStr(j, 'name'), address: jsonStr(j, 'address'));
+
+  /// Parses one recipients bucket. The server always sends the three keys, but a
+  /// bucket may legitimately be empty (`bcc` is only ever filled on sent copies:
+  /// received mail carries no Bcc header at all).
+  static List<Recipient> listFrom(
+    Map<String, dynamic> recipients,
+    String key,
+  ) => jsonObjList(recipients, key).map(Recipient.fromJson).toList();
+}
+
 class MessageDetail {
   const MessageDetail({
     required this.id,
@@ -96,9 +127,9 @@ class MessageDetail {
   final String subject;
   final String fromName;
   final String fromAddress;
-  final List<String> to;
-  final List<String> cc;
-  final List<String> bcc;
+  final List<Recipient> to;
+  final List<Recipient> cc;
+  final List<Recipient> bcc;
   final DateTime? dateSent;
   final String? threadId;
   final String? bodyHtml;
@@ -126,9 +157,11 @@ class MessageDetail {
       subject: jsonStr(j, 'subject'),
       fromName: jsonStr(j, 'from_name'),
       fromAddress: jsonStr(j, 'from_address'),
-      to: jsonStrList(recipients, 'to'),
-      cc: jsonStrList(recipients, 'cc'),
-      bcc: jsonStrList(recipients, 'bcc'),
+      // NOT jsonStrList: the buckets hold {name, address} objects, and whereType<String>
+      // silently dropped every one of them — the To/Cc/Bcc rows have never rendered.
+      to: Recipient.listFrom(recipients, 'to'),
+      cc: Recipient.listFrom(recipients, 'cc'),
+      bcc: Recipient.listFrom(recipients, 'bcc'),
       dateSent: jsonDate(j, 'date_sent'),
       threadId: jsonStrOrNull(j, 'thread_id'),
       bodyHtml: jsonStrOrNull(j, 'body_html'),

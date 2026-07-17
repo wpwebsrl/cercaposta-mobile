@@ -12,7 +12,11 @@ import '../../shared/models/message.dart';
 import '../../shared/tag_colors.dart';
 import '../../shared/widgets/mail_web_view.dart';
 import '../../shared/widgets/snack.dart';
+import 'mark_followup_sheet.dart';
 import 'share_actions.dart';
+
+/// Overflow menu of the reader.
+enum _MenuAction { markFollowup, headers }
 
 class EmailScreen extends ConsumerStatefulWidget {
   const EmailScreen({required this.messageId, super.key});
@@ -27,7 +31,9 @@ class _EmailScreenState extends ConsumerState<EmailScreen> {
   List<ThreadEntry> _thread = const <ThreadEntry>[];
   bool _loading = true;
   bool _allowRemote = false;
-  bool _detailsOpen = false;
+  // Open by default: the one-line header alone hides who the mail was addressed to, and
+  // recipients are part of reading it, not an extra. Still collapsible for a long body.
+  bool _detailsOpen = true;
   Object? _error;
 
   @override
@@ -87,6 +93,25 @@ class _EmailScreenState extends ConsumerState<EmailScreen> {
     }
   }
 
+  Future<void> _onMenu(_MenuAction a, MessageDetail d) async {
+    switch (a) {
+      case _MenuAction.headers:
+        await context.push('/message/${d.id}/headers');
+      case _MenuAction.markFollowup:
+        final created = await showMarkFollowupSheet(
+          context,
+          messageId: d.id,
+          fromAddress: d.fromAddress,
+        );
+        // POST /followups does not bump the live-events revision, so nothing tells the
+        // «In attesa» tab it has new work — say so here rather than leave the user
+        // wondering whether the tap landed.
+        if (created && mounted) {
+          showSnack(context, AppLocalizations.of(context)!.followupMarkCreated);
+        }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
@@ -99,6 +124,37 @@ class _EmailScreenState extends ConsumerState<EmailScreen> {
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
+        actions: d == null
+            ? null
+            : <Widget>[
+                PopupMenuButton<_MenuAction>(
+                  onSelected: (a) => _onMenu(a, d),
+                  itemBuilder: (_) => <PopupMenuEntry<_MenuAction>>[
+                    // Marking is a write on your own archive: a shared folder is
+                    // read-only, so the entry is hidden there (parity with the web,
+                    // which gates on !msg.shared_owner).
+                    if (d.sharedOwnerName == null)
+                      PopupMenuItem<_MenuAction>(
+                        value: _MenuAction.markFollowup,
+                        child: ListTile(
+                          dense: true,
+                          contentPadding: EdgeInsets.zero,
+                          leading: const Icon(Icons.hourglass_empty, size: 20),
+                          title: Text(l.followupMarkTitle),
+                        ),
+                      ),
+                    PopupMenuItem<_MenuAction>(
+                      value: _MenuAction.headers,
+                      child: ListTile(
+                        dense: true,
+                        contentPadding: EdgeInsets.zero,
+                        leading: const Icon(Icons.code, size: 20),
+                        title: Text(l.emailHeadersTitle),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
       ),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
@@ -299,9 +355,11 @@ class _EmailScreenState extends ConsumerState<EmailScreen> {
     children: <Widget>[
       if (d.fromAddress.isNotEmpty && d.fromAddress != d.fromLabel)
         _line(context, l.emailFrom, d.fromAddress),
-      if (d.to.isNotEmpty) _line(context, l.emailTo, d.to.join(', ')),
-      if (d.cc.isNotEmpty) _line(context, l.emailCc, d.cc.join(', ')),
-      if (d.bcc.isNotEmpty) _line(context, l.emailBcc, d.bcc.join(', ')),
+      // Every address, never a subset: _line wraps (RichText, no maxLines), so a long
+      // list grows the panel instead of hiding names behind an ellipsis.
+      if (d.to.isNotEmpty) _line(context, l.emailTo, _addresses(d.to)),
+      if (d.cc.isNotEmpty) _line(context, l.emailCc, _addresses(d.cc)),
+      if (d.bcc.isNotEmpty) _line(context, l.emailBcc, _addresses(d.bcc)),
       if (d.dateSent != null)
         _line(context, l.emailDate, formatDateTime(d.dateSent, locale)),
       if (d.folders.isNotEmpty)
@@ -545,6 +603,8 @@ class _EmailScreenState extends ConsumerState<EmailScreen> {
       ],
     ),
   );
+
+  String _addresses(List<Recipient> rs) => rs.map((r) => r.display).join(', ');
 
   Widget _line(BuildContext context, String label, String value) => Padding(
     padding: const EdgeInsets.only(top: 4),
