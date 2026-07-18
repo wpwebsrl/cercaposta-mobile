@@ -420,7 +420,10 @@ class AuthController extends Notifier<AuthState> {
     final prefs = ref.read(sharedPreferencesProvider);
     // Mark the foreground active NOW so an about-to-fire background isolate stands down.
     await prefs.setInt(kBgHeartbeatMs, DateTime.now().millisecondsSinceEpoch);
-    if (await _adoptBackgroundTokens(prefs)) return; // session already fresh → no refresh
+    // Adopted → the session is already fresh, so skip our own (racing) refresh.
+    if (await _adoptBackgroundTokens(prefs)) {
+      return;
+    }
     await keepaliveTick();
   }
 

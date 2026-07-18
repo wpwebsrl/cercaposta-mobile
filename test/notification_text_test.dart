@@ -5,16 +5,24 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 NotificationItem _n(String type, Map<String, dynamic> params) =>
-    NotificationItem(id: 'x', type: type, params: params, createdAt: DateTime.utc(2026));
+    NotificationItem(
+      id: 'x',
+      type: type,
+      params: params,
+      createdAt: DateTime.utc(2026),
+    );
 
 void main() {
   final l = lookupAppLocalizations(const Locale('it'));
 
-  test('reprocess title/body come from the catalog (shared with the screen)', () {
-    final n = _n('reprocess_recommended', const <String, dynamic>{});
-    expect(notifTitle(l, n, 'it'), l.notifReprocessTitle);
-    expect(notifBody(l, n, 'it'), l.notifReprocessBody);
-  });
+  test(
+    'reprocess title/body come from the catalog (shared with the screen)',
+    () {
+      final n = _n('reprocess_recommended', const <String, dynamic>{});
+      expect(notifTitle(l, n, 'it'), l.notifReprocessTitle);
+      expect(notifBody(l, n, 'it'), l.notifReprocessBody);
+    },
+  );
 
   test('follow-up no_reply interpolates the counterpart name and days', () {
     final n = _n('followup.no_reply', const <String, dynamic>{

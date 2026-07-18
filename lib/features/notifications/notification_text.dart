@@ -36,30 +36,42 @@ IconData notifIcon(String type) => switch (type) {
   _ => Icons.notifications_outlined,
 };
 
-String notifTitle(AppLocalizations l, NotificationItem n, String locale) => switch (n.type) {
-  'reprocess_recommended' => l.notifReprocessTitle,
-  'followup.no_reply' => l.notifFollowupNoReplyTitle(_p(n, 'name')),
-  'followup.reply_due' => l.notifFollowupReplyDueTitle(_p(n, 'name')),
-  'followup.due_soon' => l.notifFollowupDueSoonTitle,
-  'followup.reminder_sent' => l.notifFollowupReminderSentTitle(_p(n, 'name')),
-  'followup.digest' => l.notifFollowupDigestTitle,
-  _ => l.notificationsTitle,
-};
+String notifTitle(AppLocalizations l, NotificationItem n, String locale) =>
+    switch (n.type) {
+      'reprocess_recommended' => l.notifReprocessTitle,
+      'followup.no_reply' => l.notifFollowupNoReplyTitle(_p(n, 'name')),
+      'followup.reply_due' => l.notifFollowupReplyDueTitle(_p(n, 'name')),
+      'followup.due_soon' => l.notifFollowupDueSoonTitle,
+      'followup.reminder_sent' => l.notifFollowupReminderSentTitle(
+        _p(n, 'name'),
+      ),
+      'followup.digest' => l.notifFollowupDigestTitle,
+      _ => l.notificationsTitle,
+    };
 
-String notifBody(AppLocalizations l, NotificationItem n, String locale) => switch (n.type) {
-  'reprocess_recommended' => l.notifReprocessBody,
-  'followup.no_reply' => l.notifFollowupNoReplyBody(_p(n, 'summary'), _pi(n, 'days')),
-  'followup.reply_due' => l.notifFollowupReplyDueBody(_p(n, 'summary'), _pi(n, 'days')),
-  'followup.due_soon' => l.notifFollowupDueSoonBody(
-    _p(n, 'summary'),
-    _p(n, 'name'),
-    _pDate(n, 'due_date', locale),
-  ),
-  'followup.reminder_sent' => l.notifFollowupReminderSentBody(_p(n, 'summary')),
-  'followup.digest' => l.notifFollowupDigestBody(
-    _pi(n, 'overdue'),
-    _pi(n, 'due_today'),
-    _pi(n, 'waiting_me'),
-  ),
-  _ => '',
-};
+String notifBody(AppLocalizations l, NotificationItem n, String locale) =>
+    switch (n.type) {
+      'reprocess_recommended' => l.notifReprocessBody,
+      'followup.no_reply' => l.notifFollowupNoReplyBody(
+        _p(n, 'summary'),
+        _pi(n, 'days'),
+      ),
+      'followup.reply_due' => l.notifFollowupReplyDueBody(
+        _p(n, 'summary'),
+        _pi(n, 'days'),
+      ),
+      'followup.due_soon' => l.notifFollowupDueSoonBody(
+        _p(n, 'summary'),
+        _p(n, 'name'),
+        _pDate(n, 'due_date', locale),
+      ),
+      'followup.reminder_sent' => l.notifFollowupReminderSentBody(
+        _p(n, 'summary'),
+      ),
+      'followup.digest' => l.notifFollowupDigestBody(
+        _pi(n, 'overdue'),
+        _pi(n, 'due_today'),
+        _pi(n, 'waiting_me'),
+      ),
+      _ => '',
+    };

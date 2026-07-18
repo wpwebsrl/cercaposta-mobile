@@ -52,7 +52,8 @@ List<NotificationItem> freshNotifications({
 
 Future<void> runNotifyPoll() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final prefs = await SharedPreferences.getInstance(); // fresh disk read in this isolate
+  final prefs =
+      await SharedPreferences.getInstance(); // fresh disk read in this isolate
   if (!(prefs.getBool(kPrefOsNotifications) ?? false)) return; // feature off
 
   // Heartbeat guard: if the foreground app was active recently it owns the session — do NOT poll
@@ -100,11 +101,9 @@ Future<void> runNotifyPoll() async {
     final listJson = await _getJson(dio, '/notifications');
     final ids = listJson == null
         ? const <String>[]
-        : NotificationList.fromJson(listJson)
-              .items
-              .map((n) => n.id)
-              .where((s) => s.isNotEmpty)
-              .toList();
+        : NotificationList.fromJson(
+            listJson,
+          ).items.map((n) => n.id).where((s) => s.isNotEmpty).toList();
     await prefs.setStringList(kBgSeenIds, ids);
     await prefs.setInt(kBgBaselineMs, nowMs);
     await prefs.setInt(kBgLastRev, notifRev);
@@ -167,7 +166,10 @@ Future<String?> _refresh(
   SharedPreferences prefs,
   String rt,
 ) async {
-  await prefs.setInt(kBgRefreshStartedMs, DateTime.now().millisecondsSinceEpoch);
+  await prefs.setInt(
+    kBgRefreshStartedMs,
+    DateTime.now().millisecondsSinceEpoch,
+  );
   try {
     final resp = await dio.post<dynamic>(
       '/auth/refresh',
@@ -210,6 +212,8 @@ Future<Map<String, dynamic>?> _getJson(Dio dio, String path) async {
 
 AppLocalizations _localizations(SharedPreferences prefs) {
   final code = prefs.getString(kPrefLocale);
-  final lang = code == 'en' ? 'en' : 'it'; // catalog only ships it/en; default it
+  final lang = code == 'en'
+      ? 'en'
+      : 'it'; // catalog only ships it/en; default it
   return lookupAppLocalizations(Locale(lang));
 }

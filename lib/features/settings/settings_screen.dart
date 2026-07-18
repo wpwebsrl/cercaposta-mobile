@@ -256,7 +256,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 if (!context.mounted) return;
                 // Turning it on but ending up off means the OS permission was denied.
                 if (v && !ok) {
-                  showSnack(context, l.settingsOsNotificationsDenied, error: true);
+                  showSnack(
+                    context,
+                    l.settingsOsNotificationsDenied,
+                    error: true,
+                  );
                 }
               },
             ),

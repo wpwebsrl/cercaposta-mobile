@@ -45,8 +45,8 @@ Future<void> main() async {
       appInfoProvider.overrideWithValue(info),
     ],
   );
-  NotifyService.onOpenNotifications =
-      () => container.read(homeTabProvider.notifier).state = 3;
+  NotifyService.onOpenNotifications = () =>
+      container.read(homeTabProvider.notifier).state = 3;
   if (NotifyService.consumeColdLaunch()) {
     container.read(homeTabProvider.notifier).state = 3;
   }
