@@ -503,6 +503,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsThemeAuto => 'Automatic';
 
   @override
+  String get settingsNotifications => 'Notifications';
+
+  @override
+  String get settingsOsNotifications => 'System notifications';
+
+  @override
+  String get settingsOsNotificationsHint =>
+      'Shows new notifications in the phone\'s notification centre. On Android the check runs about every 15 minutes; on iOS whenever the system allows it.';
+
+  @override
+  String get settingsOsNotificationsDenied =>
+      'Permission denied: enable CercaPosta notifications in the system settings.';
+
+  @override
   String get settingsBiometric => 'Biometric sign-in and unlock';
 
   @override
@@ -1006,6 +1020,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String notifFollowupReplyDueBody(String summary, int days) {
     return '«$summary» — the deadline passed $days days ago.';
   }
+
+  @override
+  String get notifChannelName => 'Notifications';
+
+  @override
+  String notifSummaryTitle(int count) {
+    return '$count new notifications';
+  }
+
+  @override
+  String get notifSummaryBody => 'Open CercaPosta to see them all.';
 
   @override
   String get notifFollowupDueSoonTitle => 'Deadline approaching';

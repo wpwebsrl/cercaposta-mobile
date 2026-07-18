@@ -8,9 +8,9 @@ import '../../core/api/error_messages.dart';
 import '../../core/auth/auth_controller.dart';
 import '../../core/i18n/app_localizations.dart';
 import '../../core/providers.dart';
-import '../../shared/format.dart';
 import '../../shared/models/notification.dart';
 import '../../shared/widgets/snack.dart';
+import 'notification_text.dart';
 import 'notifications_controller.dart';
 
 class NotificationsScreen extends ConsumerStatefulWidget {
@@ -170,7 +170,7 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Icon(
-              _notifIcon(n.type),
+              notifIcon(n.type),
               color: Theme.of(context).colorScheme.primary,
             ),
             const SizedBox(width: 12),
@@ -179,13 +179,13 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    _notifTitle(l, n, locale),
+                    notifTitle(l, n, locale),
                     style: Theme.of(context).textTheme.titleSmall,
                   ),
-                  if (_notifBody(l, n, locale).isNotEmpty) ...<Widget>[
+                  if (notifBody(l, n, locale).isNotEmpty) ...<Widget>[
                     const SizedBox(height: 4),
                     Text(
-                      _notifBody(l, n, locale),
+                      notifBody(l, n, locale),
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ],
@@ -219,74 +219,6 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
     );
   }
 }
-
-String _p(NotificationItem n, String key) {
-  final v = n.params[key];
-  return v is String ? v : '';
-}
-
-int _pi(NotificationItem n, String key) {
-  final v = n.params[key];
-  if (v is int) return v;
-  if (v is num) return v.toInt();
-  return 0;
-}
-
-/// Format an ISO date/datetime param with the profile locale, falling back to the
-/// raw string (the server sends an ISO date for due_soon / a datetime for sent).
-String _pDate(NotificationItem n, String key, String locale) {
-  final raw = _p(n, key);
-  final dt = DateTime.tryParse(raw);
-  return dt == null ? raw : formatDateShort(dt, locale);
-}
-
-IconData _notifIcon(String type) => switch (type) {
-  'reprocess_recommended' => Icons.build_outlined,
-  'followup.reminder_sent' => Icons.mark_email_read_outlined,
-  'followup.digest' => Icons.summarize_outlined,
-  _ when type.startsWith('followup.') => Icons.hourglass_bottom,
-  _ => Icons.notifications_outlined,
-};
-
-String _notifTitle(AppLocalizations l, NotificationItem n, String locale) =>
-    switch (n.type) {
-      'reprocess_recommended' => l.notifReprocessTitle,
-      'followup.no_reply' => l.notifFollowupNoReplyTitle(_p(n, 'name')),
-      'followup.reply_due' => l.notifFollowupReplyDueTitle(_p(n, 'name')),
-      'followup.due_soon' => l.notifFollowupDueSoonTitle,
-      'followup.reminder_sent' => l.notifFollowupReminderSentTitle(
-        _p(n, 'name'),
-      ),
-      'followup.digest' => l.notifFollowupDigestTitle,
-      _ => l.notificationsTitle,
-    };
-
-String _notifBody(AppLocalizations l, NotificationItem n, String locale) =>
-    switch (n.type) {
-      'reprocess_recommended' => l.notifReprocessBody,
-      'followup.no_reply' => l.notifFollowupNoReplyBody(
-        _p(n, 'summary'),
-        _pi(n, 'days'),
-      ),
-      'followup.reply_due' => l.notifFollowupReplyDueBody(
-        _p(n, 'summary'),
-        _pi(n, 'days'),
-      ),
-      'followup.due_soon' => l.notifFollowupDueSoonBody(
-        _p(n, 'summary'),
-        _p(n, 'name'),
-        _pDate(n, 'due_date', locale),
-      ),
-      'followup.reminder_sent' => l.notifFollowupReminderSentBody(
-        _p(n, 'summary'),
-      ),
-      'followup.digest' => l.notifFollowupDigestBody(
-        _pi(n, 'overdue'),
-        _pi(n, 'due_today'),
-        _pi(n, 'waiting_me'),
-      ),
-      _ => '',
-    };
 
 class _EmptyState extends StatelessWidget {
   const _EmptyState({required this.text});

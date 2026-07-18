@@ -1010,6 +1010,30 @@ abstract class AppLocalizations {
   /// **'Automatico'**
   String get settingsThemeAuto;
 
+  /// No description provided for @settingsNotifications.
+  ///
+  /// In it, this message translates to:
+  /// **'Notifiche'**
+  String get settingsNotifications;
+
+  /// No description provided for @settingsOsNotifications.
+  ///
+  /// In it, this message translates to:
+  /// **'Notifiche di sistema'**
+  String get settingsOsNotifications;
+
+  /// No description provided for @settingsOsNotificationsHint.
+  ///
+  /// In it, this message translates to:
+  /// **'Mostra le nuove notifiche nel centro notifiche del telefono. Su Android il controllo avviene circa ogni 15 minuti; su iOS quando il sistema lo consente.'**
+  String get settingsOsNotificationsHint;
+
+  /// No description provided for @settingsOsNotificationsDenied.
+  ///
+  /// In it, this message translates to:
+  /// **'Permesso negato: attiva le notifiche di CercaPosta nelle impostazioni di sistema.'**
+  String get settingsOsNotificationsDenied;
+
   /// No description provided for @settingsBiometric.
   ///
   /// In it, this message translates to:
@@ -1879,6 +1903,24 @@ abstract class AppLocalizations {
   /// In it, this message translates to:
   /// **'«{summary}» — la scadenza è passata da {days} giorni.'**
   String notifFollowupReplyDueBody(String summary, int days);
+
+  /// No description provided for @notifChannelName.
+  ///
+  /// In it, this message translates to:
+  /// **'Notifiche'**
+  String get notifChannelName;
+
+  /// No description provided for @notifSummaryTitle.
+  ///
+  /// In it, this message translates to:
+  /// **'{count} nuove notifiche'**
+  String notifSummaryTitle(int count);
+
+  /// No description provided for @notifSummaryBody.
+  ///
+  /// In it, this message translates to:
+  /// **'Apri CercaPosta per vederle tutte.'**
+  String get notifSummaryBody;
 
   /// No description provided for @notifFollowupDueSoonTitle.
   ///

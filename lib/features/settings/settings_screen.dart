@@ -7,6 +7,8 @@ import '../../core/auth/auth_controller.dart';
 import '../../core/i18n/app_localizations.dart';
 import '../../core/providers.dart';
 import '../../shared/format.dart';
+import '../../shared/widgets/snack.dart';
+import 'notify_settings.dart';
 import 'settings_controller.dart';
 import 'usage.dart';
 
@@ -238,6 +240,25 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 onSelectionChanged: (sel) =>
                     ref.read(settingsProvider.notifier).setTheme(sel.first),
               ),
+            ),
+            const Divider(),
+            _sectionLabel(context, l.settingsNotifications),
+            SwitchListTile(
+              secondary: const Icon(Icons.notifications_active_outlined),
+              title: Text(l.settingsOsNotifications),
+              subtitle: Text(l.settingsOsNotificationsHint),
+              isThreeLine: true,
+              value: ref.watch(notifySettingsProvider),
+              onChanged: (v) async {
+                final ok = await ref
+                    .read(notifySettingsProvider.notifier)
+                    .setEnabled(v);
+                if (!context.mounted) return;
+                // Turning it on but ending up off means the OS permission was denied.
+                if (v && !ok) {
+                  showSnack(context, l.settingsOsNotificationsDenied, error: true);
+                }
+              },
             ),
             const Divider(),
             if (auth.isEncrypted)

@@ -3,15 +3,19 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:workmanager/workmanager.dart';
 
 import 'core/auth/auth_controller.dart';
 import 'core/auth/keepalive.dart';
+import 'core/background/notify_task.dart';
 import 'core/config/app_info.dart';
 import 'core/live/live_refresh.dart';
 import 'core/i18n/app_localizations.dart';
+import 'core/notify/notify_service.dart';
 import 'core/providers.dart';
 import 'core/router/app_router.dart';
 import 'core/theme/app_theme.dart';
+import 'features/home/home_tab.dart';
 import 'features/settings/settings_controller.dart';
 
 Future<void> main() async {
@@ -19,12 +23,37 @@ Future<void> main() async {
   await initializeDateFormatting();
   final prefs = await SharedPreferences.getInstance();
   final info = await AppInfo.load();
+
+  // OS notifications (docs/notifiche.md): register the WorkManager background poll dispatcher and
+  // the local-notification plugin. Best-effort — a plugin hiccup must never block app start.
+  try {
+    await Workmanager().initialize(notifyCallbackDispatcher);
+  } on Object {
+    // ignore
+  }
+  try {
+    await NotifyService.init();
+  } on Object {
+    // ignore
+  }
+
+  // Explicit container so a notification tap (fired outside the widget tree) can open the
+  // notification-centre tab (index 3 in HomeShell).
+  final container = ProviderContainer(
+    overrides: <Override>[
+      sharedPreferencesProvider.overrideWithValue(prefs),
+      appInfoProvider.overrideWithValue(info),
+    ],
+  );
+  NotifyService.onOpenNotifications =
+      () => container.read(homeTabProvider.notifier).state = 3;
+  if (NotifyService.consumeColdLaunch()) {
+    container.read(homeTabProvider.notifier).state = 3;
+  }
+
   runApp(
-    ProviderScope(
-      overrides: <Override>[
-        sharedPreferencesProvider.overrideWithValue(prefs),
-        appInfoProvider.overrideWithValue(info),
-      ],
+    UncontrolledProviderScope(
+      container: container,
       child: const CercaPostaApp(),
     ),
   );

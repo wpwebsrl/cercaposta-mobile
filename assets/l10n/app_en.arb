@@ -187,6 +187,10 @@
   "settingsThemeLight": "Light",
   "settingsThemeDark": "Dark",
   "settingsThemeAuto": "Automatic",
+  "settingsNotifications": "Notifications",
+  "settingsOsNotifications": "System notifications",
+  "settingsOsNotificationsHint": "Shows new notifications in the phone's notification centre. On Android the check runs about every 15 minutes; on iOS whenever the system allows it.",
+  "settingsOsNotificationsDenied": "Permission denied: enable CercaPosta notifications in the system settings.",
   "settingsBiometric": "Biometric sign-in and unlock",
   "settingsBiometricEnablePrompt": "Enter your account password to enable biometric sign-in and unlock.",
   "settingsSessions": "Devices & sessions",
@@ -394,6 +398,16 @@
   "notifFollowupNoReplyBody": "«{summary}» — no reply for {days} days.",
   "notifFollowupReplyDueTitle": "You should reply to {name}",
   "notifFollowupReplyDueBody": "«{summary}» — the deadline passed {days} days ago.",
+  "notifChannelName": "Notifications",
+  "notifSummaryTitle": "{count} new notifications",
+  "@notifSummaryTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notifSummaryBody": "Open CercaPosta to see them all.",
   "notifFollowupDueSoonTitle": "Deadline approaching",
   "notifFollowupDueSoonBody": "«{summary}» — {name}: due on {date}.",
   "notifFollowupReminderSentTitle": "Reminder sent to {name}",

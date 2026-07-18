@@ -5,6 +5,9 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
     <!-- Sblocco biometrico (local_auth). -->
     <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
+    <!-- Notifiche di sistema (flutter_local_notifications, Android 13+): runtime, chiesta
+         all'utente quando abilita le notifiche nelle Impostazioni. -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <application
         android:label="Cerca posta"

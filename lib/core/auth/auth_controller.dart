@@ -1,9 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../shared/models/auth.dart';
 import '../../shared/models/user.dart';
 import '../api/api_exception.dart';
+import '../background/bg_constants.dart';
 import '../providers.dart';
 import 'secure_store.dart';
 
@@ -409,6 +411,37 @@ class AuthController extends Notifier<AuthState> {
     }
   }
 
+  /// Resume hook (docs/notifiche.md → §4.6): before doing our own keepalive refresh, adopt any
+  /// tokens the background notification isolate rotated while we were away — otherwise we'd refresh
+  /// with a token it already rotated and race it. The backend's 60s reuse grace keeps even a rare
+  /// race benign, but adopting avoids it entirely (and a redundant rotation).
+  Future<void> onResume() async {
+    if (state.accessToken == null) return;
+    final prefs = ref.read(sharedPreferencesProvider);
+    // Mark the foreground active NOW so an about-to-fire background isolate stands down.
+    await prefs.setInt(kBgHeartbeatMs, DateTime.now().millisecondsSinceEpoch);
+    if (await _adoptBackgroundTokens(prefs)) return; // session already fresh → no refresh
+    await keepaliveTick();
+  }
+
+  Future<bool> _adoptBackgroundTokens(SharedPreferences prefs) async {
+    try {
+      await prefs.reload(); // the flag/token were written from another isolate
+    } on Object {
+      return false;
+    }
+    if (!(prefs.getBool(kBgRotated) ?? false)) return false;
+    final store = ref.read(secureStoreProvider);
+    final access = await store.readBackgroundAccessToken();
+    await store.clearBackgroundAccessToken();
+    await prefs.setBool(kBgRotated, false);
+    if (access == null || access.isEmpty) return false;
+    // The refresh token on disk is already the fresh one the isolate wrote; adopt the matching
+    // access token so the next request doesn't 401 into a redundant, racing refresh.
+    state = state.copyWith(accessToken: access);
+    return true;
+  }
+
   /// Silent DEK re-unlock with the RAM-held session password (single-flight).
   /// Returns true when the vault holds the DEK again → the 423'd call can retry.
   /// A stale password (changed elsewhere) is forgotten immediately so repeated
@@ -576,8 +609,27 @@ class AuthController extends Notifier<AuthState> {
     // revocation and expiry — those are exactly the moments the login screen
     // reappears and Face ID / fingerprint is supposed to help. They are wiped
     // by the Settings toggle, a rejected password, or the recovery flow.
-    await ref.read(secureStoreProvider).clearSession();
+    final store = ref.read(secureStoreProvider);
+    await store.clearSession();
+    // Reset the background notification state so the NEXT session re-baselines instead of diffing
+    // against another user's ids. The periodic task keeps running but self-guards on the now-absent
+    // refresh token (no-op), and resumes cleanly on the next login. Best-effort (D10).
+    await _resetBackgroundNotifications(store);
     state = const AuthState(status: AuthStatus.loggedOut);
+  }
+
+  Future<void> _resetBackgroundNotifications(SecureStore store) async {
+    try {
+      await store.clearBackgroundAccessToken();
+      final prefs = ref.read(sharedPreferencesProvider);
+      await prefs.remove(kBgRotated);
+      await prefs.remove(kBgSeenIds);
+      await prefs.remove(kBgBaselineMs);
+      await prefs.remove(kBgLastRev);
+      await prefs.remove(kBgRefreshStartedMs);
+    } on Object {
+      // ignore
+    }
   }
 }
 

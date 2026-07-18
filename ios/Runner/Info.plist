@@ -80,5 +80,19 @@
 		<false/>
 		<key>UIStatusBarHidden</key>
 		<false/>
+		<!-- Notifiche di sistema (docs/notifiche.md): il poll in background che le mostra gira via
+		     workmanager → BGAppRefreshTask. iOS lo esegue in modo OPPORTUNISTICO (non garantito).
+		     UIBackgroundModes abilita il fetch; l'identificatore va dichiarato qui. -->
+		<key>UIBackgroundModes</key>
+		<array>
+			<string>fetch</string>
+			<string>processing</string>
+		</array>
+		<key>BGTaskSchedulerPermittedIdentifiers</key>
+		<array>
+			<string>it.cercaposta.app.notifyfetch</string>
+			<string>be.tramckrijte.workmanager.BackgroundRefreshTask</string>
+			<string>be.tramckrijte.workmanager.BackgroundTask</string>
+		</array>
 	</dict>
 </plist>

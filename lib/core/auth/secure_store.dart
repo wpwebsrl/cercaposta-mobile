@@ -44,6 +44,16 @@ class SecureStore {
       _s.write(key: _kRefresh, value: token);
   Future<void> clearRefreshToken() => _s.delete(key: _kRefresh);
 
+  // --- background-isolate token hand-off (docs/notifiche.md) -----------------
+  // When the background notification isolate rotates the tokens it stashes the fresh access token
+  // here; the foreground adopts it on resume (bg_rotated flag) instead of refreshing again and
+  // racing the isolate. Not a long-lived secret — cleared as soon as it's adopted.
+  static const _kBgAccess = 'bg_access_token';
+  Future<String?> readBackgroundAccessToken() => _s.read(key: _kBgAccess);
+  Future<void> writeBackgroundAccessToken(String token) =>
+      _s.write(key: _kBgAccess, value: token);
+  Future<void> clearBackgroundAccessToken() => _s.delete(key: _kBgAccess);
+
   // --- biometric credentials -------------------------------------------------
   Future<SavedCredentials?> readCredentials() async {
     final server = await _s.read(key: _kCredServer);

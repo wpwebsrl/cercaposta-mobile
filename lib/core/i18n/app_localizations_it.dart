@@ -506,6 +506,20 @@ class AppLocalizationsIt extends AppLocalizations {
   String get settingsThemeAuto => 'Automatico';
 
   @override
+  String get settingsNotifications => 'Notifiche';
+
+  @override
+  String get settingsOsNotifications => 'Notifiche di sistema';
+
+  @override
+  String get settingsOsNotificationsHint =>
+      'Mostra le nuove notifiche nel centro notifiche del telefono. Su Android il controllo avviene circa ogni 15 minuti; su iOS quando il sistema lo consente.';
+
+  @override
+  String get settingsOsNotificationsDenied =>
+      'Permesso negato: attiva le notifiche di CercaPosta nelle impostazioni di sistema.';
+
+  @override
   String get settingsBiometric => 'Accesso e sblocco con biometria';
 
   @override
@@ -1013,6 +1027,17 @@ class AppLocalizationsIt extends AppLocalizations {
   String notifFollowupReplyDueBody(String summary, int days) {
     return '«$summary» — la scadenza è passata da $days giorni.';
   }
+
+  @override
+  String get notifChannelName => 'Notifiche';
+
+  @override
+  String notifSummaryTitle(int count) {
+    return '$count nuove notifiche';
+  }
+
+  @override
+  String get notifSummaryBody => 'Apri CercaPosta per vederle tutte.';
 
   @override
   String get notifFollowupDueSoonTitle => 'Scadenza in arrivo';

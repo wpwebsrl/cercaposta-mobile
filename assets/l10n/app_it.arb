@@ -187,6 +187,10 @@
   "settingsThemeLight": "Chiaro",
   "settingsThemeDark": "Scuro",
   "settingsThemeAuto": "Automatico",
+  "settingsNotifications": "Notifiche",
+  "settingsOsNotifications": "Notifiche di sistema",
+  "settingsOsNotificationsHint": "Mostra le nuove notifiche nel centro notifiche del telefono. Su Android il controllo avviene circa ogni 15 minuti; su iOS quando il sistema lo consente.",
+  "settingsOsNotificationsDenied": "Permesso negato: attiva le notifiche di CercaPosta nelle impostazioni di sistema.",
   "settingsBiometric": "Accesso e sblocco con biometria",
   "settingsBiometricEnablePrompt": "Inserisci la password del tuo account per abilitare l'accesso e lo sblocco con la biometria.",
   "settingsSessions": "Dispositivi e sessioni",
@@ -497,6 +501,16 @@
       }
     }
   },
+  "notifChannelName": "Notifiche",
+  "notifSummaryTitle": "{count} nuove notifiche",
+  "@notifSummaryTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notifSummaryBody": "Apri CercaPosta per vederle tutte.",
   "notifFollowupDueSoonTitle": "Scadenza in arrivo",
   "notifFollowupDueSoonBody": "«{summary}» — {name}: scade il {date}.",
   "@notifFollowupDueSoonBody": {

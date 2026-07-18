@@ -40,7 +40,9 @@ class SessionKeepalive with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      _tick(); // revive promptly after a background stint
+      // Resume goes through onResume (not a bare tick): it adopts any tokens the background
+      // notification isolate rotated while we were away before doing its own refresh (§4.6).
+      unawaited(_ref.read(authProvider.notifier).onResume());
       _restart();
     } else if (state == AppLifecycleState.paused) {
       _timer?.cancel();

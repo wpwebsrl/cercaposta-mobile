@@ -7,6 +7,8 @@ import '../../features/notifications/notifications_controller.dart';
 import '../../features/search/folder_drawer.dart';
 import '../api/api_providers.dart';
 import '../auth/auth_controller.dart';
+import '../background/bg_constants.dart';
+import '../providers.dart';
 
 /// The latest archive revision the server reported. The search screen watches this to offer a
 /// discreet «new results» affordance — on mobile the list is never re-run under the user's thumb
@@ -67,6 +69,11 @@ class LiveRefresh with WidgetsBindingObserver {
 
   Future<void> _tick() async {
     if (_ref.read(authProvider).accessToken == null) return;
+    // Heartbeat: mark the foreground as active so the background notification isolate stands down
+    // (it must not refresh tokens while we might too — reuse-detection guard, docs/notifiche.md).
+    _ref
+        .read(sharedPreferencesProvider)
+        .setInt(kBgHeartbeatMs, DateTime.now().millisecondsSinceEpoch);
     try {
       final s = await _ref.read(eventsApiProvider).state();
       _apply(s.revs);
