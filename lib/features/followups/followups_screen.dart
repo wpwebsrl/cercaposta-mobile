@@ -6,6 +6,7 @@ import '../../core/api/api_exception.dart';
 import '../../core/api/api_providers.dart';
 import '../../core/auth/auth_controller.dart';
 import '../../core/i18n/app_localizations.dart';
+import '../../core/live/live_refresh.dart';
 import '../../shared/format.dart';
 import '../../shared/models/followup.dart';
 import '../../shared/widgets/snack.dart';
@@ -118,6 +119,12 @@ class _FollowupsScreenState extends ConsumerState<FollowupsScreen> {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
+    // A live notifications-scope bump (e.g. a row closed/added on another device) means the list
+    // may have changed: reload it so a vanished row vanishes here too (docs/eventi-live.md). Poll-
+    // paced like the rest of mobile live-refresh — the acting device already reloads in _act().
+    ref.listen(liveFollowupsRevProvider, (_, __) {
+      if (mounted) _load();
+    });
     return Scaffold(
       appBar: AppBar(title: Text(l.followupsTitle)),
       body: _loading

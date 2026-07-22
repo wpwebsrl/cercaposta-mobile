@@ -15,6 +15,11 @@ import '../providers.dart';
 /// (only the tree/counts/badge refresh on their own; the list refreshes on tap or pull-to-refresh).
 final liveArchiveRevProvider = StateProvider<int>((ref) => 0);
 
+/// The latest notifications revision, republished for the «In attesa» screen to watch. Reply
+/// expectations ride this scope, so a bump means a row may have been closed/added elsewhere: the
+/// list reloads on its own (unlike the search list it's short and safe to re-run — docs/eventi-live.md).
+final liveFollowupsRevProvider = StateProvider<int>((ref) => 0);
+
 /// Foreground live refresh (docs/eventi-live.md): while the app is visible and authenticated,
 /// poll the change-state every [interval] (and immediately on resume), then re-fetch whatever
 /// scope advanced — own folders, received shares, the notification badge. Deliberately a poll,
@@ -42,6 +47,7 @@ class LiveRefresh with WidgetsBindingObserver {
       _seeded = false;
       _revs = const {'archive': 0, 'shares': 0, 'notifications': 0};
       _ref.read(liveArchiveRevProvider.notifier).state = 0;
+      _ref.read(liveFollowupsRevProvider.notifier).state = 0;
     });
     _restart();
     unawaited(_tick());
@@ -107,6 +113,9 @@ class LiveRefresh with WidgetsBindingObserver {
     }
     if (n != _revs['notifications']) {
       _ref.invalidate(notificationUnreadCountProvider);
+      // Reply-expectations ride the notifications scope: nudge «In attesa» to reload, so a row
+      // closed/added on another device drops/appears here too (not only on pull-to-refresh).
+      _ref.read(liveFollowupsRevProvider.notifier).state = n;
     }
     _revs = {'archive': a, 'shares': sh, 'notifications': n};
   }
