@@ -26,8 +26,16 @@ class FollowupsScreen extends ConsumerStatefulWidget {
 
 enum _RowAction { open, reminder, done, snooze1, snooze3, dismiss }
 
+/// Server page size (also the server-side cap): a full page means there may be more.
+const int _pageSize = 200;
+
 class _FollowupsScreenState extends ConsumerState<FollowupsScreen> {
   List<FollowupItem> _items = const <FollowupItem>[];
+  FollowupCounts? _counts; // server tab badges (null: older server → derive)
+  bool _hasMore =
+      false; // the last fetched page was full → offer «Carica altre»
+  int _offset = 0; // rows FETCHED so far (pre-dedupe): the next page's offset
+  bool _loadingMore = false;
   FollowupStatus? _status;
   bool _loading = true;
   Object? _error;
@@ -48,7 +56,25 @@ class _FollowupsScreenState extends ConsumerState<FollowupsScreen> {
     });
     final api = ref.read(followupApiProvider);
     try {
-      final list = await api.list();
+      // Re-cover what the user had loaded (extra «Carica altre» pages included), so
+      // acting on a row past the first page doesn't shrink the list under them.
+      final target = _offset > _pageSize ? _offset : _pageSize;
+      final items = <FollowupItem>[];
+      final seen = <String>{};
+      FollowupCounts? counts;
+      var fetched = 0;
+      var hasMore = false;
+      while (fetched < target) {
+        final page = await api.list(limit: _pageSize, offset: fetched);
+        counts ??= page.counts;
+        fetched += page.items.length;
+        for (final item in page.items) {
+          // Rows can straddle a page boundary between fetches: dedupe by id.
+          if (seen.add(item.id)) items.add(item);
+        }
+        hasMore = page.items.length == _pageSize;
+        if (!hasMore) break;
+      }
       FollowupStatus? status;
       try {
         status = await api.status();
@@ -57,7 +83,10 @@ class _FollowupsScreenState extends ConsumerState<FollowupsScreen> {
       }
       if (!mounted) return;
       setState(() {
-        _items = list.items;
+        _items = items;
+        _counts = counts;
+        _hasMore = hasMore;
+        _offset = fetched;
         _status = status;
         _unavailable = false;
         _loading = false;
@@ -70,6 +99,37 @@ class _FollowupsScreenState extends ConsumerState<FollowupsScreen> {
         _unavailable = code == 404 || code == 405;
         _error = _unavailable ? null : e;
       });
+    }
+  }
+
+  /// «Carica altre»: append the next server page. Guarded against overlapping with
+  /// a reload (`_loading`) and with itself (`_loadingMore`).
+  Future<void> _loadMore() async {
+    if (_loading || _loadingMore) return;
+    setState(() => _loadingMore = true);
+    final api = ref.read(followupApiProvider);
+    try {
+      final page = await api.list(limit: _pageSize, offset: _offset);
+      if (!mounted) return;
+      setState(() {
+        _offset += page.items.length;
+        final seen = _items.map((i) => i.id).toSet();
+        _items = <FollowupItem>[
+          ..._items,
+          ...page.items.where((i) => !seen.contains(i.id)),
+        ];
+        if (page.counts != null) _counts = page.counts;
+        _hasMore = page.items.length == _pageSize;
+        _loadingMore = false;
+      });
+    } on Object catch (e) {
+      if (!mounted) return;
+      setState(() => _loadingMore = false);
+      showSnack(
+        context,
+        _errorText(AppLocalizations.of(context)!, e),
+        error: true,
+      );
     }
   }
 
@@ -218,12 +278,14 @@ class _FollowupsScreenState extends ConsumerState<FollowupsScreen> {
 
   Widget _content(AppLocalizations l) {
     final status = _status;
-    final theirCount = _items
-        .where((i) => i.direction == 'their_turn' && i.isActive)
-        .length;
-    final myCount = _items
-        .where((i) => i.direction == 'my_turn' && i.isActive)
-        .length;
+    // Tab badges: the server's full active counts. The derived fallback (older
+    // servers) lies past the fetch window — see FollowupCounts.
+    final theirCount =
+        _counts?.theirTurn ??
+        _items.where((i) => i.direction == 'their_turn' && i.isActive).length;
+    final myCount =
+        _counts?.myTurn ??
+        _items.where((i) => i.direction == 'my_turn' && i.isActive).length;
     return Column(
       children: <Widget>[
         Padding(
@@ -262,6 +324,8 @@ class _FollowupsScreenState extends ConsumerState<FollowupsScreen> {
             body: disabled ? l.followupsDisabledBody : null,
             embedded: true,
           ),
+          // This tab may simply have no rows in the loaded window yet.
+          if (_hasMore) _loadMoreTile(l),
         ],
       );
     }
@@ -287,9 +351,18 @@ class _FollowupsScreenState extends ConsumerState<FollowupsScreen> {
           ),
           for (final item in closed) _row(l, locale, now, item, dimmed: true),
         ],
+        if (_hasMore) _loadMoreTile(l),
       ],
     );
   }
+
+  Widget _loadMoreTile(AppLocalizations l) => Padding(
+    padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+    child: OutlinedButton(
+      onPressed: _loadingMore ? null : _loadMore,
+      child: Text(l.followupsLoadMore),
+    ),
+  );
 
   Widget _row(
     AppLocalizations l,

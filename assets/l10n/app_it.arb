@@ -349,6 +349,7 @@
   "followupsTabMyTurn": "Devo rispondere",
   "followupsEmpty": "Nessuna attesa aperta.",
   "followupsRecentlyClosed": "Chiuse di recente",
+  "followupsLoadMore": "Carica altre",
   "followupsDisabledTitle": "Funzione non attiva",
   "followupsDisabledBody": "Le attese di risposta si attivano dal tuo profilo nell'app web.",
   "followupsUnavailableTitle": "Richiede un server aggiornato",

@@ -70,15 +70,38 @@ class FollowupItem {
   );
 }
 
+/// Full ACTIVE count per direction, computed by the server over the WHOLE archive:
+/// the tab badges. Deriving them from the returned rows lies as soon as the active
+/// set exceeds the fetch window — closing a row just pulls the next one into the
+/// window, so the number never moves (or moves on the other tab).
+class FollowupCounts {
+  const FollowupCounts({required this.theirTurn, required this.myTurn});
+
+  final int theirTurn;
+  final int myTurn;
+
+  factory FollowupCounts.fromJson(Map<String, dynamic> j) => FollowupCounts(
+    theirTurn: jsonInt(j, 'their_turn'),
+    myTurn: jsonInt(j, 'my_turn'),
+  );
+}
+
 class FollowupList {
-  const FollowupList({required this.total, required this.items});
+  const FollowupList({required this.total, required this.items, this.counts});
 
   final int total;
   final List<FollowupItem> items;
 
+  /// Null on older servers — the screen then falls back to deriving the badges
+  /// from the loaded rows, as before.
+  final FollowupCounts? counts;
+
   factory FollowupList.fromJson(Map<String, dynamic> j) => FollowupList(
     total: jsonInt(j, 'total'),
     items: jsonObjList(j, 'items').map(FollowupItem.fromJson).toList(),
+    counts: j['counts'] is Map<String, dynamic>
+        ? FollowupCounts.fromJson(jsonMap(j, 'counts'))
+        : null,
   );
 }
 

@@ -818,6 +818,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get followupsRecentlyClosed => 'Recently closed';
 
   @override
+  String get followupsLoadMore => 'Load more';
+
+  @override
   String get followupsDisabledTitle => 'Feature not enabled';
 
   @override

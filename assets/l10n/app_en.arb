@@ -342,6 +342,7 @@
   "followupsTabMyTurn": "To reply",
   "followupsEmpty": "No open expectations.",
   "followupsRecentlyClosed": "Recently closed",
+  "followupsLoadMore": "Load more",
   "followupsDisabledTitle": "Feature not enabled",
   "followupsDisabledBody": "Reply expectations are enabled from your profile in the web app.",
   "followupsUnavailableTitle": "Requires an updated server",

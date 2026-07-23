@@ -1568,6 +1568,12 @@ abstract class AppLocalizations {
   /// **'Chiuse di recente'**
   String get followupsRecentlyClosed;
 
+  /// No description provided for @followupsLoadMore.
+  ///
+  /// In it, this message translates to:
+  /// **'Carica altre'**
+  String get followupsLoadMore;
+
   /// No description provided for @followupsDisabledTitle.
   ///
   /// In it, this message translates to:

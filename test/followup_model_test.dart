@@ -56,6 +56,21 @@ void main() {
     expect(list.items, isEmpty);
   });
 
+  test(
+    'FollowupList.counts parses when present, stays null on older servers',
+    () {
+      final withCounts = FollowupList.fromJson(<String, dynamic>{
+        'total': 2,
+        'items': <dynamic>[],
+        'counts': <String, dynamic>{'their_turn': 301, 'my_turn': 285},
+      });
+      expect(withCounts.counts?.theirTurn, 301);
+      expect(withCounts.counts?.myTurn, 285);
+      // No `counts` (older server) → null, so the screen derives from the rows.
+      expect(FollowupList.fromJson(<String, dynamic>{}).counts, isNull);
+    },
+  );
+
   test('ReminderDraft.fromJson maps the send capability', () {
     final draft = ReminderDraft.fromJson(<String, dynamic>{
       'subject': 'Re: preventivo',

@@ -14,10 +14,10 @@ class FollowupApi {
   FollowupApi(this._dio);
   final Dio _dio;
 
-  Future<FollowupList> list({int limit = 200}) async {
+  Future<FollowupList> list({int limit = 200, int offset = 0}) async {
     final resp = await _dio.get<dynamic>(
       '/followups',
-      queryParameters: <String, dynamic>{'limit': limit},
+      queryParameters: <String, dynamic>{'limit': limit, 'offset': offset},
     );
     return FollowupList.fromJson(mapOf(resp.data));
   }
