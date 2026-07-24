@@ -466,6 +466,30 @@ class AppLocalizationsEn extends AppLocalizations {
   String get chatPhaseGenerating => 'Generating answer…';
 
   @override
+  String chatActivitySearch(String q) {
+    return 'Searching: “$q”';
+  }
+
+  @override
+  String chatActivityThread(String s) {
+    return 'Reading thread “$s”';
+  }
+
+  @override
+  String get chatActivityThreadGeneric => 'Reading a conversation';
+
+  @override
+  String get chatActivityFollowups => 'Checking reply expectations';
+
+  @override
+  String get chatActivityStats => 'Computing archive statistics';
+
+  @override
+  String chatActivityContact(String a) {
+    return 'Gathering history for $a';
+  }
+
+  @override
   String get chatEmbeddingFailed =>
       'Semantic search unavailable: results are keyword-only.';
 

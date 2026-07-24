@@ -938,6 +938,42 @@ abstract class AppLocalizations {
   /// **'Generazione risposta…'**
   String get chatPhaseGenerating;
 
+  /// No description provided for @chatActivitySearch.
+  ///
+  /// In it, this message translates to:
+  /// **'Cerco: “{q}”'**
+  String chatActivitySearch(String q);
+
+  /// No description provided for @chatActivityThread.
+  ///
+  /// In it, this message translates to:
+  /// **'Leggo il thread “{s}”'**
+  String chatActivityThread(String s);
+
+  /// No description provided for @chatActivityThreadGeneric.
+  ///
+  /// In it, this message translates to:
+  /// **'Leggo una conversazione'**
+  String get chatActivityThreadGeneric;
+
+  /// No description provided for @chatActivityFollowups.
+  ///
+  /// In it, this message translates to:
+  /// **'Controllo le attese di risposta'**
+  String get chatActivityFollowups;
+
+  /// No description provided for @chatActivityStats.
+  ///
+  /// In it, this message translates to:
+  /// **'Calcolo le statistiche dell\'archivio'**
+  String get chatActivityStats;
+
+  /// No description provided for @chatActivityContact.
+  ///
+  /// In it, this message translates to:
+  /// **'Raccolgo la storia di {a}'**
+  String chatActivityContact(String a);
+
   /// No description provided for @chatEmbeddingFailed.
   ///
   /// In it, this message translates to:

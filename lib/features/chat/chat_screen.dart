@@ -142,6 +142,8 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
       children: <Widget>[
         Expanded(child: _messages(context, l, state)),
         if (state.streaming) _phaseBar(context, l, state.phase),
+        if (state.streaming && state.activities.isNotEmpty)
+          _activityTrail(context, l, state.activities),
         if (state.embeddingFailed) _embeddingWarn(context, l),
         if (state.error != null) _errorBar(context, l, state.error!),
         _inputBar(context, l, state.streaming),
@@ -254,6 +256,42 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
           ],
         ),
       );
+
+  String _activityLabel(AppLocalizations l, ChatActivity a) => switch (a.kind) {
+    'search' => l.chatActivitySearch(a.label),
+    'thread' =>
+      a.label.isEmpty ? l.chatActivityThreadGeneric : l.chatActivityThread(a.label),
+    'stats' => l.chatActivityStats,
+    'contact' => l.chatActivityContact(a.label),
+    'followups' => l.chatActivityFollowups,
+    _ => '',
+  };
+
+  /// Live trail of the agentic engine (parity with the web/desktop): one compact, faint
+  /// line per search/thread-read of the current turn, under the phase indicator.
+  Widget _activityTrail(
+    BuildContext context,
+    AppLocalizations l,
+    List<ChatActivity> activities,
+  ) => Padding(
+    padding: const EdgeInsets.fromLTRB(16, 0, 16, 6),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: activities
+          .map(
+            (a) => Padding(
+              padding: const EdgeInsets.only(top: 2),
+              child: Text(
+                '•  ${_activityLabel(l, a)}',
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: Theme.of(context).colorScheme.outline,
+                ),
+              ),
+            ),
+          )
+          .toList(),
+    ),
+  );
 
   Widget _embeddingWarn(BuildContext context, AppLocalizations l) => Container(
     width: double.infinity,

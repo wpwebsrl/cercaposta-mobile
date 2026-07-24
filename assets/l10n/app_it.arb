@@ -175,6 +175,21 @@
   "chatPhaseEmbedding": "Analisi semantica…",
   "chatPhaseReranking": "Riordino…",
   "chatPhaseGenerating": "Generazione risposta…",
+  "chatActivitySearch": "Cerco: “{q}”",
+  "@chatActivitySearch": {
+    "placeholders": { "q": { "type": "String" } }
+  },
+  "chatActivityThread": "Leggo il thread “{s}”",
+  "@chatActivityThread": {
+    "placeholders": { "s": { "type": "String" } }
+  },
+  "chatActivityThreadGeneric": "Leggo una conversazione",
+  "chatActivityFollowups": "Controllo le attese di risposta",
+  "chatActivityStats": "Calcolo le statistiche dell'archivio",
+  "chatActivityContact": "Raccolgo la storia di {a}",
+  "@chatActivityContact": {
+    "placeholders": { "a": { "type": "String" } }
+  },
   "chatEmbeddingFailed": "Ricerca semantica non disponibile: risultati basati sulle sole parole chiave.",
   "settingsTitle": "Impostazioni",
   "settingsServer": "Server",

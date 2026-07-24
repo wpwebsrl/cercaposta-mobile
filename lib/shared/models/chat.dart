@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import '../../core/api/json.dart';
 
 /// A citation [n] that links to message `id`.
@@ -36,13 +38,28 @@ class Citation {
   );
 }
 
-enum ChatEventType { phase, token, done, error }
+enum ChatEventType { phase, activity, token, citations, done, error }
 
-/// One decoded SSE frame from /chat/stream (discriminated by the `type` field).
+/// One line of the live activity trail (a search / thread-read / stats the engine performed).
+class ChatActivity {
+  const ChatActivity({required this.kind, required this.label});
+  final String kind; // search | thread | stats | contact | followups
+  final String label;
+}
+
+/// One decoded frame of /chat/stream, NORMALIZED to a small internal vocabulary.
+///
+/// The wire speaks the Vercel AI SDK "UI Message Stream" protocol (see the backend
+/// api/v1/chat.py): data-phase → phase, data-activity → activity, text-delta → token,
+/// data-citations → citations, message-metadata → done (carrying the RENUMBERED final_answer),
+/// error(errorText JSON) → error. Structural frames (start / text-start / text-end / finish)
+/// return null and are skipped.
 class ChatStreamEvent {
   const ChatStreamEvent({
     required this.type,
     this.phase,
+    this.activityKind,
+    this.activityLabel,
     this.text,
     this.answer,
     this.conversationId,
@@ -55,6 +72,8 @@ class ChatStreamEvent {
 
   final ChatEventType type;
   final String? phase;
+  final String? activityKind;
+  final String? activityLabel;
   final String? text;
   final String? answer;
   final String? conversationId;
@@ -65,38 +84,65 @@ class ChatStreamEvent {
   final String? errorDetail;
 
   static ChatStreamEvent? tryParse(Map<String, dynamic> j) {
+    final data = jsonMap(j, 'data'); // data-* parts carry their payload here
+    final meta = jsonMap(j, 'messageMetadata'); // message-metadata payload
     switch (jsonStr(j, 'type')) {
-      case 'phase':
+      case 'data-phase':
         return ChatStreamEvent(
           type: ChatEventType.phase,
-          phase: jsonStrOrNull(j, 'phase'),
+          phase: jsonStrOrNull(data, 'phase'),
         );
-      case 'token':
+      case 'data-activity':
         return ChatStreamEvent(
-          type: ChatEventType.token,
-          text: jsonStr(j, 'text'),
+          type: ChatEventType.activity,
+          activityKind: jsonStr(data, 'kind'),
+          activityLabel: jsonStr(data, 'label'),
         );
-      case 'done':
+      case 'text-delta':
+        return ChatStreamEvent(type: ChatEventType.token, text: jsonStr(j, 'delta'));
+      case 'data-citations':
         return ChatStreamEvent(
-          type: ChatEventType.done,
-          answer: jsonStr(j, 'answer'),
-          conversationId: jsonStrOrNull(j, 'conversation_id'),
-          title: jsonStrOrNull(j, 'title'),
+          type: ChatEventType.citations,
           citations: jsonObjList(
-            j,
+            data,
             'citations',
           ).map(Citation.fromJson).toList(),
-          embeddingFailed: jsonBool(j, 'embedding_failed'),
+        );
+      case 'message-metadata':
+        return ChatStreamEvent(
+          type: ChatEventType.done,
+          answer: jsonStr(meta, 'final_answer'),
+          conversationId: jsonStrOrNull(meta, 'conversation_id'),
+          title: jsonStrOrNull(meta, 'title'),
+          embeddingFailed: jsonBool(meta, 'embedding_failed'),
         );
       case 'error':
-        return ChatStreamEvent(
-          type: ChatEventType.error,
-          errorCode: jsonStr(j, 'code', 'chat.llm_error'),
-          errorDetail: jsonStrOrNull(j, 'detail') ?? jsonStrOrNull(j, 'error'),
-        );
+        return _errorEvent(jsonStr(j, 'errorText'));
       default:
+        // start / text-start / text-end / finish are structural — skip them.
         return null;
     }
+  }
+
+  /// The `error` frame's errorText is a JSON string `{code, error, detail}`; parse the machine
+  /// code out so the UI can translate `errors.<code>` (falling back to the raw text as detail).
+  static ChatStreamEvent _errorEvent(String raw) {
+    var code = 'chat.llm_error';
+    String? detail;
+    try {
+      final obj = jsonDecode(raw);
+      if (obj is Map<String, dynamic>) {
+        code = jsonStr(obj, 'code', 'chat.llm_error');
+        detail = jsonStrOrNull(obj, 'detail');
+      }
+    } on FormatException {
+      detail = raw.isEmpty ? null : raw;
+    }
+    return ChatStreamEvent(
+      type: ChatEventType.error,
+      errorCode: code,
+      errorDetail: detail,
+    );
   }
 }
 

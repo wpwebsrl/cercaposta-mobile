@@ -469,6 +469,30 @@ class AppLocalizationsIt extends AppLocalizations {
   String get chatPhaseGenerating => 'Generazione risposta…';
 
   @override
+  String chatActivitySearch(String q) {
+    return 'Cerco: “$q”';
+  }
+
+  @override
+  String chatActivityThread(String s) {
+    return 'Leggo il thread “$s”';
+  }
+
+  @override
+  String get chatActivityThreadGeneric => 'Leggo una conversazione';
+
+  @override
+  String get chatActivityFollowups => 'Controllo le attese di risposta';
+
+  @override
+  String get chatActivityStats => 'Calcolo le statistiche dell\'archivio';
+
+  @override
+  String chatActivityContact(String a) {
+    return 'Raccolgo la storia di $a';
+  }
+
+  @override
   String get chatEmbeddingFailed =>
       'Ricerca semantica non disponibile: risultati basati sulle sole parole chiave.';
 

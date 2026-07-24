@@ -11,6 +11,7 @@ class ChatState {
     this.messages = const <ChatMessage>[],
     this.streaming = false,
     this.phase,
+    this.activities = const <ChatActivity>[],
     this.error,
     this.available,
     this.aiEnabled,
@@ -21,6 +22,8 @@ class ChatState {
   final List<ChatMessage> messages;
   final bool streaming;
   final String? phase;
+  /// Live trail of the agentic engine's searches/thread-reads for the current turn.
+  final List<ChatActivity> activities;
   final Object? error;
   final bool? available; // null = unknown (status not yet checked)
   final bool? aiEnabled; // to pick the right "unavailable" message
@@ -34,6 +37,7 @@ class ChatState {
     List<ChatMessage>? messages,
     bool? streaming,
     String? phase,
+    List<ChatActivity>? activities,
     Object? error,
     bool? available,
     bool? aiEnabled,
@@ -43,6 +47,7 @@ class ChatState {
     messages: messages ?? this.messages,
     streaming: streaming ?? this.streaming,
     phase: phase,
+    activities: activities ?? this.activities,
     error: error,
     available: available ?? this.available,
     aiEnabled: aiEnabled ?? this.aiEnabled,
@@ -132,10 +137,12 @@ class ChatController extends Notifier<ChatState> {
       streaming: true,
       error: null,
       embeddingFailed: false,
+      activities: <ChatActivity>[],
     );
 
     final cancel = CancelToken();
     _cancel = cancel;
+    var citations = const <Citation>[]; // arrives on `citations`, attached on `done`
     try {
       final stream = ref
           .read(chatApiProvider)
@@ -149,6 +156,18 @@ class ChatController extends Notifier<ChatState> {
         switch (ev.type) {
           case ChatEventType.phase:
             state = state.copyWith(phase: ev.phase);
+          case ChatEventType.activity:
+            // New search/thread-read of the turn → append to the live trail (keep the phase).
+            state = state.copyWith(
+              phase: state.phase,
+              activities: <ChatActivity>[
+                ...state.activities,
+                ChatActivity(
+                  kind: ev.activityKind ?? '',
+                  label: ev.activityLabel ?? '',
+                ),
+              ],
+            );
           case ChatEventType.token:
             assistant.content += ev.text ?? '';
             // Keep the current phase visible while tokens accumulate.
@@ -156,10 +175,12 @@ class ChatController extends Notifier<ChatState> {
               messages: <ChatMessage>[...msgs],
               phase: state.phase,
             );
+          case ChatEventType.citations:
+            citations = ev.citations; // attached to the assistant bubble on `done`
           case ChatEventType.done:
             final answer = ev.answer ?? '';
             if (answer.isNotEmpty) assistant.content = answer;
-            assistant.citations = ev.citations;
+            assistant.citations = citations;
             _conversationId = ev.conversationId ?? _conversationId;
             state = state.copyWith(
               messages: <ChatMessage>[...msgs],
