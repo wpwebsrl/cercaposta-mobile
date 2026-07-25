@@ -1143,4 +1143,194 @@ class AppLocalizationsIt extends AppLocalizations {
   @override
   String get errorFollowupNoCounterpart =>
       'Non riesco a capire chi deve rispondere: prova con l’altra direzione.';
+
+  @override
+  String get memoryTitle => 'Memoria della chat';
+
+  @override
+  String get memorySettingsHint =>
+      'Quello che l\'assistente ha imparato su di te';
+
+  @override
+  String get memoryIntro =>
+      'Qui c\'è tutto quello che l\'assistente ha imparato su di te: come chiami le persone, come preferisci gli elenchi, i fatti che dà per scontati. Ogni cosa che vedi puoi metterla in pausa o farla dimenticare — e niente viene imparato senza dirtelo. Per aggiungere un ricordo, dillo in chat: «ricordati che…».';
+
+  @override
+  String get memoryPolicyLearn => 'Impara dalle mie conversazioni';
+
+  @override
+  String get memoryPolicyLearnHint =>
+      'Quando è attivo, l\'assistente propone da sé quello che nota mentre lavorate insieme: ogni volta te lo annuncia e puoi annullarlo. Se lo spegni restano solo i ricordi che scrivi tu.';
+
+  @override
+  String get memoryPolicyEnabled => 'Usa la memoria nelle risposte';
+
+  @override
+  String get memoryPolicyEnabledHint =>
+      'Spegnendolo i ricordi restano dove sono ma non vengono più applicati: è una pausa, non una cancellazione.';
+
+  @override
+  String memoryAnnounceAlias(String key, String value) {
+    return 'Ho imparato che per te «$key» è $value.';
+  }
+
+  @override
+  String memoryAnnounceGeneric(String key, String value) {
+    return 'Ho imparato: $key → $value.';
+  }
+
+  @override
+  String memoryAnnounceTrial(String what) {
+    return '$what Per ora la tengo in prova: non la sto ancora usando.';
+  }
+
+  @override
+  String get memoryAnnounceUndo => 'Annulla';
+
+  @override
+  String get memoryAnnounceUndone => 'Annullato: non l\'ho tenuto.';
+
+  @override
+  String get memoryAnnounceRejected => 'Va bene, non te lo riproporrò.';
+
+  @override
+  String memoryAppliedNote(String list) {
+    return 'Dalla memoria: $list';
+  }
+
+  @override
+  String get memoryListEmpty =>
+      'Non c\'è ancora nulla in memoria. Puoi dirlo in chat: «ricordati che…».';
+
+  @override
+  String get memoryListEmptyFiltered => 'Nessun ricordo in questo stato.';
+
+  @override
+  String get memoryFilterAll => 'Tutti';
+
+  @override
+  String get memoryFilterActive => 'Attivi';
+
+  @override
+  String get memoryFilterTrial => 'In prova';
+
+  @override
+  String get memoryFilterRejected => 'Rifiutati';
+
+  @override
+  String get memoryFilterDisabled => 'In pausa';
+
+  @override
+  String get memoryStatusActive => 'Attivo';
+
+  @override
+  String get memoryStatusTrial => 'In prova';
+
+  @override
+  String get memoryStatusRejected => 'Rifiutato';
+
+  @override
+  String get memoryStatusDisabled => 'In pausa';
+
+  @override
+  String get memoryStatusTrialHint =>
+      'lo sto imparando, non lo sto ancora usando';
+
+  @override
+  String get memoryStatusStaleHint =>
+      'non lo uso da mesi: se non ti serve più puoi metterlo in pausa';
+
+  @override
+  String get memoryKindAlias => 'Come chiami le persone';
+
+  @override
+  String get memoryKindParam => 'Come vuoi le ricerche';
+
+  @override
+  String get memoryKindRender => 'Come vuoi gli elenchi';
+
+  @override
+  String get memoryKindFact => 'Fatti da tenere a mente';
+
+  @override
+  String get memoryKindShortcut => 'Domande ricorrenti';
+
+  @override
+  String get memoryTriggerSearch => 'quando cerca';
+
+  @override
+  String get memoryTriggerListing => 'negli elenchi';
+
+  @override
+  String get memoryTriggerContact => 'sui contatti';
+
+  @override
+  String get memoryTriggerAlways => 'sempre';
+
+  @override
+  String get memorySourceExplicit => 'l\'hai detto tu';
+
+  @override
+  String get memorySourceCorrection => 'da una tua correzione';
+
+  @override
+  String get memorySourceRecurrence => 'da un\'abitudine';
+
+  @override
+  String get memorySourceSuggested => 'proposto dall\'archivio';
+
+  @override
+  String get memorySourceInferred => 'dedotto da una tua frase';
+
+  @override
+  String memoryUsedTimes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'usato $count volte',
+      one: 'usato 1 volta',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get memoryEnable => 'Riattiva';
+
+  @override
+  String get memoryDisable => 'Metti in pausa';
+
+  @override
+  String get memoryReject => 'Non ricordare più';
+
+  @override
+  String get memoryUnreject => 'Ci ho ripensato';
+
+  @override
+  String get memoryDelete => 'Elimina';
+
+  @override
+  String memoryDeleteConfirm(String key) {
+    return 'Eliminare il ricordo «$key»? Se invece non vuoi che venga riproposto, usa «Non ricordare più».';
+  }
+
+  @override
+  String get memorySuggestionsTitle => 'Alias suggeriti dal tuo archivio';
+
+  @override
+  String get memorySuggestionsHint =>
+      'Nomi che nel tuo archivio possono voler dire una persona sola. Se accetti, quando li nomini in chat la ricerca userà direttamente il loro indirizzo.';
+
+  @override
+  String get memorySuggestionsAccept => 'Accetta';
+
+  @override
+  String memorySuggestionsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count email',
+      one: '1 email',
+    );
+    return '$_temp0';
+  }
 }

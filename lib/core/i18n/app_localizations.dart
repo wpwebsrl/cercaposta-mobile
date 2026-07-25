@@ -2095,6 +2095,318 @@ abstract class AppLocalizations {
   /// In it, this message translates to:
   /// **'Non riesco a capire chi deve rispondere: prova con l’altra direzione.'**
   String get errorFollowupNoCounterpart;
+
+  /// No description provided for @memoryTitle.
+  ///
+  /// In it, this message translates to:
+  /// **'Memoria della chat'**
+  String get memoryTitle;
+
+  /// No description provided for @memorySettingsHint.
+  ///
+  /// In it, this message translates to:
+  /// **'Quello che l\'assistente ha imparato su di te'**
+  String get memorySettingsHint;
+
+  /// No description provided for @memoryIntro.
+  ///
+  /// In it, this message translates to:
+  /// **'Qui c\'è tutto quello che l\'assistente ha imparato su di te: come chiami le persone, come preferisci gli elenchi, i fatti che dà per scontati. Ogni cosa che vedi puoi metterla in pausa o farla dimenticare — e niente viene imparato senza dirtelo. Per aggiungere un ricordo, dillo in chat: «ricordati che…».'**
+  String get memoryIntro;
+
+  /// No description provided for @memoryPolicyLearn.
+  ///
+  /// In it, this message translates to:
+  /// **'Impara dalle mie conversazioni'**
+  String get memoryPolicyLearn;
+
+  /// No description provided for @memoryPolicyLearnHint.
+  ///
+  /// In it, this message translates to:
+  /// **'Quando è attivo, l\'assistente propone da sé quello che nota mentre lavorate insieme: ogni volta te lo annuncia e puoi annullarlo. Se lo spegni restano solo i ricordi che scrivi tu.'**
+  String get memoryPolicyLearnHint;
+
+  /// No description provided for @memoryPolicyEnabled.
+  ///
+  /// In it, this message translates to:
+  /// **'Usa la memoria nelle risposte'**
+  String get memoryPolicyEnabled;
+
+  /// No description provided for @memoryPolicyEnabledHint.
+  ///
+  /// In it, this message translates to:
+  /// **'Spegnendolo i ricordi restano dove sono ma non vengono più applicati: è una pausa, non una cancellazione.'**
+  String get memoryPolicyEnabledHint;
+
+  /// No description provided for @memoryAnnounceAlias.
+  ///
+  /// In it, this message translates to:
+  /// **'Ho imparato che per te «{key}» è {value}.'**
+  String memoryAnnounceAlias(String key, String value);
+
+  /// No description provided for @memoryAnnounceGeneric.
+  ///
+  /// In it, this message translates to:
+  /// **'Ho imparato: {key} → {value}.'**
+  String memoryAnnounceGeneric(String key, String value);
+
+  /// No description provided for @memoryAnnounceTrial.
+  ///
+  /// In it, this message translates to:
+  /// **'{what} Per ora la tengo in prova: non la sto ancora usando.'**
+  String memoryAnnounceTrial(String what);
+
+  /// No description provided for @memoryAnnounceUndo.
+  ///
+  /// In it, this message translates to:
+  /// **'Annulla'**
+  String get memoryAnnounceUndo;
+
+  /// No description provided for @memoryAnnounceUndone.
+  ///
+  /// In it, this message translates to:
+  /// **'Annullato: non l\'ho tenuto.'**
+  String get memoryAnnounceUndone;
+
+  /// No description provided for @memoryAnnounceRejected.
+  ///
+  /// In it, this message translates to:
+  /// **'Va bene, non te lo riproporrò.'**
+  String get memoryAnnounceRejected;
+
+  /// No description provided for @memoryAppliedNote.
+  ///
+  /// In it, this message translates to:
+  /// **'Dalla memoria: {list}'**
+  String memoryAppliedNote(String list);
+
+  /// No description provided for @memoryListEmpty.
+  ///
+  /// In it, this message translates to:
+  /// **'Non c\'è ancora nulla in memoria. Puoi dirlo in chat: «ricordati che…».'**
+  String get memoryListEmpty;
+
+  /// No description provided for @memoryListEmptyFiltered.
+  ///
+  /// In it, this message translates to:
+  /// **'Nessun ricordo in questo stato.'**
+  String get memoryListEmptyFiltered;
+
+  /// No description provided for @memoryFilterAll.
+  ///
+  /// In it, this message translates to:
+  /// **'Tutti'**
+  String get memoryFilterAll;
+
+  /// No description provided for @memoryFilterActive.
+  ///
+  /// In it, this message translates to:
+  /// **'Attivi'**
+  String get memoryFilterActive;
+
+  /// No description provided for @memoryFilterTrial.
+  ///
+  /// In it, this message translates to:
+  /// **'In prova'**
+  String get memoryFilterTrial;
+
+  /// No description provided for @memoryFilterRejected.
+  ///
+  /// In it, this message translates to:
+  /// **'Rifiutati'**
+  String get memoryFilterRejected;
+
+  /// No description provided for @memoryFilterDisabled.
+  ///
+  /// In it, this message translates to:
+  /// **'In pausa'**
+  String get memoryFilterDisabled;
+
+  /// No description provided for @memoryStatusActive.
+  ///
+  /// In it, this message translates to:
+  /// **'Attivo'**
+  String get memoryStatusActive;
+
+  /// No description provided for @memoryStatusTrial.
+  ///
+  /// In it, this message translates to:
+  /// **'In prova'**
+  String get memoryStatusTrial;
+
+  /// No description provided for @memoryStatusRejected.
+  ///
+  /// In it, this message translates to:
+  /// **'Rifiutato'**
+  String get memoryStatusRejected;
+
+  /// No description provided for @memoryStatusDisabled.
+  ///
+  /// In it, this message translates to:
+  /// **'In pausa'**
+  String get memoryStatusDisabled;
+
+  /// No description provided for @memoryStatusTrialHint.
+  ///
+  /// In it, this message translates to:
+  /// **'lo sto imparando, non lo sto ancora usando'**
+  String get memoryStatusTrialHint;
+
+  /// No description provided for @memoryStatusStaleHint.
+  ///
+  /// In it, this message translates to:
+  /// **'non lo uso da mesi: se non ti serve più puoi metterlo in pausa'**
+  String get memoryStatusStaleHint;
+
+  /// No description provided for @memoryKindAlias.
+  ///
+  /// In it, this message translates to:
+  /// **'Come chiami le persone'**
+  String get memoryKindAlias;
+
+  /// No description provided for @memoryKindParam.
+  ///
+  /// In it, this message translates to:
+  /// **'Come vuoi le ricerche'**
+  String get memoryKindParam;
+
+  /// No description provided for @memoryKindRender.
+  ///
+  /// In it, this message translates to:
+  /// **'Come vuoi gli elenchi'**
+  String get memoryKindRender;
+
+  /// No description provided for @memoryKindFact.
+  ///
+  /// In it, this message translates to:
+  /// **'Fatti da tenere a mente'**
+  String get memoryKindFact;
+
+  /// No description provided for @memoryKindShortcut.
+  ///
+  /// In it, this message translates to:
+  /// **'Domande ricorrenti'**
+  String get memoryKindShortcut;
+
+  /// No description provided for @memoryTriggerSearch.
+  ///
+  /// In it, this message translates to:
+  /// **'quando cerca'**
+  String get memoryTriggerSearch;
+
+  /// No description provided for @memoryTriggerListing.
+  ///
+  /// In it, this message translates to:
+  /// **'negli elenchi'**
+  String get memoryTriggerListing;
+
+  /// No description provided for @memoryTriggerContact.
+  ///
+  /// In it, this message translates to:
+  /// **'sui contatti'**
+  String get memoryTriggerContact;
+
+  /// No description provided for @memoryTriggerAlways.
+  ///
+  /// In it, this message translates to:
+  /// **'sempre'**
+  String get memoryTriggerAlways;
+
+  /// No description provided for @memorySourceExplicit.
+  ///
+  /// In it, this message translates to:
+  /// **'l\'hai detto tu'**
+  String get memorySourceExplicit;
+
+  /// No description provided for @memorySourceCorrection.
+  ///
+  /// In it, this message translates to:
+  /// **'da una tua correzione'**
+  String get memorySourceCorrection;
+
+  /// No description provided for @memorySourceRecurrence.
+  ///
+  /// In it, this message translates to:
+  /// **'da un\'abitudine'**
+  String get memorySourceRecurrence;
+
+  /// No description provided for @memorySourceSuggested.
+  ///
+  /// In it, this message translates to:
+  /// **'proposto dall\'archivio'**
+  String get memorySourceSuggested;
+
+  /// No description provided for @memorySourceInferred.
+  ///
+  /// In it, this message translates to:
+  /// **'dedotto da una tua frase'**
+  String get memorySourceInferred;
+
+  /// No description provided for @memoryUsedTimes.
+  ///
+  /// In it, this message translates to:
+  /// **'{count, plural, =1{usato 1 volta} other{usato {count} volte}}'**
+  String memoryUsedTimes(int count);
+
+  /// No description provided for @memoryEnable.
+  ///
+  /// In it, this message translates to:
+  /// **'Riattiva'**
+  String get memoryEnable;
+
+  /// No description provided for @memoryDisable.
+  ///
+  /// In it, this message translates to:
+  /// **'Metti in pausa'**
+  String get memoryDisable;
+
+  /// No description provided for @memoryReject.
+  ///
+  /// In it, this message translates to:
+  /// **'Non ricordare più'**
+  String get memoryReject;
+
+  /// No description provided for @memoryUnreject.
+  ///
+  /// In it, this message translates to:
+  /// **'Ci ho ripensato'**
+  String get memoryUnreject;
+
+  /// No description provided for @memoryDelete.
+  ///
+  /// In it, this message translates to:
+  /// **'Elimina'**
+  String get memoryDelete;
+
+  /// No description provided for @memoryDeleteConfirm.
+  ///
+  /// In it, this message translates to:
+  /// **'Eliminare il ricordo «{key}»? Se invece non vuoi che venga riproposto, usa «Non ricordare più».'**
+  String memoryDeleteConfirm(String key);
+
+  /// No description provided for @memorySuggestionsTitle.
+  ///
+  /// In it, this message translates to:
+  /// **'Alias suggeriti dal tuo archivio'**
+  String get memorySuggestionsTitle;
+
+  /// No description provided for @memorySuggestionsHint.
+  ///
+  /// In it, this message translates to:
+  /// **'Nomi che nel tuo archivio possono voler dire una persona sola. Se accetti, quando li nomini in chat la ricerca userà direttamente il loro indirizzo.'**
+  String get memorySuggestionsHint;
+
+  /// No description provided for @memorySuggestionsAccept.
+  ///
+  /// In it, this message translates to:
+  /// **'Accetta'**
+  String get memorySuggestionsAccept;
+
+  /// No description provided for @memorySuggestionsCount.
+  ///
+  /// In it, this message translates to:
+  /// **'{count, plural, =1{1 email} other{{count} email}}'**
+  String memorySuggestionsCount(int count);
 }
 
 class _AppLocalizationsDelegate

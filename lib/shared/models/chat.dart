@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import '../../core/api/json.dart';
+import 'memory.dart';
 
 /// A citation [n] that links to message `id`.
 class Citation {
@@ -38,7 +39,7 @@ class Citation {
   );
 }
 
-enum ChatEventType { phase, activity, token, citations, done, error }
+enum ChatEventType { phase, activity, token, citations, memory, done, error }
 
 /// One line of the live activity trail (a search / thread-read / stats the engine performed).
 class ChatActivity {
@@ -51,9 +52,9 @@ class ChatActivity {
 ///
 /// The wire speaks the Vercel AI SDK "UI Message Stream" protocol (see the backend
 /// api/v1/chat.py): data-phase → phase, data-activity → activity, text-delta → token,
-/// data-citations → citations, message-metadata → done (carrying the RENUMBERED final_answer),
-/// error(errorText JSON) → error. Structural frames (start / text-start / text-end / finish)
-/// return null and are skipped.
+/// data-citations → citations, data-memory → memory, message-metadata → done (carrying the
+/// RENUMBERED final_answer), error(errorText JSON) → error. Structural frames (start /
+/// text-start / text-end / finish) return null and are skipped.
 class ChatStreamEvent {
   const ChatStreamEvent({
     required this.type,
@@ -65,6 +66,8 @@ class ChatStreamEvent {
     this.conversationId,
     this.title,
     this.citations = const <Citation>[],
+    this.learned,
+    this.applied = const <AppliedMemory>[],
     this.embeddingFailed = false,
     this.errorCode,
     this.errorDetail,
@@ -79,6 +82,12 @@ class ChatStreamEvent {
   final String? conversationId;
   final String? title;
   final List<Citation> citations;
+
+  /// `memory`: one memory learned during this turn (data-memory).
+  final LearnedMemory? learned;
+
+  /// `done`: the memories the server applied to this very answer.
+  final List<AppliedMemory> applied;
   final bool embeddingFailed;
   final String? errorCode;
   final String? errorDetail;
@@ -108,6 +117,11 @@ class ChatStreamEvent {
             'citations',
           ).map(Citation.fromJson).toList(),
         );
+      case 'data-memory':
+        return ChatStreamEvent(
+          type: ChatEventType.memory,
+          learned: LearnedMemory.fromJson(data),
+        );
       case 'message-metadata':
         return ChatStreamEvent(
           type: ChatEventType.done,
@@ -115,6 +129,10 @@ class ChatStreamEvent {
           conversationId: jsonStrOrNull(meta, 'conversation_id'),
           title: jsonStrOrNull(meta, 'title'),
           embeddingFailed: jsonBool(meta, 'embedding_failed'),
+          applied: jsonObjList(
+            meta,
+            'applied_memories',
+          ).map(AppliedMemory.fromJson).toList(),
         );
       case 'error':
         return _errorEvent(jsonStr(j, 'errorText'));
@@ -177,9 +195,19 @@ class ChatMessage {
     required this.role,
     required this.content,
     this.citations = const <Citation>[],
+    this.learned = const <LearnedMemory>[],
+    this.applied = const <AppliedMemory>[],
   });
 
   final String role; // user | assistant
   String content;
   List<Citation> citations;
+
+  /// Memories learned while producing THIS turn: the announcement stays with the bubble, so
+  /// «annulla» and «non ricordare più» are still there when the user scrolls back to it.
+  List<LearnedMemory> learned;
+
+  /// Memories the server applied to this turn — why the answer isn't the one the archive
+  /// alone would give.
+  List<AppliedMemory> applied;
 }

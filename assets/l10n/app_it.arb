@@ -177,18 +177,30 @@
   "chatPhaseGenerating": "Generazione risposta…",
   "chatActivitySearch": "Cerco: “{q}”",
   "@chatActivitySearch": {
-    "placeholders": { "q": { "type": "String" } }
+    "placeholders": {
+      "q": {
+        "type": "String"
+      }
+    }
   },
   "chatActivityThread": "Leggo il thread “{s}”",
   "@chatActivityThread": {
-    "placeholders": { "s": { "type": "String" } }
+    "placeholders": {
+      "s": {
+        "type": "String"
+      }
+    }
   },
   "chatActivityThreadGeneric": "Leggo una conversazione",
   "chatActivityFollowups": "Controllo le attese di risposta",
   "chatActivityStats": "Calcolo le statistiche dell'archivio",
   "chatActivityContact": "Raccolgo la storia di {a}",
   "@chatActivityContact": {
-    "placeholders": { "a": { "type": "String" } }
+    "placeholders": {
+      "a": {
+        "type": "String"
+      }
+    }
   },
   "chatEmbeddingFailed": "Ricerca semantica non disponibile: risultati basati sulle sole parole chiave.",
   "settingsTitle": "Impostazioni",
@@ -633,5 +645,112 @@
   "errorFollowupNoCounterpart": "Non riesco a capire chi deve rispondere: prova con l’altra direzione.",
   "@errorFollowupNoCounterpart": {
     "description": "Error followup.no_counterpart: the direction cannot apply to this message"
+  },
+  "memoryTitle": "Memoria della chat",
+  "memorySettingsHint": "Quello che l'assistente ha imparato su di te",
+  "memoryIntro": "Qui c'è tutto quello che l'assistente ha imparato su di te: come chiami le persone, come preferisci gli elenchi, i fatti che dà per scontati. Ogni cosa che vedi puoi metterla in pausa o farla dimenticare — e niente viene imparato senza dirtelo. Per aggiungere un ricordo, dillo in chat: «ricordati che…».",
+  "memoryPolicyLearn": "Impara dalle mie conversazioni",
+  "memoryPolicyLearnHint": "Quando è attivo, l'assistente propone da sé quello che nota mentre lavorate insieme: ogni volta te lo annuncia e puoi annullarlo. Se lo spegni restano solo i ricordi che scrivi tu.",
+  "memoryPolicyEnabled": "Usa la memoria nelle risposte",
+  "memoryPolicyEnabledHint": "Spegnendolo i ricordi restano dove sono ma non vengono più applicati: è una pausa, non una cancellazione.",
+  "memoryAnnounceAlias": "Ho imparato che per te «{key}» è {value}.",
+  "@memoryAnnounceAlias": {
+    "placeholders": {
+      "key": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "memoryAnnounceGeneric": "Ho imparato: {key} → {value}.",
+  "@memoryAnnounceGeneric": {
+    "placeholders": {
+      "key": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "memoryAnnounceTrial": "{what} Per ora la tengo in prova: non la sto ancora usando.",
+  "@memoryAnnounceTrial": {
+    "placeholders": {
+      "what": {
+        "type": "String"
+      }
+    }
+  },
+  "memoryAnnounceUndo": "Annulla",
+  "memoryAnnounceUndone": "Annullato: non l'ho tenuto.",
+  "memoryAnnounceRejected": "Va bene, non te lo riproporrò.",
+  "memoryAppliedNote": "Dalla memoria: {list}",
+  "@memoryAppliedNote": {
+    "placeholders": {
+      "list": {
+        "type": "String"
+      }
+    }
+  },
+  "memoryListEmpty": "Non c'è ancora nulla in memoria. Puoi dirlo in chat: «ricordati che…».",
+  "memoryListEmptyFiltered": "Nessun ricordo in questo stato.",
+  "memoryFilterAll": "Tutti",
+  "memoryFilterActive": "Attivi",
+  "memoryFilterTrial": "In prova",
+  "memoryFilterRejected": "Rifiutati",
+  "memoryFilterDisabled": "In pausa",
+  "memoryStatusActive": "Attivo",
+  "memoryStatusTrial": "In prova",
+  "memoryStatusRejected": "Rifiutato",
+  "memoryStatusDisabled": "In pausa",
+  "memoryStatusTrialHint": "lo sto imparando, non lo sto ancora usando",
+  "memoryStatusStaleHint": "non lo uso da mesi: se non ti serve più puoi metterlo in pausa",
+  "memoryKindAlias": "Come chiami le persone",
+  "memoryKindParam": "Come vuoi le ricerche",
+  "memoryKindRender": "Come vuoi gli elenchi",
+  "memoryKindFact": "Fatti da tenere a mente",
+  "memoryKindShortcut": "Domande ricorrenti",
+  "memoryTriggerSearch": "quando cerca",
+  "memoryTriggerListing": "negli elenchi",
+  "memoryTriggerContact": "sui contatti",
+  "memoryTriggerAlways": "sempre",
+  "memorySourceExplicit": "l'hai detto tu",
+  "memorySourceCorrection": "da una tua correzione",
+  "memorySourceRecurrence": "da un'abitudine",
+  "memorySourceSuggested": "proposto dall'archivio",
+  "memorySourceInferred": "dedotto da una tua frase",
+  "memoryUsedTimes": "{count, plural, =1{usato 1 volta} other{usato {count} volte}}",
+  "@memoryUsedTimes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "memoryEnable": "Riattiva",
+  "memoryDisable": "Metti in pausa",
+  "memoryReject": "Non ricordare più",
+  "memoryUnreject": "Ci ho ripensato",
+  "memoryDelete": "Elimina",
+  "memoryDeleteConfirm": "Eliminare il ricordo «{key}»? Se invece non vuoi che venga riproposto, usa «Non ricordare più».",
+  "@memoryDeleteConfirm": {
+    "placeholders": {
+      "key": {
+        "type": "String"
+      }
+    }
+  },
+  "memorySuggestionsTitle": "Alias suggeriti dal tuo archivio",
+  "memorySuggestionsHint": "Nomi che nel tuo archivio possono voler dire una persona sola. Se accetti, quando li nomini in chat la ricerca userà direttamente il loro indirizzo.",
+  "memorySuggestionsAccept": "Accetta",
+  "memorySuggestionsCount": "{count, plural, =1{1 email} other{{count} email}}",
+  "@memorySuggestionsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   }
 }

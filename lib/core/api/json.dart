@@ -20,6 +20,11 @@ int jsonInt(Map<String, dynamic> j, String key, [int def = 0]) {
   return def;
 }
 
+double jsonDouble(Map<String, dynamic> j, String key, [double def = 0]) {
+  final v = j[key];
+  return v is num ? v.toDouble() : def;
+}
+
 bool jsonBool(Map<String, dynamic> j, String key, [bool def = false]) {
   final v = j[key];
   return v is bool ? v : def;

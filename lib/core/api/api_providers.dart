@@ -7,6 +7,7 @@ import 'dio_factory.dart';
 import 'services/chat_api.dart';
 import 'services/events_api.dart';
 import 'services/followup_api.dart';
+import 'services/memory_api.dart';
 import 'services/message_api.dart';
 import 'services/meta_api.dart';
 import 'services/notification_api.dart';
@@ -108,4 +109,7 @@ final sessionApiProvider = Provider<SessionApi>(
 );
 final taxonomyApiProvider = Provider<TaxonomyApi>(
   (ref) => TaxonomyApi(ref.watch(apiDioProvider)),
+);
+final memoryApiProvider = Provider<MemoryApi>(
+  (ref) => MemoryApi(ref.watch(apiDioProvider)),
 );

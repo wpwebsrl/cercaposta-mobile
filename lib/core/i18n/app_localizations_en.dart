@@ -1135,4 +1135,192 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get errorFollowupNoCounterpart =>
       'Cannot tell who should reply: try the other direction.';
+
+  @override
+  String get memoryTitle => 'Chat memory';
+
+  @override
+  String get memorySettingsHint => 'What the assistant has learned about you';
+
+  @override
+  String get memoryIntro =>
+      'This is everything the assistant has learned about you: what you call people, how you like listings, the facts it takes for granted. Anything here can be paused or forgotten — and nothing is learned without telling you. To add a memory, say it in the chat: «remember that…».';
+
+  @override
+  String get memoryPolicyLearn => 'Learn from my conversations';
+
+  @override
+  String get memoryPolicyLearnHint =>
+      'When on, the assistant proposes what it notices while you work together: it tells you every time, and you can undo it. Turn it off and only the memories you write yourself remain.';
+
+  @override
+  String get memoryPolicyEnabled => 'Use memory in answers';
+
+  @override
+  String get memoryPolicyEnabledHint =>
+      'Turning this off keeps every memory but stops applying them: it is a pause, not a deletion.';
+
+  @override
+  String memoryAnnounceAlias(String key, String value) {
+    return 'I learned that for you «$key» means $value.';
+  }
+
+  @override
+  String memoryAnnounceGeneric(String key, String value) {
+    return 'I learned: $key → $value.';
+  }
+
+  @override
+  String memoryAnnounceTrial(String what) {
+    return '$what For now I\'m keeping it on trial: I\'m not using it yet.';
+  }
+
+  @override
+  String get memoryAnnounceUndo => 'Undo';
+
+  @override
+  String get memoryAnnounceUndone => 'Undone: I didn\'t keep it.';
+
+  @override
+  String get memoryAnnounceRejected => 'All right, I won\'t propose it again.';
+
+  @override
+  String memoryAppliedNote(String list) {
+    return 'From memory: $list';
+  }
+
+  @override
+  String get memoryListEmpty =>
+      'Nothing in memory yet. You can say it in the chat: «remember that…».';
+
+  @override
+  String get memoryListEmptyFiltered => 'No memories in this state.';
+
+  @override
+  String get memoryFilterAll => 'All';
+
+  @override
+  String get memoryFilterActive => 'Active';
+
+  @override
+  String get memoryFilterTrial => 'On trial';
+
+  @override
+  String get memoryFilterRejected => 'Refused';
+
+  @override
+  String get memoryFilterDisabled => 'Paused';
+
+  @override
+  String get memoryStatusActive => 'Active';
+
+  @override
+  String get memoryStatusTrial => 'On trial';
+
+  @override
+  String get memoryStatusRejected => 'Refused';
+
+  @override
+  String get memoryStatusDisabled => 'Paused';
+
+  @override
+  String get memoryStatusTrialHint => 'still learning it, not using it yet';
+
+  @override
+  String get memoryStatusStaleHint =>
+      'unused for months: pause it if you no longer need it';
+
+  @override
+  String get memoryKindAlias => 'What you call people';
+
+  @override
+  String get memoryKindParam => 'How you want searches';
+
+  @override
+  String get memoryKindRender => 'How you want listings';
+
+  @override
+  String get memoryKindFact => 'Facts to keep in mind';
+
+  @override
+  String get memoryKindShortcut => 'Recurring questions';
+
+  @override
+  String get memoryTriggerSearch => 'when searching';
+
+  @override
+  String get memoryTriggerListing => 'in listings';
+
+  @override
+  String get memoryTriggerContact => 'on contacts';
+
+  @override
+  String get memoryTriggerAlways => 'always';
+
+  @override
+  String get memorySourceExplicit => 'you said so';
+
+  @override
+  String get memorySourceCorrection => 'from a correction of yours';
+
+  @override
+  String get memorySourceRecurrence => 'from a habit';
+
+  @override
+  String get memorySourceSuggested => 'proposed by the archive';
+
+  @override
+  String get memorySourceInferred => 'inferred from something you wrote';
+
+  @override
+  String memoryUsedTimes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'used $count times',
+      one: 'used once',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get memoryEnable => 'Resume';
+
+  @override
+  String get memoryDisable => 'Pause';
+
+  @override
+  String get memoryReject => 'Never remember this';
+
+  @override
+  String get memoryUnreject => 'I changed my mind';
+
+  @override
+  String get memoryDelete => 'Delete';
+
+  @override
+  String memoryDeleteConfirm(String key) {
+    return 'Delete the memory «$key»? If you\'d rather it were never proposed again, use «Never remember this».';
+  }
+
+  @override
+  String get memorySuggestionsTitle => 'Aliases suggested by your archive';
+
+  @override
+  String get memorySuggestionsHint =>
+      'Names that in your archive can only mean one person. Accept, and naming them in the chat will search their address directly.';
+
+  @override
+  String get memorySuggestionsAccept => 'Accept';
+
+  @override
+  String memorySuggestionsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count emails',
+      one: '1 email',
+    );
+    return '$_temp0';
+  }
 }

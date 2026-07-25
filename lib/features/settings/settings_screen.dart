@@ -281,6 +281,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 },
               ),
             ListTile(
+              leading: const Icon(Icons.psychology_outlined),
+              title: Text(l.memoryTitle),
+              subtitle: Text(l.memorySettingsHint),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => context.push('/memory'),
+            ),
+            ListTile(
               leading: const Icon(Icons.devices_outlined),
               title: Text(l.settingsSessions),
               trailing: const Icon(Icons.chevron_right),

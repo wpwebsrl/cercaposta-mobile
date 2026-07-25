@@ -10,6 +10,7 @@ import '../../shared/format.dart';
 import '../../shared/models/chat.dart';
 import '../../shared/widgets/snack.dart';
 import 'chat_controller.dart';
+import 'memory_announcement.dart';
 
 class ChatScreen extends ConsumerStatefulWidget {
   const ChatScreen({super.key});
@@ -232,6 +233,21 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                     .toList(),
               ),
             ],
+            for (final learned in m.learned)
+              MemoryAnnouncement(key: ValueKey<String>(learned.id), memory: learned),
+            if (m.applied.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.only(top: 6),
+                child: Text(
+                  // Why this answer isn't the one the archive alone would give.
+                  AppLocalizations.of(context)!.memoryAppliedNote(
+                    m.applied.map((a) => a.label).join(', '),
+                  ),
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.outline,
+                  ),
+                ),
+              ),
           ],
         ),
       ),

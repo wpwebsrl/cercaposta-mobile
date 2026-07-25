@@ -5,6 +5,7 @@ import '../../core/api/api_exception.dart';
 import '../../core/api/api_providers.dart';
 import '../../core/auth/auth_controller.dart';
 import '../../shared/models/chat.dart';
+import '../../shared/models/memory.dart';
 
 class ChatState {
   const ChatState({
@@ -177,10 +178,21 @@ class ChatController extends Notifier<ChatState> {
             );
           case ChatEventType.citations:
             citations = ev.citations; // attached to the assistant bubble on `done`
+          case ChatEventType.memory:
+            // PERSISTENT, unlike phase/activity: it rides with the assistant bubble so the
+            // two actions survive scrolling back.
+            if (ev.learned != null) {
+              assistant.learned = <LearnedMemory>[...assistant.learned, ev.learned!];
+              state = state.copyWith(
+                messages: <ChatMessage>[...msgs],
+                phase: state.phase,
+              );
+            }
           case ChatEventType.done:
             final answer = ev.answer ?? '';
             if (answer.isNotEmpty) assistant.content = answer;
             assistant.citations = citations;
+            assistant.applied = ev.applied;
             _conversationId = ev.conversationId ?? _conversationId;
             state = state.copyWith(
               messages: <ChatMessage>[...msgs],

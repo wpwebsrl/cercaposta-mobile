@@ -436,5 +436,112 @@
   "followupMarkConfirm": "Create",
   "followupMarkCreated": "Marked as awaiting a reply",
   "errorFollowupAlreadyActive": "There is already an open expectation on this conversation.",
-  "errorFollowupNoCounterpart": "Cannot tell who should reply: try the other direction."
+  "errorFollowupNoCounterpart": "Cannot tell who should reply: try the other direction.",
+  "memoryTitle": "Chat memory",
+  "memorySettingsHint": "What the assistant has learned about you",
+  "memoryIntro": "This is everything the assistant has learned about you: what you call people, how you like listings, the facts it takes for granted. Anything here can be paused or forgotten — and nothing is learned without telling you. To add a memory, say it in the chat: «remember that…».",
+  "memoryPolicyLearn": "Learn from my conversations",
+  "memoryPolicyLearnHint": "When on, the assistant proposes what it notices while you work together: it tells you every time, and you can undo it. Turn it off and only the memories you write yourself remain.",
+  "memoryPolicyEnabled": "Use memory in answers",
+  "memoryPolicyEnabledHint": "Turning this off keeps every memory but stops applying them: it is a pause, not a deletion.",
+  "memoryAnnounceAlias": "I learned that for you «{key}» means {value}.",
+  "@memoryAnnounceAlias": {
+    "placeholders": {
+      "key": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "memoryAnnounceGeneric": "I learned: {key} → {value}.",
+  "@memoryAnnounceGeneric": {
+    "placeholders": {
+      "key": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "memoryAnnounceTrial": "{what} For now I'm keeping it on trial: I'm not using it yet.",
+  "@memoryAnnounceTrial": {
+    "placeholders": {
+      "what": {
+        "type": "String"
+      }
+    }
+  },
+  "memoryAnnounceUndo": "Undo",
+  "memoryAnnounceUndone": "Undone: I didn't keep it.",
+  "memoryAnnounceRejected": "All right, I won't propose it again.",
+  "memoryAppliedNote": "From memory: {list}",
+  "@memoryAppliedNote": {
+    "placeholders": {
+      "list": {
+        "type": "String"
+      }
+    }
+  },
+  "memoryListEmpty": "Nothing in memory yet. You can say it in the chat: «remember that…».",
+  "memoryListEmptyFiltered": "No memories in this state.",
+  "memoryFilterAll": "All",
+  "memoryFilterActive": "Active",
+  "memoryFilterTrial": "On trial",
+  "memoryFilterRejected": "Refused",
+  "memoryFilterDisabled": "Paused",
+  "memoryStatusActive": "Active",
+  "memoryStatusTrial": "On trial",
+  "memoryStatusRejected": "Refused",
+  "memoryStatusDisabled": "Paused",
+  "memoryStatusTrialHint": "still learning it, not using it yet",
+  "memoryStatusStaleHint": "unused for months: pause it if you no longer need it",
+  "memoryKindAlias": "What you call people",
+  "memoryKindParam": "How you want searches",
+  "memoryKindRender": "How you want listings",
+  "memoryKindFact": "Facts to keep in mind",
+  "memoryKindShortcut": "Recurring questions",
+  "memoryTriggerSearch": "when searching",
+  "memoryTriggerListing": "in listings",
+  "memoryTriggerContact": "on contacts",
+  "memoryTriggerAlways": "always",
+  "memorySourceExplicit": "you said so",
+  "memorySourceCorrection": "from a correction of yours",
+  "memorySourceRecurrence": "from a habit",
+  "memorySourceSuggested": "proposed by the archive",
+  "memorySourceInferred": "inferred from something you wrote",
+  "memoryUsedTimes": "{count, plural, =1{used once} other{used {count} times}}",
+  "@memoryUsedTimes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "memoryEnable": "Resume",
+  "memoryDisable": "Pause",
+  "memoryReject": "Never remember this",
+  "memoryUnreject": "I changed my mind",
+  "memoryDelete": "Delete",
+  "memoryDeleteConfirm": "Delete the memory «{key}»? If you'd rather it were never proposed again, use «Never remember this».",
+  "@memoryDeleteConfirm": {
+    "placeholders": {
+      "key": {
+        "type": "String"
+      }
+    }
+  },
+  "memorySuggestionsTitle": "Aliases suggested by your archive",
+  "memorySuggestionsHint": "Names that in your archive can only mean one person. Accept, and naming them in the chat will search their address directly.",
+  "memorySuggestionsAccept": "Accept",
+  "memorySuggestionsCount": "{count, plural, =1{1 email} other{{count} emails}}",
+  "@memorySuggestionsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }
