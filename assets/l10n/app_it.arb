@@ -202,6 +202,15 @@
       }
     }
   },
+  "chatActivityAttachments": "Leggo gli allegati: “{q}”",
+  "@chatActivityAttachments": {
+    "placeholders": {
+      "q": {
+        "type": "String"
+      }
+    }
+  },
+  "chatActivityAttachmentsGeneric": "Leggo gli allegati",
   "chatEmbeddingFailed": "Ricerca semantica non disponibile: risultati basati sulle sole parole chiave.",
   "settingsTitle": "Impostazioni",
   "settingsServer": "Server",

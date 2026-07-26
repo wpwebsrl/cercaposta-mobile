@@ -285,6 +285,10 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
     'stats' => l.chatActivityStats,
     'contact' => l.chatActivityContact(a.label),
     'followups' => l.chatActivityFollowups,
+    'attachments' =>
+      a.label.isEmpty
+          ? l.chatActivityAttachmentsGeneric
+          : l.chatActivityAttachments(a.label),
     _ => '',
   };
 

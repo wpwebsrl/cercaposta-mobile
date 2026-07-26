@@ -490,6 +490,14 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String chatActivityAttachments(String q) {
+    return 'Reading attachments: “$q”';
+  }
+
+  @override
+  String get chatActivityAttachmentsGeneric => 'Reading attachments';
+
+  @override
   String get chatEmbeddingFailed =>
       'Semantic search unavailable: results are keyword-only.';
 

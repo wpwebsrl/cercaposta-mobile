@@ -974,6 +974,18 @@ abstract class AppLocalizations {
   /// **'Raccolgo la storia di {a}'**
   String chatActivityContact(String a);
 
+  /// No description provided for @chatActivityAttachments.
+  ///
+  /// In it, this message translates to:
+  /// **'Leggo gli allegati: “{q}”'**
+  String chatActivityAttachments(String q);
+
+  /// No description provided for @chatActivityAttachmentsGeneric.
+  ///
+  /// In it, this message translates to:
+  /// **'Leggo gli allegati'**
+  String get chatActivityAttachmentsGeneric;
+
   /// No description provided for @chatEmbeddingFailed.
   ///
   /// In it, this message translates to:

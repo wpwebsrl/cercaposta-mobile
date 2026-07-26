@@ -493,6 +493,14 @@ class AppLocalizationsIt extends AppLocalizations {
   }
 
   @override
+  String chatActivityAttachments(String q) {
+    return 'Leggo gli allegati: “$q”';
+  }
+
+  @override
+  String get chatActivityAttachmentsGeneric => 'Leggo gli allegati';
+
+  @override
   String get chatEmbeddingFailed =>
       'Ricerca semantica non disponibile: risultati basati sulle sole parole chiave.';
 
