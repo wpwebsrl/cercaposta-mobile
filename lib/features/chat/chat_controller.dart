@@ -23,6 +23,7 @@ class ChatState {
   final List<ChatMessage> messages;
   final bool streaming;
   final String? phase;
+
   /// Live trail of the agentic engine's searches/thread-reads for the current turn.
   final List<ChatActivity> activities;
   final Object? error;
@@ -143,7 +144,8 @@ class ChatController extends Notifier<ChatState> {
 
     final cancel = CancelToken();
     _cancel = cancel;
-    var citations = const <Citation>[]; // arrives on `citations`, attached on `done`
+    var citations =
+        const <Citation>[]; // arrives on `citations`, attached on `done`
     try {
       final stream = ref
           .read(chatApiProvider)
@@ -177,12 +179,16 @@ class ChatController extends Notifier<ChatState> {
               phase: state.phase,
             );
           case ChatEventType.citations:
-            citations = ev.citations; // attached to the assistant bubble on `done`
+            citations =
+                ev.citations; // attached to the assistant bubble on `done`
           case ChatEventType.memory:
             // PERSISTENT, unlike phase/activity: it rides with the assistant bubble so the
             // two actions survive scrolling back.
             if (ev.learned != null) {
-              assistant.learned = <LearnedMemory>[...assistant.learned, ev.learned!];
+              assistant.learned = <LearnedMemory>[
+                ...assistant.learned,
+                ev.learned!,
+              ];
               state = state.copyWith(
                 messages: <ChatMessage>[...msgs],
                 phase: state.phase,

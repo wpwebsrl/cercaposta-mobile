@@ -128,7 +128,11 @@ void main() {
         'messageMetadata': <String, dynamic>{
           'final_answer': '…',
           'applied_memories': <dynamic>[
-            <String, dynamic>{'kind': 'alias', 'key': 'sara', 'value': 'sara@acme.it'},
+            <String, dynamic>{
+              'kind': 'alias',
+              'key': 'sara',
+              'value': 'sara@acme.it',
+            },
           ],
         },
       });
@@ -138,7 +142,9 @@ void main() {
 
     test('unknown frames are still skipped', () {
       expect(
-        ChatStreamEvent.tryParse(<String, dynamic>{'type': 'data-something-new'}),
+        ChatStreamEvent.tryParse(<String, dynamic>{
+          'type': 'data-something-new',
+        }),
         isNull,
       );
     });
@@ -156,16 +162,36 @@ void main() {
     );
   });
 
-  testWidgets('the screen shows all four states, grouped by kind', (tester) async {
+  testWidgets('the screen shows all four states, grouped by kind', (
+    tester,
+  ) async {
     final api = _FakeMemoryApi(
       memories: <Memory>[
         _memory(),
-        _memory(id: 'm2', kind: 'fact', trigger: 'always', key: 'Levosil',
-            value: 'è un cliente', status: 'trial'),
-        _memory(id: 'm3', kind: 'render', trigger: 'listing', key: 'columns',
-            value: 'sender, subject, date', status: 'rejected'),
-        _memory(id: 'm4', kind: 'param', trigger: 'listing', key: 'list_page_size',
-            value: '20', status: 'disabled'),
+        _memory(
+          id: 'm2',
+          kind: 'fact',
+          trigger: 'always',
+          key: 'Levosil',
+          value: 'è un cliente',
+          status: 'trial',
+        ),
+        _memory(
+          id: 'm3',
+          kind: 'render',
+          trigger: 'listing',
+          key: 'columns',
+          value: 'sender, subject, date',
+          status: 'rejected',
+        ),
+        _memory(
+          id: 'm4',
+          kind: 'param',
+          trigger: 'listing',
+          key: 'list_page_size',
+          value: '20',
+          status: 'disabled',
+        ),
       ],
     );
     await _pump(tester, const MemoryScreen(), api);
@@ -183,7 +209,9 @@ void main() {
     expect(find.text('Come chiami le persone'), findsOneWidget);
   });
 
-  testWidgets('a filter narrows the list and says so when it is empty', (tester) async {
+  testWidgets('a filter narrows the list and says so when it is empty', (
+    tester,
+  ) async {
     final api = _FakeMemoryApi(memories: <Memory>[_memory()]);
     await _pump(tester, const MemoryScreen(), api);
 
@@ -193,7 +221,9 @@ void main() {
     expect(find.text('Nessun ricordo in questo stato.'), findsOneWidget);
   });
 
-  testWidgets('the learn switch writes the policy, not the other one', (tester) async {
+  testWidgets('the learn switch writes the policy, not the other one', (
+    tester,
+  ) async {
     final api = _FakeMemoryApi();
     await _pump(tester, const MemoryScreen(), api);
 
@@ -272,7 +302,9 @@ void main() {
     expect(find.text('Va bene, non te lo riproporrò.'), findsOneWidget);
   });
 
-  testWidgets('an accepted suggestion is written and disappears', (tester) async {
+  testWidgets('an accepted suggestion is written and disappears', (
+    tester,
+  ) async {
     final api = _FakeMemoryApi(
       suggestions: <AliasSuggestion>[
         const AliasSuggestion(

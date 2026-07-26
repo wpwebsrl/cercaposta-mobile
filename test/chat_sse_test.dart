@@ -47,70 +47,79 @@ Future<List<ChatStreamEvent>> _events(List<List<int>> chunks) => _api(
 ).stream(message: 'q', history: const <Map<String, String>>[]).toList();
 
 void main() {
-  test('normalizes UI-message frames across split chunks and drops [DONE]', () async {
-    // The wire speaks the AI SDK protocol; ChatApi normalizes it to our canonical events. The
-    // streamed text ([nothing here]) and the settled final_answer both say "Ciao mondo".
-    final body = _sse(<Map<String, dynamic>>[
-      <String, dynamic>{'type': 'start'},
-      <String, dynamic>{
-        'type': 'data-phase',
-        'transient': true,
-        'data': <String, dynamic>{'phase': 'understanding', 'round': 1},
-      },
-      <String, dynamic>{
-        'type': 'data-activity',
-        'transient': true,
-        'data': <String, dynamic>{'kind': 'search', 'label': 'fattura 7', 'round': 1},
-      },
-      <String, dynamic>{'type': 'text-delta', 'id': 't1', 'delta': 'Ciao '},
-      <String, dynamic>{'type': 'text-delta', 'id': 't1', 'delta': 'mondo'},
-      <String, dynamic>{
-        'type': 'data-citations',
-        'data': <String, dynamic>{
-          'citations': <Map<String, dynamic>>[
-            <String, dynamic>{'n': 1, 'id': 'E1', 'subject': 'Fattura 7'},
-          ],
+  test(
+    'normalizes UI-message frames across split chunks and drops [DONE]',
+    () async {
+      // The wire speaks the AI SDK protocol; ChatApi normalizes it to our canonical events. The
+      // streamed text ([nothing here]) and the settled final_answer both say "Ciao mondo".
+      final body = _sse(<Map<String, dynamic>>[
+        <String, dynamic>{'type': 'start'},
+        <String, dynamic>{
+          'type': 'data-phase',
+          'transient': true,
+          'data': <String, dynamic>{'phase': 'understanding', 'round': 1},
         },
-      },
-      <String, dynamic>{
-        'type': 'message-metadata',
-        'messageMetadata': <String, dynamic>{
-          'conversation_id': 'c1',
-          'final_answer': 'Ciao mondo',
-          'embedding_failed': false,
+        <String, dynamic>{
+          'type': 'data-activity',
+          'transient': true,
+          'data': <String, dynamic>{
+            'kind': 'search',
+            'label': 'fattura 7',
+            'round': 1,
+          },
         },
-      },
-      <String, dynamic>{'type': 'finish'},
-    ]);
-    final bytes = utf8.encode(body);
-    final n = bytes.length;
-    // Split mid-frame to exercise the cross-chunk buffering.
-    final chunks = <List<int>>[
-      bytes.sublist(0, n ~/ 3),
-      bytes.sublist(n ~/ 3, 2 * n ~/ 3),
-      bytes.sublist(2 * n ~/ 3),
-    ];
-    final events = await _events(chunks);
-    // start / finish are structural → dropped; the rest are canonical events.
-    expect(events.map((e) => e.type).toList(), <ChatEventType>[
-      ChatEventType.phase,
-      ChatEventType.activity,
-      ChatEventType.token,
-      ChatEventType.token,
-      ChatEventType.citations,
-      ChatEventType.done,
-    ]);
-    expect(events[0].phase, 'understanding');
-    expect(events[1].activityKind, 'search');
-    expect(events[1].activityLabel, 'fattura 7');
-    expect(events[2].text, 'Ciao ');
-    final citations = events.firstWhere((e) => e.type == ChatEventType.citations);
-    expect(citations.citations.single.n, 1);
-    final done = events.last;
-    expect(done.answer, 'Ciao mondo'); // renumbered final_answer
-    expect(done.conversationId, 'c1');
-    expect(done.embeddingFailed, false);
-  });
+        <String, dynamic>{'type': 'text-delta', 'id': 't1', 'delta': 'Ciao '},
+        <String, dynamic>{'type': 'text-delta', 'id': 't1', 'delta': 'mondo'},
+        <String, dynamic>{
+          'type': 'data-citations',
+          'data': <String, dynamic>{
+            'citations': <Map<String, dynamic>>[
+              <String, dynamic>{'n': 1, 'id': 'E1', 'subject': 'Fattura 7'},
+            ],
+          },
+        },
+        <String, dynamic>{
+          'type': 'message-metadata',
+          'messageMetadata': <String, dynamic>{
+            'conversation_id': 'c1',
+            'final_answer': 'Ciao mondo',
+            'embedding_failed': false,
+          },
+        },
+        <String, dynamic>{'type': 'finish'},
+      ]);
+      final bytes = utf8.encode(body);
+      final n = bytes.length;
+      // Split mid-frame to exercise the cross-chunk buffering.
+      final chunks = <List<int>>[
+        bytes.sublist(0, n ~/ 3),
+        bytes.sublist(n ~/ 3, 2 * n ~/ 3),
+        bytes.sublist(2 * n ~/ 3),
+      ];
+      final events = await _events(chunks);
+      // start / finish are structural → dropped; the rest are canonical events.
+      expect(events.map((e) => e.type).toList(), <ChatEventType>[
+        ChatEventType.phase,
+        ChatEventType.activity,
+        ChatEventType.token,
+        ChatEventType.token,
+        ChatEventType.citations,
+        ChatEventType.done,
+      ]);
+      expect(events[0].phase, 'understanding');
+      expect(events[1].activityKind, 'search');
+      expect(events[1].activityLabel, 'fattura 7');
+      expect(events[2].text, 'Ciao ');
+      final citations = events.firstWhere(
+        (e) => e.type == ChatEventType.citations,
+      );
+      expect(citations.citations.single.n, 1);
+      final done = events.last;
+      expect(done.answer, 'Ciao mondo'); // renumbered final_answer
+      expect(done.conversationId, 'c1');
+      expect(done.embeddingFailed, false);
+    },
+  );
 
   test('decodes a multibyte char split across two chunks', () async {
     final body = _sse(<Map<String, dynamic>>[
@@ -118,21 +127,30 @@ void main() {
     ]);
     final bytes = utf8.encode(body);
     final idx = bytes.indexOf(0xC3); // first byte of "é"
-    final chunks = <List<int>>[bytes.sublist(0, idx + 1), bytes.sublist(idx + 1)];
+    final chunks = <List<int>>[
+      bytes.sublist(0, idx + 1),
+      bytes.sublist(idx + 1),
+    ];
     final events = await _events(chunks);
     expect(events.single.text, 'perché');
   });
 
-  test('in-stream error frame surfaces as an error event with the machine code', () async {
-    final body = _sse(<Map<String, dynamic>>[
-      <String, dynamic>{
-        'type': 'error',
-        'errorText': jsonEncode(<String, dynamic>{'code': 'chat.llm_error', 'detail': 'boom'}),
-      },
-    ]);
-    final events = await _events(<List<int>>[utf8.encode(body)]);
-    expect(events.single.type, ChatEventType.error);
-    expect(events.single.errorCode, 'chat.llm_error');
-    expect(events.single.errorDetail, 'boom');
-  });
+  test(
+    'in-stream error frame surfaces as an error event with the machine code',
+    () async {
+      final body = _sse(<Map<String, dynamic>>[
+        <String, dynamic>{
+          'type': 'error',
+          'errorText': jsonEncode(<String, dynamic>{
+            'code': 'chat.llm_error',
+            'detail': 'boom',
+          }),
+        },
+      ]);
+      final events = await _events(<List<int>>[utf8.encode(body)]);
+      expect(events.single.type, ChatEventType.error);
+      expect(events.single.errorCode, 'chat.llm_error');
+      expect(events.single.errorDetail, 'boom');
+    },
+  );
 }

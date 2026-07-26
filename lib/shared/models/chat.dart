@@ -108,7 +108,10 @@ class ChatStreamEvent {
           activityLabel: jsonStr(data, 'label'),
         );
       case 'text-delta':
-        return ChatStreamEvent(type: ChatEventType.token, text: jsonStr(j, 'delta'));
+        return ChatStreamEvent(
+          type: ChatEventType.token,
+          text: jsonStr(j, 'delta'),
+        );
       case 'data-citations':
         return ChatStreamEvent(
           type: ChatEventType.citations,

@@ -234,7 +234,10 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
               ),
             ],
             for (final learned in m.learned)
-              MemoryAnnouncement(key: ValueKey<String>(learned.id), memory: learned),
+              MemoryAnnouncement(
+                key: ValueKey<String>(learned.id),
+                memory: learned,
+              ),
             if (m.applied.isNotEmpty)
               Padding(
                 padding: const EdgeInsets.only(top: 6),
@@ -276,7 +279,9 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
   String _activityLabel(AppLocalizations l, ChatActivity a) => switch (a.kind) {
     'search' => l.chatActivitySearch(a.label),
     'thread' =>
-      a.label.isEmpty ? l.chatActivityThreadGeneric : l.chatActivityThread(a.label),
+      a.label.isEmpty
+          ? l.chatActivityThreadGeneric
+          : l.chatActivityThread(a.label),
     'stats' => l.chatActivityStats,
     'contact' => l.chatActivityContact(a.label),
     'followups' => l.chatActivityFollowups,

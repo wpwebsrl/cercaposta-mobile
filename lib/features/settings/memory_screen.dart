@@ -261,7 +261,8 @@ class _MemoryScreenState extends ConsumerState<MemoryScreen> {
               ),
             ),
           ),
-          for (final m in rows.where((m) => m.kind == kind)) _row(context, l, m),
+          for (final m in rows.where((m) => m.kind == kind))
+            _row(context, l, m),
         ],
       const SizedBox(height: 24),
     ];
