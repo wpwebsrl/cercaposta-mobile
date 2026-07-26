@@ -543,5 +543,110 @@
         "type": "int"
       }
     }
-  }
+  },
+  "diagnosticsTitle": "Diagnostics",
+  "diagnosticsIntro": "Whether everything that was imported is actually searchable. When something is missing you get the reason and, where there is one, what to do about it.",
+  "diagnosticsStatusOk": "All good: the archive is complete and searchable.",
+  "diagnosticsStatusWorking": "Still working: part of the archive is not searchable yet. Nothing for you to do.",
+  "diagnosticsStatusAttention": "There is something worth looking at, below.",
+  "diagnosticsMessages": "Messages in AI search",
+  "diagnosticsAttachments": "Text read inside attachments",
+  "diagnosticsOf": "{done} of {total}",
+  "@diagnosticsOf": {
+    "placeholders": {
+      "done": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "diagnosticsAttachmentsPending": "{n} attachments queued",
+  "@diagnosticsAttachmentsPending": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "diagnosticsMessagesPending": "{n} messages queued",
+  "@diagnosticsMessagesPending": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "diagnosticsEmbeddingOff": "AI search disabled",
+  "diagnosticsEmbeddingPaused": "paused: AI plan limits",
+  "diagnosticsEmbeddingActive": "queue running",
+  "diagnosticsEmbeddingLastError": "last error ({when}): {detail}",
+  "@diagnosticsEmbeddingLastError": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      },
+      "detail": {
+        "type": "String"
+      }
+    }
+  },
+  "diagnosticsRetryAll": "Retry {n} attachments",
+  "@diagnosticsRetryAll": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "diagnosticsRetryHint": "These were stopped by a passing fault: a new attempt can succeed.",
+  "diagnosticsRetryExhaustedHint": "{n} of these already used up their five automatic attempts: retrying makes sense if whatever stopped them is over.",
+  "@diagnosticsRetryExhaustedHint": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "diagnosticsReasonsTitle": "Why {n} attachments have no text",
+  "@diagnosticsReasonsTitle": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "diagnosticsExpectedTitle": "{n} attachments were not documents to read",
+  "@diagnosticsExpectedTitle": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "diagnosticsEmbedReasonsTitle": "Why {n} messages did not make it into AI search",
+  "@diagnosticsEmbedReasonsTitle": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "diagnosticsActionRetry": "Retry",
+  "diagnosticsActionAskAdmin": "Needs the administrator",
+  "diagnosticsActionNone": "Nothing to do",
+  "diagnosticsReasonTikaHttpError": "The document reader was not responding",
+  "diagnosticsReasonTikaTimeout": "The document took too long",
+  "diagnosticsReasonTikaServerError": "The document reader returned an error",
+  "diagnosticsReasonTikaRejected": "The document reader refused the file",
+  "diagnosticsReasonTikaUnsupported": "A file type I cannot read",
+  "diagnosticsReasonExtractBacklogError": "Unexpected error while reading",
+  "diagnosticsReasonUnmatchedPart": "Attachment not found inside the message",
+  "diagnosticsReasonOverSizeLimit": "Larger than the allowed limit",
+  "diagnosticsReasonEmpty": "Empty file",
+  "diagnosticsReasonSignatureFile": "Digital signature, not a document",
+  "diagnosticsReasonInlineImage": "Image embedded in the message (logo, signature)",
+  "diagnosticsReasonUnknown": "Cause not recorded",
+  "diagnosticsSettingsHint": "Whether everything you imported is really searchable, and what is missing"
 }

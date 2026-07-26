@@ -7,6 +7,7 @@ import 'dio_factory.dart';
 import 'services/chat_api.dart';
 import 'services/events_api.dart';
 import 'services/followup_api.dart';
+import 'services/health_api.dart';
 import 'services/memory_api.dart';
 import 'services/message_api.dart';
 import 'services/meta_api.dart';
@@ -112,4 +113,7 @@ final taxonomyApiProvider = Provider<TaxonomyApi>(
 );
 final memoryApiProvider = Provider<MemoryApi>(
   (ref) => MemoryApi(ref.watch(apiDioProvider)),
+);
+final healthApiProvider = Provider<HealthApi>(
+  (ref) => HealthApi(ref.watch(apiDioProvider)),
 );

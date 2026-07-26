@@ -1323,4 +1323,143 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get diagnosticsTitle => 'Diagnostics';
+
+  @override
+  String get diagnosticsIntro =>
+      'Whether everything that was imported is actually searchable. When something is missing you get the reason and, where there is one, what to do about it.';
+
+  @override
+  String get diagnosticsStatusOk =>
+      'All good: the archive is complete and searchable.';
+
+  @override
+  String get diagnosticsStatusWorking =>
+      'Still working: part of the archive is not searchable yet. Nothing for you to do.';
+
+  @override
+  String get diagnosticsStatusAttention =>
+      'There is something worth looking at, below.';
+
+  @override
+  String get diagnosticsMessages => 'Messages in AI search';
+
+  @override
+  String get diagnosticsAttachments => 'Text read inside attachments';
+
+  @override
+  String diagnosticsOf(String done, String total) {
+    return '$done of $total';
+  }
+
+  @override
+  String diagnosticsAttachmentsPending(String n) {
+    return '$n attachments queued';
+  }
+
+  @override
+  String diagnosticsMessagesPending(String n) {
+    return '$n messages queued';
+  }
+
+  @override
+  String get diagnosticsEmbeddingOff => 'AI search disabled';
+
+  @override
+  String get diagnosticsEmbeddingPaused => 'paused: AI plan limits';
+
+  @override
+  String get diagnosticsEmbeddingActive => 'queue running';
+
+  @override
+  String diagnosticsEmbeddingLastError(String when, String detail) {
+    return 'last error ($when): $detail';
+  }
+
+  @override
+  String diagnosticsRetryAll(String n) {
+    return 'Retry $n attachments';
+  }
+
+  @override
+  String get diagnosticsRetryHint =>
+      'These were stopped by a passing fault: a new attempt can succeed.';
+
+  @override
+  String diagnosticsRetryExhaustedHint(String n) {
+    return '$n of these already used up their five automatic attempts: retrying makes sense if whatever stopped them is over.';
+  }
+
+  @override
+  String diagnosticsReasonsTitle(String n) {
+    return 'Why $n attachments have no text';
+  }
+
+  @override
+  String diagnosticsExpectedTitle(String n) {
+    return '$n attachments were not documents to read';
+  }
+
+  @override
+  String diagnosticsEmbedReasonsTitle(String n) {
+    return 'Why $n messages did not make it into AI search';
+  }
+
+  @override
+  String get diagnosticsActionRetry => 'Retry';
+
+  @override
+  String get diagnosticsActionAskAdmin => 'Needs the administrator';
+
+  @override
+  String get diagnosticsActionNone => 'Nothing to do';
+
+  @override
+  String get diagnosticsReasonTikaHttpError =>
+      'The document reader was not responding';
+
+  @override
+  String get diagnosticsReasonTikaTimeout => 'The document took too long';
+
+  @override
+  String get diagnosticsReasonTikaServerError =>
+      'The document reader returned an error';
+
+  @override
+  String get diagnosticsReasonTikaRejected =>
+      'The document reader refused the file';
+
+  @override
+  String get diagnosticsReasonTikaUnsupported => 'A file type I cannot read';
+
+  @override
+  String get diagnosticsReasonExtractBacklogError =>
+      'Unexpected error while reading';
+
+  @override
+  String get diagnosticsReasonUnmatchedPart =>
+      'Attachment not found inside the message';
+
+  @override
+  String get diagnosticsReasonOverSizeLimit => 'Larger than the allowed limit';
+
+  @override
+  String get diagnosticsReasonEmpty => 'Empty file';
+
+  @override
+  String get diagnosticsReasonSignatureFile =>
+      'Digital signature, not a document';
+
+  @override
+  String get diagnosticsReasonInlineImage =>
+      'Image embedded in the message (logo, signature)';
+
+  @override
+  String get diagnosticsReasonUnknown => 'Cause not recorded';
+
+  @override
+  String get diagnosticsSettingsHint =>
+      'Whether everything you imported is really searchable, and what is missing';
 }

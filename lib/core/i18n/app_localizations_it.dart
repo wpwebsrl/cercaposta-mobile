@@ -1333,4 +1333,146 @@ class AppLocalizationsIt extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get diagnosticsTitle => 'Diagnostica';
+
+  @override
+  String get diagnosticsIntro =>
+      'Qui vedi se tutto quello che è stato importato è davvero cercabile. Quando manca qualcosa trovi il motivo e, dove è possibile, cosa fare.';
+
+  @override
+  String get diagnosticsStatusOk =>
+      'Tutto a posto: l\'archivio è completo e cercabile.';
+
+  @override
+  String get diagnosticsStatusWorking =>
+      'Sto ancora lavorando: una parte dell\'archivio non è ancora cercabile. Non devi fare niente, ci penso io.';
+
+  @override
+  String get diagnosticsStatusAttention =>
+      'C\'è qualcosa che vale la pena guardare, qui sotto.';
+
+  @override
+  String get diagnosticsMessages => 'Messaggi nella ricerca AI';
+
+  @override
+  String get diagnosticsAttachments => 'Testo letto dentro gli allegati';
+
+  @override
+  String diagnosticsOf(String done, String total) {
+    return '$done su $total';
+  }
+
+  @override
+  String diagnosticsAttachmentsPending(String n) {
+    return '$n allegati in coda';
+  }
+
+  @override
+  String diagnosticsMessagesPending(String n) {
+    return '$n messaggi in coda';
+  }
+
+  @override
+  String get diagnosticsEmbeddingOff => 'ricerca AI disattivata';
+
+  @override
+  String get diagnosticsEmbeddingPaused => 'in pausa: limiti del piano AI';
+
+  @override
+  String get diagnosticsEmbeddingActive => 'coda attiva';
+
+  @override
+  String diagnosticsEmbeddingLastError(String when, String detail) {
+    return 'ultimo errore ($when): $detail';
+  }
+
+  @override
+  String diagnosticsRetryAll(String n) {
+    return 'Riprova $n allegati';
+  }
+
+  @override
+  String get diagnosticsRetryHint =>
+      'Sono allegati fermati da un guasto passeggero: un nuovo tentativo può riuscire.';
+
+  @override
+  String diagnosticsRetryExhaustedHint(String n) {
+    return '$n di questi hanno già esaurito i cinque tentativi automatici: riprovarli ha senso se il guasto che li ha fermati è passato.';
+  }
+
+  @override
+  String diagnosticsReasonsTitle(String n) {
+    return 'Perché $n allegati non hanno testo';
+  }
+
+  @override
+  String diagnosticsExpectedTitle(String n) {
+    return '$n allegati non erano documenti da leggere';
+  }
+
+  @override
+  String diagnosticsEmbedReasonsTitle(String n) {
+    return 'Perché $n messaggi non sono entrati nella ricerca AI';
+  }
+
+  @override
+  String get diagnosticsActionRetry => 'Riprova';
+
+  @override
+  String get diagnosticsActionAskAdmin => 'Serve l\'amministratore';
+
+  @override
+  String get diagnosticsActionNone => 'Niente da fare';
+
+  @override
+  String get diagnosticsReasonTikaHttpError =>
+      'Il lettore dei documenti non rispondeva';
+
+  @override
+  String get diagnosticsReasonTikaTimeout =>
+      'Il documento ha richiesto troppo tempo';
+
+  @override
+  String get diagnosticsReasonTikaServerError =>
+      'Il lettore dei documenti ha dato errore';
+
+  @override
+  String get diagnosticsReasonTikaRejected =>
+      'Il lettore dei documenti ha rifiutato il file';
+
+  @override
+  String get diagnosticsReasonTikaUnsupported =>
+      'Tipo di file che non so leggere';
+
+  @override
+  String get diagnosticsReasonExtractBacklogError =>
+      'Errore imprevisto durante la lettura';
+
+  @override
+  String get diagnosticsReasonUnmatchedPart =>
+      'Allegato non ritrovato dentro il messaggio';
+
+  @override
+  String get diagnosticsReasonOverSizeLimit =>
+      'Più grande del limite consentito';
+
+  @override
+  String get diagnosticsReasonEmpty => 'File vuoto';
+
+  @override
+  String get diagnosticsReasonSignatureFile =>
+      'Firma digitale, non un documento';
+
+  @override
+  String get diagnosticsReasonInlineImage =>
+      'Immagine incorporata nel messaggio (logo, firma)';
+
+  @override
+  String get diagnosticsReasonUnknown => 'Causa non registrata';
+
+  @override
+  String get diagnosticsSettingsHint =>
+      'Se tutto quello che hai importato è davvero cercabile, e cosa manca';
 }

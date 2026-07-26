@@ -288,6 +288,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               onTap: () => context.push('/memory'),
             ),
             ListTile(
+              leading: const Icon(Icons.monitor_heart_outlined),
+              title: Text(l.diagnosticsTitle),
+              subtitle: Text(l.diagnosticsSettingsHint),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => context.push('/diagnostics'),
+            ),
+            ListTile(
               leading: const Icon(Icons.devices_outlined),
               title: Text(l.settingsSessions),
               trailing: const Icon(Icons.chevron_right),

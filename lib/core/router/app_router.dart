@@ -15,6 +15,7 @@ import '../../features/login/totp_screen.dart';
 import '../../features/login/unlock_screen.dart';
 import '../../features/login/update_required_screen.dart';
 import '../../features/server/server_screen.dart';
+import '../../features/settings/diagnostics_screen.dart';
 import '../../features/settings/memory_screen.dart';
 import '../../features/settings/sessions_screen.dart';
 import '../../features/splash/splash_screen.dart';
@@ -119,6 +120,10 @@ final routerProvider = Provider<GoRouter>((ref) {
         },
       ),
       GoRoute(path: '/memory', builder: (_, __) => const MemoryScreen()),
+      GoRoute(
+        path: '/diagnostics',
+        builder: (_, __) => const DiagnosticsScreen(),
+      ),
       GoRoute(path: '/sessions', builder: (_, __) => const SessionsScreen()),
       GoRoute(path: '/about', builder: (_, __) => const AboutScreen()),
       GoRoute(

@@ -2407,6 +2407,222 @@ abstract class AppLocalizations {
   /// In it, this message translates to:
   /// **'{count, plural, =1{1 email} other{{count} email}}'**
   String memorySuggestionsCount(int count);
+
+  /// No description provided for @diagnosticsTitle.
+  ///
+  /// In it, this message translates to:
+  /// **'Diagnostica'**
+  String get diagnosticsTitle;
+
+  /// No description provided for @diagnosticsIntro.
+  ///
+  /// In it, this message translates to:
+  /// **'Qui vedi se tutto quello che è stato importato è davvero cercabile. Quando manca qualcosa trovi il motivo e, dove è possibile, cosa fare.'**
+  String get diagnosticsIntro;
+
+  /// No description provided for @diagnosticsStatusOk.
+  ///
+  /// In it, this message translates to:
+  /// **'Tutto a posto: l\'archivio è completo e cercabile.'**
+  String get diagnosticsStatusOk;
+
+  /// No description provided for @diagnosticsStatusWorking.
+  ///
+  /// In it, this message translates to:
+  /// **'Sto ancora lavorando: una parte dell\'archivio non è ancora cercabile. Non devi fare niente, ci penso io.'**
+  String get diagnosticsStatusWorking;
+
+  /// No description provided for @diagnosticsStatusAttention.
+  ///
+  /// In it, this message translates to:
+  /// **'C\'è qualcosa che vale la pena guardare, qui sotto.'**
+  String get diagnosticsStatusAttention;
+
+  /// No description provided for @diagnosticsMessages.
+  ///
+  /// In it, this message translates to:
+  /// **'Messaggi nella ricerca AI'**
+  String get diagnosticsMessages;
+
+  /// No description provided for @diagnosticsAttachments.
+  ///
+  /// In it, this message translates to:
+  /// **'Testo letto dentro gli allegati'**
+  String get diagnosticsAttachments;
+
+  /// No description provided for @diagnosticsOf.
+  ///
+  /// In it, this message translates to:
+  /// **'{done} su {total}'**
+  String diagnosticsOf(String done, String total);
+
+  /// No description provided for @diagnosticsAttachmentsPending.
+  ///
+  /// In it, this message translates to:
+  /// **'{n} allegati in coda'**
+  String diagnosticsAttachmentsPending(String n);
+
+  /// No description provided for @diagnosticsMessagesPending.
+  ///
+  /// In it, this message translates to:
+  /// **'{n} messaggi in coda'**
+  String diagnosticsMessagesPending(String n);
+
+  /// No description provided for @diagnosticsEmbeddingOff.
+  ///
+  /// In it, this message translates to:
+  /// **'ricerca AI disattivata'**
+  String get diagnosticsEmbeddingOff;
+
+  /// No description provided for @diagnosticsEmbeddingPaused.
+  ///
+  /// In it, this message translates to:
+  /// **'in pausa: limiti del piano AI'**
+  String get diagnosticsEmbeddingPaused;
+
+  /// No description provided for @diagnosticsEmbeddingActive.
+  ///
+  /// In it, this message translates to:
+  /// **'coda attiva'**
+  String get diagnosticsEmbeddingActive;
+
+  /// No description provided for @diagnosticsEmbeddingLastError.
+  ///
+  /// In it, this message translates to:
+  /// **'ultimo errore ({when}): {detail}'**
+  String diagnosticsEmbeddingLastError(String when, String detail);
+
+  /// No description provided for @diagnosticsRetryAll.
+  ///
+  /// In it, this message translates to:
+  /// **'Riprova {n} allegati'**
+  String diagnosticsRetryAll(String n);
+
+  /// No description provided for @diagnosticsRetryHint.
+  ///
+  /// In it, this message translates to:
+  /// **'Sono allegati fermati da un guasto passeggero: un nuovo tentativo può riuscire.'**
+  String get diagnosticsRetryHint;
+
+  /// No description provided for @diagnosticsRetryExhaustedHint.
+  ///
+  /// In it, this message translates to:
+  /// **'{n} di questi hanno già esaurito i cinque tentativi automatici: riprovarli ha senso se il guasto che li ha fermati è passato.'**
+  String diagnosticsRetryExhaustedHint(String n);
+
+  /// No description provided for @diagnosticsReasonsTitle.
+  ///
+  /// In it, this message translates to:
+  /// **'Perché {n} allegati non hanno testo'**
+  String diagnosticsReasonsTitle(String n);
+
+  /// No description provided for @diagnosticsExpectedTitle.
+  ///
+  /// In it, this message translates to:
+  /// **'{n} allegati non erano documenti da leggere'**
+  String diagnosticsExpectedTitle(String n);
+
+  /// No description provided for @diagnosticsEmbedReasonsTitle.
+  ///
+  /// In it, this message translates to:
+  /// **'Perché {n} messaggi non sono entrati nella ricerca AI'**
+  String diagnosticsEmbedReasonsTitle(String n);
+
+  /// No description provided for @diagnosticsActionRetry.
+  ///
+  /// In it, this message translates to:
+  /// **'Riprova'**
+  String get diagnosticsActionRetry;
+
+  /// No description provided for @diagnosticsActionAskAdmin.
+  ///
+  /// In it, this message translates to:
+  /// **'Serve l\'amministratore'**
+  String get diagnosticsActionAskAdmin;
+
+  /// No description provided for @diagnosticsActionNone.
+  ///
+  /// In it, this message translates to:
+  /// **'Niente da fare'**
+  String get diagnosticsActionNone;
+
+  /// No description provided for @diagnosticsReasonTikaHttpError.
+  ///
+  /// In it, this message translates to:
+  /// **'Il lettore dei documenti non rispondeva'**
+  String get diagnosticsReasonTikaHttpError;
+
+  /// No description provided for @diagnosticsReasonTikaTimeout.
+  ///
+  /// In it, this message translates to:
+  /// **'Il documento ha richiesto troppo tempo'**
+  String get diagnosticsReasonTikaTimeout;
+
+  /// No description provided for @diagnosticsReasonTikaServerError.
+  ///
+  /// In it, this message translates to:
+  /// **'Il lettore dei documenti ha dato errore'**
+  String get diagnosticsReasonTikaServerError;
+
+  /// No description provided for @diagnosticsReasonTikaRejected.
+  ///
+  /// In it, this message translates to:
+  /// **'Il lettore dei documenti ha rifiutato il file'**
+  String get diagnosticsReasonTikaRejected;
+
+  /// No description provided for @diagnosticsReasonTikaUnsupported.
+  ///
+  /// In it, this message translates to:
+  /// **'Tipo di file che non so leggere'**
+  String get diagnosticsReasonTikaUnsupported;
+
+  /// No description provided for @diagnosticsReasonExtractBacklogError.
+  ///
+  /// In it, this message translates to:
+  /// **'Errore imprevisto durante la lettura'**
+  String get diagnosticsReasonExtractBacklogError;
+
+  /// No description provided for @diagnosticsReasonUnmatchedPart.
+  ///
+  /// In it, this message translates to:
+  /// **'Allegato non ritrovato dentro il messaggio'**
+  String get diagnosticsReasonUnmatchedPart;
+
+  /// No description provided for @diagnosticsReasonOverSizeLimit.
+  ///
+  /// In it, this message translates to:
+  /// **'Più grande del limite consentito'**
+  String get diagnosticsReasonOverSizeLimit;
+
+  /// No description provided for @diagnosticsReasonEmpty.
+  ///
+  /// In it, this message translates to:
+  /// **'File vuoto'**
+  String get diagnosticsReasonEmpty;
+
+  /// No description provided for @diagnosticsReasonSignatureFile.
+  ///
+  /// In it, this message translates to:
+  /// **'Firma digitale, non un documento'**
+  String get diagnosticsReasonSignatureFile;
+
+  /// No description provided for @diagnosticsReasonInlineImage.
+  ///
+  /// In it, this message translates to:
+  /// **'Immagine incorporata nel messaggio (logo, firma)'**
+  String get diagnosticsReasonInlineImage;
+
+  /// No description provided for @diagnosticsReasonUnknown.
+  ///
+  /// In it, this message translates to:
+  /// **'Causa non registrata'**
+  String get diagnosticsReasonUnknown;
+
+  /// No description provided for @diagnosticsSettingsHint.
+  ///
+  /// In it, this message translates to:
+  /// **'Se tutto quello che hai importato è davvero cercabile, e cosa manca'**
+  String get diagnosticsSettingsHint;
 }
 
 class _AppLocalizationsDelegate

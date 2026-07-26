@@ -752,5 +752,110 @@
         "type": "int"
       }
     }
-  }
+  },
+  "diagnosticsTitle": "Diagnostica",
+  "diagnosticsIntro": "Qui vedi se tutto quello che è stato importato è davvero cercabile. Quando manca qualcosa trovi il motivo e, dove è possibile, cosa fare.",
+  "diagnosticsStatusOk": "Tutto a posto: l'archivio è completo e cercabile.",
+  "diagnosticsStatusWorking": "Sto ancora lavorando: una parte dell'archivio non è ancora cercabile. Non devi fare niente, ci penso io.",
+  "diagnosticsStatusAttention": "C'è qualcosa che vale la pena guardare, qui sotto.",
+  "diagnosticsMessages": "Messaggi nella ricerca AI",
+  "diagnosticsAttachments": "Testo letto dentro gli allegati",
+  "diagnosticsOf": "{done} su {total}",
+  "@diagnosticsOf": {
+    "placeholders": {
+      "done": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "diagnosticsAttachmentsPending": "{n} allegati in coda",
+  "@diagnosticsAttachmentsPending": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "diagnosticsMessagesPending": "{n} messaggi in coda",
+  "@diagnosticsMessagesPending": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "diagnosticsEmbeddingOff": "ricerca AI disattivata",
+  "diagnosticsEmbeddingPaused": "in pausa: limiti del piano AI",
+  "diagnosticsEmbeddingActive": "coda attiva",
+  "diagnosticsEmbeddingLastError": "ultimo errore ({when}): {detail}",
+  "@diagnosticsEmbeddingLastError": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      },
+      "detail": {
+        "type": "String"
+      }
+    }
+  },
+  "diagnosticsRetryAll": "Riprova {n} allegati",
+  "@diagnosticsRetryAll": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "diagnosticsRetryHint": "Sono allegati fermati da un guasto passeggero: un nuovo tentativo può riuscire.",
+  "diagnosticsRetryExhaustedHint": "{n} di questi hanno già esaurito i cinque tentativi automatici: riprovarli ha senso se il guasto che li ha fermati è passato.",
+  "@diagnosticsRetryExhaustedHint": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "diagnosticsReasonsTitle": "Perché {n} allegati non hanno testo",
+  "@diagnosticsReasonsTitle": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "diagnosticsExpectedTitle": "{n} allegati non erano documenti da leggere",
+  "@diagnosticsExpectedTitle": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "diagnosticsEmbedReasonsTitle": "Perché {n} messaggi non sono entrati nella ricerca AI",
+  "@diagnosticsEmbedReasonsTitle": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "diagnosticsActionRetry": "Riprova",
+  "diagnosticsActionAskAdmin": "Serve l'amministratore",
+  "diagnosticsActionNone": "Niente da fare",
+  "diagnosticsReasonTikaHttpError": "Il lettore dei documenti non rispondeva",
+  "diagnosticsReasonTikaTimeout": "Il documento ha richiesto troppo tempo",
+  "diagnosticsReasonTikaServerError": "Il lettore dei documenti ha dato errore",
+  "diagnosticsReasonTikaRejected": "Il lettore dei documenti ha rifiutato il file",
+  "diagnosticsReasonTikaUnsupported": "Tipo di file che non so leggere",
+  "diagnosticsReasonExtractBacklogError": "Errore imprevisto durante la lettura",
+  "diagnosticsReasonUnmatchedPart": "Allegato non ritrovato dentro il messaggio",
+  "diagnosticsReasonOverSizeLimit": "Più grande del limite consentito",
+  "diagnosticsReasonEmpty": "File vuoto",
+  "diagnosticsReasonSignatureFile": "Firma digitale, non un documento",
+  "diagnosticsReasonInlineImage": "Immagine incorporata nel messaggio (logo, firma)",
+  "diagnosticsReasonUnknown": "Causa non registrata",
+  "diagnosticsSettingsHint": "Se tutto quello che hai importato è davvero cercabile, e cosa manca"
 }
