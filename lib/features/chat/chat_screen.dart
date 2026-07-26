@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../core/api/api_providers.dart';
 import '../../core/api/error_messages.dart';
@@ -10,6 +9,7 @@ import '../../shared/format.dart';
 import '../../shared/models/chat.dart';
 import '../../shared/widgets/snack.dart';
 import 'chat_controller.dart';
+import 'citation_block.dart';
 import 'memory_announcement.dart';
 
 class ChatScreen extends ConsumerStatefulWidget {
@@ -185,15 +185,28 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
         ),
       );
     }
+    // «Il passato si piega, il presente no»: serve sapere QUAL È l'ultimo turno dell'assistente,
+    // non l'ultimo messaggio (l'ultimo può essere la domanda appena inviata).
+    final lastAssistant = state.messages.lastIndexWhere(
+      (m) => m.role == 'assistant',
+    );
     return ListView.builder(
       controller: _scroll,
       padding: const EdgeInsets.all(12),
       itemCount: state.messages.length,
-      itemBuilder: (context, i) => _bubble(context, state.messages[i]),
+      itemBuilder: (context, i) => _bubble(
+        context,
+        state.messages[i],
+        isLastAssistant: i == lastAssistant,
+      ),
     );
   }
 
-  Widget _bubble(BuildContext context, ChatMessage m) {
+  Widget _bubble(
+    BuildContext context,
+    ChatMessage m, {
+    bool isLastAssistant = false,
+  }) {
     final theme = Theme.of(context);
     final isUser = m.role == 'user';
     return Align(
@@ -216,21 +229,12 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
             SelectableText(m.content.isEmpty ? '…' : m.content),
             if (m.citations.isNotEmpty) ...<Widget>[
               const SizedBox(height: 6),
-              Wrap(
-                spacing: 6,
-                runSpacing: 4,
-                children: m.citations
-                    .map(
-                      (c) => ActionChip(
-                        label: Text(
-                          '[${c.n}] ${c.subject.isEmpty ? c.fromLabel : c.subject}',
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        visualDensity: VisualDensity.compact,
-                        onPressed: () => context.push('/message/${c.id}'),
-                      ),
-                    )
-                    .toList(),
+              CitationBlock(
+                key: ValueKey<String>(
+                  'cits-${m.citations.first.id}-${m.citations.length}',
+                ),
+                citations: m.citations,
+                isLastAssistant: isLastAssistant,
               ),
             ],
             for (final learned in m.learned)

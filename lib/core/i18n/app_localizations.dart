@@ -986,6 +986,24 @@ abstract class AppLocalizations {
   /// **'Leggo gli allegati'**
   String get chatActivityAttachmentsGeneric;
 
+  /// No description provided for @chatCitationsCount.
+  ///
+  /// In it, this message translates to:
+  /// **'{count, plural, =1{1 email} other{{count} email}}'**
+  String chatCitationsCount(int count);
+
+  /// No description provided for @chatCitationsOthers.
+  ///
+  /// In it, this message translates to:
+  /// **'e altri {count}'**
+  String chatCitationsOthers(int count);
+
+  /// No description provided for @chatCitationsShowAll.
+  ///
+  /// In it, this message translates to:
+  /// **'{count, plural, =1{Mostra anche l\'ultima} other{Mostra tutte le altre {count}}}'**
+  String chatCitationsShowAll(int count);
+
   /// No description provided for @chatEmbeddingFailed.
   ///
   /// In it, this message translates to:

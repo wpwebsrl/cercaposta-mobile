@@ -501,6 +501,33 @@ class AppLocalizationsIt extends AppLocalizations {
   String get chatActivityAttachmentsGeneric => 'Leggo gli allegati';
 
   @override
+  String chatCitationsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count email',
+      one: '1 email',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String chatCitationsOthers(int count) {
+    return 'e altri $count';
+  }
+
+  @override
+  String chatCitationsShowAll(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Mostra tutte le altre $count',
+      one: 'Mostra anche l\'ultima',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get chatEmbeddingFailed =>
       'Ricerca semantica non disponibile: risultati basati sulle sole parole chiave.';
 

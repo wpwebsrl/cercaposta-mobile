@@ -211,6 +211,30 @@
     }
   },
   "chatActivityAttachmentsGeneric": "Leggo gli allegati",
+  "chatCitationsCount": "{count, plural, =1{1 email} other{{count} email}}",
+  "@chatCitationsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "chatCitationsOthers": "e altri {count}",
+  "@chatCitationsOthers": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "chatCitationsShowAll": "{count, plural, =1{Mostra anche l'ultima} other{Mostra tutte le altre {count}}}",
+  "@chatCitationsShowAll": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "chatEmbeddingFailed": "Ricerca semantica non disponibile: risultati basati sulle sole parole chiave.",
   "settingsTitle": "Impostazioni",
   "settingsServer": "Server",

@@ -498,6 +498,33 @@ class AppLocalizationsEn extends AppLocalizations {
   String get chatActivityAttachmentsGeneric => 'Reading attachments';
 
   @override
+  String chatCitationsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count emails',
+      one: '1 email',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String chatCitationsOthers(int count) {
+    return 'and $count more';
+  }
+
+  @override
+  String chatCitationsShowAll(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Show the other $count',
+      one: 'Show the last one',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get chatEmbeddingFailed =>
       'Semantic search unavailable: results are keyword-only.';
 
