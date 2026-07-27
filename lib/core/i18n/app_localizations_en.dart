@@ -525,6 +525,10 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get chatCitationsUnusedLegend =>
+      'Greyed out: emails read but not used in the answer.';
+
+  @override
   String get chatEmbeddingFailed =>
       'Semantic search unavailable: results are keyword-only.';
 

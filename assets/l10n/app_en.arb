@@ -186,6 +186,7 @@
   "chatCitationsCount": "{count, plural, =1{1 email} other{{count} emails}}",
   "chatCitationsOthers": "and {count} more",
   "chatCitationsShowAll": "{count, plural, =1{Show the last one} other{Show the other {count}}}",
+  "chatCitationsUnusedLegend": "Greyed out: emails read but not used in the answer.",
   "chatEmbeddingFailed": "Semantic search unavailable: results are keyword-only.",
   "settingsTitle": "Settings",
   "settingsServer": "Server",

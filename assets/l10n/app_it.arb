@@ -235,6 +235,7 @@
       }
     }
   },
+  "chatCitationsUnusedLegend": "In grigio le email lette e non usate nella risposta.",
   "chatEmbeddingFailed": "Ricerca semantica non disponibile: risultati basati sulle sole parole chiave.",
   "settingsTitle": "Impostazioni",
   "settingsServer": "Server",

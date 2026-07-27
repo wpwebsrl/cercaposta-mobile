@@ -528,6 +528,10 @@ class AppLocalizationsIt extends AppLocalizations {
   }
 
   @override
+  String get chatCitationsUnusedLegend =>
+      'In grigio le email lette e non usate nella risposta.';
+
+  @override
   String get chatEmbeddingFailed =>
       'Ricerca semantica non disponibile: risultati basati sulle sole parole chiave.';
 

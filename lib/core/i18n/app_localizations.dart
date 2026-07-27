@@ -1004,6 +1004,12 @@ abstract class AppLocalizations {
   /// **'{count, plural, =1{Mostra anche l\'ultima} other{Mostra tutte le altre {count}}}'**
   String chatCitationsShowAll(int count);
 
+  /// No description provided for @chatCitationsUnusedLegend.
+  ///
+  /// In it, this message translates to:
+  /// **'In grigio le email lette e non usate nella risposta.'**
+  String get chatCitationsUnusedLegend;
+
   /// No description provided for @chatEmbeddingFailed.
   ///
   /// In it, this message translates to:

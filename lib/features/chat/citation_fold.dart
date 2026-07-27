@@ -30,9 +30,16 @@ int citationsVisible(int count, {required bool showAll}) =>
 
 /// Fino a [limit] mittenti distinti, per la riga chiusa: «30 email» e basta costringerebbe ad
 /// aprirla solo per capire se è quella giusta.
+///
+/// Prima chi ha davvero contribuito: la riga chiusa riassume la RISPOSTA, non tutto quello che
+/// il turno ha aperto.
 List<String> citationNames(List<Citation> citations, {int limit = 2}) {
   final names = <String>[];
-  for (final c in citations) {
+  final ordered = <Citation>[
+    ...citations.where((c) => c.used),
+    ...citations.where((c) => !c.used),
+  ];
+  for (final c in ordered) {
     final name = c.fromLabel.trim();
     if (name.isNotEmpty && !names.contains(name)) names.add(name);
     if (names.length >= limit) break;

@@ -26,6 +26,18 @@ List<Citation> _cits(int n, {String? name}) => List<Citation>.generate(
   ),
 );
 
+Citation _unused(Citation c) => Citation(
+  n: c.n,
+  id: c.id,
+  subject: c.subject,
+  fromName: c.fromName,
+  fromAddress: c.fromAddress,
+  date: c.date,
+  snippet: c.snippet,
+  folder: c.folder,
+  used: false,
+);
+
 Widget _wrap(Widget child) => MaterialApp(
   locale: const Locale('it'),
   localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -34,6 +46,8 @@ Widget _wrap(Widget child) => MaterialApp(
 );
 
 void main() {
+  group('lette e non usate', _unusedRows);
+
   group('regola del ripiegamento', () {
     test('il turno che si legge non si piega mai da solo', () {
       expect(citationsFolded(30, true), isFalse);
@@ -54,6 +68,15 @@ void main() {
       expect(citationsVisible(30, showAll: false), kCitationsMaxVisible);
       expect(citationsVisible(30, showAll: true), 30);
       expect(citationsVisible(4, showAll: false), 4);
+    });
+
+    test('il riepilogo nomina prima chi ha davvero contribuito', () {
+      // Mostrare solo le citate lasciava buchi nella numerazione, e sui buchi il verdetto
+      // dell'utente è stato «confonde»: ora le lette e non usate ci sono, smorzate — ma la riga
+      // chiusa deve riassumere la RISPOSTA, non tutto quello che il turno ha aperto.
+      final cits = _cits(6);
+      cits[0] = _unused(cits[0]);
+      expect(citationNames(cits, limit: 1), <String>['Mittente 1']);
     });
 
     test('il riepilogo non ripete due volte lo stesso mittente', () {
@@ -109,5 +132,30 @@ void main() {
     expect(find.byType(ActionChip), findsNWidgets(kCitationsFoldMin - 1));
     expect(find.byIcon(Icons.chevron_right), findsNothing);
     expect(find.byIcon(Icons.expand_more), findsNothing);
+  });
+}
+
+/// Le email lette e non usate restano nell'elenco, smorzate: toglierle faceva «saltare» dei
+/// numeri che nella risposta invece si leggono, e sui buchi il verdetto dell'utente è stato
+/// «confonde». La legenda compare solo quando c'è almeno una scheda grigia — una scheda smorzata
+/// senza spiegazione è un enigma.
+void _unusedRows() {
+  testWidgets('le lette e non usate restano, con la legenda', (tester) async {
+    final cits = _cits(6);
+    cits[2] = _unused(cits[2]);
+    await tester.pumpWidget(
+      _wrap(CitationBlock(citations: cits, isLastAssistant: true)),
+    );
+    expect(find.byType(ActionChip), findsNWidgets(6)); // nessun numero saltato
+    expect(find.textContaining('In grigio'), findsOneWidget);
+  });
+
+  testWidgets('senza lette e non usate non c\'è niente da spiegare', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      _wrap(CitationBlock(citations: _cits(6), isLastAssistant: true)),
+    );
+    expect(find.textContaining('In grigio'), findsNothing);
   });
 }

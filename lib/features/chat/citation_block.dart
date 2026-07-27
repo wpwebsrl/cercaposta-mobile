@@ -85,16 +85,34 @@ class _CitationBlockState extends State<CitationBlock> {
             runSpacing: 4,
             children: visible
                 .map(
-                  (c) => ActionChip(
-                    label: Text(
-                      '[${c.n}] ${c.subject.isEmpty ? c.fromLabel : c.subject}',
-                      overflow: TextOverflow.ellipsis,
+                  // Letta e non usata: stessa scheda, stesso tocco, solo smorzata. Toglierla
+                  // farebbe «saltare» il suo numero, che nella risposta invece si legge.
+                  (c) => Opacity(
+                    opacity: c.used ? 1 : 0.55,
+                    child: ActionChip(
+                      label: Text(
+                        '[${c.n}] ${c.subject.isEmpty ? c.fromLabel : c.subject}',
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      visualDensity: VisualDensity.compact,
+                      onPressed: () => context.push('/message/${c.id}'),
                     ),
-                    visualDensity: VisualDensity.compact,
-                    onPressed: () => context.push('/message/${c.id}'),
                   ),
                 )
                 .toList(),
+          ),
+        // La legenda solo quando c'è qualcosa da spiegare: una scheda grigia senza spiegazione
+        // è un enigma, la stessa spiegata è un'informazione.
+        if (visible.any((c) => !c.used))
+          Padding(
+            padding: const EdgeInsets.only(top: 2),
+            child: Text(
+              l.chatCitationsUnusedLegend,
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.outline,
+                fontSize: 11,
+              ),
+            ),
           ),
         // Aperto ma troncato: dire quante ne restano, e offrirle. Un elenco tagliato in
         // silenzio si legge come un elenco completo.

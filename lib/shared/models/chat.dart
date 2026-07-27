@@ -14,6 +14,7 @@ class Citation {
     required this.date,
     required this.snippet,
     required this.folder,
+    this.used = true,
   });
 
   final int n;
@@ -24,6 +25,11 @@ class Citation {
   final DateTime? date;
   final String snippet;
   final String? folder;
+
+  /// La risposta la cita davvero. `false` = letta e non usata: si mostra lo stesso, smorzata,
+  /// altrimenti il suo numero mancherebbe dall'elenco mentre nella risposta si vede. Campo
+  /// additivo: assente (server vecchio) vale «usata».
+  final bool used;
 
   String get fromLabel => fromName.isNotEmpty ? fromName : fromAddress;
 
@@ -36,6 +42,7 @@ class Citation {
     date: jsonDate(j, 'date'),
     snippet: jsonStr(j, 'snippet'),
     folder: jsonStrOrNull(j, 'folder'),
+    used: j['used'] != false,
   );
 }
 
