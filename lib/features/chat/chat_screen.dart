@@ -242,6 +242,24 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                 key: ValueKey<String>(learned.id),
                 memory: learned,
               ),
+            // Il riepilogo dello sfoglio lo scrive il server, coi numeri che ha misurato:
+            // quello del modello era l'unico numero non misurato della risposta.
+            if (m.paging != null)
+              Padding(
+                padding: const EdgeInsets.only(top: 6),
+                child: Text(
+                  m.paging!.read >= m.paging!.total
+                      ? AppLocalizations.of(
+                          context,
+                        )!.chatPagingAll(m.paging!.total)
+                      : AppLocalizations.of(
+                          context,
+                        )!.chatPagingRead(m.paging!.read, m.paging!.total),
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.outline,
+                  ),
+                ),
+              ),
             if (m.applied.isNotEmpty)
               Padding(
                 padding: const EdgeInsets.only(top: 6),

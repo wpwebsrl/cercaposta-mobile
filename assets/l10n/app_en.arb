@@ -187,6 +187,25 @@
   "chatCitationsOthers": "and {count} more",
   "chatCitationsShowAll": "{count, plural, =1{Show the last one} other{Show the other {count}}}",
   "chatCitationsUnusedLegend": "Greyed out: emails read but not used in the answer.",
+  "chatPagingRead": "Read {read} of {total} emails for this search.",
+  "@chatPagingRead": {
+    "placeholders": {
+      "read": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "chatPagingAll": "Read all {total} emails for this search.",
+  "@chatPagingAll": {
+    "placeholders": {
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "chatEmbeddingFailed": "Semantic search unavailable: results are keyword-only.",
   "settingsTitle": "Settings",
   "settingsServer": "Server",

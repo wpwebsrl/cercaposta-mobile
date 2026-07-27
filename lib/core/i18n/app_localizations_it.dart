@@ -532,6 +532,16 @@ class AppLocalizationsIt extends AppLocalizations {
       'In grigio le email lette e non usate nella risposta.';
 
   @override
+  String chatPagingRead(int read, int total) {
+    return 'Lette $read email su $total di questa ricerca.';
+  }
+
+  @override
+  String chatPagingAll(int total) {
+    return 'Lette tutte e $total le email di questa ricerca.';
+  }
+
+  @override
   String get chatEmbeddingFailed =>
       'Ricerca semantica non disponibile: risultati basati sulle sole parole chiave.';
 

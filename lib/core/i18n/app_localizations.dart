@@ -1010,6 +1010,18 @@ abstract class AppLocalizations {
   /// **'In grigio le email lette e non usate nella risposta.'**
   String get chatCitationsUnusedLegend;
 
+  /// No description provided for @chatPagingRead.
+  ///
+  /// In it, this message translates to:
+  /// **'Lette {read} email su {total} di questa ricerca.'**
+  String chatPagingRead(int read, int total);
+
+  /// No description provided for @chatPagingAll.
+  ///
+  /// In it, this message translates to:
+  /// **'Lette tutte e {total} le email di questa ricerca.'**
+  String chatPagingAll(int total);
+
   /// No description provided for @chatEmbeddingFailed.
   ///
   /// In it, this message translates to:

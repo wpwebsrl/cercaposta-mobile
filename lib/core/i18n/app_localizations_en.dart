@@ -529,6 +529,16 @@ class AppLocalizationsEn extends AppLocalizations {
       'Greyed out: emails read but not used in the answer.';
 
   @override
+  String chatPagingRead(int read, int total) {
+    return 'Read $read of $total emails for this search.';
+  }
+
+  @override
+  String chatPagingAll(int total) {
+    return 'Read all $total emails for this search.';
+  }
+
+  @override
   String get chatEmbeddingFailed =>
       'Semantic search unavailable: results are keyword-only.';
 

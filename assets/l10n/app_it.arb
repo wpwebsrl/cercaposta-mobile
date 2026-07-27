@@ -236,6 +236,25 @@
     }
   },
   "chatCitationsUnusedLegend": "In grigio le email lette e non usate nella risposta.",
+  "chatPagingRead": "Lette {read} email su {total} di questa ricerca.",
+  "@chatPagingRead": {
+    "placeholders": {
+      "read": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "chatPagingAll": "Lette tutte e {total} le email di questa ricerca.",
+  "@chatPagingAll": {
+    "placeholders": {
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "chatEmbeddingFailed": "Ricerca semantica non disponibile: risultati basati sulle sole parole chiave.",
   "settingsTitle": "Impostazioni",
   "settingsServer": "Server",

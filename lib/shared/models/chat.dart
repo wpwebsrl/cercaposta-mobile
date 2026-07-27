@@ -76,6 +76,7 @@ class ChatStreamEvent {
     this.learned,
     this.applied = const <AppliedMemory>[],
     this.embeddingFailed = false,
+    this.paging,
     this.errorCode,
     this.errorDetail,
   });
@@ -96,6 +97,10 @@ class ChatStreamEvent {
   /// `done`: the memories the server applied to this very answer.
   final List<AppliedMemory> applied;
   final bool embeddingFailed;
+
+  /// Il riepilogo dello sfoglio MISURATO dal motore: quante email di quella ricerca il turno ha
+  /// letto, su quante ce n'erano. Non è prosa del modello — quella sbagliava le somme.
+  final PagingNote? paging;
   final String? errorCode;
   final String? errorDetail;
 
@@ -139,6 +144,7 @@ class ChatStreamEvent {
           conversationId: jsonStrOrNull(meta, 'conversation_id'),
           title: jsonStrOrNull(meta, 'title'),
           embeddingFailed: jsonBool(meta, 'embedding_failed'),
+          paging: PagingNote.tryParse(jsonMap(meta, 'paging')),
           applied: jsonObjList(
             meta,
             'applied_memories',
@@ -200,6 +206,24 @@ class ConversationInfo {
 }
 
 /// A message in the chat UI.
+/// «Lette N email su M»: il riepilogo che scrive il SERVER, non il modello.
+class PagingNote {
+  const PagingNote({required this.read, required this.total});
+
+  final int read;
+  final int total;
+
+  /// `null` quando il turno non ha sfogliato niente o il totale non si conosce: un riepilogo
+  /// senza denominatore non riepiloga.
+  static PagingNote? tryParse(Map<String, dynamic> j) {
+    final read = jsonInt(j, 'read');
+    final total = jsonInt(j, 'total');
+    return (read > 0 && total > 0)
+        ? PagingNote(read: read, total: total)
+        : null;
+  }
+}
+
 class ChatMessage {
   ChatMessage({
     required this.role,
@@ -207,6 +231,7 @@ class ChatMessage {
     this.citations = const <Citation>[],
     this.learned = const <LearnedMemory>[],
     this.applied = const <AppliedMemory>[],
+    this.paging,
   });
 
   final String role; // user | assistant
@@ -220,4 +245,7 @@ class ChatMessage {
   /// Memories the server applied to this turn — why the answer isn't the one the archive
   /// alone would give.
   List<AppliedMemory> applied;
+
+  /// Quante email di quella ricerca il turno ha letto, su quante ce n'erano.
+  PagingNote? paging;
 }
