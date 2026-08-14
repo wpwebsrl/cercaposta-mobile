@@ -94,6 +94,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loginButton => 'Sign in';
 
   @override
+  String get loginPasskey => 'Sign in with a passkey';
+
+  @override
   String get loginChangeServer => 'Change server';
 
   @override
@@ -598,6 +601,89 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsSessions => 'Devices & sessions';
+
+  @override
+  String get passkeysTitle => 'Passkeys';
+
+  @override
+  String get passkeysSettingsHint => 'Sign in without typing your password';
+
+  @override
+  String get passkeysDescription =>
+      'Passkeys use your device\'s secure unlock, such as fingerprint, face or PIN. The private key never leaves the device or your passkey provider.';
+
+  @override
+  String get passkeysAdd => 'Add a passkey';
+
+  @override
+  String get passkeysEmpty => 'You haven\'t registered any passkeys yet.';
+
+  @override
+  String get passkeysSynced => 'Synced';
+
+  @override
+  String get passkeysDeviceBound => 'This device only';
+
+  @override
+  String passkeysCreated(String date) {
+    return 'Created $date';
+  }
+
+  @override
+  String passkeysLastUsed(String date) {
+    return 'Last used: $date';
+  }
+
+  @override
+  String get passkeysRename => 'Rename';
+
+  @override
+  String get passkeysRenameTitle => 'Rename passkey';
+
+  @override
+  String get passkeysName => 'Passkey name';
+
+  @override
+  String get passkeysRemoveTitle => 'Remove passkey';
+
+  @override
+  String passkeysRemoveConfirm(String name) {
+    return 'Remove the passkey “$name”? You will no longer be able to use it to sign in.';
+  }
+
+  @override
+  String get passkeysPasswordStays =>
+      'Passkeys are optional: password and Google sign-in remain available. For an encrypted archive, a new or untrusted device still needs the password or recovery kit to unlock its contents.';
+
+  @override
+  String get passkeyErrorCancelled => 'Operation cancelled';
+
+  @override
+  String get passkeyErrorNoCredential =>
+      'No Cerca posta passkey is available on this device';
+
+  @override
+  String get passkeyErrorDomainNotAssociated =>
+      'This server is not yet correctly associated with the app for passkeys';
+
+  @override
+  String get passkeyErrorUnavailable =>
+      'Passkeys are unavailable on this device. You can keep signing in with your password.';
+
+  @override
+  String get passkeyErrorTimeout => 'The passkey request timed out. Try again.';
+
+  @override
+  String get passkeyErrorInvalid =>
+      'The passkey was not recognised or is no longer valid';
+
+  @override
+  String get passkeyErrorNotConfigured =>
+      'Passkeys are not configured on this server yet';
+
+  @override
+  String get passkeyErrorAlreadyRegistered =>
+      'This passkey is already registered';
 
   @override
   String get settingsLogout => 'Sign out';

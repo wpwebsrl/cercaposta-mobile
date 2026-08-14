@@ -1,5 +1,29 @@
 import '../i18n/app_localizations.dart';
+import 'package:passkeys/types.dart';
+
 import 'api_exception.dart';
+
+String localizePasskeyError(AppLocalizations l, Object error) {
+  if (error is PasskeyAuthCancelledException) {
+    return l.passkeyErrorCancelled;
+  }
+  if (error is NoCredentialsAvailableException) {
+    return l.passkeyErrorNoCredential;
+  }
+  if (error is DomainNotAssociatedException) {
+    return l.passkeyErrorDomainNotAssociated;
+  }
+  if (error is DeviceNotSupportedException ||
+      error is PasskeyUnsupportedException ||
+      error is MissingGoogleSignInException ||
+      error is SyncAccountNotAvailableException ||
+      error is NoCreateOptionException) {
+    return l.passkeyErrorUnavailable;
+  }
+  if (error is TimeoutException) return l.passkeyErrorTimeout;
+  if (error is AuthenticatorException) return l.passkeyErrorUnavailable;
+  return localizeApiError(l, error);
+}
 
 /// Translate a backend error.code (or a thrown object) to a user-facing string.
 String localizeApiError(AppLocalizations l, Object error) {
@@ -18,6 +42,18 @@ String localizeApiError(AppLocalizations l, Object error) {
       return l.errorForbidden;
     case 'auth.admin_not_on_mobile':
       return l.errorAdminNotOnMobile;
+    case 'passkeys.invalid':
+      return l.passkeyErrorInvalid;
+    case 'passkeys.not_configured':
+      return l.passkeyErrorNotConfigured;
+    case 'passkeys.origin_not_allowed':
+      return l.passkeyErrorDomainNotAssociated;
+    case 'passkeys.already_registered':
+      return l.passkeyErrorAlreadyRegistered;
+    case 'passkeys.challenge_expired':
+      return l.passkeyErrorTimeout;
+    case 'passkeys.temporarily_unavailable':
+      return l.passkeyErrorUnavailable;
     case 'totp.invalid_code':
       return l.errorTotpInvalidCode;
     case 'totp.challenge_expired':

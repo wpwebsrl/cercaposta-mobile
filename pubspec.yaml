@@ -24,6 +24,10 @@ dependencies:
   # Biometria (Face ID / impronta)
   local_auth: ^2.3.0
 
+  # Passkey native (Credential Manager / AuthenticationServices).
+  # Pin compatibile con Flutter 3.32 / Dart 3.8 usati dalla CI.
+  passkeys: 2.21.1
+
   # Speech-to-text on-device
   speech_to_text: ^7.0.1
 
@@ -69,7 +73,7 @@ dependencies:
 
   # Info dispositivo (device_name per le sessioni) e versione app (check min_app_version)
   device_info_plus: ^11.3.0
-  package_info_plus: ^8.3.0
+  package_info_plus: ^9.0.1
 
   # Icone extra
   material_symbols_icons: ^4.2803.0

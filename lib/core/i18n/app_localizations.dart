@@ -266,6 +266,12 @@ abstract class AppLocalizations {
   /// **'Accedi'**
   String get loginButton;
 
+  /// No description provided for @loginPasskey.
+  ///
+  /// In it, this message translates to:
+  /// **'Accedi con una passkey'**
+  String get loginPasskey;
+
   /// No description provided for @loginChangeServer.
   ///
   /// In it, this message translates to:
@@ -1135,6 +1141,144 @@ abstract class AppLocalizations {
   /// In it, this message translates to:
   /// **'Dispositivi e sessioni'**
   String get settingsSessions;
+
+  /// No description provided for @passkeysTitle.
+  ///
+  /// In it, this message translates to:
+  /// **'Passkey'**
+  String get passkeysTitle;
+
+  /// No description provided for @passkeysSettingsHint.
+  ///
+  /// In it, this message translates to:
+  /// **'Accedi senza digitare la password'**
+  String get passkeysSettingsHint;
+
+  /// No description provided for @passkeysDescription.
+  ///
+  /// In it, this message translates to:
+  /// **'Le passkey usano lo sblocco sicuro del dispositivo, come impronta, volto o PIN. La chiave privata non lascia mai il dispositivo o il tuo gestore di passkey.'**
+  String get passkeysDescription;
+
+  /// No description provided for @passkeysAdd.
+  ///
+  /// In it, this message translates to:
+  /// **'Aggiungi una passkey'**
+  String get passkeysAdd;
+
+  /// No description provided for @passkeysEmpty.
+  ///
+  /// In it, this message translates to:
+  /// **'Non hai ancora registrato alcuna passkey.'**
+  String get passkeysEmpty;
+
+  /// No description provided for @passkeysSynced.
+  ///
+  /// In it, this message translates to:
+  /// **'Sincronizzata'**
+  String get passkeysSynced;
+
+  /// No description provided for @passkeysDeviceBound.
+  ///
+  /// In it, this message translates to:
+  /// **'Solo su questo dispositivo'**
+  String get passkeysDeviceBound;
+
+  /// No description provided for @passkeysCreated.
+  ///
+  /// In it, this message translates to:
+  /// **'Creata il {date}'**
+  String passkeysCreated(String date);
+
+  /// No description provided for @passkeysLastUsed.
+  ///
+  /// In it, this message translates to:
+  /// **'Ultimo utilizzo: {date}'**
+  String passkeysLastUsed(String date);
+
+  /// No description provided for @passkeysRename.
+  ///
+  /// In it, this message translates to:
+  /// **'Rinomina'**
+  String get passkeysRename;
+
+  /// No description provided for @passkeysRenameTitle.
+  ///
+  /// In it, this message translates to:
+  /// **'Rinomina passkey'**
+  String get passkeysRenameTitle;
+
+  /// No description provided for @passkeysName.
+  ///
+  /// In it, this message translates to:
+  /// **'Nome della passkey'**
+  String get passkeysName;
+
+  /// No description provided for @passkeysRemoveTitle.
+  ///
+  /// In it, this message translates to:
+  /// **'Rimuovi passkey'**
+  String get passkeysRemoveTitle;
+
+  /// No description provided for @passkeysRemoveConfirm.
+  ///
+  /// In it, this message translates to:
+  /// **'Rimuovere la passkey «{name}»? Non potrai più usarla per accedere.'**
+  String passkeysRemoveConfirm(String name);
+
+  /// No description provided for @passkeysPasswordStays.
+  ///
+  /// In it, this message translates to:
+  /// **'La passkey è facoltativa: password e accesso Google restano disponibili. Per un archivio cifrato, su un dispositivo non autorizzato la password o il kit di recupero servono ancora a sbloccare i contenuti.'**
+  String get passkeysPasswordStays;
+
+  /// No description provided for @passkeyErrorCancelled.
+  ///
+  /// In it, this message translates to:
+  /// **'Operazione annullata'**
+  String get passkeyErrorCancelled;
+
+  /// No description provided for @passkeyErrorNoCredential.
+  ///
+  /// In it, this message translates to:
+  /// **'Nessuna passkey Cerca posta disponibile su questo dispositivo'**
+  String get passkeyErrorNoCredential;
+
+  /// No description provided for @passkeyErrorDomainNotAssociated.
+  ///
+  /// In it, this message translates to:
+  /// **'Questo server non è ancora associato correttamente all’app per l’uso delle passkey'**
+  String get passkeyErrorDomainNotAssociated;
+
+  /// No description provided for @passkeyErrorUnavailable.
+  ///
+  /// In it, this message translates to:
+  /// **'Le passkey non sono disponibili su questo dispositivo. Puoi continuare ad accedere con la password.'**
+  String get passkeyErrorUnavailable;
+
+  /// No description provided for @passkeyErrorTimeout.
+  ///
+  /// In it, this message translates to:
+  /// **'Il tempo per usare la passkey è scaduto. Riprova.'**
+  String get passkeyErrorTimeout;
+
+  /// No description provided for @passkeyErrorInvalid.
+  ///
+  /// In it, this message translates to:
+  /// **'La passkey non è stata riconosciuta o non è più valida'**
+  String get passkeyErrorInvalid;
+
+  /// No description provided for @passkeyErrorNotConfigured.
+  ///
+  /// In it, this message translates to:
+  /// **'Le passkey non sono ancora configurate su questo server'**
+  String get passkeyErrorNotConfigured;
+
+  /// No description provided for @passkeyErrorAlreadyRegistered.
+  ///
+  /// In it, this message translates to:
+  /// **'Questa passkey è già registrata'**
+  String get passkeyErrorAlreadyRegistered;
 
   /// No description provided for @settingsLogout.
   ///

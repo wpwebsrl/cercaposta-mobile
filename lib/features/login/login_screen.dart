@@ -111,6 +111,24 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     }
   }
 
+  Future<void> _passkeyLogin() async {
+    final l = AppLocalizations.of(context)!;
+    setState(() {
+      _busy = true;
+      _error = null;
+    });
+    try {
+      final result = await ref.read(authProvider.notifier).passkeyLogin();
+      if (mounted && result.totpSetupRequired) {
+        setState(() => _error = l.errorTotpSetupRequired);
+      }
+    } on Object catch (e) {
+      if (mounted) setState(() => _error = localizePasskeyError(l, e));
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
@@ -183,6 +201,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         child: CircularProgressIndicator(strokeWidth: 2),
                       )
                     : Text(l.loginButton),
+              ),
+              const SizedBox(height: 8),
+              OutlinedButton.icon(
+                onPressed: _busy ? null : _passkeyLogin,
+                icon: const Icon(Icons.key_outlined),
+                label: Text(l.loginPasskey),
               ),
               if (_hasSaved) ...<Widget>[
                 const SizedBox(height: 8),

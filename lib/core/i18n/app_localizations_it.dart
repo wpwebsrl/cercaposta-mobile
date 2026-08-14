@@ -95,6 +95,9 @@ class AppLocalizationsIt extends AppLocalizations {
   String get loginButton => 'Accedi';
 
   @override
+  String get loginPasskey => 'Accedi con una passkey';
+
+  @override
   String get loginChangeServer => 'Cambia server';
 
   @override
@@ -601,6 +604,89 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get settingsSessions => 'Dispositivi e sessioni';
+
+  @override
+  String get passkeysTitle => 'Passkey';
+
+  @override
+  String get passkeysSettingsHint => 'Accedi senza digitare la password';
+
+  @override
+  String get passkeysDescription =>
+      'Le passkey usano lo sblocco sicuro del dispositivo, come impronta, volto o PIN. La chiave privata non lascia mai il dispositivo o il tuo gestore di passkey.';
+
+  @override
+  String get passkeysAdd => 'Aggiungi una passkey';
+
+  @override
+  String get passkeysEmpty => 'Non hai ancora registrato alcuna passkey.';
+
+  @override
+  String get passkeysSynced => 'Sincronizzata';
+
+  @override
+  String get passkeysDeviceBound => 'Solo su questo dispositivo';
+
+  @override
+  String passkeysCreated(String date) {
+    return 'Creata il $date';
+  }
+
+  @override
+  String passkeysLastUsed(String date) {
+    return 'Ultimo utilizzo: $date';
+  }
+
+  @override
+  String get passkeysRename => 'Rinomina';
+
+  @override
+  String get passkeysRenameTitle => 'Rinomina passkey';
+
+  @override
+  String get passkeysName => 'Nome della passkey';
+
+  @override
+  String get passkeysRemoveTitle => 'Rimuovi passkey';
+
+  @override
+  String passkeysRemoveConfirm(String name) {
+    return 'Rimuovere la passkey «$name»? Non potrai più usarla per accedere.';
+  }
+
+  @override
+  String get passkeysPasswordStays =>
+      'La passkey è facoltativa: password e accesso Google restano disponibili. Per un archivio cifrato, su un dispositivo non autorizzato la password o il kit di recupero servono ancora a sbloccare i contenuti.';
+
+  @override
+  String get passkeyErrorCancelled => 'Operazione annullata';
+
+  @override
+  String get passkeyErrorNoCredential =>
+      'Nessuna passkey Cerca posta disponibile su questo dispositivo';
+
+  @override
+  String get passkeyErrorDomainNotAssociated =>
+      'Questo server non è ancora associato correttamente all’app per l’uso delle passkey';
+
+  @override
+  String get passkeyErrorUnavailable =>
+      'Le passkey non sono disponibili su questo dispositivo. Puoi continuare ad accedere con la password.';
+
+  @override
+  String get passkeyErrorTimeout =>
+      'Il tempo per usare la passkey è scaduto. Riprova.';
+
+  @override
+  String get passkeyErrorInvalid =>
+      'La passkey non è stata riconosciuta o non è più valida';
+
+  @override
+  String get passkeyErrorNotConfigured =>
+      'Le passkey non sono ancora configurate su questo server';
+
+  @override
+  String get passkeyErrorAlreadyRegistered => 'Questa passkey è già registrata';
 
   @override
   String get settingsLogout => 'Esci';

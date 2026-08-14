@@ -1,8 +1,13 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:passkeys/authenticator.dart';
+import 'package:passkeys/types.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../shared/models/auth.dart';
+import '../../shared/models/passkey.dart';
 import '../../shared/models/user.dart';
 import '../api/api_exception.dart';
 import '../background/bg_constants.dart';
@@ -168,6 +173,91 @@ class AuthController extends Notifier<AuthState> {
       await _completeLogin(result);
     }
     return result;
+  }
+
+  /// Passwordless native login. The operating system selects a discoverable
+  /// credential and proves user presence/verification; no private key leaves
+  /// the device or its passkey provider.
+  Future<LoginResult> passkeyLogin() async {
+    final optionsResponse = await _dio.post<dynamic>(
+      '/auth/passkeys/options',
+      data: _deviceFields(),
+    );
+    final options = _asMap(optionsResponse.data);
+    final request = AuthenticateRequestType.fromJsonString(
+      jsonEncode(_asMap(options['public_key'])),
+    );
+    final authenticator = PasskeyAuthenticator();
+    final assertion = await authenticator.authenticate(request);
+    final verifyResponse = await _dio.post<dynamic>(
+      '/auth/passkeys/verify',
+      data: <String, dynamic>{
+        'flow_id': options['flow_id'],
+        'credential': jsonDecode(assertion.toJsonString()),
+      },
+    );
+    final result = LoginResult.fromJson(_asMap(verifyResponse.data));
+    _sessionPassword = null;
+    _sessionUsername = null;
+    if (result.requiresTotp) {
+      state = state.copyWith(
+        status: AuthStatus.needsTotp,
+        totpToken: result.totpToken,
+      );
+    } else {
+      await _completeLogin(result);
+    }
+    return result;
+  }
+
+  Future<List<PasskeyInfo>> listPasskeys() async {
+    final response = await _dio.get<dynamic>(
+      '/me/passkeys',
+      options: _bearer(),
+    );
+    final rows = response.data;
+    if (rows is! List) return const <PasskeyInfo>[];
+    return rows
+        .whereType<Map<String, dynamic>>()
+        .map(PasskeyInfo.fromJson)
+        .toList(growable: false);
+  }
+
+  Future<PasskeyInfo> registerPasskey(String name) async {
+    final optionsResponse = await _dio.post<dynamic>(
+      '/me/passkeys/options',
+      data: _deviceFields(),
+      options: _bearer(),
+    );
+    final options = _asMap(optionsResponse.data);
+    final request = RegisterRequestType.fromJsonString(
+      jsonEncode(_asMap(options['public_key'])),
+    );
+    final authenticator = PasskeyAuthenticator();
+    final attestation = await authenticator.register(request);
+    final response = await _dio.post<dynamic>(
+      '/me/passkeys',
+      data: <String, dynamic>{
+        'flow_id': options['flow_id'],
+        'credential': jsonDecode(attestation.toJsonString()),
+        'name': name,
+      },
+      options: _bearer(),
+    );
+    return PasskeyInfo.fromJson(_asMap(response.data));
+  }
+
+  Future<PasskeyInfo> renamePasskey(String id, String name) async {
+    final response = await _dio.patch<dynamic>(
+      '/me/passkeys/$id',
+      data: <String, dynamic>{'name': name},
+      options: _bearer(),
+    );
+    return PasskeyInfo.fromJson(_asMap(response.data));
+  }
+
+  Future<void> deletePasskey(String id) async {
+    await _dio.delete<dynamic>('/me/passkeys/$id', options: _bearer());
   }
 
   Future<LoginResult> verifyTotp(String code) async {

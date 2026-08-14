@@ -29,6 +29,17 @@ Release builds are produced by CI (`.github/workflows/mobile.yml`):
   to TestFlight (signing material comes from GitHub Secrets; forks receive
   no secrets).
 
+## Passkeys
+
+Passkeys are optional and use the native Android/iOS account chooser. The app is associated with
+the production relying-party host `app.cercaposta.it`: Android verifies the server's Digital Asset
+Links document, while iOS uses the `webcredentials:` Associated Domain entitlement. The server must
+publish the matching release signing certificate / Apple Team ID. Password sign-in remains the
+fallback, including on Android versions below API 28.
+
+An encrypted archive still needs its password or recovery kit on a new/untrusted device: a passkey
+authenticates the account, but it does not contain the archive decryption key.
+
 ## License
 
 Proprietary — source available for transparency and build purposes only.

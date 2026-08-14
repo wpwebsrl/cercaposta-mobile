@@ -281,6 +281,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 },
               ),
             ListTile(
+              leading: const Icon(Icons.key_outlined),
+              title: Text(l.passkeysTitle),
+              subtitle: Text(l.passkeysSettingsHint),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => context.push('/passkeys'),
+            ),
+            ListTile(
               leading: const Icon(Icons.psychology_outlined),
               title: Text(l.memoryTitle),
               subtitle: Text(l.memorySettingsHint),

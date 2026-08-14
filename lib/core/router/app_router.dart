@@ -17,6 +17,7 @@ import '../../features/login/update_required_screen.dart';
 import '../../features/server/server_screen.dart';
 import '../../features/settings/diagnostics_screen.dart';
 import '../../features/settings/memory_screen.dart';
+import '../../features/settings/passkeys_screen.dart';
 import '../../features/settings/sessions_screen.dart';
 import '../../features/splash/splash_screen.dart';
 import '../../shared/models/followup.dart';
@@ -125,6 +126,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (_, __) => const DiagnosticsScreen(),
       ),
       GoRoute(path: '/sessions', builder: (_, __) => const SessionsScreen()),
+      GoRoute(path: '/passkeys', builder: (_, __) => const PasskeysScreen()),
       GoRoute(path: '/about', builder: (_, __) => const AboutScreen()),
       GoRoute(
         path: '/message/:id',
