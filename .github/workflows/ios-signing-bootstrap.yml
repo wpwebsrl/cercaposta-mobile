@@ -1,7 +1,8 @@
 name: ios-signing-bootstrap
 
-# UNA TANTUM — crea il certificato di distribuzione App Store + il provisioning profile e li
-# salva (cifrati) nello storage match, così il job release-ios li riusa SEMPRE senza creare
+# BOOTSTRAP / AGGIORNAMENTO CAPABILITY — abilita Associated Domains sul Bundle ID Apple, crea o
+# riusa il certificato di distribuzione App Store e rigenera il provisioning profile; salva tutto
+# (cifrato) nello storage match, così il job release-ios lo riusa SEMPRE senza creare
 # nuovi certificati (era il churn a riempire la quota Apple → «maximum number of certificates»,
 # che faceva fallire la firma con «No profiles for 'it.cercaposta.app' were found»).
 #
@@ -13,8 +14,9 @@ name: ios-signing-bootstrap
 #     scelta), MATCH_GIT_URL (URL del repo di storage), MATCH_GIT_BASIC_AUTHORIZATION
 #     (base64 di "utente:token" con accesso allo storage). Gli ASC_* / APPLE_TEAM_ID esistono gia'.
 #
-# Poi: Actions → ios-signing-bootstrap → Run workflow. Da eseguire una volta sola (e di nuovo solo
-# se il certificato scade o si vuole rigenerare).
+# Poi: Actions → ios-signing-bootstrap → Run workflow. Da eseguire al primo bootstrap e dopo
+# l'aggiunta di capability Apple (per esempio Associated Domains per le passkey). La lane e'
+# idempotente e forza il rinnovo del solo profilo, riusando il certificato esistente.
 on:
   workflow_dispatch:
 
@@ -36,7 +38,7 @@ jobs:
         run: |
           mkdir -p ~/.appstoreconnect/private_keys
           echo "$ASC_KEY_P8_BASE64" | openssl base64 -d -A > ~/.appstoreconnect/private_keys/AuthKey_${ASC_KEY_ID}.p8
-      - name: fastlane certificates (crea + salva certificato/profilo in match)
+      - name: fastlane certificates (capability + profilo Match aggiornato)
         working-directory: ios
         env:
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}

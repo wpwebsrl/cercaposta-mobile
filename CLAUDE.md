@@ -81,7 +81,9 @@ visibile ma non riutilizzabile.
   (1) revoca i vecchi certificati di distribuzione su developer.apple.com (libera uno slot);
   (2) prepara un repo git privato vuoto (GitHub privato o OneDev); (3) imposta i secret
   `MATCH_PASSWORD` / `MATCH_GIT_URL` / `MATCH_GIT_BASIC_AUTHORIZATION`; (4) **Actions →
-  ios-signing-bootstrap → Run** (lane `fastlane certificates`, crea+salva). Da lì in poi
+  ios-signing-bootstrap → Run** (lane `fastlane certificates`, abilita anche Associated Domains e
+  crea/aggiorna il profilo). Rilanciare lo stesso bootstrap dopo l'aggiunta di capability Apple:
+  forza il rinnovo del profilo ma riusa il certificato esistente. Da lì in poi
   `release-ios` (`fastlane beta`) usa match in **read-only** e non tocca piu' la quota.
 - **Secrets richiesti** (Settings → Secrets → Actions; MAI valori nel codice):
   `ASC_KEY_ID`, `ASC_ISSUER_ID`, `APPLE_TEAM_ID`, `ASC_KEY_P8_BASE64`,

@@ -19,7 +19,7 @@ default_platform(:ios)
 APP_ID = "it.cercaposta.app"
 
 platform :ios do
-  desc "Bootstrap firma (una tantum): crea certificato App Store + profilo e li salva in match"
+  desc "Abilita Associated Domains e rigenera certificato/profilo App Store in match"
   lane :certificates do
     key_id = ENV.fetch("ASC_KEY_ID")
     api_key = app_store_connect_api_key(
@@ -27,11 +27,31 @@ platform :ios do
       issuer_id: ENV.fetch("ASC_ISSUER_ID"),
       key_filepath: File.expand_path("~/.appstoreconnect/private_keys/AuthKey_#{key_id}.p8"),
     )
+
+    # Passkey native richiede `webcredentials:` negli Associated Domains. L'entitlement nel
+    # progetto Xcode non basta: la stessa capability deve essere abilitata sul Bundle ID Apple e
+    # inclusa nel provisioning profile. Eseguiamo il passaggio qui tramite la Team API Key, in modo
+    # idempotente, prima di rigenerare il profilo conservato da match.
+    capability_type = Spaceship::ConnectAPI::BundleIdCapability::Type::ASSOCIATED_DOMAINS
+    bundle_id = Spaceship::ConnectAPI::BundleId.find(APP_ID)
+    UI.user_error!("Bundle ID #{APP_ID} non trovato nel team Apple") if bundle_id.nil?
+
+    associated_domains_enabled = bundle_id.get_capabilities.any? do |capability|
+      capability.is_type?(capability_type)
+    end
+    unless associated_domains_enabled
+      UI.message("Abilito Associated Domains sul Bundle ID #{APP_ID}")
+      bundle_id.create_capability(capability_type)
+    end
+
     match(
       type: "appstore",
       app_identifier: APP_ID,
       api_key: api_key,
       readonly: false,
+      # Una capability nuova invalida i profili precedenti. `force` rigenera il profilo con gli
+      # entitlement correnti, riusando il certificato canonico gia' custodito nello storage match.
+      force: true,
     )
   end
 
