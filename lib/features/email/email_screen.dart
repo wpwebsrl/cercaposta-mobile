@@ -435,11 +435,7 @@ class _EmailScreenState extends ConsumerState<EmailScreen> {
         Icon(icon, size: 18),
         const SizedBox(width: 8),
         Flexible(
-          child: Text(
-            label,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
+          child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis),
         ),
       ],
     ),
