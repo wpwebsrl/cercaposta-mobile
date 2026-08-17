@@ -146,9 +146,22 @@ Future<void> _loadPreviewFont() async {
     throw StateError('No suitable preview font is installed on this runner');
   }
   final bytes = await File(path).readAsBytes();
-  await (FontLoader(_previewFontFamily)
-        ..addFont(Future<ByteData>.value(ByteData.sublistView(bytes))))
-      .load();
+  await Future.wait(<Future<void>>[
+    (FontLoader(_previewFontFamily)
+          ..addFont(Future<ByteData>.value(ByteData.sublistView(bytes))))
+        .load(),
+    // sign_in_with_apple deliberately requests this Apple font family with
+    // `inherit: false`; registering the same system face keeps its official
+    // button legible in the headless Flutter engine.
+    (FontLoader('.SF Pro Text')
+          ..addFont(Future<ByteData>.value(ByteData.sublistView(bytes))))
+        .load(),
+    // Widget tests do not load icon fonts automatically. Without this, valid
+    // Material icons are rendered as missing-glyph squares in the final PNGs.
+    (FontLoader('MaterialIcons')
+          ..addFont(rootBundle.load('fonts/MaterialIcons-Regular.otf')))
+        .load(),
+  ]);
 }
 
 ThemeData _previewTheme() {
