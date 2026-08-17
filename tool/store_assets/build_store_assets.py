@@ -54,6 +54,17 @@ DEVICES = (
         subtitle_size=40,
     ),
     Device(
+        raw_name="iphone",
+        output_name="iphone-6.5",
+        size=(1284, 2778),
+        device_top=504,
+        max_screen=(1030, 2228),
+        frame_radius=74,
+        frame_width=14,
+        title_size=84,
+        subtitle_size=39,
+    ),
+    Device(
         raw_name="ipad",
         output_name="ipad-13",
         size=(2064, 2752),

@@ -7,9 +7,11 @@ without connecting to a real server or mailbox.
 
 - 5 Italian iPhone 6.9-inch screenshots (`1320 × 2868`)
 - 5 English iPhone 6.9-inch screenshots (`1320 × 2868`)
+- 5 Italian iPhone 6.5-inch screenshots (`1284 × 2778`)
+- 5 English iPhone 6.5-inch screenshots (`1284 × 2778`)
 - 5 Italian iPad 13-inch screenshots (`2064 × 2752`)
 - 5 English iPad 13-inch screenshots (`2064 × 2752`)
-- four small contact sheets for visual review
+- six small contact sheets for visual review
 - `manifest.json`, which lists captions, filenames and dimensions
 
 All upload files are RGB PNGs without an alpha channel. The fixtures contain
@@ -20,12 +22,18 @@ only invented names, addresses and messages.
 1. Open **Actions → App Store assets**.
 2. Select **Run workflow** on `main`.
 3. Download the `cercaposta-app-store-assets` artifact when the job completes.
-4. Review the four files under `output/review`.
+4. Review the six files under `output/review`.
 5. Upload only the PNGs under:
    - `output/it/iphone-6.9`
+   - `output/it/iphone-6.5`
    - `output/it/ipad-13`
    - `output/en/iphone-6.9`
+   - `output/en/iphone-6.5`
    - `output/en/ipad-13`
+
+Use `iphone-6.5` in the App Store Connect well labelled **6.5-inch
+display**, which accepts `1284 × 2778`. Use `iphone-6.9` only in the
+corresponding 6.9-inch display well in Media Manager.
 
 Do not upload `output/review` or `output/manifest.json` to App Store Connect.
 
