@@ -41,7 +41,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     try {
       final resumed = await ref.read(authProvider.notifier).resumeGoogleLogin();
       if (resumed != null || !mounted) return;
-      final appleResumed = await ref.read(authProvider.notifier).resumeAppleLogin();
+      final appleResumed = await ref
+          .read(authProvider.notifier)
+          .resumeAppleLogin();
       if (appleResumed != null || !mounted) return;
     } on Object catch (e) {
       if (mounted) setState(() => _error = localizeApiError(l, e));

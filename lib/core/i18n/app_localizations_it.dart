@@ -633,16 +633,14 @@ class AppLocalizationsIt extends AppLocalizations {
   String get appleErrorInactive => 'L’account CercaPosta non è attivo';
 
   @override
-  String get appleErrorInvalid =>
-      'Accesso Apple non valido o scaduto: riprova';
+  String get appleErrorInvalid => 'Accesso Apple non valido o scaduto: riprova';
 
   @override
   String get appleErrorDisabled =>
       'L’accesso con Apple non è attivo su questo server';
 
   @override
-  String get appleErrorUnavailable =>
-      'L’accesso con Apple non è disponibile';
+  String get appleErrorUnavailable => 'L’accesso con Apple non è disponibile';
 
   @override
   String get settingsServer => 'Server';

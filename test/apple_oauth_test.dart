@@ -6,9 +6,7 @@ void main() {
     test('accepts only the exact private CercaPosta target', () {
       expect(
         AppleOAuthBridge.isAppleCallback(
-          Uri.parse(
-            'it.cercaposta.app://oauth/apple?code=once&state=expected',
-          ),
+          Uri.parse('it.cercaposta.app://oauth/apple?code=once&state=expected'),
         ),
         isTrue,
       );

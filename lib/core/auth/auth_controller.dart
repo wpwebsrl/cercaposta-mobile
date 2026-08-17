@@ -479,7 +479,9 @@ class AuthController extends Notifier<AuthState> {
         throw ApiException('apple.$providerError');
       }
       final code = callback.queryParameters['code'];
-      if (code == null || code.isEmpty) throw ApiException('apple.code_invalid');
+      if (code == null || code.isEmpty) {
+        throw ApiException('apple.code_invalid');
+      }
       final response = await _dio.post<dynamic>(
         '/auth/apple/exchange',
         data: <String, dynamic>{
