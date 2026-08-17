@@ -1,0 +1,53 @@
+name: App Store assets
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  FLUTTER_VERSION: '3.32.3'
+
+jobs:
+  screenshots:
+    name: iPhone and iPad screenshots
+    runs-on: macos-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+
+      - name: Resolve Flutter dependencies
+        run: flutter pub get
+
+      - name: Render deterministic app screens
+        run: |
+          mkdir -p store_assets/raw store_assets/output
+          flutter test tool/store_assets/store_screenshots_test.dart --update-goldens
+
+      - name: Install the image compositor
+        run: |
+          python3 -m venv .store-assets-venv
+          . .store-assets-venv/bin/activate
+          python -m pip install --disable-pip-version-check Pillow==11.3.0
+
+      - name: Compose and validate App Store artwork
+        run: |
+          . .store-assets-venv/bin/activate
+          python tool/store_assets/build_store_assets.py
+
+      - name: Upload definitive screenshots
+        uses: actions/upload-artifact@v7
+        with:
+          name: cercaposta-app-store-assets
+          path: |
+            store_assets/output
+            store_assets/raw
+          if-no-files-found: error
+          retention-days: 30

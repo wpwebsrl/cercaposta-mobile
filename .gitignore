@@ -33,6 +33,12 @@ migrate_working_dir/
 .pub/
 /build/
 
+# Generated App Store captures and upload-ready artwork. The deterministic
+# sources live in tool/store_assets; CI publishes the rendered files as an
+# artifact so large PNGs never bloat the Git history.
+/store_assets/raw/
+/store_assets/output/
+
 # Symbolication related
 app.*.symbols
 
