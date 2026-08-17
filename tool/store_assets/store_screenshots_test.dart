@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:cercaposta/core/api/api_providers.dart';
 import 'package:cercaposta/core/api/services/followup_api.dart';
