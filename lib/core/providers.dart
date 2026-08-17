@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'api/dio_factory.dart';
+import 'auth/apple_oauth_bridge.dart';
+import 'auth/google_oauth_bridge.dart';
 import 'auth/secure_store.dart';
 import 'config/app_info.dart';
 import 'config/server_store.dart';
@@ -14,6 +16,12 @@ final sharedPreferencesProvider = Provider<SharedPreferences>(
 );
 
 final secureStoreProvider = Provider<SecureStore>((ref) => SecureStore());
+final googleOAuthBridgeProvider = Provider<GoogleOAuthBridge>(
+  (ref) => throw UnimplementedError(),
+);
+final appleOAuthBridgeProvider = Provider<AppleOAuthBridge>(
+  (ref) => throw UnimplementedError(),
+);
 
 final serverStoreProvider = Provider<ServerStore>(
   (ref) => ServerStore(ref.watch(sharedPreferencesProvider)),

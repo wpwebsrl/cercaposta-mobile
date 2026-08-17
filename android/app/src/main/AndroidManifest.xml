@@ -31,9 +31,34 @@
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
               />
+            <!-- app_links owns OAuth callback delivery; keep Flutter's Navigator from consuming
+                 the same deep link a second time. -->
+            <meta-data
+              android:name="flutter_deeplinking_enabled"
+              android:value="false" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <!-- OAuth returns from the system browser. The authorization code is also PKCE-bound,
+                 so another app claiming this scheme cannot redeem an intercepted code. -->
+            <intent-filter android:label="CercaPosta Google sign-in">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="it.cercaposta.app"
+                    android:host="oauth"
+                    android:path="/google"/>
+            </intent-filter>
+            <intent-filter android:label="CercaPosta Apple sign-in">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="it.cercaposta.app"
+                    android:host="oauth"
+                    android:path="/apple"/>
             </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.

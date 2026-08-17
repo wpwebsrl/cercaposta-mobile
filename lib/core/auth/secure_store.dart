@@ -14,6 +14,30 @@ class SavedCredentials {
   final String password;
 }
 
+class PendingGoogleOAuth {
+  const PendingGoogleOAuth({
+    required this.server,
+    required this.state,
+    required this.verifier,
+  });
+
+  final String server;
+  final String state;
+  final String verifier;
+}
+
+class PendingAppleOAuth {
+  const PendingAppleOAuth({
+    required this.server,
+    required this.state,
+    required this.verifier,
+  });
+
+  final String server;
+  final String state;
+  final String verifier;
+}
+
 /// Hardware-backed storage for the refresh token and (optionally, behind the OS
 /// biometric prompt) the login credentials. NEVER stores the DEK or the access
 /// token. Single active session model: one refresh token at a time.
@@ -38,6 +62,12 @@ class SecureStore {
   static const _kCredServer = 'cred_server';
   static const _kCredUsername = 'cred_username';
   static const _kCredPassword = 'cred_password';
+  static const _kGoogleServer = 'google_oauth_server';
+  static const _kGoogleState = 'google_oauth_state';
+  static const _kGoogleVerifier = 'google_oauth_verifier';
+  static const _kAppleServer = 'apple_oauth_server';
+  static const _kAppleState = 'apple_oauth_state';
+  static const _kAppleVerifier = 'apple_oauth_verifier';
 
   Future<String?> readRefreshToken() => _s.read(key: _kRefresh);
   Future<void> writeRefreshToken(String token) =>
@@ -95,11 +125,58 @@ class SecureStore {
       (await _s.read(key: _kCredPassword)) == null &&
       (await _s.read(key: _kPassword)) != null;
 
+  // --- short-lived native Google OAuth transaction --------------------------
+  // Stored so a browser callback still completes if iOS/Android evicts the app while Google is
+  // open. The record contains no Google token/password and is deleted after success, error or logout.
+  Future<PendingGoogleOAuth?> readPendingGoogleOAuth() async {
+    final server = await _s.read(key: _kGoogleServer);
+    final state = await _s.read(key: _kGoogleState);
+    final verifier = await _s.read(key: _kGoogleVerifier);
+    if (server == null || state == null || verifier == null) return null;
+    return PendingGoogleOAuth(server: server, state: state, verifier: verifier);
+  }
+
+  Future<void> writePendingGoogleOAuth(PendingGoogleOAuth pending) async {
+    await _s.write(key: _kGoogleServer, value: pending.server);
+    await _s.write(key: _kGoogleState, value: pending.state);
+    await _s.write(key: _kGoogleVerifier, value: pending.verifier);
+  }
+
+  Future<void> clearPendingGoogleOAuth() async {
+    await _s.delete(key: _kGoogleServer);
+    await _s.delete(key: _kGoogleState);
+    await _s.delete(key: _kGoogleVerifier);
+  }
+
+  Future<PendingAppleOAuth?> readPendingAppleOAuth() async {
+    final server = await _s.read(key: _kAppleServer);
+    final state = await _s.read(key: _kAppleState);
+    final verifier = await _s.read(key: _kAppleVerifier);
+    if (server == null || state == null || verifier == null) return null;
+    return PendingAppleOAuth(server: server, state: state, verifier: verifier);
+  }
+
+  Future<void> writePendingAppleOAuth(PendingAppleOAuth pending) async {
+    await _s.write(key: _kAppleServer, value: pending.server);
+    await _s.write(key: _kAppleState, value: pending.state);
+    await _s.write(key: _kAppleVerifier, value: pending.verifier);
+  }
+
+  Future<void> clearPendingAppleOAuth() async {
+    await _s.delete(key: _kAppleServer);
+    await _s.delete(key: _kAppleState);
+    await _s.delete(key: _kAppleVerifier);
+  }
+
   /// Logout / forced logout: drop the session but KEEP the biometric credentials
   /// — they exist precisely to survive the moments the login screen reappears
   /// (logout, revoked session, 60-day expiry). They are wiped only by the
   /// Settings toggle, a wrong saved password, or the recovery flow.
-  Future<void> clearSession() => _s.delete(key: _kRefresh);
+  Future<void> clearSession() async {
+    await _s.delete(key: _kRefresh);
+    await clearPendingGoogleOAuth();
+    await clearPendingAppleOAuth();
+  }
 
   Future<void> clearAll() async {
     await clearSession();

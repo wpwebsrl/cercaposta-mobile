@@ -1,10 +1,15 @@
 import 'dart:convert';
+import 'dart:io';
+import 'dart:math';
 
+import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:passkeys/authenticator.dart';
 import 'package:passkeys/types.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../shared/models/auth.dart';
 import '../../shared/models/passkey.dart';
@@ -89,6 +94,12 @@ class AuthController extends Notifier<AuthState> {
   AuthState build() => const AuthState(status: AuthStatus.unknown);
 
   Dio get _dio => ref.read(authDioProvider);
+
+  String _randomBase64Url(int byteCount) {
+    final random = Random.secure();
+    final bytes = List<int>.generate(byteCount, (_) => random.nextInt(256));
+    return base64UrlEncode(bytes).replaceAll('=', '');
+  }
 
   Map<String, dynamic> _deviceFields() {
     final info = ref.read(appInfoProvider);
@@ -208,6 +219,289 @@ class AuthController extends Notifier<AuthState> {
       await _completeLogin(result);
     }
     return result;
+  }
+
+  /// Native Google sign-in via the system browser. The backend remains the sole OAuth client:
+  /// Google credentials/tokens never enter this app. The one-shot CercaPosta code is protected by
+  /// PKCE and the verifier is kept in Keychain/Keystore so a cold-start callback is recoverable.
+  Future<LoginResult> googleLogin() async {
+    final server = ref.read(activeServerProvider);
+    if (server == null) throw ApiException('common.generic');
+    final stateToken = _randomBase64Url(32);
+    final verifier = _randomBase64Url(64);
+    final challenge = base64UrlEncode(
+      sha256.convert(ascii.encode(verifier)).bytes,
+    ).replaceAll('=', '');
+    final pending = PendingGoogleOAuth(
+      server: server,
+      state: stateToken,
+      verifier: verifier,
+    );
+    final store = ref.read(secureStoreProvider);
+    await store.writePendingGoogleOAuth(pending);
+    try {
+      final response = await _dio.post<dynamic>(
+        '/auth/google/native/start',
+        data: <String, dynamic>{
+          'callback_url': 'it.cercaposta.app://oauth/google',
+          'state': stateToken,
+          'code_challenge': challenge,
+          'language': state.user?.language ?? 'it',
+          ..._deviceFields(),
+        },
+      );
+      final data = _asMap(response.data);
+      final rawUrl = data['authorization_url'];
+      if (rawUrl is! String || rawUrl.isEmpty) {
+        throw ApiException('google.unavailable');
+      }
+      final opened = await launchUrl(
+        Uri.parse(rawUrl),
+        mode: LaunchMode.externalApplication,
+      );
+      if (!opened) throw ApiException('google.browser_open_failed');
+      final callback = await ref
+          .read(googleOAuthBridgeProvider)
+          .waitForState(stateToken);
+      return await _completeGoogleCallback(callback, pending);
+    } on Object {
+      await store.clearPendingGoogleOAuth();
+      rethrow;
+    }
+  }
+
+  /// Finish a callback that launched a fresh process after the OS evicted the app in the browser.
+  Future<LoginResult?> resumeGoogleLogin() async {
+    final callback = ref.read(googleOAuthBridgeProvider).takeInitial();
+    if (callback == null) return null;
+    final pending = await ref
+        .read(secureStoreProvider)
+        .readPendingGoogleOAuth();
+    if (pending == null || pending.server != ref.read(activeServerProvider)) {
+      return null;
+    }
+    if (callback.queryParameters['state'] != pending.state) {
+      await ref.read(secureStoreProvider).clearPendingGoogleOAuth();
+      throw ApiException('google.code_invalid');
+    }
+    return _completeGoogleCallback(callback, pending);
+  }
+
+  Future<LoginResult> _completeGoogleCallback(
+    Uri callback,
+    PendingGoogleOAuth pending,
+  ) async {
+    final store = ref.read(secureStoreProvider);
+    try {
+      if (callback.queryParameters['state'] != pending.state) {
+        throw ApiException('google.code_invalid');
+      }
+      final providerError = callback.queryParameters['oauth_error'];
+      if (providerError != null && providerError.isNotEmpty) {
+        throw ApiException('google.$providerError');
+      }
+      final code = callback.queryParameters['code'];
+      if (code == null || code.isEmpty) {
+        throw ApiException('google.code_invalid');
+      }
+      final Response<dynamic> response;
+      try {
+        response = await _dio.post<dynamic>(
+          '/auth/google/exchange',
+          data: <String, dynamic>{
+            'code': code,
+            'code_verifier': pending.verifier,
+          },
+        );
+      } on DioException catch (e) {
+        if (handleUpdateRequired(e)) {
+          return LoginResult.fromJson(const <String, dynamic>{});
+        }
+        rethrow;
+      }
+      final result = LoginResult.fromJson(_asMap(response.data));
+      _sessionPassword = null;
+      _sessionUsername = null;
+      if (result.requiresTotp) {
+        state = state.copyWith(
+          status: AuthStatus.needsTotp,
+          totpToken: result.totpToken,
+        );
+      } else {
+        await _completeLogin(result);
+      }
+      return result;
+    } finally {
+      await store.clearPendingGoogleOAuth();
+    }
+  }
+
+  /// Sign in with Apple is native on iOS and a system-browser PKCE flow on Android.
+  Future<LoginResult> appleLogin() async {
+    if (Platform.isIOS) return _appleNativeLogin();
+    return _appleBrowserLogin();
+  }
+
+  Future<LoginResult> _appleNativeLogin() async {
+    final stateToken = _randomBase64Url(32);
+    final optionsResponse = await _dio.post<dynamic>(
+      '/auth/apple/native/options',
+      data: <String, dynamic>{
+        'state': stateToken,
+        'language': state.user?.language ?? 'it',
+        ..._deviceFields(),
+      },
+    );
+    final options = _asMap(optionsResponse.data);
+    final flowId = options['flow_id'];
+    final rawNonce = options['nonce'];
+    if (flowId is! String || rawNonce is! String) {
+      throw ApiException('apple.unavailable');
+    }
+    try {
+      final credential = await SignInWithApple.getAppleIDCredential(
+        scopes: const <AppleIDAuthorizationScopes>[
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+        nonce: sha256.convert(utf8.encode(rawNonce)).toString(),
+        state: stateToken,
+      );
+      if (credential.state != null && credential.state != stateToken) {
+        throw ApiException('apple.state');
+      }
+      final identityToken = credential.identityToken;
+      if (identityToken == null || identityToken.isEmpty) {
+        throw ApiException('apple.identity');
+      }
+      final response = await _dio.post<dynamic>(
+        '/auth/apple/native/verify',
+        data: <String, dynamic>{
+          'flow_id': flowId,
+          'state': stateToken,
+          'authorization_code': credential.authorizationCode,
+          'identity_token': identityToken,
+          'given_name': credential.givenName ?? '',
+          'family_name': credential.familyName ?? '',
+        },
+      );
+      final result = LoginResult.fromJson(_asMap(response.data));
+      _sessionPassword = null;
+      _sessionUsername = null;
+      if (result.requiresTotp) {
+        state = state.copyWith(
+          status: AuthStatus.needsTotp,
+          totpToken: result.totpToken,
+        );
+      } else {
+        await _completeLogin(result);
+      }
+      return result;
+    } on SignInWithAppleAuthorizationException catch (error) {
+      if (error.code == AuthorizationErrorCode.canceled) {
+        throw ApiException('apple.cancelled');
+      }
+      throw ApiException('apple.unavailable');
+    }
+  }
+
+  Future<LoginResult> _appleBrowserLogin() async {
+    final server = ref.read(activeServerProvider);
+    if (server == null) throw ApiException('common.generic');
+    final stateToken = _randomBase64Url(32);
+    final verifier = _randomBase64Url(64);
+    final challenge = base64UrlEncode(
+      sha256.convert(ascii.encode(verifier)).bytes,
+    ).replaceAll('=', '');
+    final pending = PendingAppleOAuth(
+      server: server,
+      state: stateToken,
+      verifier: verifier,
+    );
+    final store = ref.read(secureStoreProvider);
+    await store.writePendingAppleOAuth(pending);
+    try {
+      final response = await _dio.post<dynamic>(
+        '/auth/apple/native/start',
+        data: <String, dynamic>{
+          'callback_url': 'it.cercaposta.app://oauth/apple',
+          'state': stateToken,
+          'code_challenge': challenge,
+          'language': state.user?.language ?? 'it',
+          ..._deviceFields(),
+        },
+      );
+      final rawUrl = _asMap(response.data)['authorization_url'];
+      if (rawUrl is! String || rawUrl.isEmpty) {
+        throw ApiException('apple.unavailable');
+      }
+      final opened = await launchUrl(
+        Uri.parse(rawUrl),
+        mode: LaunchMode.externalApplication,
+      );
+      if (!opened) throw ApiException('apple.browser_open_failed');
+      final callback = await ref
+          .read(appleOAuthBridgeProvider)
+          .waitForState(stateToken);
+      return await _completeAppleCallback(callback, pending);
+    } on Object {
+      await store.clearPendingAppleOAuth();
+      rethrow;
+    }
+  }
+
+  Future<LoginResult?> resumeAppleLogin() async {
+    if (Platform.isIOS) return null;
+    final callback = ref.read(appleOAuthBridgeProvider).takeInitial();
+    if (callback == null) return null;
+    final pending = await ref.read(secureStoreProvider).readPendingAppleOAuth();
+    if (pending == null || pending.server != ref.read(activeServerProvider)) {
+      return null;
+    }
+    if (callback.queryParameters['state'] != pending.state) {
+      await ref.read(secureStoreProvider).clearPendingAppleOAuth();
+      throw ApiException('apple.code_invalid');
+    }
+    return _completeAppleCallback(callback, pending);
+  }
+
+  Future<LoginResult> _completeAppleCallback(
+    Uri callback,
+    PendingAppleOAuth pending,
+  ) async {
+    final store = ref.read(secureStoreProvider);
+    try {
+      if (callback.queryParameters['state'] != pending.state) {
+        throw ApiException('apple.code_invalid');
+      }
+      final providerError = callback.queryParameters['oauth_error'];
+      if (providerError != null && providerError.isNotEmpty) {
+        throw ApiException('apple.$providerError');
+      }
+      final code = callback.queryParameters['code'];
+      if (code == null || code.isEmpty) throw ApiException('apple.code_invalid');
+      final response = await _dio.post<dynamic>(
+        '/auth/apple/exchange',
+        data: <String, dynamic>{
+          'code': code,
+          'code_verifier': pending.verifier,
+        },
+      );
+      final result = LoginResult.fromJson(_asMap(response.data));
+      _sessionPassword = null;
+      _sessionUsername = null;
+      if (result.requiresTotp) {
+        state = state.copyWith(
+          status: AuthStatus.needsTotp,
+          totpToken: result.totpToken,
+        );
+      } else {
+        await _completeLogin(result);
+      }
+      return result;
+    } finally {
+      await store.clearPendingAppleOAuth();
+    }
   }
 
   Future<List<PasskeyInfo>> listPasskeys() async {

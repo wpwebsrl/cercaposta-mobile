@@ -98,6 +98,12 @@ class AppLocalizationsIt extends AppLocalizations {
   String get loginPasskey => 'Accedi con una passkey';
 
   @override
+  String get loginGoogle => 'Accedi con Google';
+
+  @override
+  String get loginApple => 'Accedi con Apple';
+
+  @override
   String get loginChangeServer => 'Cambia server';
 
   @override
@@ -550,6 +556,93 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get settingsTitle => 'Impostazioni';
+
+  @override
+  String get settingsLegalAndSupport => 'Informazioni legali e assistenza';
+
+  @override
+  String get legalPrivacy => 'Informativa privacy';
+
+  @override
+  String get legalTerms => 'Termini di utilizzo';
+
+  @override
+  String get legalSupport => 'Assistenza';
+
+  @override
+  String get legalSupportHint =>
+      'Contatti, telefono e modalità per richiedere supporto';
+
+  @override
+  String get googleErrorCancelled => 'Accesso con Google annullato';
+
+  @override
+  String get googleErrorState =>
+      'La sessione Google non è più valida: ripeti l’accesso';
+
+  @override
+  String get googleErrorConfiguration =>
+      'L’accesso Google non è configurato correttamente sul server';
+
+  @override
+  String get googleErrorIdentity =>
+      'Google non ha potuto verificare la tua identità';
+
+  @override
+  String get googleErrorLinkRequired =>
+      'Questo indirizzo esiste già: collega Google dal profilo Web prima di usarlo qui';
+
+  @override
+  String get googleErrorRegistrationRequired =>
+      'Prima crea l’account dal sito Web, poi accedi da questa app';
+
+  @override
+  String get googleErrorInactive => 'L’account CercaPosta non è attivo';
+
+  @override
+  String get googleErrorInvalid =>
+      'Accesso Google non valido o scaduto: riprova';
+
+  @override
+  String get googleErrorDisabled =>
+      'L’accesso con Google non è attivo su questo server';
+
+  @override
+  String get googleErrorUnavailable => 'L’accesso con Google non è disponibile';
+
+  @override
+  String get appleErrorCancelled => 'Accesso con Apple annullato';
+
+  @override
+  String get appleErrorState =>
+      'La sessione Apple non è più valida: ripeti l’accesso';
+
+  @override
+  String get appleErrorIdentity =>
+      'Apple non ha potuto verificare la tua identità';
+
+  @override
+  String get appleErrorLinkRequired =>
+      'Questo indirizzo esiste già: collega Apple dal profilo Web prima di usarlo qui';
+
+  @override
+  String get appleErrorRegistrationRequired =>
+      'Prima crea l’account dal sito Web, poi accedi da questa app';
+
+  @override
+  String get appleErrorInactive => 'L’account CercaPosta non è attivo';
+
+  @override
+  String get appleErrorInvalid =>
+      'Accesso Apple non valido o scaduto: riprova';
+
+  @override
+  String get appleErrorDisabled =>
+      'L’accesso con Apple non è attivo su questo server';
+
+  @override
+  String get appleErrorUnavailable =>
+      'L’accesso con Apple non è disponibile';
 
   @override
   String get settingsServer => 'Server';

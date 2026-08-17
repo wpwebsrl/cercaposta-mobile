@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../../core/api/api_exception.dart';
 import '../../core/api/error_messages.dart';
 import '../../core/auth/auth_controller.dart';
 import '../../core/i18n/app_localizations.dart';
+import '../../core/legal/legal_links.dart';
 import '../../core/providers.dart';
 import '../about/animated_logo.dart';
 
@@ -29,7 +31,23 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    _initBiometric();
+    _initLoginMethods();
+  }
+
+  Future<void> _initLoginMethods() async {
+    await Future<void>.delayed(Duration.zero);
+    if (!mounted) return;
+    final l = AppLocalizations.of(context)!;
+    try {
+      final resumed = await ref.read(authProvider.notifier).resumeGoogleLogin();
+      if (resumed != null || !mounted) return;
+      final appleResumed = await ref.read(authProvider.notifier).resumeAppleLogin();
+      if (appleResumed != null || !mounted) return;
+    } on Object catch (e) {
+      if (mounted) setState(() => _error = localizeApiError(l, e));
+      return;
+    }
+    await _initBiometric();
   }
 
   /// Saved credentials for THIS server → show the biometric button, prefill the
@@ -129,13 +147,49 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     }
   }
 
+  Future<void> _googleLogin() async {
+    final l = AppLocalizations.of(context)!;
+    setState(() {
+      _busy = true;
+      _error = null;
+    });
+    try {
+      final result = await ref.read(authProvider.notifier).googleLogin();
+      if (mounted && result.totpSetupRequired) {
+        setState(() => _error = l.errorTotpSetupRequired);
+      }
+    } on Object catch (e) {
+      if (mounted) setState(() => _error = localizeApiError(l, e));
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
+  Future<void> _appleLogin() async {
+    final l = AppLocalizations.of(context)!;
+    setState(() {
+      _busy = true;
+      _error = null;
+    });
+    try {
+      final result = await ref.read(authProvider.notifier).appleLogin();
+      if (mounted && result.totpSetupRequired) {
+        setState(() => _error = l.errorTotpSetupRequired);
+      }
+    } on Object catch (e) {
+      if (mounted) setState(() => _error = localizeApiError(l, e));
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
     final server = ref.watch(activeServerProvider);
     return Scaffold(
       appBar: AppBar(title: Text(l.loginTitle)),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: AutofillGroup(
           child: Column(
@@ -208,6 +262,27 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 icon: const Icon(Icons.key_outlined),
                 label: Text(l.loginPasskey),
               ),
+              const SizedBox(height: 8),
+              OutlinedButton.icon(
+                onPressed: _busy ? null : _googleLogin,
+                icon: const Text(
+                  'G',
+                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+                ),
+                label: Text(l.loginGoogle),
+              ),
+              const SizedBox(height: 8),
+              SizedBox(
+                height: 44,
+                child: SignInWithAppleButton(
+                  onPressed: _busy ? null : _appleLogin,
+                  text: l.loginApple,
+                  style: Theme.of(context).brightness == Brightness.dark
+                      ? SignInWithAppleButtonStyle.white
+                      : SignInWithAppleButtonStyle.black,
+                  borderRadius: const BorderRadius.all(Radius.circular(8)),
+                ),
+              ),
               if (_hasSaved) ...<Widget>[
                 const SizedBox(height: 8),
                 OutlinedButton.icon(
@@ -222,6 +297,32 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     ? null
                     : () => ref.read(activeServerProvider.notifier).clear(),
                 child: Text(l.loginChangeServer),
+              ),
+              Wrap(
+                alignment: WrapAlignment.center,
+                children: <Widget>[
+                  TextButton(
+                    onPressed: () => openLegal(
+                      LegalDestination.privacy,
+                      Localizations.localeOf(context),
+                    ),
+                    child: Text(l.legalPrivacy),
+                  ),
+                  TextButton(
+                    onPressed: () => openLegal(
+                      LegalDestination.terms,
+                      Localizations.localeOf(context),
+                    ),
+                    child: Text(l.legalTerms),
+                  ),
+                  TextButton(
+                    onPressed: () => openLegal(
+                      LegalDestination.support,
+                      Localizations.localeOf(context),
+                    ),
+                    child: Text(l.legalSupport),
+                  ),
+                ],
               ),
             ],
           ),

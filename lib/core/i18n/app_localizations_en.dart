@@ -97,6 +97,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loginPasskey => 'Sign in with a passkey';
 
   @override
+  String get loginGoogle => 'Continue with Google';
+
+  @override
+  String get loginApple => 'Sign in with Apple';
+
+  @override
   String get loginChangeServer => 'Change server';
 
   @override
@@ -547,6 +553,90 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsTitle => 'Settings';
+
+  @override
+  String get settingsLegalAndSupport => 'Legal information and support';
+
+  @override
+  String get legalPrivacy => 'Privacy policy';
+
+  @override
+  String get legalTerms => 'Terms of use';
+
+  @override
+  String get legalSupport => 'Support';
+
+  @override
+  String get legalSupportHint =>
+      'Contacts, phone number and ways to request help';
+
+  @override
+  String get googleErrorCancelled => 'Google sign-in was cancelled';
+
+  @override
+  String get googleErrorState =>
+      'The Google session is no longer valid: start sign-in again';
+
+  @override
+  String get googleErrorConfiguration =>
+      'Google sign-in is not configured correctly on the server';
+
+  @override
+  String get googleErrorIdentity => 'Google could not verify your identity';
+
+  @override
+  String get googleErrorLinkRequired =>
+      'This address already exists: link Google from the Web profile before using it here';
+
+  @override
+  String get googleErrorRegistrationRequired =>
+      'Create the account on the website first, then sign in from this app';
+
+  @override
+  String get googleErrorInactive => 'The CercaPosta account is not active';
+
+  @override
+  String get googleErrorInvalid =>
+      'Google sign-in is invalid or expired: try again';
+
+  @override
+  String get googleErrorDisabled =>
+      'Google sign-in is not enabled on this server';
+
+  @override
+  String get googleErrorUnavailable => 'Google sign-in is not available';
+
+  @override
+  String get appleErrorCancelled => 'Apple sign-in was cancelled';
+
+  @override
+  String get appleErrorState =>
+      'The Apple session is no longer valid: start sign-in again';
+
+  @override
+  String get appleErrorIdentity => 'Apple could not verify your identity';
+
+  @override
+  String get appleErrorLinkRequired =>
+      'This address already exists: link Apple from the Web profile before using it here';
+
+  @override
+  String get appleErrorRegistrationRequired =>
+      'Create the account on the website first, then sign in from this app';
+
+  @override
+  String get appleErrorInactive => 'The CercaPosta account is not active';
+
+  @override
+  String get appleErrorInvalid =>
+      'Apple sign-in is invalid or expired: try again';
+
+  @override
+  String get appleErrorDisabled =>
+      'Apple sign-in is not enabled on this server';
+
+  @override
+  String get appleErrorUnavailable => 'Apple sign-in is not available';
 
   @override
   String get settingsServer => 'Server';

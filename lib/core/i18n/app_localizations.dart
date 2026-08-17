@@ -272,6 +272,18 @@ abstract class AppLocalizations {
   /// **'Accedi con una passkey'**
   String get loginPasskey;
 
+  /// No description provided for @loginGoogle.
+  ///
+  /// In it, this message translates to:
+  /// **'Accedi con Google'**
+  String get loginGoogle;
+
+  /// No description provided for @loginApple.
+  ///
+  /// In it, this message translates to:
+  /// **'Accedi con Apple'**
+  String get loginApple;
+
   /// No description provided for @loginChangeServer.
   ///
   /// In it, this message translates to:
@@ -1039,6 +1051,150 @@ abstract class AppLocalizations {
   /// In it, this message translates to:
   /// **'Impostazioni'**
   String get settingsTitle;
+
+  /// No description provided for @settingsLegalAndSupport.
+  ///
+  /// In it, this message translates to:
+  /// **'Informazioni legali e assistenza'**
+  String get settingsLegalAndSupport;
+
+  /// No description provided for @legalPrivacy.
+  ///
+  /// In it, this message translates to:
+  /// **'Informativa privacy'**
+  String get legalPrivacy;
+
+  /// No description provided for @legalTerms.
+  ///
+  /// In it, this message translates to:
+  /// **'Termini di utilizzo'**
+  String get legalTerms;
+
+  /// No description provided for @legalSupport.
+  ///
+  /// In it, this message translates to:
+  /// **'Assistenza'**
+  String get legalSupport;
+
+  /// No description provided for @legalSupportHint.
+  ///
+  /// In it, this message translates to:
+  /// **'Contatti, telefono e modalità per richiedere supporto'**
+  String get legalSupportHint;
+
+  /// No description provided for @googleErrorCancelled.
+  ///
+  /// In it, this message translates to:
+  /// **'Accesso con Google annullato'**
+  String get googleErrorCancelled;
+
+  /// No description provided for @googleErrorState.
+  ///
+  /// In it, this message translates to:
+  /// **'La sessione Google non è più valida: ripeti l’accesso'**
+  String get googleErrorState;
+
+  /// No description provided for @googleErrorConfiguration.
+  ///
+  /// In it, this message translates to:
+  /// **'L’accesso Google non è configurato correttamente sul server'**
+  String get googleErrorConfiguration;
+
+  /// No description provided for @googleErrorIdentity.
+  ///
+  /// In it, this message translates to:
+  /// **'Google non ha potuto verificare la tua identità'**
+  String get googleErrorIdentity;
+
+  /// No description provided for @googleErrorLinkRequired.
+  ///
+  /// In it, this message translates to:
+  /// **'Questo indirizzo esiste già: collega Google dal profilo Web prima di usarlo qui'**
+  String get googleErrorLinkRequired;
+
+  /// No description provided for @googleErrorRegistrationRequired.
+  ///
+  /// In it, this message translates to:
+  /// **'Prima crea l’account dal sito Web, poi accedi da questa app'**
+  String get googleErrorRegistrationRequired;
+
+  /// No description provided for @googleErrorInactive.
+  ///
+  /// In it, this message translates to:
+  /// **'L’account CercaPosta non è attivo'**
+  String get googleErrorInactive;
+
+  /// No description provided for @googleErrorInvalid.
+  ///
+  /// In it, this message translates to:
+  /// **'Accesso Google non valido o scaduto: riprova'**
+  String get googleErrorInvalid;
+
+  /// No description provided for @googleErrorDisabled.
+  ///
+  /// In it, this message translates to:
+  /// **'L’accesso con Google non è attivo su questo server'**
+  String get googleErrorDisabled;
+
+  /// No description provided for @googleErrorUnavailable.
+  ///
+  /// In it, this message translates to:
+  /// **'L’accesso con Google non è disponibile'**
+  String get googleErrorUnavailable;
+
+  /// No description provided for @appleErrorCancelled.
+  ///
+  /// In it, this message translates to:
+  /// **'Accesso con Apple annullato'**
+  String get appleErrorCancelled;
+
+  /// No description provided for @appleErrorState.
+  ///
+  /// In it, this message translates to:
+  /// **'La sessione Apple non è più valida: ripeti l’accesso'**
+  String get appleErrorState;
+
+  /// No description provided for @appleErrorIdentity.
+  ///
+  /// In it, this message translates to:
+  /// **'Apple non ha potuto verificare la tua identità'**
+  String get appleErrorIdentity;
+
+  /// No description provided for @appleErrorLinkRequired.
+  ///
+  /// In it, this message translates to:
+  /// **'Questo indirizzo esiste già: collega Apple dal profilo Web prima di usarlo qui'**
+  String get appleErrorLinkRequired;
+
+  /// No description provided for @appleErrorRegistrationRequired.
+  ///
+  /// In it, this message translates to:
+  /// **'Prima crea l’account dal sito Web, poi accedi da questa app'**
+  String get appleErrorRegistrationRequired;
+
+  /// No description provided for @appleErrorInactive.
+  ///
+  /// In it, this message translates to:
+  /// **'L’account CercaPosta non è attivo'**
+  String get appleErrorInactive;
+
+  /// No description provided for @appleErrorInvalid.
+  ///
+  /// In it, this message translates to:
+  /// **'Accesso Apple non valido o scaduto: riprova'**
+  String get appleErrorInvalid;
+
+  /// No description provided for @appleErrorDisabled.
+  ///
+  /// In it, this message translates to:
+  /// **'L’accesso con Apple non è attivo su questo server'**
+  String get appleErrorDisabled;
+
+  /// No description provided for @appleErrorUnavailable.
+  ///
+  /// In it, this message translates to:
+  /// **'L’accesso con Apple non è disponibile'**
+  String get appleErrorUnavailable;
 
   /// No description provided for @settingsServer.
   ///

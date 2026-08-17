@@ -6,11 +6,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:workmanager/workmanager.dart';
 
 import 'core/auth/auth_controller.dart';
+import 'core/auth/apple_oauth_bridge.dart';
+import 'core/auth/google_oauth_bridge.dart';
 import 'core/auth/keepalive.dart';
 import 'core/background/notify_task.dart';
 import 'core/config/app_info.dart';
-import 'core/live/live_refresh.dart';
 import 'core/i18n/app_localizations.dart';
+import 'core/live/live_refresh.dart';
 import 'core/notify/notify_service.dart';
 import 'core/providers.dart';
 import 'core/router/app_router.dart';
@@ -23,6 +25,10 @@ Future<void> main() async {
   await initializeDateFormatting();
   final prefs = await SharedPreferences.getInstance();
   final info = await AppInfo.load();
+  final googleOAuth = GoogleOAuthBridge();
+  await googleOAuth.initialize();
+  final appleOAuth = AppleOAuthBridge();
+  await appleOAuth.initialize();
 
   // OS notifications (docs/notifiche.md): register the WorkManager background poll dispatcher and
   // the local-notification plugin. Best-effort — a plugin hiccup must never block app start.
@@ -43,6 +49,8 @@ Future<void> main() async {
     overrides: <Override>[
       sharedPreferencesProvider.overrideWithValue(prefs),
       appInfoProvider.overrideWithValue(info),
+      googleOAuthBridgeProvider.overrideWithValue(googleOAuth),
+      appleOAuthBridgeProvider.overrideWithValue(appleOAuth),
     ],
   );
   NotifyService.onOpenNotifications = () =>

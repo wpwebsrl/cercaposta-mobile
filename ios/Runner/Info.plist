@@ -27,6 +27,23 @@
 			<string>en</string>
 			<string>it</string>
 		</array>
+		<!-- Private-use OAuth callback. The returned one-shot code is protected by PKCE. -->
+		<key>CFBundleURLTypes</key>
+		<array>
+			<dict>
+				<key>CFBundleTypeRole</key>
+				<string>Editor</string>
+				<key>CFBundleURLName</key>
+				<string>it.cercaposta.app.oauth</string>
+				<key>CFBundleURLSchemes</key>
+				<array>
+					<string>it.cercaposta.app</string>
+				</array>
+			</dict>
+		</array>
+		<!-- app_links delivers the OAuth URI directly; avoid duplicate Navigator handling. -->
+		<key>FlutterDeepLinkingEnabled</key>
+		<false/>
 		<key>LSRequiresIPhoneOS</key>
 		<true/>
 		<key>UILaunchStoryboardName</key>

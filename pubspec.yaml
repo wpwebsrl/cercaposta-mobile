@@ -1,7 +1,7 @@
 name: cercaposta
 description: "CercaPosta mobile app"
 publish_to: 'none'
-version: 1.4.3+1
+version: 1.4.4+1
 
 environment:
   sdk: ^3.8.1
@@ -17,6 +17,12 @@ dependencies:
   # HTTP + SSE — client unico: dio (interceptor Bearer/refresh, SSE via ResponseType.stream).
   # Niente package:http per evitare un secondo client che bypassi la catena auth.
   dio: ^5.8.0+1
+
+  # OAuth Google/Apple nel browser di sistema: callback nativo + PKCE (mai token provider nell'app).
+  app_links: ^6.4.1
+  crypto: ^3.0.7
+  # Apple AuthenticationServices on iOS; Android uses our system-browser + PKCE bridge.
+  sign_in_with_apple: ^7.0.1
 
   # Secure storage (Keychain / Keystore)
   flutter_secure_storage: ^9.2.4

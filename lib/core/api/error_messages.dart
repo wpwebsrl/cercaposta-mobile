@@ -29,6 +29,62 @@ String localizePasskeyError(AppLocalizations l, Object error) {
 String localizeApiError(AppLocalizations l, Object error) {
   final e = ApiException.from(error);
   switch (e.code) {
+    case 'google.cancelled':
+      return l.googleErrorCancelled;
+    case 'google.state':
+      return l.googleErrorState;
+    case 'google.configuration':
+      return l.googleErrorConfiguration;
+    case 'google.identity':
+      return l.googleErrorIdentity;
+    case 'google.link_required':
+      return l.googleErrorLinkRequired;
+    case 'google.registration_required':
+      return l.googleErrorRegistrationRequired;
+    case 'google.inactive':
+      return l.googleErrorInactive;
+    case 'google.invalid':
+    case 'google.token_exchange':
+    case 'google.code_invalid':
+    case 'registration.native_code_invalid':
+      return l.googleErrorInvalid;
+    case 'registration.google_disabled':
+      return l.googleErrorDisabled;
+    case 'registration.google_not_configured':
+    case 'registration.native_callback_invalid':
+    case 'google.browser_open_failed':
+    case 'google.unavailable':
+      return l.googleErrorUnavailable;
+    case 'apple.cancelled':
+      return l.appleErrorCancelled;
+    case 'apple.state':
+    case 'registration.apple_state_invalid':
+      return l.appleErrorState;
+    case 'apple.identity':
+    case 'registration.apple_identity_invalid':
+      return l.appleErrorIdentity;
+    case 'apple.link_required':
+    case 'registration.apple_link_required':
+      return l.appleErrorLinkRequired;
+    case 'apple.registration_required':
+    case 'registration.apple_registration_required':
+      return l.appleErrorRegistrationRequired;
+    case 'apple.inactive':
+      return l.appleErrorInactive;
+    case 'apple.invalid':
+    case 'apple.token_exchange':
+    case 'apple.code_invalid':
+    case 'registration.apple_code_invalid':
+    case 'registration.apple_token_exchange':
+    case 'registration.apple_token_exchange_failed':
+      return l.appleErrorInvalid;
+    case 'registration.apple_disabled':
+      return l.appleErrorDisabled;
+    case 'registration.apple_not_configured':
+    case 'registration.apple_native_callback_invalid':
+    case 'apple.browser_open_failed':
+    case 'apple.unavailable':
+      return l.appleErrorUnavailable;
     case 'auth.invalid_credentials':
       return l.errorInvalidCredentials;
     case 'auth.account_banned':

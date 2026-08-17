@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/api/error_messages.dart';
 import '../../core/auth/auth_controller.dart';
 import '../../core/i18n/app_localizations.dart';
+import '../../core/legal/legal_links.dart';
 import '../../core/providers.dart';
 import '../../shared/format.dart';
 import '../../shared/widgets/snack.dart';
@@ -312,6 +313,36 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               title: Text(l.aboutTitle),
               trailing: const Icon(Icons.chevron_right),
               onTap: () => context.push('/about'),
+            ),
+            const Divider(),
+            _sectionLabel(context, l.settingsLegalAndSupport),
+            ListTile(
+              leading: const Icon(Icons.privacy_tip_outlined),
+              title: Text(l.legalPrivacy),
+              trailing: const Icon(Icons.open_in_new, size: 18),
+              onTap: () => openLegal(
+                LegalDestination.privacy,
+                Localizations.localeOf(context),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.description_outlined),
+              title: Text(l.legalTerms),
+              trailing: const Icon(Icons.open_in_new, size: 18),
+              onTap: () => openLegal(
+                LegalDestination.terms,
+                Localizations.localeOf(context),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.support_agent_outlined),
+              title: Text(l.legalSupport),
+              subtitle: Text(l.legalSupportHint),
+              trailing: const Icon(Icons.open_in_new, size: 18),
+              onTap: () => openLegal(
+                LegalDestination.support,
+                Localizations.localeOf(context),
+              ),
             ),
             const Divider(),
             ListTile(
