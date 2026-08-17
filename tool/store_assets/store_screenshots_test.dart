@@ -21,7 +21,7 @@ import 'package:cercaposta/shared/models/search.dart';
 import 'package:cercaposta/shared/models/user.dart';
 import 'package:cercaposta/shared/tag_colors.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide SearchController;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
