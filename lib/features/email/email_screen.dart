@@ -401,22 +401,49 @@ class _EmailScreenState extends ConsumerState<EmailScreen> {
       child: Row(
         children: <Widget>[
           if (d.attachments.isNotEmpty)
-            TextButton.icon(
-              onPressed: () => _showAttachments(l, d, locale),
-              icon: const Icon(Icons.attach_file, size: 18),
-              label: Text(l.attachmentsCount(d.attachments.length)),
+            Expanded(
+              child: _bottomBarAction(
+                icon: Icons.attach_file,
+                label: l.attachmentsCount(d.attachments.length),
+                onPressed: () => _showAttachments(l, d, locale),
+              ),
             ),
-          const Spacer(),
+          if (d.attachments.isNotEmpty && d.threadId != null)
+            const SizedBox(width: 8),
           if (d.threadId != null)
-            TextButton.icon(
-              onPressed: () => _showThread(l, locale),
-              icon: const Icon(Icons.forum_outlined, size: 18),
-              label: Text(l.emailThread),
+            Expanded(
+              child: _bottomBarAction(
+                icon: Icons.forum_outlined,
+                label: l.emailThread,
+                onPressed: () => _showThread(l, locale),
+              ),
             ),
         ],
       ),
     );
   }
+
+  Widget _bottomBarAction({
+    required IconData icon,
+    required String label,
+    required VoidCallback onPressed,
+  }) => TextButton(
+    onPressed: onPressed,
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Icon(icon, size: 18),
+        const SizedBox(width: 8),
+        Flexible(
+          child: Text(
+            label,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ],
+    ),
+  );
 
   Future<void> _showAttachments(
     AppLocalizations l,
