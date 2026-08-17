@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:cercaposta/core/api/api_providers.dart';
 import 'package:cercaposta/core/api/services/followup_api.dart';
 import 'package:cercaposta/core/api/services/message_api.dart';
@@ -23,6 +26,7 @@ import 'package:cercaposta/shared/tag_colors.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart' hide SearchController;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 /// Deterministic App Store captures, invoked only by the asset workflow.
@@ -33,6 +37,8 @@ import 'package:flutter_test/flutter_test.dart';
 /// 2x so the compositor can resize it without softening the text.
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+
+  setUpAll(_loadPreviewFont);
 
   for (final locale in const <String>['it', 'en']) {
     for (final device in _PreviewDevice.values) {
@@ -124,6 +130,37 @@ void main() {
   }
 }
 
+const _previewFontFamily = 'StorePreview';
+
+Future<void> _loadPreviewFont() async {
+  const candidates = <String>[
+    '/System/Library/Fonts/Supplemental/Arial.ttf',
+    '/System/Library/Fonts/SFNS.ttf',
+    r'C:\Windows\Fonts\segoeui.ttf',
+    '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf',
+  ];
+  final path = candidates
+      .where((candidate) => File(candidate).existsSync())
+      .firstOrNull;
+  if (path == null) {
+    throw StateError('No suitable preview font is installed on this runner');
+  }
+  final bytes = await File(path).readAsBytes();
+  await (FontLoader(_previewFontFamily)
+        ..addFont(Future<ByteData>.value(ByteData.sublistView(bytes))))
+      .load();
+}
+
+ThemeData _previewTheme() {
+  final base = AppTheme.light();
+  return base.copyWith(
+    textTheme: base.textTheme.apply(fontFamily: _previewFontFamily),
+    primaryTextTheme: base.primaryTextTheme.apply(
+      fontFamily: _previewFontFamily,
+    ),
+  );
+}
+
 enum _PreviewDevice {
   iphone(logicalSize: Size(430, 932), scale: 2),
   ipad(logicalSize: Size(1032, 1376), scale: 2);
@@ -193,7 +230,7 @@ Future<void> _capture(
                     localizationsDelegates:
                         AppLocalizations.localizationsDelegates,
                     supportedLocales: AppLocalizations.supportedLocales,
-                    theme: AppTheme.light(),
+                    theme: _previewTheme(),
                     builder: (context, app) => MediaQuery(
                       data: MediaQueryData(
                         size: device.logicalSize,
