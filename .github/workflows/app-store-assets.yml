@@ -50,4 +50,4 @@ jobs:
             store_assets/output
             store_assets/raw
           if-no-files-found: error
-          retention-days: 30
+          retention-days: 7

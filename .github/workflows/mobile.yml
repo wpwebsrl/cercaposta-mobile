@@ -179,6 +179,7 @@ jobs:
         with:
           name: app-release-aab
           path: build/app/outputs/bundle/release/app-release.aab
+          retention-days: 7
       # Simboli di offuscamento: conservali per de-offuscare gli stack trace dei
       # crash di QUESTA build (nome = versionCode caricato, quindi identificabile).
       - uses: actions/upload-artifact@v7
@@ -186,3 +187,4 @@ jobs:
           name: android-symbols-${{ steps.bn.outputs.num }}
           path: build/symbols
           if-no-files-found: warn
+          retention-days: 90
