@@ -2971,6 +2971,55 @@ abstract class AppLocalizations {
   /// In it, this message translates to:
   /// **'Se tutto quello che hai importato è davvero cercabile, e cosa manca'**
   String get diagnosticsSettingsHint;
+
+  String get billingTitle;
+  String get billingSettingsHint;
+  String get billingCurrentPlan;
+  String get billingNoPlan;
+  String get billingStatus;
+  String get billingPaymentMethod;
+  String get billingRecurringPrice;
+  String get billingPeriodEnd;
+  String get billingGraceUntil;
+  String get billingPendingChanges;
+  String get billingEffectiveAt;
+  String get billingAmountDue;
+  String get billingManageInBrowser;
+  String get billingExternalCheckoutHint;
+  String get billingStatusActive;
+  String get billingStatusFree;
+  String get billingStatusPastDue;
+  String get billingStatusSuspended;
+  String get billingStatusCanceled;
+  String get billingProviderManual;
+  String get billingChangePendingAcceptance;
+  String get billingChangePendingPayment;
+  String get billingChangeScheduled;
+  String get billingChangeProcessing;
+  String get billingChangePaymentGrace;
+  String get billingChangeCanceling;
+  String get notifPlanChangeProposalTitle;
+  String get notifPlanChangeProposalBody;
+  String get notifPlanChangeProposalExpiringTitle;
+  String notifPlanChangeProposalExpiringBody(String date);
+  String get notifPlanChangeExpiredTitle;
+  String get notifPlanChangeExpiredBody;
+  String get notifPlanChangeScheduledTitle;
+  String notifPlanChangeScheduledBody(String date);
+  String get notifPlanChangeAppliedTitle;
+  String get notifPlanChangeAppliedBody;
+  String get notifPlanChangeCanceledTitle;
+  String get notifPlanChangeCanceledBody;
+  String get notifPlanChangePaymentFailedTitle;
+  String notifPlanChangePaymentFailedBody(String date);
+  String get notifPlanChangeRetryTitle;
+  String get notifPlanChangeRetryBody;
+  String get notifPlanChangeGraceExpiringTitle;
+  String notifPlanChangeGraceExpiringBody(String date);
+  String get notifPlanChangeGraceExpiredTitle;
+  String get notifPlanChangeGraceExpiredBody;
+  String get notifPlanChangeActionRequiredTitle;
+  String get notifPlanChangeActionRequiredBody;
 }
 
 class _AppLocalizationsDelegate

@@ -1701,4 +1701,112 @@ class AppLocalizationsIt extends AppLocalizations {
   @override
   String get diagnosticsSettingsHint =>
       'Se tutto quello che hai importato è davvero cercabile, e cosa manca';
+
+  @override
+  String get billingTitle => 'Piano e pagamenti';
+  @override
+  String get billingSettingsHint => 'Piano corrente, rinnovo e modifiche programmate';
+  @override
+  String get billingCurrentPlan => 'Piano corrente';
+  @override
+  String get billingNoPlan => 'Non è presente un piano attivo.';
+  @override
+  String get billingStatus => 'Stato';
+  @override
+  String get billingPaymentMethod => 'Metodo di pagamento';
+  @override
+  String get billingRecurringPrice => 'Prezzo ricorrente';
+  @override
+  String get billingPeriodEnd => 'Fine del periodo';
+  @override
+  String get billingGraceUntil => 'Periodo di tolleranza fino al';
+  @override
+  String get billingPendingChanges => 'Modifiche al piano';
+  @override
+  String get billingEffectiveAt => 'Decorrenza';
+  @override
+  String get billingAmountDue => 'Importo previsto';
+  @override
+  String get billingManageInBrowser => 'Gestisci piano e pagamenti';
+  @override
+  String get billingExternalCheckoutHint =>
+      'Per proteggere il pagamento, checkout, retry e annullamenti si completano nel browser sicuro di CercaPosta.';
+  @override
+  String get billingStatusActive => 'Attivo';
+  @override
+  String get billingStatusFree => 'Gratuito';
+  @override
+  String get billingStatusPastDue => 'Pagamento in ritardo';
+  @override
+  String get billingStatusSuspended => 'Sospeso';
+  @override
+  String get billingStatusCanceled => 'Annullato';
+  @override
+  String get billingProviderManual => 'Pagamento manuale';
+  @override
+  String get billingChangePendingAcceptance => 'In attesa della tua accettazione';
+  @override
+  String get billingChangePendingPayment => 'In attesa del pagamento';
+  @override
+  String get billingChangeScheduled => 'Programmato';
+  @override
+  String get billingChangeProcessing => 'In elaborazione';
+  @override
+  String get billingChangePaymentGrace =>
+      'Pagamento non riuscito · periodo di tolleranza';
+  @override
+  String get billingChangeCanceling => 'Annullamento in corso';
+  @override
+  String get notifPlanChangeProposalTitle => 'Hai una proposta di cambio piano';
+  @override
+  String get notifPlanChangeProposalBody =>
+      'Apri Piano e pagamenti per controllare prezzo, credito e decorrenza.';
+  @override
+  String get notifPlanChangeProposalExpiringTitle => 'La proposta sta per scadere';
+  @override
+  String notifPlanChangeProposalExpiringBody(String date) => 'Valutala entro il $date.';
+  @override
+  String get notifPlanChangeExpiredTitle => 'Il cambio piano è scaduto';
+  @override
+  String get notifPlanChangeExpiredBody =>
+      'La modifica non è stata applicata e il piano precedente è rimasto invariato.';
+  @override
+  String get notifPlanChangeScheduledTitle => 'Il cambio piano è programmato';
+  @override
+  String notifPlanChangeScheduledBody(String date) =>
+      'Il passaggio avverrà il $date; fino ad allora resta attivo il piano attuale.';
+  @override
+  String get notifPlanChangeAppliedTitle => 'Il nuovo piano è attivo';
+  @override
+  String get notifPlanChangeAppliedBody => 'Le nuove quote e funzionalità sono ora disponibili.';
+  @override
+  String get notifPlanChangeCanceledTitle => 'Il cambio piano è stato annullato';
+  @override
+  String get notifPlanChangeCanceledBody => 'Il piano attuale resta invariato.';
+  @override
+  String get notifPlanChangePaymentFailedTitle => 'Il pagamento non è riuscito';
+  @override
+  String notifPlanChangePaymentFailedBody(String date) =>
+      'Il piano precedente resta attivo. Riprova entro il $date.';
+  @override
+  String get notifPlanChangeRetryTitle => 'Puoi riprovare il pagamento';
+  @override
+  String get notifPlanChangeRetryBody =>
+      'Apri Piano e pagamenti per completare il nuovo tentativo.';
+  @override
+  String get notifPlanChangeGraceExpiringTitle =>
+      'Il periodo di tolleranza sta per terminare';
+  @override
+  String notifPlanChangeGraceExpiringBody(String date) =>
+      'Completa il pagamento entro il $date.';
+  @override
+  String get notifPlanChangeGraceExpiredTitle => 'Il periodo di tolleranza è terminato';
+  @override
+  String get notifPlanChangeGraceExpiredBody =>
+      'Il cambio non è stato applicato perché il pagamento non è stato completato.';
+  @override
+  String get notifPlanChangeActionRequiredTitle => 'Il cambio piano richiede assistenza';
+  @override
+  String get notifPlanChangeActionRequiredBody =>
+      'Controlla Piano e pagamenti o contatta l’assistenza.';
 }

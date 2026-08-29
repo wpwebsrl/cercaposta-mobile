@@ -309,6 +309,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               onTap: () => context.push('/sessions'),
             ),
             ListTile(
+              leading: const Icon(Icons.account_balance_wallet_outlined),
+              title: Text(l.billingTitle),
+              subtitle: Text(l.billingSettingsHint),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => context.push('/billing'),
+            ),
+            ListTile(
               leading: const Icon(Icons.info_outline),
               title: Text(l.aboutTitle),
               trailing: const Icon(Icons.chevron_right),

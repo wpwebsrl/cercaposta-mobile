@@ -111,6 +111,17 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
     if (!ok && mounted) showSnack(context, l.errorGeneric, error: true);
   }
 
+  Future<void> _openBillingInWeb() async {
+    final l = AppLocalizations.of(context)!;
+    final origin = ref.read(activeServerProvider);
+    if (origin == null) return;
+    final ok = await launchUrl(
+      Uri.parse('$origin/billing'),
+      mode: LaunchMode.externalApplication,
+    );
+    if (!ok && mounted) showSnack(context, l.errorGeneric, error: true);
+  }
+
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
@@ -155,6 +166,7 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
   Widget _card(BuildContext context, AppLocalizations l, NotificationItem n) {
     final isReprocess = n.type == 'reprocess_recommended';
     final isFollowup = n.type.startsWith('followup.');
+    final isPlanChange = n.type.startsWith('sales.plan_change');
     final locale =
         ref.watch(authProvider.select((s) => s.user?.locale)) ?? 'it';
     // Deep-link to the conversation when the enriched params carry the origin id
@@ -195,6 +207,14 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
                       onPressed: _openInWeb,
                       icon: const Icon(Icons.open_in_new, size: 18),
                       label: Text(l.actionOpenInBrowser),
+                    ),
+                  ],
+                  if (isPlanChange) ...<Widget>[
+                    const SizedBox(height: 10),
+                    FilledButton.icon(
+                      onPressed: _openBillingInWeb,
+                      icon: const Icon(Icons.open_in_new, size: 18),
+                      label: Text(l.billingManageInBrowser),
                     ),
                   ],
                   if (canOpenConversation) ...<Widget>[

@@ -33,6 +33,7 @@ IconData notifIcon(String type) => switch (type) {
   'followup.reminder_sent' => Icons.mark_email_read_outlined,
   'followup.digest' => Icons.summarize_outlined,
   _ when type.startsWith('followup.') => Icons.hourglass_bottom,
+  _ when type.startsWith('sales.plan_change') => Icons.event_repeat_outlined,
   _ => Icons.notifications_outlined,
 };
 
@@ -46,6 +47,21 @@ String notifTitle(AppLocalizations l, NotificationItem n, String locale) =>
         _p(n, 'name'),
       ),
       'followup.digest' => l.notifFollowupDigestTitle,
+      'sales.plan_change_proposal' => l.notifPlanChangeProposalTitle,
+      'sales.plan_change_proposal_expiring' =>
+        l.notifPlanChangeProposalExpiringTitle,
+      'sales.plan_change_expired' => l.notifPlanChangeExpiredTitle,
+      'sales.plan_change_scheduled' => l.notifPlanChangeScheduledTitle,
+      'sales.plan_change_applied' => l.notifPlanChangeAppliedTitle,
+      'sales.plan_change_canceled' => l.notifPlanChangeCanceledTitle,
+      'sales.plan_change_payment_failed' =>
+        l.notifPlanChangePaymentFailedTitle,
+      'sales.plan_change_retry_started' => l.notifPlanChangeRetryTitle,
+      'sales.plan_change_grace_expiring' =>
+        l.notifPlanChangeGraceExpiringTitle,
+      'sales.plan_change_grace_expired' => l.notifPlanChangeGraceExpiredTitle,
+      'sales.plan_change_action_required' =>
+        l.notifPlanChangeActionRequiredTitle,
       _ => l.notificationsTitle,
     };
 
@@ -73,5 +89,28 @@ String notifBody(AppLocalizations l, NotificationItem n, String locale) =>
         _pi(n, 'due_today'),
         _pi(n, 'waiting_me'),
       ),
+      'sales.plan_change_proposal' => l.notifPlanChangeProposalBody,
+      'sales.plan_change_proposal_expiring' =>
+        l.notifPlanChangeProposalExpiringBody(
+          _pDate(n, 'proposal_expires_at', locale),
+        ),
+      'sales.plan_change_expired' => l.notifPlanChangeExpiredBody,
+      'sales.plan_change_scheduled' => l.notifPlanChangeScheduledBody(
+        _pDate(n, 'effective_at', locale),
+      ),
+      'sales.plan_change_applied' => l.notifPlanChangeAppliedBody,
+      'sales.plan_change_canceled' => l.notifPlanChangeCanceledBody,
+      'sales.plan_change_payment_failed' =>
+        l.notifPlanChangePaymentFailedBody(
+          _pDate(n, 'grace_until', locale),
+        ),
+      'sales.plan_change_retry_started' => l.notifPlanChangeRetryBody,
+      'sales.plan_change_grace_expiring' =>
+        l.notifPlanChangeGraceExpiringBody(
+          _pDate(n, 'grace_until', locale),
+        ),
+      'sales.plan_change_grace_expired' => l.notifPlanChangeGraceExpiredBody,
+      'sales.plan_change_action_required' =>
+        l.notifPlanChangeActionRequiredBody,
       _ => '',
     };
