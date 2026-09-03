@@ -116,7 +116,7 @@ class BillingApi {
     final raw = response.data;
     if (raw is! List) return const <PlanChangeSummary>[];
     return raw
-        .whereType<Map>()
+        .whereType<Map<dynamic, dynamic>>()
         .map((item) => PlanChangeSummary.fromJson(item.cast<String, dynamic>()))
         .toList(growable: false);
   }
