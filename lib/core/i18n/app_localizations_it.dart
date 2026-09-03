@@ -974,6 +974,10 @@ class AppLocalizationsIt extends AppLocalizations {
   String get errorForbidden => 'Operazione non consentita';
 
   @override
+  String get errorFeatureNotInPlan =>
+      'Questa funzionalità non è inclusa nel piano corrente';
+
+  @override
   String get errorAdminNotOnMobile =>
       'Le funzioni di amministrazione non sono disponibili da mobile';
 

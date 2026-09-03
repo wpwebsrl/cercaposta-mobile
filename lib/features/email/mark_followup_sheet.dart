@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/api/api_providers.dart';
 import '../../core/api/error_messages.dart';
 import '../../core/i18n/app_localizations.dart';
+import '../../shared/models/capabilities.dart';
 import '../../shared/widgets/snack.dart';
 
 const _theirTurn = 'their_turn';
@@ -107,6 +108,14 @@ class _MarkFollowupSheetState extends ConsumerState<_MarkFollowupSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final caps =
+        ref.watch(capabilitiesProvider).valueOrNull ?? const Capabilities();
+    if (!caps.replyTracking) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) Navigator.of(context).pop(false);
+      });
+      return const SizedBox.shrink();
+    }
     final l = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     return Padding(

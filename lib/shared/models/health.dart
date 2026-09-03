@@ -118,6 +118,7 @@ class AttachmentHealth {
 class ArchiveHealth {
   const ArchiveHealth({
     this.status = 'ok',
+    this.semanticEnabled = true,
     this.messages = const MessageHealth(),
     this.attachments = const AttachmentHealth(),
     this.reasons = const <HealthReason>[],
@@ -125,6 +126,7 @@ class ArchiveHealth {
   });
 
   final String status;
+  final bool semanticEnabled;
   final MessageHealth messages;
   final AttachmentHealth attachments;
   final List<HealthReason> reasons;
@@ -132,6 +134,7 @@ class ArchiveHealth {
 
   factory ArchiveHealth.fromJson(Map<String, dynamic> j) => ArchiveHealth(
     status: jsonStr(j, 'status', 'ok'),
+    semanticEnabled: jsonBool(j, 'semantic_enabled', true),
     messages: MessageHealth.fromJson(jsonMap(j, 'messages')),
     attachments: AttachmentHealth.fromJson(jsonMap(j, 'attachments')),
     reasons: jsonObjList(j, 'reasons').map(HealthReason.fromJson).toList(),

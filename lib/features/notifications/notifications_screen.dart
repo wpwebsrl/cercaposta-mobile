@@ -8,6 +8,7 @@ import '../../core/api/error_messages.dart';
 import '../../core/auth/auth_controller.dart';
 import '../../core/i18n/app_localizations.dart';
 import '../../core/providers.dart';
+import '../../shared/models/capabilities.dart';
 import '../../shared/models/notification.dart';
 import '../../shared/widgets/snack.dart';
 import 'notification_text.dart';
@@ -125,11 +126,16 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
+    final caps =
+        ref.watch(capabilitiesProvider).valueOrNull ?? const Capabilities();
+    final items = caps.replyTracking
+        ? _items
+        : _items.where((item) => !item.type.startsWith('followup.')).toList();
     return Scaffold(
       appBar: AppBar(
         title: Text(l.notificationsTitle),
         actions: <Widget>[
-          if (!_loading && _error == null && _items.isNotEmpty)
+          if (!_loading && _error == null && items.isNotEmpty)
             IconButton(
               icon: const Icon(Icons.delete_sweep_outlined),
               tooltip: l.notificationsDismissAll,
@@ -150,14 +156,14 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
                 ],
               ),
             )
-          : _items.isEmpty
+          : items.isEmpty
           ? _EmptyState(text: l.notificationsEmpty)
           : RefreshIndicator(
               onRefresh: _load,
               child: ListView.builder(
                 padding: const EdgeInsets.symmetric(vertical: 8),
-                itemCount: _items.length,
-                itemBuilder: (context, i) => _card(context, l, _items[i]),
+                itemCount: items.length,
+                itemBuilder: (context, i) => _card(context, l, items[i]),
               ),
             ),
     );

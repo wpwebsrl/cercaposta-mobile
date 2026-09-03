@@ -96,6 +96,8 @@ String localizeApiError(AppLocalizations l, Object error) {
       return l.errorInvalidRefresh;
     case 'auth.forbidden':
       return l.errorForbidden;
+    case 'billing.feature_not_in_plan':
+      return l.errorFeatureNotInPlan;
     case 'auth.admin_not_on_mobile':
       return l.errorAdminNotOnMobile;
     case 'passkeys.invalid':

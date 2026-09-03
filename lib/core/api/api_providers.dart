@@ -1,11 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../shared/models/capabilities.dart';
 import '../auth/auth_controller.dart';
 import '../providers.dart';
 import 'dio_factory.dart';
-import 'services/chat_api.dart';
 import 'services/billing_api.dart';
+import 'services/capabilities_api.dart';
+import 'services/chat_api.dart';
 import 'services/events_api.dart';
 import 'services/followup_api.dart';
 import 'services/health_api.dart';
@@ -121,3 +123,15 @@ final memoryApiProvider = Provider<MemoryApi>(
 final healthApiProvider = Provider<HealthApi>(
   (ref) => HealthApi(ref.watch(apiDioProvider)),
 );
+
+final capabilitiesApiProvider = Provider<CapabilitiesApi>(
+  (ref) => CapabilitiesApi(ref.watch(apiDioProvider)),
+);
+
+/// Fail closed in every consumer (`valueOrNull ?? const Capabilities()`). Watching
+/// the session key prevents one account's grants from leaking into the next one.
+final capabilitiesProvider = FutureProvider<Capabilities>((ref) async {
+  final key = ref.watch(sessionKeyProvider);
+  if (key == null) return const Capabilities();
+  return ref.watch(capabilitiesApiProvider).get();
+});

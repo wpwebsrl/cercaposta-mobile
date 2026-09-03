@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/api/api_providers.dart';
 import '../../core/api/error_messages.dart';
 import '../../core/auth/auth_controller.dart';
 import '../../core/i18n/app_localizations.dart';
 import '../../core/legal/legal_links.dart';
 import '../../core/providers.dart';
 import '../../shared/format.dart';
+import '../../shared/models/capabilities.dart';
 import '../../shared/widgets/snack.dart';
 import 'notify_settings.dart';
 import 'settings_controller.dart';
@@ -40,8 +42,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   /// the new number is on screen.
   Future<void> _refresh() async {
     ref.invalidate(usageProvider);
+    ref.invalidate(capabilitiesProvider);
     await Future.wait<void>(<Future<void>>[
       ref.read(usageProvider.future).then((_) {}, onError: (_) {}),
+      ref.read(capabilitiesProvider.future).then((_) {}, onError: (_) {}),
       _loadBiometric(),
     ]);
   }
@@ -149,6 +153,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     final server = ref.watch(activeServerProvider);
     final info = ref.watch(appInfoProvider);
     final usage = ref.watch(usageProvider).valueOrNull;
+    final caps =
+        ref.watch(capabilitiesProvider).valueOrNull ?? const Capabilities();
     final locale = auth.user?.locale ?? 'it-IT';
 
     return Scaffold(
@@ -288,13 +294,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               trailing: const Icon(Icons.chevron_right),
               onTap: () => context.push('/passkeys'),
             ),
-            ListTile(
-              leading: const Icon(Icons.psychology_outlined),
-              title: Text(l.memoryTitle),
-              subtitle: Text(l.memorySettingsHint),
-              trailing: const Icon(Icons.chevron_right),
-              onTap: () => context.push('/memory'),
-            ),
+            if (caps.chatMemory)
+              ListTile(
+                leading: const Icon(Icons.psychology_outlined),
+                title: Text(l.memoryTitle),
+                subtitle: Text(l.memorySettingsHint),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () => context.push('/memory'),
+              ),
             ListTile(
               leading: const Icon(Icons.monitor_heart_outlined),
               title: Text(l.diagnosticsTitle),

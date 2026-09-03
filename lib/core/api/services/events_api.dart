@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 
 import '../json.dart';
 
-/// One snapshot of the live-change state (docs/eventi-live.md): the three per-user revision
+/// One snapshot of the live-change state (docs/eventi-live.md): per-user revision
 /// counters plus the notification unread count. The mobile app polls this (foreground + on
 /// resume) — no persistent SSE stream, to spare the radio and battery — and re-fetches whatever
 /// scope advanced.
@@ -19,6 +19,7 @@ class EventsState {
         'archive': jsonInt(r, 'archive'),
         'shares': jsonInt(r, 'shares'),
         'notifications': jsonInt(r, 'notifications'),
+        'entitlements': jsonInt(r, 'entitlements'),
       },
       unreadCount: jsonInt(j, 'unread_count'),
     );

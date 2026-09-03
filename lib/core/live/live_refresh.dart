@@ -37,6 +37,7 @@ class LiveRefresh with WidgetsBindingObserver {
     'archive': 0,
     'shares': 0,
     'notifications': 0,
+    'entitlements': 0,
   };
 
   void start() {
@@ -45,7 +46,12 @@ class LiveRefresh with WidgetsBindingObserver {
     // instead of diffing user B's revisions against user A's (and clear the chip signal).
     _ref.listen(sessionKeyProvider, (_, __) {
       _seeded = false;
-      _revs = const {'archive': 0, 'shares': 0, 'notifications': 0};
+      _revs = const {
+        'archive': 0,
+        'shares': 0,
+        'notifications': 0,
+        'entitlements': 0,
+      };
       _ref.read(liveArchiveRevProvider.notifier).state = 0;
       _ref.read(liveFollowupsRevProvider.notifier).state = 0;
     });
@@ -83,6 +89,9 @@ class LiveRefresh with WidgetsBindingObserver {
     try {
       final s = await _ref.read(eventsApiProvider).state();
       _apply(s.revs);
+      // Cheap periodic reconciliation as a safety net for lifecycle/membership changes that
+      // happened while this device could not receive the entitlement revision.
+      _ref.invalidate(capabilitiesProvider);
     } on Object {
       // transient — the next tick (or a pull-to-refresh) recovers
     }
@@ -92,12 +101,19 @@ class LiveRefresh with WidgetsBindingObserver {
     final a = next['archive'] ?? 0;
     final sh = next['shares'] ?? 0;
     final n = next['notifications'] ?? 0;
+    final e = next['entitlements'] ?? 0;
     if (!_seeded) {
       // First reading after (re)connect is the baseline, not a change: don't flash the chip or
       // refetch on app open — just record it and refresh the badge once so it's exact.
       _seeded = true;
-      _revs = {'archive': a, 'shares': sh, 'notifications': n};
+      _revs = {
+        'archive': a,
+        'shares': sh,
+        'notifications': n,
+        'entitlements': e,
+      };
       _ref.invalidate(notificationUnreadCountProvider);
+      _ref.invalidate(capabilitiesProvider);
       return;
     }
     if (a != _revs['archive']) {
@@ -117,7 +133,16 @@ class LiveRefresh with WidgetsBindingObserver {
       // closed/added on another device drops/appears here too (not only on pull-to-refresh).
       _ref.read(liveFollowupsRevProvider.notifier).state = n;
     }
-    _revs = {'archive': a, 'shares': sh, 'notifications': n};
+    if (e != _revs['entitlements']) {
+      _ref.invalidate(capabilitiesProvider);
+      _ref.invalidate(notificationUnreadCountProvider);
+    }
+    _revs = {
+      'archive': a,
+      'shares': sh,
+      'notifications': n,
+      'entitlements': e,
+    };
   }
 }
 

@@ -396,6 +396,7 @@
   "errorInvalidToken": "Session expired, please sign in again",
   "errorInvalidRefresh": "Session invalid, please sign in again",
   "errorForbidden": "Operation not allowed",
+  "errorFeatureNotInPlan": "This feature is not included in the current plan",
   "errorAdminNotOnMobile": "Admin features are not available on mobile",
   "errorTotpInvalidCode": "Invalid code",
   "errorTotpExpired": "Code expired, please sign in again",

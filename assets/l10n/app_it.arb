@@ -452,6 +452,7 @@
   "errorInvalidToken": "Sessione scaduta, accedi di nuovo",
   "errorInvalidRefresh": "Sessione non valida, accedi di nuovo",
   "errorForbidden": "Operazione non consentita",
+  "errorFeatureNotInPlan": "Questa funzionalità non è inclusa nel piano corrente",
   "errorAdminNotOnMobile": "Le funzioni di amministrazione non sono disponibili da mobile",
   "errorTotpInvalidCode": "Codice non valido",
   "errorTotpExpired": "Codice scaduto, accedi di nuovo",

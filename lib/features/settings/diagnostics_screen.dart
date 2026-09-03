@@ -137,15 +137,16 @@ class _DiagnosticsScreenState extends ConsumerState<DiagnosticsScreen> {
           l,
           locale,
         ),
-      _coverage(
-        theme,
-        l.diagnosticsMessages,
-        msg.embedded,
-        msg.total,
-        l,
-        locale,
-      ),
-      ..._queueNotes(theme, l, locale, msg, att),
+      if (h.semanticEnabled)
+        _coverage(
+          theme,
+          l.diagnosticsMessages,
+          msg.embedded,
+          msg.total,
+          l,
+          locale,
+        ),
+      ..._queueNotes(theme, l, locale, msg, att, h.semanticEnabled),
       if (att.retryable > 0)
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 4, 16, 8),
@@ -187,13 +188,14 @@ class _DiagnosticsScreenState extends ConsumerState<DiagnosticsScreen> {
         l.diagnosticsExpectedTitle(formatCount(_sum(h.notDocuments), locale)),
         h.notDocuments,
       ),
-      ..._reasonSection(
-        theme,
-        l,
-        locale,
-        l.diagnosticsEmbedReasonsTitle(formatCount(msg.errors, locale)),
-        h.embedReasons,
-      ),
+      if (h.semanticEnabled)
+        ..._reasonSection(
+          theme,
+          l,
+          locale,
+          l.diagnosticsEmbedReasonsTitle(formatCount(msg.errors, locale)),
+          h.embedReasons,
+        ),
     ];
   }
 
@@ -252,22 +254,23 @@ class _DiagnosticsScreenState extends ConsumerState<DiagnosticsScreen> {
     String locale,
     MessageHealth msg,
     AttachmentHealth att,
+    bool semanticEnabled,
   ) {
     final List<String> parts = <String>[
       if (att.pending > 0)
         l.diagnosticsAttachmentsPending(formatCount(att.pending, locale)),
-      if (msg.pending > 0)
+      if (semanticEnabled && msg.pending > 0)
         l.diagnosticsMessagesPending(formatCount(msg.pending, locale)),
-      if (!msg.configured)
+      if (semanticEnabled && !msg.configured)
         l.diagnosticsEmbeddingOff
-      else if (msg.billingPaused)
+      else if (semanticEnabled && msg.billingPaused)
         l.diagnosticsEmbeddingPaused
-      else if (msg.lastErrorAt != null)
+      else if (semanticEnabled && msg.lastErrorAt != null)
         l.diagnosticsEmbeddingLastError(
           formatDateTime(msg.lastErrorAt, locale),
           msg.lastErrorDetail,
         )
-      else if (msg.active)
+      else if (semanticEnabled && msg.active)
         l.diagnosticsEmbeddingActive,
     ];
     if (parts.isEmpty) return const <Widget>[];

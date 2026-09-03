@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:local_auth/local_auth.dart';
 
+import '../../core/api/api_providers.dart';
 import '../../core/auth/auth_controller.dart';
 import '../../core/i18n/app_localizations.dart';
+import '../../shared/models/capabilities.dart';
 import '../chat/chat_screen.dart';
 import '../followups/followups_screen.dart';
 import '../notifications/notifications_controller.dart';
@@ -25,13 +27,6 @@ class HomeShell extends ConsumerStatefulWidget {
 }
 
 class _HomeShellState extends ConsumerState<HomeShell> {
-  static const _tabs = <Widget>[
-    SearchScreen(),
-    ChatScreen(),
-    FollowupsScreen(),
-    NotificationsScreen(),
-    SettingsScreen(),
-  ];
 
   @override
   void initState() {
@@ -73,6 +68,21 @@ class _HomeShellState extends ConsumerState<HomeShell> {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
     final index = ref.watch(homeTabProvider);
+    final caps =
+        ref.watch(capabilitiesProvider).valueOrNull ?? const Capabilities();
+    final visibleTabs = <int>[
+      0,
+      if (caps.aiChat) 1,
+      if (caps.replyTracking) 2,
+      3,
+      4,
+    ];
+    final allowedIndex = visibleTabs.contains(index) ? index : 0;
+    if (allowedIndex != index) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) ref.read(homeTabProvider.notifier).state = allowedIndex;
+      });
+    }
     final counts = ref.watch(notificationUnreadCountProvider).valueOrNull;
     final unread = counts?.unread ?? 0;
     final overdue = counts?.followupOverdue ?? 0;
@@ -85,32 +95,45 @@ class _HomeShellState extends ConsumerState<HomeShell> {
       });
     }
     return Scaffold(
-      body: IndexedStack(index: index, children: _tabs),
+      body: IndexedStack(
+        index: allowedIndex,
+        children: <Widget>[
+          const SearchScreen(),
+          caps.aiChat ? const ChatScreen() : const SizedBox.shrink(),
+          caps.replyTracking
+              ? const FollowupsScreen()
+              : const SizedBox.shrink(),
+          const NotificationsScreen(),
+          const SettingsScreen(),
+        ],
+      ),
       bottomNavigationBar: NavigationBar(
-        selectedIndex: index,
+        selectedIndex: visibleTabs.indexOf(allowedIndex),
         onDestinationSelected: (i) =>
-            ref.read(homeTabProvider.notifier).state = i,
+            ref.read(homeTabProvider.notifier).state = visibleTabs[i],
         destinations: <NavigationDestination>[
           NavigationDestination(
             icon: const Icon(Icons.search),
             label: l.navSearch,
           ),
-          NavigationDestination(
-            icon: const Icon(Icons.forum_outlined),
-            selectedIcon: const Icon(Icons.forum),
-            label: l.navChat,
-          ),
-          NavigationDestination(
-            icon: overdue > 0
-                ? Badge(
-                    label: Text(_badgeLabel(overdue)),
-                    backgroundColor: Colors.orange.shade800,
-                    child: const Icon(Icons.hourglass_empty),
-                  )
-                : const Icon(Icons.hourglass_empty),
-            selectedIcon: const Icon(Icons.hourglass_full),
-            label: l.navFollowups,
-          ),
+          if (caps.aiChat)
+            NavigationDestination(
+              icon: const Icon(Icons.forum_outlined),
+              selectedIcon: const Icon(Icons.forum),
+              label: l.navChat,
+            ),
+          if (caps.replyTracking)
+            NavigationDestination(
+              icon: overdue > 0
+                  ? Badge(
+                      label: Text(_badgeLabel(overdue)),
+                      backgroundColor: Colors.orange.shade800,
+                      child: const Icon(Icons.hourglass_empty),
+                    )
+                  : const Icon(Icons.hourglass_empty),
+              selectedIcon: const Icon(Icons.hourglass_full),
+              label: l.navFollowups,
+            ),
           NavigationDestination(
             icon: unread > 0
                 ? Badge(

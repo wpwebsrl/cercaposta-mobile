@@ -8,6 +8,7 @@ import '../../core/api/error_messages.dart';
 import '../../core/auth/auth_controller.dart';
 import '../../core/i18n/app_localizations.dart';
 import '../../shared/format.dart';
+import '../../shared/models/capabilities.dart';
 import '../../shared/models/message.dart';
 import '../../shared/tag_colors.dart';
 import '../../shared/widgets/mail_web_view.dart';
@@ -98,6 +99,9 @@ class _EmailScreenState extends ConsumerState<EmailScreen> {
       case _MenuAction.headers:
         await context.push('/message/${d.id}/headers');
       case _MenuAction.markFollowup:
+        final caps =
+            ref.read(capabilitiesProvider).valueOrNull ?? const Capabilities();
+        if (!caps.replyTracking) return;
         final created = await showMarkFollowupSheet(
           context,
           messageId: d.id,
@@ -116,6 +120,8 @@ class _EmailScreenState extends ConsumerState<EmailScreen> {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
     final locale = ref.watch(authProvider).user?.locale ?? 'it-IT';
+    final caps =
+        ref.watch(capabilitiesProvider).valueOrNull ?? const Capabilities();
     final d = _detail;
     return Scaffold(
       appBar: AppBar(
@@ -133,7 +139,7 @@ class _EmailScreenState extends ConsumerState<EmailScreen> {
                     // Marking is a write on your own archive: a shared folder is
                     // read-only, so the entry is hidden there (parity with the web,
                     // which gates on !msg.shared_owner).
-                    if (d.sharedOwnerName == null)
+                    if (d.sharedOwnerName == null && caps.replyTracking)
                       PopupMenuItem<_MenuAction>(
                         value: _MenuAction.markFollowup,
                         child: ListTile(

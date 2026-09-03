@@ -968,6 +968,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errorForbidden => 'Operation not allowed';
 
   @override
+  String get errorFeatureNotInPlan =>
+      'This feature is not included in the current plan';
+
+  @override
   String get errorAdminNotOnMobile =>
       'Admin features are not available on mobile';
 

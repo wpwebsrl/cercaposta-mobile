@@ -1778,6 +1778,12 @@ abstract class AppLocalizations {
   /// **'Operazione non consentita'**
   String get errorForbidden;
 
+  /// No description provided for @errorFeatureNotInPlan.
+  ///
+  /// In en, this message translates to:
+  /// **'This feature is not included in the current plan'**
+  String get errorFeatureNotInPlan;
+
   /// No description provided for @errorAdminNotOnMobile.
   ///
   /// In it, this message translates to:

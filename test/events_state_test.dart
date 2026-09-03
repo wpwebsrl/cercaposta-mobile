@@ -2,14 +2,20 @@ import 'package:cercaposta/core/api/services/events_api.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  test('EventsState.fromJson parses the three revs + unread_count', () {
+  test('EventsState.fromJson parses revs + unread_count', () {
     final s = EventsState.fromJson(<String, dynamic>{
-      'revs': <String, dynamic>{'archive': 5, 'shares': 2, 'notifications': 1},
+      'revs': <String, dynamic>{
+        'archive': 5,
+        'shares': 2,
+        'notifications': 1,
+        'entitlements': 8,
+      },
       'unread_count': 3,
     });
     expect(s.revs['archive'], 5);
     expect(s.revs['shares'], 2);
     expect(s.revs['notifications'], 1);
+    expect(s.revs['entitlements'], 8);
     expect(s.unreadCount, 3);
   });
 
@@ -18,6 +24,7 @@ void main() {
     expect(s.revs['archive'], 0);
     expect(s.revs['shares'], 0);
     expect(s.revs['notifications'], 0);
+    expect(s.revs['entitlements'], 0);
     expect(s.unreadCount, 0);
   });
 

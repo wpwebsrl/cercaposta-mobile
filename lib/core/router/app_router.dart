@@ -21,7 +21,9 @@ import '../../features/settings/memory_screen.dart';
 import '../../features/settings/passkeys_screen.dart';
 import '../../features/settings/sessions_screen.dart';
 import '../../features/splash/splash_screen.dart';
+import '../../shared/models/capabilities.dart';
 import '../../shared/models/followup.dart';
+import '../api/api_providers.dart';
 import '../auth/auth_controller.dart';
 import '../providers.dart';
 
@@ -31,6 +33,7 @@ class _RouterNotifier extends ChangeNotifier {
   _RouterNotifier(this._ref) {
     _ref.listen(authProvider, (_, __) => notifyListeners());
     _ref.listen(activeServerProvider, (_, __) => notifyListeners());
+    _ref.listen(capabilitiesProvider, (_, __) => notifyListeners());
   }
 
   final Ref _ref;
@@ -80,6 +83,12 @@ class _RouterNotifier extends ChangeNotifier {
           final target = _returnTo ?? '/home';
           _returnTo = null;
           return target;
+        }
+        final caps =
+            _ref.read(capabilitiesProvider).valueOrNull ?? const Capabilities();
+        if (loc == '/memory' && !caps.chatMemory) return '/home';
+        if (loc.startsWith('/followups/') && !caps.replyTracking) {
+          return '/home';
         }
         return null;
       case AuthStatus.unknown:
