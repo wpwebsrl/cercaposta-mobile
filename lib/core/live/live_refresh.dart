@@ -137,12 +137,7 @@ class LiveRefresh with WidgetsBindingObserver {
       _ref.invalidate(capabilitiesProvider);
       _ref.invalidate(notificationUnreadCountProvider);
     }
-    _revs = {
-      'archive': a,
-      'shares': sh,
-      'notifications': n,
-      'entitlements': e,
-    };
+    _revs = {'archive': a, 'shares': sh, 'notifications': n, 'entitlements': e};
   }
 }
 

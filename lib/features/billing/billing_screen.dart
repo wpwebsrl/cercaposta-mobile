@@ -67,10 +67,8 @@ class _BillingScreenState extends ConsumerState<BillingScreen> {
     if (!opened && mounted) showSnack(context, l.errorGeneric, error: true);
   }
 
-  String _money(int cents, String currency, String locale) => NumberFormat.currency(
-    locale: locale,
-    name: currency,
-  ).format(cents / 100);
+  String _money(int cents, String currency, String locale) =>
+      NumberFormat.currency(locale: locale, name: currency).format(cents / 100);
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +105,8 @@ class _BillingScreenState extends ConsumerState<BillingScreen> {
                     ),
                     const SizedBox(height: 8),
                     ..._changes.map(
-                      (change) => _changeCard(context, l, change, locale, italian),
+                      (change) =>
+                          _changeCard(context, l, change, locale, italian),
                     ),
                   ],
                   const SizedBox(height: 20),
@@ -142,15 +141,24 @@ class _BillingScreenState extends ConsumerState<BillingScreen> {
             ? Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(l.billingCurrentPlan, style: Theme.of(context).textTheme.labelLarge),
+                  Text(
+                    l.billingCurrentPlan,
+                    style: Theme.of(context).textTheme.labelLarge,
+                  ),
                   const SizedBox(height: 6),
                   Text(
                     italian ? overview.planNameIt : overview.planNameEn,
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),
                   const SizedBox(height: 12),
-                  _line(l.billingStatus, _subscriptionStatus(l, overview.status)),
-                  _line(l.billingPaymentMethod, _providerLabel(l, overview.provider)),
+                  _line(
+                    l.billingStatus,
+                    _subscriptionStatus(l, overview.status),
+                  ),
+                  _line(
+                    l.billingPaymentMethod,
+                    _providerLabel(l, overview.provider),
+                  ),
                   _line(
                     l.billingRecurringPrice,
                     _money(overview.priceCents, overview.currency, locale),
@@ -232,14 +240,15 @@ class _BillingScreenState extends ConsumerState<BillingScreen> {
     ),
   );
 
-  String _subscriptionStatus(AppLocalizations l, String value) => switch (value) {
-    'active' => l.billingStatusActive,
-    'free' => l.billingStatusFree,
-    'past_due' => l.billingStatusPastDue,
-    'suspended' => l.billingStatusSuspended,
-    'canceled' => l.billingStatusCanceled,
-    _ => value.replaceAll('_', ' '),
-  };
+  String _subscriptionStatus(AppLocalizations l, String value) =>
+      switch (value) {
+        'active' => l.billingStatusActive,
+        'free' => l.billingStatusFree,
+        'past_due' => l.billingStatusPastDue,
+        'suspended' => l.billingStatusSuspended,
+        'canceled' => l.billingStatusCanceled,
+        _ => value.replaceAll('_', ' '),
+      };
 
   String _changeStatus(AppLocalizations l, String value) => switch (value) {
     'pending_acceptance' => l.billingChangePendingAcceptance,

@@ -27,7 +27,6 @@ class HomeShell extends ConsumerStatefulWidget {
 }
 
 class _HomeShellState extends ConsumerState<HomeShell> {
-
   @override
   void initState() {
     super.initState();
