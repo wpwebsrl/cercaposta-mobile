@@ -1780,8 +1780,8 @@ abstract class AppLocalizations {
 
   /// No description provided for @errorFeatureNotInPlan.
   ///
-  /// In en, this message translates to:
-  /// **'This feature is not included in the current plan'**
+  /// In it, this message translates to:
+  /// **'Questa funzionalità non è inclusa nel piano corrente'**
   String get errorFeatureNotInPlan;
 
   /// No description provided for @errorAdminNotOnMobile.
@@ -2978,53 +2978,292 @@ abstract class AppLocalizations {
   /// **'Se tutto quello che hai importato è davvero cercabile, e cosa manca'**
   String get diagnosticsSettingsHint;
 
+  /// No description provided for @billingTitle.
+  ///
+  /// In it, this message translates to:
+  /// **'Piano e pagamenti'**
   String get billingTitle;
+
+  /// No description provided for @billingSettingsHint.
+  ///
+  /// In it, this message translates to:
+  /// **'Piano corrente, rinnovo e modifiche programmate'**
   String get billingSettingsHint;
+
+  /// No description provided for @billingCurrentPlan.
+  ///
+  /// In it, this message translates to:
+  /// **'Piano corrente'**
   String get billingCurrentPlan;
+
+  /// No description provided for @billingNoPlan.
+  ///
+  /// In it, this message translates to:
+  /// **'Non è presente un piano attivo.'**
   String get billingNoPlan;
+
+  /// No description provided for @billingStatus.
+  ///
+  /// In it, this message translates to:
+  /// **'Stato'**
   String get billingStatus;
+
+  /// No description provided for @billingPaymentMethod.
+  ///
+  /// In it, this message translates to:
+  /// **'Metodo di pagamento'**
   String get billingPaymentMethod;
+
+  /// No description provided for @billingRecurringPrice.
+  ///
+  /// In it, this message translates to:
+  /// **'Prezzo ricorrente'**
   String get billingRecurringPrice;
+
+  /// No description provided for @billingPeriodEnd.
+  ///
+  /// In it, this message translates to:
+  /// **'Fine del periodo'**
   String get billingPeriodEnd;
+
+  /// No description provided for @billingGraceUntil.
+  ///
+  /// In it, this message translates to:
+  /// **'Periodo di tolleranza fino al'**
   String get billingGraceUntil;
+
+  /// No description provided for @billingPendingChanges.
+  ///
+  /// In it, this message translates to:
+  /// **'Modifiche al piano'**
   String get billingPendingChanges;
+
+  /// No description provided for @billingEffectiveAt.
+  ///
+  /// In it, this message translates to:
+  /// **'Decorrenza'**
   String get billingEffectiveAt;
+
+  /// No description provided for @billingAmountDue.
+  ///
+  /// In it, this message translates to:
+  /// **'Importo previsto'**
   String get billingAmountDue;
+
+  /// No description provided for @billingManageInBrowser.
+  ///
+  /// In it, this message translates to:
+  /// **'Gestisci piano e pagamenti'**
   String get billingManageInBrowser;
+
+  /// No description provided for @billingExternalCheckoutHint.
+  ///
+  /// In it, this message translates to:
+  /// **'Per proteggere il pagamento, checkout, retry e annullamenti si completano nel browser sicuro di CercaPosta.'**
   String get billingExternalCheckoutHint;
+
+  /// No description provided for @billingStatusActive.
+  ///
+  /// In it, this message translates to:
+  /// **'Attivo'**
   String get billingStatusActive;
+
+  /// No description provided for @billingStatusFree.
+  ///
+  /// In it, this message translates to:
+  /// **'Gratuito'**
   String get billingStatusFree;
+
+  /// No description provided for @billingStatusPastDue.
+  ///
+  /// In it, this message translates to:
+  /// **'Pagamento in ritardo'**
   String get billingStatusPastDue;
+
+  /// No description provided for @billingStatusSuspended.
+  ///
+  /// In it, this message translates to:
+  /// **'Sospeso'**
   String get billingStatusSuspended;
+
+  /// No description provided for @billingStatusCanceled.
+  ///
+  /// In it, this message translates to:
+  /// **'Annullato'**
   String get billingStatusCanceled;
+
+  /// No description provided for @billingProviderManual.
+  ///
+  /// In it, this message translates to:
+  /// **'Pagamento manuale'**
   String get billingProviderManual;
+
+  /// No description provided for @billingChangePendingAcceptance.
+  ///
+  /// In it, this message translates to:
+  /// **'In attesa della tua accettazione'**
   String get billingChangePendingAcceptance;
+
+  /// No description provided for @billingChangePendingPayment.
+  ///
+  /// In it, this message translates to:
+  /// **'In attesa del pagamento'**
   String get billingChangePendingPayment;
+
+  /// No description provided for @billingChangeScheduled.
+  ///
+  /// In it, this message translates to:
+  /// **'Programmato'**
   String get billingChangeScheduled;
+
+  /// No description provided for @billingChangeProcessing.
+  ///
+  /// In it, this message translates to:
+  /// **'In elaborazione'**
   String get billingChangeProcessing;
+
+  /// No description provided for @billingChangePaymentGrace.
+  ///
+  /// In it, this message translates to:
+  /// **'Pagamento non riuscito · periodo di tolleranza'**
   String get billingChangePaymentGrace;
+
+  /// No description provided for @billingChangeCanceling.
+  ///
+  /// In it, this message translates to:
+  /// **'Annullamento in corso'**
   String get billingChangeCanceling;
+
+  /// No description provided for @notifPlanChangeProposalTitle.
+  ///
+  /// In it, this message translates to:
+  /// **'Hai una proposta di cambio piano'**
   String get notifPlanChangeProposalTitle;
+
+  /// No description provided for @notifPlanChangeProposalBody.
+  ///
+  /// In it, this message translates to:
+  /// **'Apri Piano e pagamenti per controllare prezzo, credito e decorrenza.'**
   String get notifPlanChangeProposalBody;
+
+  /// No description provided for @notifPlanChangeProposalExpiringTitle.
+  ///
+  /// In it, this message translates to:
+  /// **'La proposta sta per scadere'**
   String get notifPlanChangeProposalExpiringTitle;
+
+  /// No description provided for @notifPlanChangeProposalExpiringBody.
+  ///
+  /// In it, this message translates to:
+  /// **'Valutala entro il {date}.'**
   String notifPlanChangeProposalExpiringBody(String date);
+
+  /// No description provided for @notifPlanChangeExpiredTitle.
+  ///
+  /// In it, this message translates to:
+  /// **'Il cambio piano è scaduto'**
   String get notifPlanChangeExpiredTitle;
+
+  /// No description provided for @notifPlanChangeExpiredBody.
+  ///
+  /// In it, this message translates to:
+  /// **'La modifica non è stata applicata e il piano precedente è rimasto invariato.'**
   String get notifPlanChangeExpiredBody;
+
+  /// No description provided for @notifPlanChangeScheduledTitle.
+  ///
+  /// In it, this message translates to:
+  /// **'Il cambio piano è programmato'**
   String get notifPlanChangeScheduledTitle;
+
+  /// No description provided for @notifPlanChangeScheduledBody.
+  ///
+  /// In it, this message translates to:
+  /// **'Il passaggio avverrà il {date}; fino ad allora resta attivo il piano attuale.'**
   String notifPlanChangeScheduledBody(String date);
+
+  /// No description provided for @notifPlanChangeAppliedTitle.
+  ///
+  /// In it, this message translates to:
+  /// **'Il nuovo piano è attivo'**
   String get notifPlanChangeAppliedTitle;
+
+  /// No description provided for @notifPlanChangeAppliedBody.
+  ///
+  /// In it, this message translates to:
+  /// **'Le nuove quote e funzionalità sono ora disponibili.'**
   String get notifPlanChangeAppliedBody;
+
+  /// No description provided for @notifPlanChangeCanceledTitle.
+  ///
+  /// In it, this message translates to:
+  /// **'Il cambio piano è stato annullato'**
   String get notifPlanChangeCanceledTitle;
+
+  /// No description provided for @notifPlanChangeCanceledBody.
+  ///
+  /// In it, this message translates to:
+  /// **'Il piano attuale resta invariato.'**
   String get notifPlanChangeCanceledBody;
+
+  /// No description provided for @notifPlanChangePaymentFailedTitle.
+  ///
+  /// In it, this message translates to:
+  /// **'Il pagamento non è riuscito'**
   String get notifPlanChangePaymentFailedTitle;
+
+  /// No description provided for @notifPlanChangePaymentFailedBody.
+  ///
+  /// In it, this message translates to:
+  /// **'Il piano precedente resta attivo. Riprova entro il {date}.'**
   String notifPlanChangePaymentFailedBody(String date);
+
+  /// No description provided for @notifPlanChangeRetryTitle.
+  ///
+  /// In it, this message translates to:
+  /// **'Puoi riprovare il pagamento'**
   String get notifPlanChangeRetryTitle;
+
+  /// No description provided for @notifPlanChangeRetryBody.
+  ///
+  /// In it, this message translates to:
+  /// **'Apri Piano e pagamenti per completare il nuovo tentativo.'**
   String get notifPlanChangeRetryBody;
+
+  /// No description provided for @notifPlanChangeGraceExpiringTitle.
+  ///
+  /// In it, this message translates to:
+  /// **'Il periodo di tolleranza sta per terminare'**
   String get notifPlanChangeGraceExpiringTitle;
+
+  /// No description provided for @notifPlanChangeGraceExpiringBody.
+  ///
+  /// In it, this message translates to:
+  /// **'Completa il pagamento entro il {date}.'**
   String notifPlanChangeGraceExpiringBody(String date);
+
+  /// No description provided for @notifPlanChangeGraceExpiredTitle.
+  ///
+  /// In it, this message translates to:
+  /// **'Il periodo di tolleranza è terminato'**
   String get notifPlanChangeGraceExpiredTitle;
+
+  /// No description provided for @notifPlanChangeGraceExpiredBody.
+  ///
+  /// In it, this message translates to:
+  /// **'Il cambio non è stato applicato perché il pagamento non è stato completato.'**
   String get notifPlanChangeGraceExpiredBody;
+
+  /// No description provided for @notifPlanChangeActionRequiredTitle.
+  ///
+  /// In it, this message translates to:
+  /// **'Il cambio piano richiede assistenza'**
   String get notifPlanChangeActionRequiredTitle;
+
+  /// No description provided for @notifPlanChangeActionRequiredBody.
+  ///
+  /// In it, this message translates to:
+  /// **'Controlla Piano e pagamenti o contatta l’assistenza.'**
   String get notifPlanChangeActionRequiredBody;
 }
 

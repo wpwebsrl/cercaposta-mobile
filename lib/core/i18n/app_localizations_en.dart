@@ -1694,105 +1694,164 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get billingTitle => 'Plan and payments';
+
   @override
-  String get billingSettingsHint => 'Current plan, renewal and scheduled changes';
+  String get billingSettingsHint =>
+      'Current plan, renewal and scheduled changes';
+
   @override
   String get billingCurrentPlan => 'Current plan';
+
   @override
   String get billingNoPlan => 'There is no active plan.';
+
   @override
   String get billingStatus => 'Status';
+
   @override
   String get billingPaymentMethod => 'Payment method';
+
   @override
   String get billingRecurringPrice => 'Recurring price';
+
   @override
   String get billingPeriodEnd => 'Period end';
+
   @override
   String get billingGraceUntil => 'Grace period until';
+
   @override
   String get billingPendingChanges => 'Plan changes';
+
   @override
   String get billingEffectiveAt => 'Effective date';
+
   @override
   String get billingAmountDue => 'Expected amount';
+
   @override
   String get billingManageInBrowser => 'Manage plan and payments';
+
   @override
   String get billingExternalCheckoutHint =>
       'To protect your payment, checkout, retries and cancellations are completed in CercaPosta’s secure browser flow.';
+
   @override
   String get billingStatusActive => 'Active';
+
   @override
   String get billingStatusFree => 'Free';
+
   @override
   String get billingStatusPastDue => 'Payment overdue';
+
   @override
   String get billingStatusSuspended => 'Suspended';
+
   @override
   String get billingStatusCanceled => 'Canceled';
+
   @override
   String get billingProviderManual => 'Manual payment';
+
   @override
   String get billingChangePendingAcceptance => 'Waiting for your acceptance';
+
   @override
   String get billingChangePendingPayment => 'Waiting for payment';
+
   @override
   String get billingChangeScheduled => 'Scheduled';
+
   @override
   String get billingChangeProcessing => 'Processing';
+
   @override
   String get billingChangePaymentGrace => 'Payment failed · grace period';
+
   @override
   String get billingChangeCanceling => 'Cancellation in progress';
+
   @override
   String get notifPlanChangeProposalTitle => 'You have a plan-change proposal';
+
   @override
   String get notifPlanChangeProposalBody =>
       'Open Plan and payments to review price, credit and effective date.';
+
   @override
-  String get notifPlanChangeProposalExpiringTitle => 'The proposal is about to expire';
+  String get notifPlanChangeProposalExpiringTitle =>
+      'The proposal is about to expire';
+
   @override
-  String notifPlanChangeProposalExpiringBody(String date) => 'Review it by $date.';
+  String notifPlanChangeProposalExpiringBody(String date) {
+    return 'Review it by $date.';
+  }
+
   @override
   String get notifPlanChangeExpiredTitle => 'The plan change expired';
+
   @override
   String get notifPlanChangeExpiredBody =>
       'The change was not applied and your previous plan remained unchanged.';
+
   @override
   String get notifPlanChangeScheduledTitle => 'The plan change is scheduled';
+
   @override
-  String notifPlanChangeScheduledBody(String date) =>
-      'The change will take place on $date; your current plan remains active until then.';
+  String notifPlanChangeScheduledBody(String date) {
+    return 'The change will take place on $date; your current plan remains active until then.';
+  }
+
   @override
   String get notifPlanChangeAppliedTitle => 'Your new plan is active';
+
   @override
-  String get notifPlanChangeAppliedBody => 'Your new allowances and features are now available.';
+  String get notifPlanChangeAppliedBody =>
+      'Your new allowances and features are now available.';
+
   @override
   String get notifPlanChangeCanceledTitle => 'The plan change was canceled';
+
   @override
-  String get notifPlanChangeCanceledBody => 'Your current plan remains unchanged.';
+  String get notifPlanChangeCanceledBody =>
+      'Your current plan remains unchanged.';
+
   @override
   String get notifPlanChangePaymentFailedTitle => 'The payment failed';
+
   @override
-  String notifPlanChangePaymentFailedBody(String date) =>
-      'Your previous plan remains active. Retry by $date.';
+  String notifPlanChangePaymentFailedBody(String date) {
+    return 'Your previous plan remains active. Retry by $date.';
+  }
+
   @override
   String get notifPlanChangeRetryTitle => 'You can retry the payment';
+
   @override
   String get notifPlanChangeRetryBody =>
       'Open Plan and payments to complete the new attempt.';
+
   @override
-  String get notifPlanChangeGraceExpiringTitle => 'The grace period is about to end';
+  String get notifPlanChangeGraceExpiringTitle =>
+      'The grace period is about to end';
+
   @override
-  String notifPlanChangeGraceExpiringBody(String date) => 'Complete payment by $date.';
+  String notifPlanChangeGraceExpiringBody(String date) {
+    return 'Complete payment by $date.';
+  }
+
   @override
   String get notifPlanChangeGraceExpiredTitle => 'The grace period ended';
+
   @override
   String get notifPlanChangeGraceExpiredBody =>
       'The change was not applied because payment was not completed.';
+
   @override
-  String get notifPlanChangeActionRequiredTitle => 'The plan change needs assistance';
+  String get notifPlanChangeActionRequiredTitle =>
+      'The plan change needs assistance';
+
   @override
   String get notifPlanChangeActionRequiredBody =>
       'Review Plan and payments or contact support.';
