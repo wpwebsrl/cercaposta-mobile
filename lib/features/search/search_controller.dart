@@ -6,9 +6,9 @@ import '../../shared/models/search.dart';
 
 /// One shared-folder scope entry: a share plus the path inside it.
 class SharedScopeEntry {
-  const SharedScopeEntry({required this.shareId, required this.path});
+  const SharedScopeEntry({required this.shareId, required this.folderId});
   final String shareId;
-  final String path;
+  final String folderId;
 }
 
 /// Folder the search is scoped to (Outlook-style drawer selection).
@@ -20,21 +20,30 @@ class FolderScope {
   const FolderScope({
     required this.path,
     required this.name,
+    this.folderId,
     this.shared,
     this.ownerLabel,
   });
 
   final String path;
   final String name;
+  final String? folderId;
   final List<SharedScopeEntry>? shared;
   final String? ownerLabel;
 
   bool get isShared => shared != null && shared!.isNotEmpty;
 
   /// Stable identity for selection compare (drawer highlight, no-op re-select).
-  String get key => isShared
-      ? 'shared:${shared!.map((e) => '${e.shareId}@${e.path}').join('|')}'
-      : 'own:$path';
+  String get key {
+    if (isShared) {
+      return 'shared:${shared!.map((e) => '${e.shareId}@${e.folderId}').join('|')}';
+    }
+    final id = folderId;
+    if (id == null || id.isEmpty) {
+      throw StateError('An own-folder scope requires a stable folder ID');
+    }
+    return 'own:$id';
+  }
 }
 
 class FolderScopeController extends Notifier<FolderScope?> {
@@ -57,9 +66,9 @@ final folderScopeProvider =
 /// Merge the drawer scope into the parsed filters. The scope, when set, WINS
 /// over any `cartella:` operator typed in the query, so the scope bar in the
 /// app bar is always truthful. With no scope ("all folders") typed operators
-/// pass through untouched. Server-side `folder_ancestors` semantics: a folder
+/// pass through untouched. Server-side UUID expansion semantics: a folder
 /// always includes its descendants. A SHARED scope becomes filters.shared
-/// (share_id + path) and drops any own-folder filter: shared content is only
+/// (share_id + folder_id) and drops any own-folder filter: shared content is only
 /// ever searched under an explicit scope, never mixed into the default view.
 Map<String, dynamic> applyFolderScope(
   Map<String, dynamic> filters,
@@ -71,16 +80,24 @@ Map<String, dynamic> applyFolderScope(
       ...filters,
       'shared': <Map<String, dynamic>>[
         for (final e in scope.shared!)
-          <String, dynamic>{'share_id': e.shareId, 'path': e.path},
+          <String, dynamic>{'share_id': e.shareId, 'folder_id': e.folderId},
       ],
     };
     out.remove('folder');
+    out.remove('folder_ids');
+    out.remove('shared_refs');
     return out;
   }
-  return <String, dynamic>{
-    ...filters,
-    'folder': <String>[scope.path],
-  };
+  final out = <String, dynamic>{...filters};
+  final folderId = scope.folderId;
+  if (folderId == null || folderId.isEmpty) {
+    throw StateError('An own-folder scope requires a stable folder ID');
+  }
+  out['folder_ids'] = <String>[folderId];
+  out.remove('folder');
+  out.remove('shared');
+  out.remove('shared_refs');
+  return out;
 }
 
 class SearchState {
@@ -190,8 +207,8 @@ class SearchController extends Notifier<SearchState> {
         // A shared scope restricts to its path too: the scope bar must not lie.
         effectiveFolders: folders is List
             ? folders.whereType<String>().toList()
-            : (scope?.isShared ?? false)
-            ? <String>[scope!.path]
+            : scope != null
+            ? <String>[scope.path]
             : const <String>[],
       );
     } on Object catch (e) {

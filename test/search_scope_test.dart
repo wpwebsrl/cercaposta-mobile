@@ -11,15 +11,27 @@ void main() {
     );
     // The drawer scope overrides any typed cartella: operator.
     expect(
-      applyFolderScope(<String, dynamic>{
-        'from': 'x',
-        'folder': <String>['typed'],
-      }, const FolderScope(path: 'scoped', name: 'Scoped')),
+      applyFolderScope(
+        <String, dynamic>{
+          'from': 'x',
+          'folder': <String>['typed'],
+        },
+        const FolderScope(folderId: 'folder-1', path: 'scoped', name: 'Scoped'),
+      ),
       <String, dynamic>{
         'from': 'x',
-        'folder': <String>['scoped'],
+        'folder_ids': <String>['folder-1'],
       },
     );
+  });
+
+  test('applyFolderScope rejects an own scope without a stable ID', () {
+    const legacy = FolderScope(path: 'legacy/path', name: 'Legacy');
+    expect(
+      () => applyFolderScope(<String, dynamic>{}, legacy),
+      throwsStateError,
+    );
+    expect(() => legacy.key, throwsStateError);
   });
 
   test('applyFolderScope: a SHARED scope becomes filters.shared and drops '
@@ -35,14 +47,14 @@ void main() {
           name: 'Fatture',
           ownerLabel: 'Mario',
           shared: <SharedScopeEntry>[
-            SharedScopeEntry(shareId: 'share-1', path: 'Clienti/Fatture'),
+            SharedScopeEntry(shareId: 'share-1', folderId: 'folder-1'),
           ],
         ),
       ),
       <String, dynamic>{
         'from': 'x',
         'shared': <Map<String, dynamic>>[
-          <String, dynamic>{'share_id': 'share-1', 'path': 'Clienti/Fatture'},
+          <String, dynamic>{'share_id': 'share-1', 'folder_id': 'folder-1'},
         ],
       },
     );
@@ -57,14 +69,14 @@ void main() {
         name: 'Mario',
         ownerLabel: 'Mario',
         shared: <SharedScopeEntry>[
-          SharedScopeEntry(shareId: 's1', path: 'Clienti/Fatture'),
-          SharedScopeEntry(shareId: 's2', path: 'Progetti'),
+          SharedScopeEntry(shareId: 's1', folderId: 'f1'),
+          SharedScopeEntry(shareId: 's2', folderId: 'f2'),
         ],
       ),
     );
     expect(out['shared'], <Map<String, dynamic>>[
-      <String, dynamic>{'share_id': 's1', 'path': 'Clienti/Fatture'},
-      <String, dynamic>{'share_id': 's2', 'path': 'Progetti'},
+      <String, dynamic>{'share_id': 's1', 'folder_id': 'f1'},
+      <String, dynamic>{'share_id': 's2', 'folder_id': 'f2'},
     ]);
   });
 

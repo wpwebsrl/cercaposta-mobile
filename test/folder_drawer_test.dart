@@ -10,6 +10,7 @@ FolderNode _node(
   int count = 0,
   List<FolderNode> children = const [],
 }) => FolderNode(
+  id: path,
   name: path.split('/').last,
   path: path,
   count: count,
@@ -39,6 +40,18 @@ Widget _wrap(Widget child) => MaterialApp(
 );
 
 void main() {
+  test('FolderNode rejects the retired path-only contract', () {
+    expect(
+      () => FolderNode.fromJson(<String, dynamic>{
+        'name': 'Archivio',
+        'path': 'Archivio',
+        'count': 1,
+        'children': <Object>[],
+      }),
+      throwsFormatException,
+    );
+  });
+
   group('applyFolderScope', () {
     test('no scope leaves filters untouched', () {
       final f = <String, dynamic>{'from': 'a@b.it'};
@@ -48,9 +61,13 @@ void main() {
     test('scope is injected when the query has no folder operator', () {
       final out = applyFolderScope(
         <String, dynamic>{},
-        const FolderScope(path: 'Archivio/Clienti', name: 'Clienti'),
+        const FolderScope(
+          folderId: 'folder-clienti',
+          path: 'Archivio/Clienti',
+          name: 'Clienti',
+        ),
       );
-      expect(out['folder'], <String>['Archivio/Clienti']);
+      expect(out['folder_ids'], <String>['folder-clienti']);
     });
 
     test('the drawer scope wins over an explicit cartella: operator', () {
@@ -62,9 +79,13 @@ void main() {
       expect(
         applyFolderScope(
           f,
-          const FolderScope(path: 'Archivio', name: 'Archivio'),
-        )['folder'],
-        <String>['Archivio'],
+          const FolderScope(
+            folderId: 'folder-archivio',
+            path: 'Archivio',
+            name: 'Archivio',
+          ),
+        )['folder_ids'],
+        <String>['folder-archivio'],
       );
     });
   });
@@ -74,7 +95,9 @@ void main() {
       tester,
     ) async {
       await tester.pumpWidget(
-        _wrap(FolderTree(nodes: _tree, selectedPath: null, onSelect: (_) {})),
+        _wrap(
+          FolderTree(nodes: _tree, selectedFolderId: null, onSelect: (_) {}),
+        ),
       );
       expect(find.text('Archivio'), findsOneWidget);
       expect(find.text('Spedite'), findsOneWidget);
@@ -93,7 +116,7 @@ void main() {
         _wrap(
           FolderTree(
             nodes: _tree,
-            selectedPath: null,
+            selectedFolderId: null,
             onSelect: (n) => picked = n,
           ),
         ),
@@ -109,7 +132,7 @@ void main() {
         _wrap(
           FolderTree(
             nodes: _tree,
-            selectedPath: 'Archivio/Clienti/Rossi',
+            selectedFolderId: 'Archivio/Clienti/Rossi',
             onSelect: (_) {},
           ),
         ),

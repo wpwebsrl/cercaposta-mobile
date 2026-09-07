@@ -15,23 +15,38 @@ class TagInfo {
 
 class FolderNode {
   const FolderNode({
+    required this.id,
     required this.name,
     required this.path,
     required this.count,
     required this.children,
+    this.direct = 0,
+    this.isDestination = false,
   });
 
+  final String id;
   final String name;
   final String path;
   final int count; // subtree: this folder + all descendants
+  final int direct; // distinct messages directly in this exact folder
   final List<FolderNode> children;
+  final bool isDestination;
 
-  factory FolderNode.fromJson(Map<String, dynamic> j) => FolderNode(
-    name: jsonStr(j, 'name'),
-    path: jsonStr(j, 'path'),
-    count: jsonInt(j, 'count'),
-    children: jsonObjList(j, 'children').map(FolderNode.fromJson).toList(),
-  );
+  factory FolderNode.fromJson(Map<String, dynamic> j) {
+    final id = jsonStr(j, 'id');
+    if (id.isEmpty) {
+      throw const FormatException('Folder node is missing its stable ID');
+    }
+    return FolderNode(
+      id: id,
+      name: jsonStr(j, 'name'),
+      path: jsonStr(j, 'path'),
+      count: jsonInt(j, 'count'),
+      direct: jsonInt(j, 'direct'),
+      children: jsonObjList(j, 'children').map(FolderNode.fromJson).toList(),
+      isDestination: jsonBool(j, 'is_destination'),
+    );
+  }
 }
 
 /// One folder another user shared with this account (GET /shares/received,
@@ -39,6 +54,7 @@ class FolderNode {
 class ShareInfo {
   const ShareInfo({
     required this.id,
+    required this.folderId,
     required this.folderPath,
     required this.includeSubtree,
     required this.ownerUsername,
@@ -47,6 +63,7 @@ class ShareInfo {
   });
 
   final String id;
+  final String folderId;
   final String folderPath;
   final bool includeSubtree;
   final String ownerUsername;
@@ -63,8 +80,13 @@ class ShareInfo {
   factory ShareInfo.fromJson(Map<String, dynamic> j) {
     final owner = jsonMap(j, 'owner');
     final username = jsonStr(owner, 'username');
+    final folderId = jsonStr(j, 'folder_id');
+    if (folderId.isEmpty) {
+      throw const FormatException('Share is missing its folder ID');
+    }
     return ShareInfo(
       id: jsonStr(j, 'id'),
+      folderId: folderId,
       folderPath: jsonStr(j, 'folder_path'),
       includeSubtree: jsonBool(j, 'include_subtree'),
       ownerUsername: username,

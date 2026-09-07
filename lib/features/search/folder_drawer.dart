@@ -61,8 +61,8 @@ class FolderDrawer extends ConsumerWidget {
   final FolderScope? selected;
   final ValueChanged<FolderScope?> onSelect;
 
-  String? get selectedPath =>
-      (selected?.isShared ?? false) ? null : selected?.path;
+  String? get selectedFolderId =>
+      (selected?.isShared ?? false) ? null : selected?.folderId;
 
   void _pick(BuildContext context, FolderScope? scope) {
     Navigator.pop(context); // close the drawer; the search re-runs behind it
@@ -158,10 +158,12 @@ class FolderDrawer extends ConsumerWidget {
                   }
                   return FolderTree(
                     nodes: result.roots,
-                    selectedPath: selectedPath,
+                    selectedFolderId: selectedFolderId,
                     locale: locale,
-                    onSelect: (n) =>
-                        _pick(context, FolderScope(path: n.path, name: n.name)),
+                    onSelect: (n) => _pick(
+                      context,
+                      FolderScope(folderId: n.id, path: n.path, name: n.name),
+                    ),
                     trailing: trailing,
                   );
                 },
@@ -208,19 +210,23 @@ class _OwnerBranchTileState extends ConsumerState<OwnerBranchTile> {
     ownerLabel: _ownerLabel,
     shared: <SharedScopeEntry>[
       for (final s in widget.shares)
-        SharedScopeEntry(shareId: s.id, path: s.folderPath),
+        SharedScopeEntry(shareId: s.id, folderId: s.folderId),
     ],
   );
 
-  FolderScope _scopeFor(ShareInfo share, String path, String name) =>
-      FolderScope(
-        path: path,
-        name: name,
-        ownerLabel: _ownerLabel,
-        shared: <SharedScopeEntry>[
-          SharedScopeEntry(shareId: share.id, path: path),
-        ],
-      );
+  FolderScope _scopeFor(
+    ShareInfo share,
+    String folderId,
+    String path,
+    String name,
+  ) => FolderScope(
+    path: path,
+    name: name,
+    ownerLabel: _ownerLabel,
+    shared: <SharedScopeEntry>[
+      SharedScopeEntry(shareId: share.id, folderId: folderId),
+    ],
+  );
 
   bool _isSelected(FolderScope scope) => widget.selected?.key == scope.key;
 
@@ -240,10 +246,10 @@ class _OwnerBranchTileState extends ConsumerState<OwnerBranchTile> {
   List<Widget> _nodeRows(ShareInfo share, List<FolderNode> nodes, int depth) {
     final rows = <Widget>[];
     for (final n in nodes) {
-      final expanded = _expanded.contains('${share.id}:${n.path}');
+      final expanded = _expanded.contains('${share.id}:${n.id}');
       rows.add(
         FolderRow(
-          key: ValueKey<String>('share-${share.id}-${n.path}'),
+          key: ValueKey<String>('share-${share.id}-${n.id}'),
           icon: expanded && n.children.isNotEmpty
               ? Icons.folder_open_outlined
               : Icons.folder_outlined,
@@ -251,16 +257,16 @@ class _OwnerBranchTileState extends ConsumerState<OwnerBranchTile> {
           count: n.count,
           locale: widget.locale,
           depth: depth,
-          selected: _isSelected(_scopeFor(share, n.path, n.name)),
-          onTap: () => widget.onSelect(_scopeFor(share, n.path, n.name)),
+          selected: _isSelected(_scopeFor(share, n.id, n.path, n.name)),
+          onTap: () => widget.onSelect(_scopeFor(share, n.id, n.path, n.name)),
           expander: n.children.isEmpty
               ? null
               : _expander(
                   expanded: expanded,
                   onTap: () => setState(
                     () => expanded
-                        ? _expanded.remove('${share.id}:${n.path}')
-                        : _expanded.add('${share.id}:${n.path}'),
+                        ? _expanded.remove('${share.id}:${n.id}')
+                        : _expanded.add('${share.id}:${n.id}'),
                   ),
                 ),
         ),
@@ -274,7 +280,12 @@ class _OwnerBranchTileState extends ConsumerState<OwnerBranchTile> {
     final open = _openShares.contains(share.id);
     final tree = open ? ref.watch(shareTreeProvider(share.id)) : null;
     final root = tree?.valueOrNull?.roots.firstOrNull;
-    final rootScope = _scopeFor(share, share.folderPath, share.rootName);
+    final rootScope = _scopeFor(
+      share,
+      share.folderId,
+      share.folderPath,
+      share.rootName,
+    );
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -356,14 +367,14 @@ class FolderTree extends StatefulWidget {
   const FolderTree({
     super.key,
     required this.nodes,
-    required this.selectedPath,
+    required this.selectedFolderId,
     required this.onSelect,
     this.locale = 'it-IT',
     this.trailing = const <Widget>[],
   });
 
   final List<FolderNode> nodes;
-  final String? selectedPath;
+  final String? selectedFolderId;
   final ValueChanged<FolderNode> onSelect;
   final String locale;
 
@@ -389,7 +400,7 @@ class _FolderTreeState extends State<FolderTree> {
     super.didUpdateWidget(old);
     // The drawer can stay mounted across opens: keep the selection visible
     // when it changed since the last build (expansion state is preserved).
-    if (old.selectedPath != widget.selectedPath) {
+    if (old.selectedFolderId != widget.selectedFolderId) {
       _expandToSelection(widget.nodes);
     }
   }
@@ -398,9 +409,9 @@ class _FolderTreeState extends State<FolderTree> {
   /// Returns true if [nodes] (or a descendant) contains the selection.
   bool _expandToSelection(List<FolderNode> nodes) {
     for (final n in nodes) {
-      if (n.path == widget.selectedPath) return true;
+      if (n.id == widget.selectedFolderId) return true;
       if (_expandToSelection(n.children)) {
-        _expanded.add(n.path);
+        _expanded.add(n.id);
         return true;
       }
     }
@@ -412,7 +423,7 @@ class _FolderTreeState extends State<FolderTree> {
     void walk(List<FolderNode> nodes, int depth) {
       for (final n in nodes) {
         rows.add((n, depth));
-        if (_expanded.contains(n.path)) walk(n.children, depth + 1);
+        if (_expanded.contains(n.id)) walk(n.children, depth + 1);
       }
     }
 
@@ -429,9 +440,9 @@ class _FolderTreeState extends State<FolderTree> {
       itemBuilder: (context, i) {
         if (i >= rows.length) return widget.trailing[i - rows.length];
         final (node, depth) = rows[i];
-        final expanded = _expanded.contains(node.path);
+        final expanded = _expanded.contains(node.id);
         return FolderRow(
-          key: ValueKey<String>('folder-${node.path}'),
+          key: ValueKey<String>('folder-${node.id}'),
           icon: expanded && node.children.isNotEmpty
               ? Icons.folder_open_outlined
               : Icons.folder_outlined,
@@ -439,12 +450,12 @@ class _FolderTreeState extends State<FolderTree> {
           count: node.count,
           locale: widget.locale,
           depth: depth + 1,
-          selected: node.path == widget.selectedPath,
+          selected: node.id == widget.selectedFolderId,
           onTap: () => widget.onSelect(node),
           expander: node.children.isEmpty
               ? null
               : IconButton(
-                  key: ValueKey<String>('expand-${node.path}'),
+                  key: ValueKey<String>('expand-${node.id}'),
                   tooltip: expanded ? l.foldersCollapse : l.foldersExpand,
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints.tightFor(
@@ -458,8 +469,8 @@ class _FolderTreeState extends State<FolderTree> {
                   ),
                   onPressed: () => setState(
                     () => expanded
-                        ? _expanded.remove(node.path)
-                        : _expanded.add(node.path),
+                        ? _expanded.remove(node.id)
+                        : _expanded.add(node.id),
                   ),
                 ),
         );
