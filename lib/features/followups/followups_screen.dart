@@ -16,7 +16,7 @@ import 'followups_controller.dart';
 /// «In attesa» page (WP4.3, docs/followup.md): reply expectations in two direction
 /// tabs with state actions and reminder composition. Query-only surface — the policy
 /// and signature are configured on the web; here the user acts on expectations and,
-/// when the origin account can send, fires «Invia da Cerca posta» from the reminder page.
+/// when the origin account can send, fires «Invia da CercaPosta» from the reminder page.
 class FollowupsScreen extends ConsumerStatefulWidget {
   const FollowupsScreen({super.key});
 

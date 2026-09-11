@@ -9,7 +9,7 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get appName => 'Cerca posta';
+  String get appName => 'CercaPosta';
 
   @override
   String get actionCancel => 'Cancel';
@@ -380,7 +380,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get aboutCredits =>
-      'Cerca posta is a WpWeb product: a smart, encrypted, searchable email archive.\nAll your email, finally in one place.\nYears of messages, conversations and attachments, gathered and put in order.\nNo more scattered mailboxes, old backups or forgotten files.\nCerca posta brings it all into one secure archive, always within reach.\nFinding an email is no longer a treasure hunt.\nType what you remember, the way you\'d say it out loud.\nA name, a date, a word: results appear in an instant.\nDon\'t recall the exact words? No problem.\nCerca posta understands the meaning of your search, not just the words.\nLooking for “last year\'s plumber quote”?\nIt finds it, even if that email never used the word “quote”.\nThere\'s also a smart assistant that reads your email for you.\nAsk it questions in your own words and get clear answers.\n“When did I confirm the dentist appointment?”\n“What\'s the IBAN the supplier sent me?”\nIt answers by citing the right emails, so you can always check for yourself.\nAttachments become searchable too.\nPDFs, documents, spreadsheets and even the text inside images.\nThat invoice, that contract, that photo: just a search away.\nNo more hours spent scrolling your inbox for one detail.\nFilter by folder, by tag, by sender or by date.\nNarrow your search in a few clicks and get straight to the point.\nEvery message opens clean and easy to read.\nAnd most important of all: your data stays yours, and yours alone.\nEverything is encrypted at rest with your personal key.\nA stolen database or backup stays unreadable.\nThe security key is yours and yours only.\nCerca posta is a read-only archive.\nIt never sends, replies to, or changes anything in your original mailboxes.\nIt preserves and protects, without ever touching the source.\nIt\'s made for people with lots of email and little time.\nProfessionals, companies, firms, offices and institutions.\nSimple for anyone to use.\nNo manual, no fuss.\nOpen it, type what you\'re after, find it. That\'s all.\nThe memory of your correspondence, always with you.\nWhat you need, exactly when you need it.\nRecover in seconds what you thought was lost for good.\nRetrieve information, agreements and decisions made over email.\nTurn years of mail into a living, searchable resource.\nMore order, less stress.\nMore time for what truly matters.\nFast when you search, discreet when it keeps.\nReliable every time you need it.\nSecure by design, simple by choice.\nYour email archive, smart and protected.\nSearchable in everything, clear from the very start.\nCerca posta: find everything, lose nothing.\nA WpWeb product.\nTechnology that simplifies digital life.\nThank you for choosing Cerca posta.';
+      'CercaPosta is a WpWeb product: a smart, encrypted, searchable email archive.\nAll your email, finally in one place.\nYears of messages, conversations and attachments, gathered and put in order.\nNo more scattered mailboxes, old backups or forgotten files.\nCercaPosta brings it all into one secure archive, always within reach.\nFinding an email is no longer a treasure hunt.\nType what you remember, the way you\'d say it out loud.\nA name, a date, a word: results appear in an instant.\nDon\'t recall the exact words? No problem.\nCercaPosta understands the meaning of your search, not just the words.\nLooking for “last year\'s plumber quote”?\nIt finds it, even if that email never used the word “quote”.\nThere\'s also a smart assistant that reads your email for you.\nAsk it questions in your own words and get clear answers.\n“When did I confirm the dentist appointment?”\n“What\'s the IBAN the supplier sent me?”\nIt answers by citing the right emails, so you can always check for yourself.\nAttachments become searchable too.\nPDFs, documents, spreadsheets and even the text inside images.\nThat invoice, that contract, that photo: just a search away.\nNo more hours spent scrolling your inbox for one detail.\nFilter by folder, by tag, by sender or by date.\nNarrow your search in a few clicks and get straight to the point.\nEvery message opens clean and easy to read.\nAnd most important of all: your data stays yours, and yours alone.\nEverything is encrypted at rest with your personal key.\nA stolen database or backup stays unreadable.\nThe security key is yours and yours only.\nCercaPosta is a read-only archive.\nIt never sends, replies to, or changes anything in your original mailboxes.\nIt preserves and protects, without ever touching the source.\nIt\'s made for people with lots of email and little time.\nProfessionals, companies, firms, offices and institutions.\nSimple for anyone to use.\nNo manual, no fuss.\nOpen it, type what you\'re after, find it. That\'s all.\nThe memory of your correspondence, always with you.\nWhat you need, exactly when you need it.\nRecover in seconds what you thought was lost for good.\nRetrieve information, agreements and decisions made over email.\nTurn years of mail into a living, searchable resource.\nMore order, less stress.\nMore time for what truly matters.\nFast when you search, discreet when it keeps.\nReliable every time you need it.\nSecure by design, simple by choice.\nYour email archive, smart and protected.\nSearchable in everything, clear from the very start.\nCercaPosta: find everything, lose nothing.\nA WpWeb product.\nTechnology that simplifies digital life.\nThank you for choosing CercaPosta.';
 
   @override
   String get emailLoading => 'Loading message…';
@@ -750,7 +750,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get passkeyErrorNoCredential =>
-      'No Cerca posta passkey is available on this device';
+      'No CercaPosta passkey is available on this device';
 
   @override
   String get passkeyErrorDomainNotAssociated =>
@@ -913,7 +913,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String updateRequiredBody(String current) {
-    return 'This app version ($current) is no longer supported by the server. Update to the latest version to keep using Cerca posta.';
+    return 'This app version ($current) is no longer supported by the server. Update to the latest version to keep using CercaPosta.';
   }
 
   @override
@@ -1250,7 +1250,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reminderPreviewTitle => 'Email preview';
 
   @override
-  String get reminderSendNow => 'Send from Cerca posta';
+  String get reminderSendNow => 'Send from CercaPosta';
 
   @override
   String reminderSent(String from) {

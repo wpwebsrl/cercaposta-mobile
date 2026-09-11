@@ -7,8 +7,8 @@ import '../json.dart';
 ///
 /// The reminder is composed server-side (same path as the .eml / automatic reminder);
 /// the user reviews it and either SENDS it directly from the origin account via
-/// «Invia da Cerca posta» (send-reminder) or opens it in their own mail app (mailto).
-/// The client never sends mail itself — «Invia da Cerca posta» is a user-triggered
+/// «Invia da CercaPosta» (send-reminder) or opens it in their own mail app (mailto).
+/// The client never sends mail itself — «Invia da CercaPosta» is a user-triggered
 /// action on a server-side channel (specifica §8.7).
 class FollowupApi {
   FollowupApi(this._dio);
@@ -123,7 +123,7 @@ class FollowupApi {
     return ReminderPreview.fromJson(mapOf(resp.data));
   }
 
-  /// «Invia da Cerca posta»: send the composed reminder THROUGH THE ORIGIN ACCOUNT
+  /// «Invia da CercaPosta»: send the composed reminder THROUGH THE ORIGIN ACCOUNT
   /// (per-source SMTP / Graph / EWS). On success the expectation advances like
   /// «l'ho inviato». Returns the From address the message went out from.
   Future<String> sendReminder(

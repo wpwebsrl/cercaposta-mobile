@@ -16,7 +16,7 @@ import 'reminder_preview_screen.dart';
 /// the analysis model drafts the MESSAGE; the user edits it with basic formatting
 /// (bold/italic/underline/strike/link/lists) via flutter_quill. The signature /
 /// AI-disclosure / quoted original are appended by the server. The user reviews it with
-/// «Anteprima email» and SENDS it from the origin account via «Invia da Cerca posta».
+/// «Anteprima email» and SENDS it from the origin account via «Invia da CercaPosta».
 class ReminderScreen extends ConsumerStatefulWidget {
   const ReminderScreen({super.key, required this.item});
 

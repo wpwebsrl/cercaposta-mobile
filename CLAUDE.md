@@ -23,7 +23,7 @@ visibile ma non riutilizzabile.
    macchina (`error.code`): si traducono in `lib/core/api/error_messages.dart`.
 3. **Client di sola interrogazione**: niente funzioni di invio/modifica email, niente
    funzioni admin (il claim `client` = `ios`/`android` le blocca anche lato server).
-   **Unica eccezione deliberata**: il **sollecito follow-up** «Invia da Cerca posta»
+   **Unica eccezione deliberata**: il **sollecito follow-up** «Invia da CercaPosta»
    (pagina «In attesa» → `reminder_screen.dart`), come su desktop/web — l'invio lo
    esegue il **server** dall'account di origine dell'utente (endpoint `send-reminder`,
    sempre azionato dall'utente; specifica §8.7 del repo server). Il client non spedisce

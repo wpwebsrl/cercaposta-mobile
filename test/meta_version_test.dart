@@ -15,7 +15,7 @@ void main() {
 
   test('MetaInfo.looksValid requires a name and the standard api prefix', () {
     final ok = MetaInfo.fromJson(<String, dynamic>{
-      'name': 'Cerca posta',
+      'name': 'CercaPosta',
       'api_prefix': '/api/v1',
     });
     expect(ok.looksValid, isTrue);

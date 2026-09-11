@@ -36,7 +36,7 @@ void main() {
     // Company (rendered uppercased), app name, version pill, build label.
     expect(find.text('WPWEB S.R.L.'), findsOneWidget);
     expect(
-      find.text('Cerca posta'),
+      find.text('CercaPosta'),
       findsOneWidget,
     ); // header title, exact match
     expect(find.text('v1.0.0'), findsOneWidget);
@@ -44,7 +44,7 @@ void main() {
     // Hold phase (before the logo finishes): ONLY the first credit line shows.
     expect(find.textContaining('è un prodotto WpWeb'), findsOneWidget);
     expect(
-      find.textContaining('Grazie per aver scelto Cerca posta.'),
+      find.textContaining('Grazie per aver scelto CercaPosta.'),
       findsNothing,
     );
 

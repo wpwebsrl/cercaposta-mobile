@@ -1,4 +1,4 @@
-# Fastlane per l'app iOS "Cerca posta".
+# Fastlane per l'app iOS "CercaPosta".
 #
 # Firma + upload su TestFlight dalla CI (runner macOS di GitHub Actions), senza Mac locale.
 # Autenticazione con App Store Connect API key (.p8 dai secret ASC_*). La FIRMA usa fastlane

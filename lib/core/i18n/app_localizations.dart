@@ -101,7 +101,7 @@ abstract class AppLocalizations {
   /// No description provided for @appName.
   ///
   /// In it, this message translates to:
-  /// **'Cerca posta'**
+  /// **'CercaPosta'**
   String get appName;
 
   /// No description provided for @actionCancel.
@@ -191,7 +191,7 @@ abstract class AppLocalizations {
   /// No description provided for @serverSubtitle.
   ///
   /// In it, this message translates to:
-  /// **'Inserisci l\'indirizzo del tuo server Cerca posta.'**
+  /// **'Inserisci l\'indirizzo del tuo server CercaPosta.'**
   String get serverSubtitle;
 
   /// No description provided for @serverUrlLabel.
@@ -221,7 +221,7 @@ abstract class AppLocalizations {
   /// No description provided for @serverNotCercaPosta.
   ///
   /// In it, this message translates to:
-  /// **'Questo server non è un\'istanza Cerca posta'**
+  /// **'Questo server non è un\'istanza CercaPosta'**
   String get serverNotCercaPosta;
 
   /// No description provided for @serverSavedTitle.
@@ -773,7 +773,7 @@ abstract class AppLocalizations {
   /// No description provided for @aboutCredits.
   ///
   /// In it, this message translates to:
-  /// **'Cerca posta è un prodotto WpWeb: archivio email intelligente, cifrato e ricercabile.\nTutte le tue email, finalmente in un unico posto.\nAnni di messaggi, conversazioni e allegati, raccolti e messi in ordine.\nNiente più caselle sparse, vecchi backup o file dimenticati.\nCerca posta riunisce tutto in un archivio sicuro, sempre a portata di mano.\nTrovare un\'email non è più una caccia al tesoro.\nScrivi quello che ricordi, come lo diresti a voce.\nUn nome, una data, una parola: i risultati arrivano in un istante.\nE se non ricordi le parole esatte? Nessun problema.\nCerca posta capisce il significato di ciò che cerchi, non solo le parole.\nCerchi «il preventivo dell\'idraulico dell\'anno scorso»?\nLo trova, anche se in quell\'email la parola «preventivo» non c\'era.\nC\'è anche un assistente intelligente che legge le email al posto tuo.\nFagli domande con parole tue e ricevi risposte chiare.\n«Quando ho confermato l\'appuntamento dal dentista?»\n«Qual è l\'IBAN che mi ha mandato il fornitore?»\nRisponde citando le email giuste, così puoi sempre verificare di persona.\nAnche gli allegati diventano cercabili.\nPDF, documenti, fogli di calcolo e persino il testo dentro le immagini.\nQuella fattura, quel contratto, quella foto: a portata di ricerca.\nBasta ore passate a scorrere la posta in cerca di un dettaglio.\nFiltra per cartella, per etichetta, per mittente o per periodo.\nRestringi la ricerca con pochi clic e vai dritto al punto.\nOgni messaggio si apre pulito e ben leggibile.\nE la cosa più importante: i tuoi dati restano tuoi, e solo tuoi.\nTutto è cifrato a riposo con la tua chiave personale.\nUn database o un backup rubati restano illeggibili.\nLa chiave di sicurezza è soltanto tua.\nCerca posta è un archivio in sola lettura.\nNon invia, non risponde e non modifica nulla nelle caselle di origine.\nConserva e protegge, senza mai toccare la fonte.\nÈ pensato per chi ha tante email e poco tempo.\nProfessionisti, aziende, studi, uffici e amministrazioni.\nÈ semplice da usare per chiunque.\nNessun manuale, nessuna complicazione.\nApri, scrivi cosa cerchi, trova. Tutto qui.\nLa memoria della tua corrispondenza, sempre con te.\nQuello che ti serve, esattamente quando ti serve.\nRitrova in pochi secondi ciò che credevi perso per sempre.\nRecupera informazioni, accordi e decisioni prese via email.\nTrasforma anni di posta in una risorsa viva e consultabile.\nPiù ordine, meno stress.\nPiù tempo per ciò che conta davvero.\nVeloce quando cerchi, discreto quando custodisce.\nAffidabile ogni volta che ti serve.\nSicuro per progettazione, semplice per scelta.\nIl tuo archivio email, intelligente e protetto.\nCercabile in tutto, comprensibile da subito.\nCerca posta: ritrova tutto, non perdere niente.\nUn prodotto WpWeb.\nTecnologia che semplifica la vita digitale.\nGrazie per aver scelto Cerca posta.'**
+  /// **'CercaPosta è un prodotto WpWeb: archivio email intelligente, cifrato e ricercabile.\nTutte le tue email, finalmente in un unico posto.\nAnni di messaggi, conversazioni e allegati, raccolti e messi in ordine.\nNiente più caselle sparse, vecchi backup o file dimenticati.\nCercaPosta riunisce tutto in un archivio sicuro, sempre a portata di mano.\nTrovare un\'email non è più una caccia al tesoro.\nScrivi quello che ricordi, come lo diresti a voce.\nUn nome, una data, una parola: i risultati arrivano in un istante.\nE se non ricordi le parole esatte? Nessun problema.\nCercaPosta capisce il significato di ciò che cerchi, non solo le parole.\nCerchi «il preventivo dell\'idraulico dell\'anno scorso»?\nLo trova, anche se in quell\'email la parola «preventivo» non c\'era.\nC\'è anche un assistente intelligente che legge le email al posto tuo.\nFagli domande con parole tue e ricevi risposte chiare.\n«Quando ho confermato l\'appuntamento dal dentista?»\n«Qual è l\'IBAN che mi ha mandato il fornitore?»\nRisponde citando le email giuste, così puoi sempre verificare di persona.\nAnche gli allegati diventano cercabili.\nPDF, documenti, fogli di calcolo e persino il testo dentro le immagini.\nQuella fattura, quel contratto, quella foto: a portata di ricerca.\nBasta ore passate a scorrere la posta in cerca di un dettaglio.\nFiltra per cartella, per etichetta, per mittente o per periodo.\nRestringi la ricerca con pochi clic e vai dritto al punto.\nOgni messaggio si apre pulito e ben leggibile.\nE la cosa più importante: i tuoi dati restano tuoi, e solo tuoi.\nTutto è cifrato a riposo con la tua chiave personale.\nUn database o un backup rubati restano illeggibili.\nLa chiave di sicurezza è soltanto tua.\nCercaPosta è un archivio in sola lettura.\nNon invia, non risponde e non modifica nulla nelle caselle di origine.\nConserva e protegge, senza mai toccare la fonte.\nÈ pensato per chi ha tante email e poco tempo.\nProfessionisti, aziende, studi, uffici e amministrazioni.\nÈ semplice da usare per chiunque.\nNessun manuale, nessuna complicazione.\nApri, scrivi cosa cerchi, trova. Tutto qui.\nLa memoria della tua corrispondenza, sempre con te.\nQuello che ti serve, esattamente quando ti serve.\nRitrova in pochi secondi ciò che credevi perso per sempre.\nRecupera informazioni, accordi e decisioni prese via email.\nTrasforma anni di posta in una risorsa viva e consultabile.\nPiù ordine, meno stress.\nPiù tempo per ciò che conta davvero.\nVeloce quando cerchi, discreto quando custodisce.\nAffidabile ogni volta che ti serve.\nSicuro per progettazione, semplice per scelta.\nIl tuo archivio email, intelligente e protetto.\nCercabile in tutto, comprensibile da subito.\nCercaPosta: ritrova tutto, non perdere niente.\nUn prodotto WpWeb.\nTecnologia che semplifica la vita digitale.\nGrazie per aver scelto CercaPosta.'**
   String get aboutCredits;
 
   /// No description provided for @emailLoading.
@@ -1397,7 +1397,7 @@ abstract class AppLocalizations {
   /// No description provided for @passkeyErrorNoCredential.
   ///
   /// In it, this message translates to:
-  /// **'Nessuna passkey Cerca posta disponibile su questo dispositivo'**
+  /// **'Nessuna passkey CercaPosta disponibile su questo dispositivo'**
   String get passkeyErrorNoCredential;
 
   /// No description provided for @passkeyErrorDomainNotAssociated.
@@ -1685,7 +1685,7 @@ abstract class AppLocalizations {
   /// No description provided for @updateRequiredBody.
   ///
   /// In it, this message translates to:
-  /// **'Questa versione dell\'app ({current}) non è più supportata dal server. Aggiorna all\'ultima versione per continuare a usare Cerca posta.'**
+  /// **'Questa versione dell\'app ({current}) non è più supportata dal server. Aggiorna all\'ultima versione per continuare a usare CercaPosta.'**
   String updateRequiredBody(String current);
 
   /// No description provided for @updateRequiredButton.
@@ -2267,7 +2267,7 @@ abstract class AppLocalizations {
   /// No description provided for @reminderSendNow.
   ///
   /// In it, this message translates to:
-  /// **'Invia da Cerca posta'**
+  /// **'Invia da CercaPosta'**
   String get reminderSendNow;
 
   /// No description provided for @reminderSent.
