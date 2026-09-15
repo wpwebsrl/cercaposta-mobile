@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "registry_sha256": "afeeda58b414b3e3d89e030e5c9cdcfe7d73739b08e9bfb80de45c5d38e7ed47",
+  "clients": {
+    "ios": {
+      "auth": "1.0.0",
+      "feature": "1.5.0"
+    },
+    "android": {
+      "auth": "1.0.0",
+      "feature": "1.5.0"
+    },
+    "desktop": {
+      "auth": "1.2.0",
+      "feature": "1.5.0"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "actions/checkout@v5": "fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09",
+  "actions/setup-java@v4": "cf277c60eb25467037889841efdb72551f06f6c3",
+  "actions/upload-artifact@v7": "043fb46d1a93c77aae656e7c1c64a875d1fc6a0a",
+  "ruby/setup-ruby@v1": "bec3f19a76460dbe12f60def7d1a77585f07516c",
+  "subosito/flutter-action@v2": "1a449444c387b1966244ae4d4f8c696479add0b2"
+}

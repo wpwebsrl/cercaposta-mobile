@@ -44,3 +44,10 @@ authenticates the account, but it does not contain the archive decryption key.
 
 Proprietary — source available for transparency and build purposes only.
 See [LICENSE](LICENSE).
+
+Release signing is mandatory and checked against the approved upload certificate. See [Android release signing](docs/android-release-signing.md) for configuration and artifact verification.
+
+
+### Release quality gates
+
+Both manual releases wait for analyze/test/Android debug and a mandatory compatibility check against the server at `BACKEND_COMPAT_REF` (full commit SHA). iOS also waits for its unsigned build. Configure `BACKEND_COMPAT_READ_TOKEN` with read-only access to `wpwebsrl/cercaposta`; it is used only on dispatch to fetch the registry, with credentials not persisted. Missing source or insufficient auth/feature version fails release. Ordinary PRs verify the public snapshot in `tool/client-compatibility.json`; update it from the server's generated contract when compatibility changes. Tests: `python -m unittest discover -s tool -p test_version_floor.py -v` and `... -p test_release_gates.py -v` (install `tool/requirements-ci.txt`). Physical-device and store acceptance remain separate.

@@ -10,6 +10,8 @@ import '../../core/i18n/app_localizations.dart';
 import '../../shared/models/followup.dart';
 import '../../shared/widgets/snack.dart';
 import 'delta_html.dart';
+import 'send_identity.dart';
+import 'delivery_history.dart';
 import 'reminder_preview_screen.dart';
 
 /// «Prepara sollecito» (WP4.3 / solleciti v2-v3, parity with the desktop dialog):
@@ -41,6 +43,7 @@ class _ReminderScreenState extends ConsumerState<ReminderScreen> {
   bool _loadingDraft = true;
   Object? _draftError;
   bool _sending = false;
+  final _sendIdentity = SendIdentity();
   String? _sentFrom; // set once sent → green confirmation, then close
   int _draftSeq = 0; // only the latest regenerate wins
 
@@ -140,6 +143,7 @@ class _ReminderScreenState extends ConsumerState<ReminderScreen> {
   }
 
   Future<void> _sendNow() async {
+    if (_sending) return;
     final l = AppLocalizations.of(context)!;
     setState(() => _sending = true);
     try {
@@ -151,6 +155,12 @@ class _ReminderScreenState extends ConsumerState<ReminderScreen> {
             body: _bodyText(),
             bodyHtml: _bodyHtml(),
             includeOriginal: _includeOriginal,
+            requestId: _sendIdentity.forPayload({
+              'subject': _subject.text,
+              'body': _bodyText(),
+              'body_html': _bodyHtml(),
+              'include_original': _includeOriginal,
+            }),
           );
       if (!mounted) return;
       setState(() {
@@ -176,6 +186,7 @@ class _ReminderScreenState extends ConsumerState<ReminderScreen> {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(14, 12, 14, 20),
         children: <Widget>[
+          DeliveryHistory(expectationId: widget.item.id),
           _recipient(),
           const SizedBox(height: 8),
           _statusLine(l),

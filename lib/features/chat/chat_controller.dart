@@ -62,25 +62,41 @@ class ChatController extends Notifier<ChatState> {
   String? _conversationId;
   CancelToken? _cancel;
   String? _lastSent;
+  int _generation = 0;
 
   @override
   ChatState build() {
     // Reset on logout/user switch/server switch: the in-memory conversation
     // (and its id) belongs to the previous identity.
     ref.watch(sessionKeyProvider);
+    _generation++;
+    _cancel?.cancel('session changed');
+    _cancel = null;
+    _lastSent = null;
     _conversationId = null;
+    ref.onDispose(() {
+      _generation++;
+      _cancel?.cancel('disposed');
+    });
     return const ChatState();
   }
 
+  bool _current(int generation, String? session) =>
+      generation == _generation && ref.read(sessionKeyProvider) == session;
+
   Future<void> checkStatus() async {
+    final generation = _generation;
+    final session = ref.read(sessionKeyProvider);
     try {
       final s = await ref.read(chatApiProvider).status();
+      if (!_current(generation, session)) return;
       state = state.copyWith(
         available: s.available,
         aiEnabled: s.aiEnabled,
         statusFailed: false,
       );
     } on Object {
+      if (!_current(generation, session)) return;
       // Network failure (not "server says disabled"): keep `available` unknown
       // and flag it so the UI offers a retry rather than "not configured".
       state = state.copyWith(statusFailed: true);
@@ -88,6 +104,10 @@ class ChatController extends Notifier<ChatState> {
   }
 
   void newConversation() {
+    _generation++;
+    _cancel?.cancel('new conversation');
+    _cancel = null;
+    _lastSent = null;
     _conversationId = null;
     state = ChatState(available: state.available, aiEnabled: state.aiEnabled);
   }
@@ -95,8 +115,12 @@ class ChatController extends Notifier<ChatState> {
   /// Load a persisted conversation from the server-side history.
   Future<void> loadConversation(String id) async {
     if (state.streaming) return;
+    final generation = ++_generation;
+    final session = ref.read(sessionKeyProvider);
+    _lastSent = null;
     try {
       final msgs = await ref.read(chatApiProvider).conversationMessages(id);
+      if (!_current(generation, session)) return;
       _conversationId = id;
       state = state.copyWith(
         messages: msgs,
@@ -104,6 +128,7 @@ class ChatController extends Notifier<ChatState> {
         embeddingFailed: false,
       );
     } on Object catch (e) {
+      if (!_current(generation, session)) return;
       state = state.copyWith(error: e);
     }
   }
@@ -120,6 +145,8 @@ class ChatController extends Notifier<ChatState> {
 
   Future<void> send(String text) async {
     if (state.streaming || text.trim().isEmpty) return;
+    final generation = ++_generation;
+    final session = ref.read(sessionKeyProvider);
     _lastSent = text;
     final prior = state.messages
         .where((m) => m.content.isNotEmpty)
@@ -156,6 +183,7 @@ class ChatController extends Notifier<ChatState> {
             cancelToken: cancel,
           );
       await for (final ev in stream) {
+        if (!_current(generation, session)) return;
         switch (ev.type) {
           case ChatEventType.phase:
             state = state.copyWith(phase: ev.phase);
@@ -218,6 +246,7 @@ class ChatController extends Notifier<ChatState> {
         }
       }
     } on Object catch (e) {
+      if (!_current(generation, session)) return;
       final cancelled = e is DioException && e.type == DioExceptionType.cancel;
       state = state.copyWith(
         messages: _withoutEmptyTail(msgs),
@@ -226,8 +255,10 @@ class ChatController extends Notifier<ChatState> {
         error: cancelled ? null : e,
       );
     } finally {
-      _cancel = null;
-      if (state.streaming) state = state.copyWith(streaming: false);
+      if (_current(generation, session)) {
+        _cancel = null;
+        if (state.streaming) state = state.copyWith(streaming: false);
+      }
     }
   }
 
@@ -253,7 +284,10 @@ class ChatController extends Notifier<ChatState> {
   }
 
   Future<void> deleteConversation(String id) async {
+    final generation = _generation;
+    final session = ref.read(sessionKeyProvider);
     await ref.read(chatApiProvider).deleteConversation(id);
+    if (!_current(generation, session)) return;
     if (_conversationId == id) newConversation();
   }
 

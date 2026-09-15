@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "errors": [
+    {
+      "code": "auth.invalid_token",
+      "transition": "reauthenticate"
+    },
+    {
+      "code": "auth.invalid_refresh",
+      "transition": "reauthenticate"
+    },
+    {
+      "code": "auth.session_changed",
+      "transition": "discard_stale_result"
+    },
+    {
+      "code": "enc.dek_locked",
+      "transition": "unlock_session"
+    },
+    {
+      "code": "enc.recovery_failed",
+      "transition": "require_valid_recovery"
+    },
+    {
+      "code": "followup.delivery_unknown",
+      "transition": "reconcile_without_retry"
+    },
+    {
+      "code": "followup.delivery_sending",
+      "transition": "wait_without_retry"
+    },
+    {
+      "code": "followup.delivery_conflict",
+      "transition": "preserve_nonce_payload"
+    },
+    {
+      "code": "mail.delivery_unknown",
+      "transition": "reconcile_without_retry"
+    }
+  ]
+}

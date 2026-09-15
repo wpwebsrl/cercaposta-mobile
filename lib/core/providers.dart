@@ -6,6 +6,7 @@ import 'api/dio_factory.dart';
 import 'auth/apple_oauth_bridge.dart';
 import 'auth/google_oauth_bridge.dart';
 import 'auth/secure_store.dart';
+import 'auth/session_coordinator.dart';
 import 'config/app_info.dart';
 import 'config/server_store.dart';
 
@@ -16,6 +17,9 @@ final sharedPreferencesProvider = Provider<SharedPreferences>(
 );
 
 final secureStoreProvider = Provider<SecureStore>((ref) => SecureStore());
+final sessionCoordinatorProvider = Provider<SessionCoordinator>(
+  (ref) => SessionCoordinator(ref.watch(secureStoreProvider)),
+);
 final googleOAuthBridgeProvider = Provider<GoogleOAuthBridge>(
   (ref) => throw UnimplementedError(),
 );

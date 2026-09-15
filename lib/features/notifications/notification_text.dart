@@ -45,6 +45,7 @@ String notifTitle(
   'reprocess_recommended' => l.notifReprocessTitle,
   'followup.no_reply' => l.notifFollowupNoReplyTitle(_p(n, 'name')),
   'followup.reply_due' => l.notifFollowupReplyDueTitle(_p(n, 'name')),
+  'followup.delivery_unknown' => l.deliveryUnknown,
   'followup.due_soon' => l.notifFollowupDueSoonTitle,
   'followup.reminder_sent' => l.notifFollowupReminderSentTitle(_p(n, 'name')),
   'followup.digest' => l.notifFollowupDigestTitle,
@@ -77,6 +78,7 @@ String notifBody(
     _p(n, 'summary'),
     _pi(n, 'days'),
   ),
+  'followup.delivery_unknown' => l.errorDeliveryUnknown,
   'followup.due_soon' => l.notifFollowupDueSoonBody(
     _p(n, 'summary'),
     _p(n, 'name'),

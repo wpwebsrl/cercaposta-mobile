@@ -10,6 +10,7 @@ class UserInfo {
     required this.language,
     required this.locale,
     required this.mustChangePassword,
+    this.passwordLoginEnabled = true,
   });
 
   final String id;
@@ -19,6 +20,7 @@ class UserInfo {
   final String language;
   final String locale;
   final bool mustChangePassword;
+  final bool passwordLoginEnabled;
 
   String get label => displayName.isNotEmpty ? displayName : username;
 
@@ -30,6 +32,7 @@ class UserInfo {
     language: language,
     locale: locale,
     mustChangePassword: mustChangePassword ?? this.mustChangePassword,
+    passwordLoginEnabled: passwordLoginEnabled,
   );
 
   factory UserInfo.fromJson(Map<String, dynamic> j) => UserInfo(
@@ -40,5 +43,6 @@ class UserInfo {
     language: jsonStr(j, 'language', 'it'),
     locale: jsonStr(j, 'locale', 'it-IT'),
     mustChangePassword: jsonBool(j, 'must_change_password'),
+    passwordLoginEnabled: jsonBool(j, 'password_login_enabled', true),
   );
 }

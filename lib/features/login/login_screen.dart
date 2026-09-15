@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:local_auth/local_auth.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../../core/api/api_exception.dart';
 import '../../core/api/error_messages.dart';
 import '../../core/auth/auth_controller.dart';
+import '../../core/auth/passkey_policy.dart';
 import '../../core/i18n/app_localizations.dart';
 import '../../core/legal/legal_links.dart';
 import '../../core/providers.dart';
@@ -22,7 +22,6 @@ class LoginScreen extends ConsumerStatefulWidget {
 class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _username = TextEditingController();
   final _password = TextEditingController();
-  final _auth = LocalAuthentication();
   bool _busy = false;
   bool _obscure = true;
   bool _hasSaved = false;
@@ -56,7 +55,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   /// username and fire the OS prompt right away (same UX as the unlock screen).
   /// Cancelling falls back to the manual form without any error.
   Future<void> _initBiometric() async {
-    final creds = await ref.read(authProvider.notifier).savedCredentials();
+    final controller = ref.read(authProvider.notifier);
+    final expected = controller.requestIdentity;
+    final creds = await controller.savedGrantInfo().catchError(
+      (Object _) => null,
+    );
+    if (!controller.isCurrent(expected)) return;
     if (!mounted || creds == null) return;
     setState(() {
       _hasSaved = true;
@@ -73,29 +77,29 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   Future<void> _biometricLogin() async {
+    final controller = ref.read(authProvider.notifier);
     final l = AppLocalizations.of(context)!;
-    setState(() => _error = null);
+    if (_busy) return;
+    setState(() {
+      _busy = true;
+      _error = null;
+    });
     try {
-      final supported = await _auth.isDeviceSupported();
-      if (!supported) return;
-      final ok = await _auth.authenticate(
-        localizedReason: l.loginBiometricReason,
-        options: const AuthenticationOptions(stickyAuth: true),
+      await controller.biometricLogin(
+        reason: l.loginBiometricReason,
+        cancel: l.actionCancel,
       );
-      if (!ok || !mounted) return;
-      setState(() => _busy = true);
-      await ref.read(authProvider.notifier).biometricLogin();
     } on Object catch (e) {
       if (!mounted) return;
-      // A rejected saved password was already wiped by the controller: hide the
-      // button so the user re-types (and re-enables) instead of looping.
-      if (ApiException.from(e).code == 'auth.invalid_credentials') {
+      final code = ApiException.from(e).code;
+      if (code == 'trusted_device.not_available' ||
+          code == 'biometric.reenroll') {
         setState(() {
           _hasSaved = false;
           _error = localizeApiError(l, e);
         });
-      } else if (e is! PlatformException) {
-        // biometric cancelled/unavailable (PlatformException) → silent fallback
+      } else if (code != 'biometric.cancelled' &&
+          code != 'auth.session_changed') {
         setState(() => _error = localizeApiError(l, e));
       }
     } finally {
@@ -189,6 +193,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
     final server = ref.watch(activeServerProvider);
+    final passkeySupported = passkeyServerSupported(
+      ref.watch(appInfoProvider).client,
+      server,
+    );
     return Scaffold(
       appBar: AppBar(title: Text(l.loginTitle)),
       body: SingleChildScrollView(
@@ -260,10 +268,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               ),
               const SizedBox(height: 8),
               OutlinedButton.icon(
-                onPressed: _busy ? null : _passkeyLogin,
+                onPressed: _busy || !passkeySupported ? null : _passkeyLogin,
                 icon: const Icon(Icons.key_outlined),
                 label: Text(l.loginPasskey),
               ),
+              if (!passkeySupported) Text(l.passkeyUnsupportedServer),
               const SizedBox(height: 8),
               OutlinedButton.icon(
                 onPressed: _busy ? null : _googleLogin,

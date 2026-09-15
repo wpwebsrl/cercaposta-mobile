@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:local_auth/local_auth.dart';
 
-import '../../core/api/api_exception.dart';
 import '../../core/api/error_messages.dart';
 import '../../core/auth/auth_controller.dart';
 import '../../core/i18n/app_localizations.dart';
@@ -16,7 +14,6 @@ class UnlockScreen extends ConsumerStatefulWidget {
 
 class _UnlockScreenState extends ConsumerState<UnlockScreen> {
   final _password = TextEditingController();
-  final _auth = LocalAuthentication();
   bool _busy = false;
   bool _hasSaved = false;
   String? _error;
@@ -28,10 +25,17 @@ class _UnlockScreenState extends ConsumerState<UnlockScreen> {
   }
 
   Future<void> _initBiometric() async {
-    final pwd = await ref.read(authProvider.notifier).savedPassword();
+    bool available;
+    try {
+      available = await ref
+          .read(authProvider.notifier)
+          .hasBiometricForCurrentUser();
+    } on Object {
+      return;
+    }
     if (!mounted) return;
-    setState(() => _hasSaved = pwd != null);
-    if (pwd != null) await _biometricUnlock();
+    setState(() => _hasSaved = available);
+    if (available) await _biometricUnlock();
   }
 
   @override
@@ -41,43 +45,42 @@ class _UnlockScreenState extends ConsumerState<UnlockScreen> {
   }
 
   Future<void> _biometricUnlock() async {
+    final controller = ref.read(authProvider.notifier);
+    final expected = controller.requestIdentity;
     final l = AppLocalizations.of(context)!;
+    if (_busy) return;
+    setState(() {
+      _busy = true;
+      _error = null;
+    });
     try {
-      final supported = await _auth.isDeviceSupported();
-      if (!supported) return;
-      final ok = await _auth.authenticate(
-        localizedReason: l.unlockReason,
-        options: const AuthenticationOptions(stickyAuth: true),
+      final ok = await controller.biometricUnlock(
+        reason: l.unlockReason,
+        cancel: l.actionCancel,
       );
-      if (!ok) return;
-      final pwd = await ref.read(authProvider.notifier).savedPassword();
-      if (pwd == null) return;
-      await _unlock(pwd, save: false);
-    } on Object {
-      // biometric cancelled/unavailable → fall back to manual password
+      if (!ok && mounted) setState(() => _error = l.errorDekLocked);
+    } on Object catch (error) {
+      if (mounted && controller.isCurrent(expected)) {
+        setState(() => _error = localizeApiError(l, error));
+      }
+    } finally {
+      if (mounted) setState(() => _busy = false);
     }
   }
 
-  Future<void> _unlock(String password, {required bool save}) async {
+  Future<void> _unlock(String password) async {
+    final controller = ref.read(authProvider.notifier);
+    final expected = controller.requestIdentity;
     final l = AppLocalizations.of(context)!;
     setState(() {
       _busy = true;
       _error = null;
     });
     try {
-      final ok = await ref
-          .read(authProvider.notifier)
-          .unlock(password, saveForBiometric: save);
+      final ok = await ref.read(authProvider.notifier).unlock(password);
       if (!ok && mounted) setState(() => _error = l.errorDekLocked);
     } on Object catch (e) {
-      // Only a WRONG password invalidates the saved biometric secret (a stale
-      // one would keep burning brute-force attempts and ban the account).
-      // A network error or an expired token must NOT destroy it.
-      final code = ApiException.from(e).code;
-      if (code == 'auth.invalid_credentials' && _hasSaved) {
-        await ref.read(authProvider.notifier).disableBiometric();
-        if (mounted) setState(() => _hasSaved = false);
-      }
+      if (!mounted || !controller.isCurrent(expected)) return;
       if (mounted) setState(() => _error = localizeApiError(l, e));
     } finally {
       if (mounted) setState(() => _busy = false);
@@ -117,8 +120,7 @@ class _UnlockScreenState extends ConsumerState<UnlockScreen> {
               enabled: !_busy,
               obscureText: true,
               autofocus: !_hasSaved,
-              onSubmitted: (_) =>
-                  _busy ? null : _unlock(_password.text, save: _hasSaved),
+              onSubmitted: (_) => _busy ? null : _unlock(_password.text),
               decoration: InputDecoration(
                 labelText: l.unlockPassword,
                 prefixIcon: const Icon(Icons.password),
@@ -127,9 +129,7 @@ class _UnlockScreenState extends ConsumerState<UnlockScreen> {
             ),
             const SizedBox(height: 12),
             FilledButton(
-              onPressed: _busy
-                  ? null
-                  : () => _unlock(_password.text, save: _hasSaved),
+              onPressed: _busy ? null : () => _unlock(_password.text),
               child: _busy
                   ? const SizedBox(
                       height: 20,

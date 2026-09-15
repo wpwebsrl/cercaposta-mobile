@@ -1,5 +1,6 @@
 {
   "@@locale": "en",
+  "errorSessionChanged": "The session changed. Try again with the current account.",
   "appName": "CercaPosta",
   "actionCancel": "Cancel",
   "actionConfirm": "Confirm",
@@ -35,7 +36,7 @@
   "loginBiometric": "Sign in with biometrics",
   "loginBiometricReason": "Access your email archive",
   "loginEnableBiometricTitle": "Quick sign-in",
-  "loginEnableBiometricBody": "Sign in with Face ID / fingerprint next time? Your credentials are stored securely on the device.",
+  "loginEnableBiometricBody": "Use Face ID or your fingerprint next time? This device will store a revocable authorization protected by biometrics. The app will not save your account password.",
   "sharedFromLabel": "from {name}",
   "@sharedFromLabel": {
     "placeholders": {
@@ -62,7 +63,7 @@
   "unlockButton": "Unlock",
   "unlockBiometric": "Unlock with biometrics",
   "unlockEnableBiometricTitle": "Quick unlock",
-  "unlockEnableBiometricBody": "Unlock the archive with biometrics next time? Your password is stored securely on the device.",
+  "unlockEnableBiometricBody": "Use Face ID or your fingerprint to unlock the archive? This device will store a revocable authorization protected by biometrics.",
   "unlockEnableBiometricYes": "Yes, enable",
   "unlockEnableBiometricNo": "No, thanks",
   "unlockReason": "Unlock your encrypted archive",
@@ -250,7 +251,7 @@
   "settingsOsNotificationsHint": "Shows new notifications in the phone's notification centre. On Android the check runs about every 15 minutes; on iOS whenever the system allows it.",
   "settingsOsNotificationsDenied": "Permission denied: enable CercaPosta notifications in the system settings.",
   "settingsBiometric": "Biometric sign-in and unlock",
-  "settingsBiometricEnablePrompt": "Enter your account password to enable biometric sign-in and unlock.",
+  "settingsBiometricEnablePrompt": "Confirm your password to authorize this device, then complete biometric verification. The app will not retain your password.",
   "settingsSessions": "Devices & sessions",
   "passkeysTitle": "Passkeys",
   "passkeysSettingsHint": "Sign in without typing your password",
@@ -261,11 +262,19 @@
   "passkeysDeviceBound": "This device only",
   "passkeysCreated": "Created {date}",
   "@passkeysCreated": {
-    "placeholders": { "date": { "type": "String" } }
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
   },
   "passkeysLastUsed": "Last used: {date}",
   "@passkeysLastUsed": {
-    "placeholders": { "date": { "type": "String" } }
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
   },
   "passkeysRename": "Rename",
   "passkeysRenameTitle": "Rename passkey",
@@ -273,7 +282,11 @@
   "passkeysRemoveTitle": "Remove passkey",
   "passkeysRemoveConfirm": "Remove the passkey “{name}”? You will no longer be able to use it to sign in.",
   "@passkeysRemoveConfirm": {
-    "placeholders": { "name": { "type": "String" } }
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   },
   "passkeysPasswordStays": "Passkeys are optional: password and Google sign-in remain available. For an encrypted archive, a new or untrusted device still needs the password or recovery kit to unlock its contents.",
   "passkeyErrorCancelled": "Operation cancelled",
@@ -764,26 +777,73 @@
   "notifPlanChangeProposalBody": "Open Plan and payments to review price, credit and effective date.",
   "notifPlanChangeProposalExpiringTitle": "The proposal is about to expire",
   "notifPlanChangeProposalExpiringBody": "Review it by {date}.",
-  "@notifPlanChangeProposalExpiringBody": {"placeholders":{"date":{"type":"String"}}},
+  "@notifPlanChangeProposalExpiringBody": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "notifPlanChangeExpiredTitle": "The plan change expired",
   "notifPlanChangeExpiredBody": "The change was not applied and your previous plan remained unchanged.",
   "notifPlanChangeScheduledTitle": "The plan change is scheduled",
   "notifPlanChangeScheduledBody": "The change will take place on {date}; your current plan remains active until then.",
-  "@notifPlanChangeScheduledBody": {"placeholders":{"date":{"type":"String"}}},
+  "@notifPlanChangeScheduledBody": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "notifPlanChangeAppliedTitle": "Your new plan is active",
   "notifPlanChangeAppliedBody": "Your new allowances and features are now available.",
   "notifPlanChangeCanceledTitle": "The plan change was canceled",
   "notifPlanChangeCanceledBody": "Your current plan remains unchanged.",
   "notifPlanChangePaymentFailedTitle": "The payment failed",
   "notifPlanChangePaymentFailedBody": "Your previous plan remains active. Retry by {date}.",
-  "@notifPlanChangePaymentFailedBody": {"placeholders":{"date":{"type":"String"}}},
+  "@notifPlanChangePaymentFailedBody": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "notifPlanChangeRetryTitle": "You can retry the payment",
   "notifPlanChangeRetryBody": "Open Plan and payments to complete the new attempt.",
   "notifPlanChangeGraceExpiringTitle": "The grace period is about to end",
   "notifPlanChangeGraceExpiringBody": "Complete payment by {date}.",
-  "@notifPlanChangeGraceExpiringBody": {"placeholders":{"date":{"type":"String"}}},
+  "@notifPlanChangeGraceExpiringBody": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "notifPlanChangeGraceExpiredTitle": "The grace period ended",
   "notifPlanChangeGraceExpiredBody": "The change was not applied because payment was not completed.",
   "notifPlanChangeActionRequiredTitle": "The plan change needs assistance",
-  "notifPlanChangeActionRequiredBody": "Review Plan and payments or contact support."
+  "notifPlanChangeActionRequiredBody": "Review Plan and payments or contact support.",
+  "passkeyUnsupportedServer": "Passkeys are unavailable for this server in this app version. Use password, Google or Apple; you can manage passkeys on the server website.",
+  "searchVoiceLocalUnavailable": "On-device recognition is unavailable for this language or device. Use the keyboard; Android requires Android 12 or later with an installed local recognizer.",
+  "deliveryHistory": "Delivery outcomes",
+  "deliveryReference": "Delivery reference",
+  "deliverySending": "Sending",
+  "deliverySent": "Accepted by mail service",
+  "deliveryFailed": "Not sent",
+  "deliveryUnknown": "Outcome needs verification",
+  "deliveryChecked": "I checked the outcome with the mail service and confirmed the attempt is no longer running. If the process was stuck, I had it stopped.",
+  "deliveryConfirmSent": "Confirm acceptance",
+  "deliveryConfirmFailed": "Confirm not sent",
+  "deliveryResolved": "Outcome recorded. No new message was sent.",
+  "deliveryEmpty": "No delivery attempts recorded.",
+  "errorDeliveryUnknown": "The mail service may have accepted the message. Check Delivery outcomes and verify with the provider before retrying.",
+  "errorDeliverySending": "A delivery for this pending reply is already in progress. Do not retry.",
+  "errorDeliveryConflict": "This request was already handled or has different content. Check Delivery outcomes.",
+  "errorDeliveryCheckRequired": "Verify the outcome with the mail service before confirming it.",
+  "errorMailNotAccepted": "The attempt failed before mail service acceptance. Fix the issue and retry.",
+  "errorMailDeliveryUnknown": "The delivery outcome is uncertain. Check with the mail service before retrying.",
+  "biometricErrorCancelled": "Biometric verification cancelled. You can sign in with your password.",
+  "biometricErrorUnavailable": "Biometric storage is unavailable. Use your password; if you changed fingerprints or Face ID, enable biometrics again in settings.",
+  "biometricErrorReenroll": "This device authorization has expired or is no longer valid. Sign in manually and enable biometrics again in settings.",
+  "errorReauthenticationRequired": "Sign in to your account again before authorizing this device."
 }

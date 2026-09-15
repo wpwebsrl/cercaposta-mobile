@@ -5,6 +5,7 @@ import '../../shared/models/capabilities.dart';
 import '../auth/auth_controller.dart';
 import '../providers.dart';
 import 'dio_factory.dart';
+import 'api_exception.dart';
 import 'services/billing_api.dart';
 import 'services/capabilities_api.dart';
 import 'services/chat_api.dart';
@@ -24,15 +25,60 @@ import 'services/taxonomy_api.dart';
 /// (RAM-held session password) and retries — only if that fails it routes to the
 /// lock screen.
 final apiDioProvider = Provider<Dio>((ref) {
-  final dio = buildDio(ref.watch(apiBaseProvider));
+  final base = ref.watch(apiBaseProvider);
+  final dio = buildDio(base);
+  final auth = ref.read(authProvider.notifier);
+  var disposed = false;
+  ref.onDispose(() {
+    disposed = true;
+    dio.close(force: true);
+  });
+  bool current(RequestOptions request) =>
+      !disposed &&
+      ref.read(apiBaseProvider) == base &&
+      auth.isCurrent(request.extra['sessionIdentity'] as String? ?? '');
+  DioException changed(RequestOptions request) => DioException(
+    requestOptions: request,
+    type: DioExceptionType.cancel,
+    error: ApiException('auth.session_changed'),
+  );
   dio.interceptors.add(
     InterceptorsWrapper(
       onRequest: (options, handler) {
+        options.extra.putIfAbsent(
+          'sessionIdentity',
+          () => auth.requestIdentity,
+        );
+        if (!current(options)) {
+          handler.reject(changed(options));
+          return;
+        }
         final token = ref.read(authProvider).accessToken;
+        options.headers.remove('Authorization');
         if (token != null) options.headers['Authorization'] = 'Bearer $token';
         handler.next(options);
       },
+      onResponse: (response, handler) {
+        if (!current(response.requestOptions)) {
+          handler.reject(changed(response.requestOptions));
+          return;
+        }
+        final body = response.data;
+        if (body is ResponseBody) {
+          body.stream = body.stream.map((chunk) {
+            if (!current(response.requestOptions)) {
+              throw changed(response.requestOptions);
+            }
+            return chunk;
+          });
+        }
+        handler.next(response);
+      },
       onError: (e, handler) async {
+        if (!current(e.requestOptions)) {
+          handler.next(changed(e.requestOptions));
+          return;
+        }
         final status = e.response?.statusCode;
         if (status == 426) {
           // App below the supported floor: route to the mandatory-update screen.
@@ -41,9 +87,28 @@ final apiDioProvider = Provider<Dio>((ref) {
           return;
         }
         if (status == 423) {
+          final parsed = await ApiException.fromAsync(e);
+          if (!current(e.requestOptions)) {
+            handler.next(changed(e.requestOptions));
+            return;
+          }
+          // A streamed error is consumed once; preserve its envelope for the caller.
+          if (e.response?.data is ResponseBody) {
+            e.response!.data = <String, dynamic>{
+              'error': {'code': parsed.code, 'params': parsed.params},
+            };
+          }
+          if (!parsed.isDekLocked) {
+            handler.next(e);
+            return;
+          }
           final alreadyUnlocked = e.requestOptions.extra['retried423'] == true;
           if (!alreadyUnlocked &&
               await ref.read(authProvider.notifier).tryAutoUnlock()) {
+            if (!current(e.requestOptions)) {
+              handler.next(changed(e.requestOptions));
+              return;
+            }
             final req = e.requestOptions;
             req.extra['retried423'] = true;
             try {
@@ -55,7 +120,7 @@ final apiDioProvider = Provider<Dio>((ref) {
               return;
             }
           }
-          ref.read(authProvider.notifier).markLocked();
+          if (current(e.requestOptions)) auth.markLocked();
           handler.next(e);
           return;
         }
@@ -67,6 +132,10 @@ final apiDioProvider = Provider<Dio>((ref) {
           } on Object {
             token =
                 null; // network error during refresh: fail THIS call, keep the session
+          }
+          if (!current(e.requestOptions)) {
+            handler.next(changed(e.requestOptions));
+            return;
           }
           if (token != null) {
             final req = e.requestOptions;

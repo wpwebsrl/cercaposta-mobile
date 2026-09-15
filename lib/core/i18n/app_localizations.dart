@@ -98,6 +98,12 @@ abstract class AppLocalizations {
     Locale('it'),
   ];
 
+  /// No description provided for @errorSessionChanged.
+  ///
+  /// In it, this message translates to:
+  /// **'La sessione è cambiata. Ripeti l\'operazione con l\'account corrente.'**
+  String get errorSessionChanged;
+
   /// No description provided for @appName.
   ///
   /// In it, this message translates to:
@@ -311,7 +317,7 @@ abstract class AppLocalizations {
   /// No description provided for @loginEnableBiometricBody.
   ///
   /// In it, this message translates to:
-  /// **'Vuoi accedere con Face ID / impronta la prossima volta? Le credenziali vengono salvate in modo sicuro sul dispositivo.'**
+  /// **'Vuoi accedere con Face ID o impronta la prossima volta? Il dispositivo conserverà un’autorizzazione revocabile, protetta dalla biometria. La password dell’account non verrà salvata dall’app.'**
   String get loginEnableBiometricBody;
 
   /// No description provided for @sharedFromLabel.
@@ -389,7 +395,7 @@ abstract class AppLocalizations {
   /// No description provided for @unlockEnableBiometricBody.
   ///
   /// In it, this message translates to:
-  /// **'Vuoi sbloccare l\'archivio con la biometria ai prossimi avvii? La password viene salvata in modo sicuro sul dispositivo.'**
+  /// **'Vuoi usare Face ID o impronta per sbloccare l’archivio? Il dispositivo conserverà un’autorizzazione revocabile protetta dalla biometria.'**
   String get unlockEnableBiometricBody;
 
   /// No description provided for @unlockEnableBiometricYes.
@@ -1289,7 +1295,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingsBiometricEnablePrompt.
   ///
   /// In it, this message translates to:
-  /// **'Inserisci la password del tuo account per abilitare l\'accesso e lo sblocco con la biometria.'**
+  /// **'Conferma la password per autorizzare questo dispositivo, poi completa la verifica biometrica. L’app non conserverà la password.'**
   String get settingsBiometricEnablePrompt;
 
   /// No description provided for @settingsSessions.
@@ -3265,6 +3271,144 @@ abstract class AppLocalizations {
   /// In it, this message translates to:
   /// **'Controlla Piano e pagamenti o contatta l’assistenza.'**
   String get notifPlanChangeActionRequiredBody;
+
+  /// No description provided for @passkeyUnsupportedServer.
+  ///
+  /// In it, this message translates to:
+  /// **'Le passkey non sono disponibili su questo server con questa versione dell’app. Usa password, Google o Apple; puoi gestire le passkey dal sito Web del server.'**
+  String get passkeyUnsupportedServer;
+
+  /// No description provided for @searchVoiceLocalUnavailable.
+  ///
+  /// In it, this message translates to:
+  /// **'Riconoscimento locale non disponibile per questa lingua o dispositivo. Usa la tastiera; su Android serve Android 12 o successivo con un riconoscitore locale installato.'**
+  String get searchVoiceLocalUnavailable;
+
+  /// No description provided for @deliveryHistory.
+  ///
+  /// In it, this message translates to:
+  /// **'Esiti degli invii'**
+  String get deliveryHistory;
+
+  /// No description provided for @deliveryReference.
+  ///
+  /// In it, this message translates to:
+  /// **'Riferimento invio'**
+  String get deliveryReference;
+
+  /// No description provided for @deliverySending.
+  ///
+  /// In it, this message translates to:
+  /// **'Invio in corso'**
+  String get deliverySending;
+
+  /// No description provided for @deliverySent.
+  ///
+  /// In it, this message translates to:
+  /// **'Accettato dal servizio di posta'**
+  String get deliverySent;
+
+  /// No description provided for @deliveryFailed.
+  ///
+  /// In it, this message translates to:
+  /// **'Non inviato'**
+  String get deliveryFailed;
+
+  /// No description provided for @deliveryUnknown.
+  ///
+  /// In it, this message translates to:
+  /// **'Esito da verificare'**
+  String get deliveryUnknown;
+
+  /// No description provided for @deliveryChecked.
+  ///
+  /// In it, this message translates to:
+  /// **'Ho verificato l’esito presso il servizio di posta e che il tentativo non sia più in corso. Se il processo è bloccato, ne ho fatto interrompere l’esecuzione.'**
+  String get deliveryChecked;
+
+  /// No description provided for @deliveryConfirmSent.
+  ///
+  /// In it, this message translates to:
+  /// **'Conferma accettazione'**
+  String get deliveryConfirmSent;
+
+  /// No description provided for @deliveryConfirmFailed.
+  ///
+  /// In it, this message translates to:
+  /// **'Conferma mancato invio'**
+  String get deliveryConfirmFailed;
+
+  /// No description provided for @deliveryResolved.
+  ///
+  /// In it, this message translates to:
+  /// **'Esito registrato. Nessun nuovo messaggio inviato.'**
+  String get deliveryResolved;
+
+  /// No description provided for @deliveryEmpty.
+  ///
+  /// In it, this message translates to:
+  /// **'Nessun tentativo di invio registrato.'**
+  String get deliveryEmpty;
+
+  /// No description provided for @errorDeliveryUnknown.
+  ///
+  /// In it, this message translates to:
+  /// **'Il servizio potrebbe aver accettato il messaggio. Controlla Esiti degli invii e verifica il provider prima di riprovare.'**
+  String get errorDeliveryUnknown;
+
+  /// No description provided for @errorDeliverySending.
+  ///
+  /// In it, this message translates to:
+  /// **'Un invio per questa attesa è già in corso. Non riprovare.'**
+  String get errorDeliverySending;
+
+  /// No description provided for @errorDeliveryConflict.
+  ///
+  /// In it, this message translates to:
+  /// **'La richiesta di invio è già stata gestita o ha un contenuto diverso. Controlla Esiti degli invii.'**
+  String get errorDeliveryConflict;
+
+  /// No description provided for @errorDeliveryCheckRequired.
+  ///
+  /// In it, this message translates to:
+  /// **'Verifica l’esito presso il servizio di posta prima di confermarlo.'**
+  String get errorDeliveryCheckRequired;
+
+  /// No description provided for @errorMailNotAccepted.
+  ///
+  /// In it, this message translates to:
+  /// **'Il servizio di posta ha rifiutato il tentativo prima dell’accettazione. Puoi correggere il problema e riprovare.'**
+  String get errorMailNotAccepted;
+
+  /// No description provided for @errorMailDeliveryUnknown.
+  ///
+  /// In it, this message translates to:
+  /// **'Esito dell’invio incerto: verifica presso il servizio di posta prima di riprovare.'**
+  String get errorMailDeliveryUnknown;
+
+  /// No description provided for @biometricErrorCancelled.
+  ///
+  /// In it, this message translates to:
+  /// **'Verifica biometrica annullata. Puoi accedere con la password.'**
+  String get biometricErrorCancelled;
+
+  /// No description provided for @biometricErrorUnavailable.
+  ///
+  /// In it, this message translates to:
+  /// **'La memoria biometrica non è disponibile. Usa la password; se hai modificato le impronte o Face ID, riabilita la biometria nelle impostazioni.'**
+  String get biometricErrorUnavailable;
+
+  /// No description provided for @biometricErrorReenroll.
+  ///
+  /// In it, this message translates to:
+  /// **'L’autorizzazione di questo dispositivo è scaduta o non è più valida. Accedi manualmente e riabilita la biometria nelle impostazioni.'**
+  String get biometricErrorReenroll;
+
+  /// No description provided for @errorReauthenticationRequired.
+  ///
+  /// In it, this message translates to:
+  /// **'Accedi di nuovo al tuo account prima di autorizzare il dispositivo.'**
+  String get errorReauthenticationRequired;
 }
 
 class _AppLocalizationsDelegate

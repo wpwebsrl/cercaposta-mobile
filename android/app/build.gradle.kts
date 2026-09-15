@@ -1,5 +1,7 @@
 import java.util.Properties
-import java.io.FileInputStream
+import java.security.KeyStore
+import java.security.MessageDigest
+import java.security.cert.X509Certificate
 
 plugins {
     id("com.android.application")
@@ -8,12 +10,61 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin")
 }
 
-// Firma release: legge android/key.properties (NON committato, in .gitignore).
-// Se il file manca (dev/CI senza keystore) si ripiega sulla debug key.
+// Release signing is mandatory; debug builds keep their separate debug identity.
+// An explicit file override supports isolated signing checks without changing local secrets.
 val keystoreProperties = Properties()
-val keystorePropertiesFile = rootProject.file("key.properties")
-if (keystorePropertiesFile.exists()) {
-    keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+val keystorePropertiesFile = rootProject.file(
+    providers.gradleProperty("cercaposta.signingProperties").getOrElse("key.properties")
+)
+if (keystorePropertiesFile.isFile) {
+    keystorePropertiesFile.inputStream().use { keystoreProperties.load(it) }
+}
+val expectedUploadCertificate = providers.environmentVariable("ANDROID_UPLOAD_CERT_SHA256")
+    .orElse(providers.gradleProperty("cercaposta.uploadCertSha256"))
+    .getOrElse(keystoreProperties.getProperty("certificateSha256", ""))
+    .trim().replace(":", "").lowercase()
+
+val verifyReleaseSigning by tasks.registering {
+    group = "verification"
+    description = "Require the approved non-debug upload key before a release build."
+    doLast {
+        check(keystorePropertiesFile.isFile) { "Release signing requires key.properties; use a debug build for local testing." }
+        fun required(name: String): String = keystoreProperties.getProperty(name)
+            ?.takeIf { it.isNotBlank() } ?: error("Missing release signing property: $name")
+        check(expectedUploadCertificate.matches(Regex("[a-f0-9]{64}"))) {
+            "Release signing requires ANDROID_UPLOAD_CERT_SHA256 or certificateSha256."
+        }
+        val alias = required("keyAlias")
+        check(!alias.equals("androiddebugkey", ignoreCase = true)) { "Debug keys cannot sign a release." }
+        val archive = file(required("storeFile"))
+        check(archive.isFile) { "Release keystore does not exist." }
+        val storePassword = required("storePassword").toCharArray()
+        val keyPassword = required("keyPassword").toCharArray()
+        try {
+            val store = KeyStore.getInstance(archive, storePassword)
+            val key = store.getEntry(alias, KeyStore.PasswordProtection(keyPassword))
+            check(key is KeyStore.PrivateKeyEntry) { "Release alias must identify a private signing key." }
+            val certificate = key.certificate as X509Certificate
+            certificate.checkValidity()
+            check(!certificate.subjectX500Principal.name.lowercase().contains("cn=android debug")) {
+                "Debug certificates cannot sign a release."
+            }
+            val fingerprint = MessageDigest.getInstance("SHA-256").digest(certificate.encoded)
+                .joinToString("") { "%02x".format(it) }
+            check(fingerprint == expectedUploadCertificate) { "Release certificate does not match the approved SHA-256 fingerprint." }
+            logger.lifecycle("Approved Android upload certificate SHA-256: $fingerprint")
+        } finally {
+            storePassword.fill('\u0000')
+            keyPassword.fill('\u0000')
+        }
+    }
+}
+
+tasks.configureEach {
+    if (name != "verifyReleaseSigning" &&
+        (name.endsWith("Release") || name == "preReleaseBuild")) {
+        dependsOn(verifyReleaseSigning)
+    }
 }
 
 android {
@@ -51,23 +102,16 @@ android {
 
     signingConfigs {
         create("release") {
-            if (keystorePropertiesFile.exists()) {
-                keyAlias = keystoreProperties["keyAlias"] as String
-                keyPassword = keystoreProperties["keyPassword"] as String
-                storeFile = file(keystoreProperties["storeFile"] as String)
-                storePassword = keystoreProperties["storePassword"] as String
-            }
+            keyAlias = keystoreProperties.getProperty("keyAlias")
+            keyPassword = keystoreProperties.getProperty("keyPassword")
+            storeFile = keystoreProperties.getProperty("storeFile")?.takeIf { it.isNotBlank() }?.let { file(it) }
+            storePassword = keystoreProperties.getProperty("storePassword")
         }
     }
 
     buildTypes {
         release {
-            // Usa la chiave di upload se key.properties è presente, altrimenti debug
-            // (così `flutter run --release` funziona anche senza keystore).
-            signingConfig = if (keystorePropertiesFile.exists())
-                signingConfigs.getByName("release")
-            else
-                signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.getByName("release")
         }
     }
 }

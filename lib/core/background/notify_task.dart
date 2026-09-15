@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:workmanager/workmanager.dart';
 
@@ -8,6 +7,8 @@ import '../../features/notifications/notification_text.dart';
 import '../../shared/models/notification.dart';
 import '../i18n/app_localizations.dart';
 import '../notify/notify_service.dart';
+import '../auth/secure_store.dart';
+import '../auth/session_coordinator.dart';
 import 'bg_constants.dart';
 
 /// WorkManager entry point (docs/notifiche.md → mobile OS notifications). Runs in its OWN isolate,
@@ -50,94 +51,103 @@ List<NotificationItem> freshNotifications({
   return out;
 }
 
-Future<void> runNotifyPoll() async {
+Future<void> runNotifyPoll({
+  SharedPreferences? preferences,
+  SessionCoordinator? coordinator,
+  Dio? client,
+  Future<void> Function(List<NotificationItem>, AppLocalizations)? publish,
+}) async {
   WidgetsFlutterBinding.ensureInitialized();
-  final prefs =
-      await SharedPreferences.getInstance(); // fresh disk read in this isolate
-  if (!(prefs.getBool(kPrefOsNotifications) ?? false)) return; // feature off
-
-  // Heartbeat guard: if the foreground app was active recently it owns the session — do NOT poll
-  // and above all do NOT refresh (a background rotation racing a foreground one risks a
-  // reuse-detection logout). §4.6.
-  final hb = prefs.getInt(kBgHeartbeatMs) ?? 0;
+  final prefs = preferences ?? await SharedPreferences.getInstance();
+  await prefs.reload();
+  if (!(prefs.getBool(kPrefOsNotifications) ?? false)) return;
+  final heartbeat = prefs.getInt(kBgHeartbeatMs) ?? 0;
   final nowMs = DateTime.now().millisecondsSinceEpoch;
-  if (hb != 0 && nowMs - hb < kForegroundActiveWindow.inMilliseconds) return;
-
-  final server = prefs.getString('active_server');
-  if (server == null || server.isEmpty) return;
-
-  const store = FlutterSecureStorage(
-    aOptions: AndroidOptions(encryptedSharedPreferences: true),
-    iOptions: IOSOptions(
-      accessibility: KeychainAccessibility.first_unlock_this_device,
-    ),
-  );
-  final rt = await store.read(key: 'refresh_token');
-  if (rt == null) return; // not logged in on this device
-
-  final dio = Dio(
-    BaseOptions(
-      baseUrl: '$server/api/v1',
-      connectTimeout: const Duration(seconds: 15),
-      receiveTimeout: const Duration(seconds: 20),
-      headers: const <String, dynamic>{'Accept': 'application/json'},
-    ),
-  );
-
-  final access = await _refresh(dio, store, prefs, rt);
-  if (access == null) return; // couldn't get a usable token — give up quietly
-  dio.options.headers['Authorization'] = 'Bearer $access';
-
-  // Cheap gate: only fetch the list when the notifications revision actually advanced.
-  final state = await _getJson(dio, '/events/state');
-  if (state == null) return;
-  final revs = state['revs'];
-  final notifRev = (revs is Map && revs['notifications'] is num)
-      ? (revs['notifications'] as num).toInt()
-      : 0;
-
-  // First ever run: baseline. Record the current ids + rev and notify NOTHING (D1).
-  if (prefs.getInt(kBgBaselineMs) == null) {
-    final listJson = await _getJson(dio, '/notifications');
-    final ids = listJson == null
-        ? const <String>[]
-        : NotificationList.fromJson(
-            listJson,
-          ).items.map((n) => n.id).where((s) => s.isNotEmpty).toList();
-    await prefs.setStringList(kBgSeenIds, ids);
-    await prefs.setInt(kBgBaselineMs, nowMs);
-    await prefs.setInt(kBgLastRev, notifRev);
+  if (heartbeat != 0 &&
+      nowMs - heartbeat < kForegroundActiveWindow.inMilliseconds) {
     return;
   }
-  if (notifRev == (prefs.getInt(kBgLastRev) ?? -1)) return; // nothing new
+  final server = prefs.getString('active_server');
+  if (server == null || server.isEmpty) return;
+  final sessions = coordinator ?? SessionCoordinator(SecureStore());
+  final lease = await sessions.acquire(server);
+  if (lease == null) return;
+  final dio =
+      client ??
+      Dio(
+        BaseOptions(
+          baseUrl: '$server/api/v1',
+          connectTimeout: const Duration(seconds: 15),
+          receiveTimeout: const Duration(seconds: 20),
+          headers: const <String, dynamic>{'Accept': 'application/json'},
+        ),
+      );
+  try {
+    final session = await _refresh(dio, sessions, lease);
+    if (session == null) return;
+    dio.options.headers['Authorization'] = 'Bearer ${session.accessToken}';
+    final state = await _getJson(dio, '/events/state');
+    if (state == null) return;
+    final revs = state['revs'];
+    final revision = (revs is Map && revs['notifications'] is num)
+        ? (revs['notifications'] as num).toInt()
+        : 0;
+    await prefs.reload();
+    if (prefs.getString(kBgSessionId) == session.id &&
+        prefs.getInt(kBgLastRev) == revision &&
+        prefs.getInt(kBgBaselineMs) != null) {
+      return;
+    }
+    final data = await _getJson(dio, '/notifications');
+    if (data == null) return;
+    final list = NotificationList.fromJson(data);
+    // Publication and baseline updates share the logout lock. A late worker may
+    // neither overwrite B's baseline nor show A's notifications after logout.
+    await sessions.whileCurrent(session, () async {
+      await prefs.reload();
+      if (!(prefs.getBool(kPrefOsNotifications) ?? false) ||
+          prefs.getString('active_server') != session.server) {
+        return;
+      }
+      final isNew =
+          prefs.getString(kBgSessionId) != session.id ||
+          prefs.getInt(kBgBaselineMs) == null;
+      final seen = isNew
+          ? <String>{}
+          : (prefs.getStringList(kBgSeenIds) ?? <String>[]).toSet();
+      final fresh = isNew
+          ? <NotificationItem>[]
+          : freshNotifications(
+              items: list.items,
+              seen: seen,
+              baselineMs: prefs.getInt(kBgBaselineMs) ?? nowMs,
+            );
+      final merged = <String>{
+        ...seen,
+        ...list.items.map((item) => item.id).where((id) => id.isNotEmpty),
+      }.toList();
+      // Publish before acknowledging IDs: a failed OS call remains retryable.
+      if (fresh.isNotEmpty) {
+        await (publish ?? _publish)(fresh, _localizations(prefs));
+      }
+      await prefs.setStringList(
+        kBgSeenIds,
+        merged.length > kBgSeenCap
+            ? merged.sublist(merged.length - kBgSeenCap)
+            : merged,
+      );
+      await prefs.setInt(kBgLastRev, revision);
+      if (isNew) await prefs.setInt(kBgBaselineMs, nowMs);
+      await prefs.setString(kBgSessionId, session.id);
+    });
+  } finally {
+    await sessions.release(lease);
+    if (client == null) dio.close(force: true);
+  }
+}
 
-  final listJson = await _getJson(dio, '/notifications');
-  if (listJson == null) return;
-  final list = NotificationList.fromJson(listJson);
-  final seen = (prefs.getStringList(kBgSeenIds) ?? const <String>[]).toSet();
-  final fresh = freshNotifications(
-    items: list.items,
-    seen: seen,
-    baselineMs: prefs.getInt(kBgBaselineMs) ?? 0,
-  );
-
-  // Record every current id as seen (bounded) + advance the rev, whether or not we show.
-  final merged = <String>{
-    ...seen,
-    ...list.items.map((n) => n.id).where((s) => s.isNotEmpty),
-  }.toList();
-  await prefs.setStringList(
-    kBgSeenIds,
-    merged.length > kBgSeenCap
-        ? merged.sublist(merged.length - kBgSeenCap)
-        : merged,
-  );
-  await prefs.setInt(kBgLastRev, notifRev);
-  if (fresh.isEmpty) return;
-
+Future<void> _publish(List<NotificationItem> fresh, AppLocalizations l) async {
   await NotifyService.init(handleTaps: false);
-  final l = _localizations(prefs);
-  final locale = l.localeName;
   if (fresh.length > _maxIndividual) {
     await NotifyService.show(
       _summaryNotifId,
@@ -149,54 +159,48 @@ Future<void> runNotifyPoll() async {
     for (final n in fresh) {
       await NotifyService.show(
         n.id.hashCode & 0x7fffffff,
-        notifTitle(l, n, locale),
-        notifBody(l, n, locale),
+        notifTitle(l, n, l.localeName),
+        notifBody(l, n, l.localeName),
         channelName: l.notifChannelName,
       );
     }
   }
 }
 
-/// Rotate the refresh token to obtain a usable access token. Marks the rotation so the foreground
-/// adopts the new tokens on resume instead of refreshing again and racing this isolate (§4.6). The
-/// backend's 60s reuse-detection grace makes a rare race benign (a normal 401, not a mass logout).
-Future<String?> _refresh(
+Future<StoredSession?> _refresh(
   Dio dio,
-  FlutterSecureStorage store,
-  SharedPreferences prefs,
-  String rt,
+  SessionCoordinator sessions,
+  RefreshLease lease,
 ) async {
-  await prefs.setInt(
-    kBgRefreshStartedMs,
-    DateTime.now().millisecondsSinceEpoch,
-  );
+  final cancel = CancelToken();
   try {
-    final resp = await dio.post<dynamic>(
-      '/auth/refresh',
-      data: <String, dynamic>{'refresh_token': rt},
-      // omit app_version: the server falls back to the session's stored value; a 426 here just
-      // ends the round (the foreground handles the mandatory-update flow).
-    );
-    final data = resp.data;
+    final response = await dio
+        .post<dynamic>(
+          '/auth/refresh',
+          data: <String, dynamic>{'refresh_token': lease.session.refreshToken},
+          cancelToken: cancel,
+        )
+        .timeout(const Duration(seconds: 45));
+    final data = response.data;
     if (data is! Map) return null;
-    final access = data['access_token'];
-    final newRt = data['refresh_token'];
+    final access = data['access_token'],
+        refresh = data['refresh_token'],
+        user = data['user'];
     if (access is! String ||
-        access.isEmpty ||
-        newRt is! String ||
-        newRt.isEmpty) {
+        refresh is! String ||
+        user is! Map ||
+        user['id'] is! String) {
       return null;
     }
-    // Persist the rotated pair, THEN raise the flag LAST, so the foreground never sees
-    // bg_rotated=true before the tokens are on disk.
-    await store.write(key: 'refresh_token', value: newRt);
-    await store.write(key: kSecBgAccessToken, value: access);
-    await prefs.setBool(kBgRotated, true);
-    return access;
-  } on DioException {
-    return null; // 401 / 426 / network — never force a logout from here
-  } finally {
-    await prefs.remove(kBgRefreshStartedMs);
+    return await sessions.complete(
+      lease,
+      accessToken: access,
+      refreshToken: refresh,
+      userId: user['id'] as String,
+    );
+  } on Object {
+    cancel.cancel('background refresh ended');
+    return null; // A background error never logs the foreground out.
   }
 }
 

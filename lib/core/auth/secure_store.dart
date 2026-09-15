@@ -1,18 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-/// Credentials saved for biometric sign-in, bound to the server they belong to
-/// (multi-server app: the button only shows when the active server matches).
-class SavedCredentials {
-  const SavedCredentials({
-    required this.server,
-    required this.username,
-    required this.password,
-  });
-
-  final String server;
-  final String username;
-  final String password;
-}
+import '../api/api_exception.dart';
+import 'biometric_vault.dart';
+import 'device_grant.dart';
 
 class PendingGoogleOAuth {
   const PendingGoogleOAuth({
@@ -38,30 +30,47 @@ class PendingAppleOAuth {
   final String verifier;
 }
 
-/// Hardware-backed storage for the refresh token and (optionally, behind the OS
-/// biometric prompt) the login credentials. NEVER stores the DEK or the access
-/// token. Single active session model: one refresh token at a time.
-///
-/// Biometric secret layout: the full (server, username, password) record powers
-/// BOTH the biometric login and the DEK unlock. The legacy `unlock_password` key
-/// (password only, pre-biometric-login builds) keeps working for the unlock and
-/// is upgraded to the full record on the next successful manual login.
+/// Refresh sessions and non-secret biometric selectors. Device credentials use
+/// an independent OS-protected store with authentication on every read.
 class SecureStore {
-  SecureStore()
-    : _s = const FlutterSecureStorage(
-        aOptions: AndroidOptions(encryptedSharedPreferences: true),
-        iOptions: IOSOptions(
-          accessibility: KeychainAccessibility.first_unlock_this_device,
-        ),
-      );
+  SecureStore({FlutterSecureStorage? storage, BiometricVault? biometricVault})
+    : _vault = biometricVault ?? NativeBiometricVault(),
+      _s =
+          storage ??
+          const FlutterSecureStorage(
+            aOptions: AndroidOptions(encryptedSharedPreferences: true),
+            iOptions: IOSOptions(
+              accessibility: KeychainAccessibility.first_unlock_this_device,
+            ),
+          );
 
   final FlutterSecureStorage _s;
+  final BiometricVault _vault;
+  static const _kGrantInfo = 'biometric_grant_v1';
 
   static const _kRefresh = 'refresh_token';
+  static const _kSessionRecord = 'session_record_v3';
+
+  Future<Map<String, dynamic>?> readSessionData() async {
+    final raw = await _s.read(key: _kSessionRecord);
+    if (raw == null) return null;
+    try {
+      final value = jsonDecode(raw);
+      return value is Map ? Map<String, dynamic>.from(value) : null;
+    } on Object {
+      return null;
+    }
+  }
+
+  Future<void> writeSessionData(Map<String, dynamic> value) =>
+      _s.write(key: _kSessionRecord, value: jsonEncode(value));
+
+  Future<void> clearSessionData() => _s.delete(key: _kSessionRecord);
   static const _kPassword = 'unlock_password'; // legacy, unlock-only
   static const _kCredServer = 'cred_server';
   static const _kCredUsername = 'cred_username';
   static const _kCredPassword = 'cred_password';
+  static const _kCredentials = 'credentials_v2';
   static const _kGoogleServer = 'google_oauth_server';
   static const _kGoogleState = 'google_oauth_state';
   static const _kGoogleVerifier = 'google_oauth_verifier';
@@ -84,46 +93,107 @@ class SecureStore {
       _s.write(key: _kBgAccess, value: token);
   Future<void> clearBackgroundAccessToken() => _s.delete(key: _kBgAccess);
 
-  // --- biometric credentials -------------------------------------------------
-  Future<SavedCredentials?> readCredentials() async {
-    final server = await _s.read(key: _kCredServer);
-    final username = await _s.read(key: _kCredUsername);
-    final password = await _s.read(key: _kCredPassword);
-    if (server == null || username == null || password == null) return null;
-    return SavedCredentials(
-      server: server,
-      username: username,
-      password: password,
+  // Reading the button/account selector never reads a password or native secret.
+  Future<void> purgeLegacyPasswords() async {
+    for (final key in [
+      _kCredentials,
+      _kCredServer,
+      _kCredUsername,
+      _kCredPassword,
+      _kPassword,
+    ]) {
+      await _s.delete(key: key);
+    }
+  }
+
+  Future<DeviceGrantInfo?> readGrantInfo() async {
+    await purgeLegacyPasswords();
+    final raw = await _s.read(key: _kGrantInfo);
+    if (raw == null || raw.length > 8192) return null;
+    try {
+      return DeviceGrantInfo.parse(jsonDecode(raw));
+    } on Object {
+      return null;
+    }
+  }
+
+  Future<DeviceGrant> readGrant(
+    DeviceGrantInfo info, {
+    required String reason,
+    required String cancel,
+  }) async {
+    final raw = await _vault.read(
+      info.storageName,
+      reason: reason,
+      cancel: cancel,
     );
+    if (raw == null || raw.length > 8192) {
+      throw ApiException('biometric.reenroll');
+    }
+    try {
+      final value = jsonDecode(raw);
+      final bound = DeviceGrantInfo.parse(value);
+      if (bound == null ||
+          !bound.matches(info) ||
+          value['device_secret'] is! String ||
+          !RegExp(
+            r'^[A-Za-z0-9_-]{43}$',
+          ).hasMatch(value['device_secret'] as String)) {
+        throw ApiException('biometric.reenroll');
+      }
+      return DeviceGrant(info, value['device_secret'] as String);
+    } on ApiException {
+      rethrow;
+    } on Object {
+      throw ApiException('biometric.reenroll');
+    }
   }
 
-  Future<void> writeCredentials(SavedCredentials c) async {
-    await _s.write(key: _kCredServer, value: c.server);
-    await _s.write(key: _kCredUsername, value: c.username);
-    await _s.write(key: _kCredPassword, value: c.password);
-    // the full record supersedes the legacy unlock-only key
-    await _s.delete(key: _kPassword);
+  /// Publish the selector only after the OS accepted the protected write.
+  /// A unique device ID keeps a cancelled replacement from destroying the old grant.
+  Future<DeviceGrantInfo?> writeGrant(
+    DeviceGrant grant, {
+    required String reason,
+    required String cancel,
+    void Function()? beforePublish,
+  }) async {
+    final previous = await readGrantInfo();
+    if (previous?.storageName == grant.info.storageName) {
+      throw ArgumentError('New device ID required');
+    }
+    try {
+      await _vault.write(
+        grant.info.storageName,
+        jsonEncode({...grant.info.toJson(), ...grant.credential}),
+        reason: reason,
+        cancel: cancel,
+      );
+      beforePublish?.call();
+      await _s.write(key: _kGrantInfo, value: jsonEncode(grant.info.toJson()));
+    } on Object {
+      try {
+        await _vault.delete(grant.info.storageName);
+      } on Object {
+        /* unreferenced */
+      }
+      rethrow;
+    }
+    return previous;
   }
 
-  Future<void> clearCredentials() async {
-    await _s.delete(key: _kCredServer);
-    await _s.delete(key: _kCredUsername);
-    await _s.delete(key: _kCredPassword);
-    await _s.delete(key: _kPassword);
+  Future<void> deleteGrantFile(DeviceGrantInfo info) async {
+    try {
+      await _vault.delete(info.storageName);
+    } on Object {
+      /* selector already removed */
+    }
   }
 
-  /// Password for the biometric DEK unlock: the full record when present,
-  /// otherwise the legacy unlock-only key.
-  Future<String?> readPassword() async =>
-      (await _s.read(key: _kCredPassword)) ?? await _s.read(key: _kPassword);
-
-  Future<bool> get hasSavedPassword async => (await readPassword()) != null;
-
-  /// Legacy unlock-only secret present but no full record yet: biometric login
-  /// unavailable until the next manual login upgrades it.
-  Future<bool> get hasLegacyPasswordOnly async =>
-      (await _s.read(key: _kCredPassword)) == null &&
-      (await _s.read(key: _kPassword)) != null;
+  Future<void> clearGrant() async {
+    final previous = await readGrantInfo();
+    await _s.delete(key: _kGrantInfo);
+    if (previous != null) await deleteGrantFile(previous);
+  }
 
   // --- short-lived native Google OAuth transaction --------------------------
   // Stored so a browser callback still completes if iOS/Android evicts the app while Google is
@@ -168,11 +238,9 @@ class SecureStore {
     await _s.delete(key: _kAppleVerifier);
   }
 
-  /// Logout / forced logout: drop the session but KEEP the biometric credentials
-  /// — they exist precisely to survive the moments the login screen reappears
-  /// (logout, revoked session, 60-day expiry). They are wiped only by the
-  /// Settings toggle, a wrong saved password, or the recovery flow.
+  /// Logout keeps the revocable biometric grant for the next explicit OS-authorized login.
   Future<void> clearSession() async {
+    await clearSessionData();
     await _s.delete(key: _kRefresh);
     await clearPendingGoogleOAuth();
     await clearPendingAppleOAuth();
@@ -180,6 +248,6 @@ class SecureStore {
 
   Future<void> clearAll() async {
     await clearSession();
-    await clearCredentials();
+    await clearGrant();
   }
 }

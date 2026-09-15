@@ -10,6 +10,8 @@ const String kPrefLocale =
     'pref_locale'; // the app's locale code (settings_controller)
 const String kBgSeenIds =
     'bg_seen_ids'; // JSON list<String> of already-notified ids
+const String kBgSessionId =
+    'bg_session_id'; // owner of the notification baseline
 const String kBgBaselineMs =
     'bg_baseline_ms'; // epoch ms; only newer notifications count
 const String kBgLastRev =

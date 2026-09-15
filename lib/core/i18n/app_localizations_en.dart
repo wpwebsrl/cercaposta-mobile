@@ -9,6 +9,10 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get errorSessionChanged =>
+      'The session changed. Try again with the current account.';
+
+  @override
   String get appName => 'CercaPosta';
 
   @override
@@ -116,7 +120,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get loginEnableBiometricBody =>
-      'Sign in with Face ID / fingerprint next time? Your credentials are stored securely on the device.';
+      'Use Face ID or your fingerprint next time? This device will store a revocable authorization protected by biometrics. The app will not save your account password.';
 
   @override
   String sharedFromLabel(String name) {
@@ -161,7 +165,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get unlockEnableBiometricBody =>
-      'Unlock the archive with biometrics next time? Your password is stored securely on the device.';
+      'Use Face ID or your fingerprint to unlock the archive? This device will store a revocable authorization protected by biometrics.';
 
   @override
   String get unlockEnableBiometricYes => 'Yes, enable';
@@ -687,7 +691,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsBiometricEnablePrompt =>
-      'Enter your account password to enable biometric sign-in and unlock.';
+      'Confirm your password to authorize this device, then complete biometric verification. The app will not retain your password.';
 
   @override
   String get settingsSessions => 'Devices & sessions';
@@ -1855,4 +1859,86 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get notifPlanChangeActionRequiredBody =>
       'Review Plan and payments or contact support.';
+
+  @override
+  String get passkeyUnsupportedServer =>
+      'Passkeys are unavailable for this server in this app version. Use password, Google or Apple; you can manage passkeys on the server website.';
+
+  @override
+  String get searchVoiceLocalUnavailable =>
+      'On-device recognition is unavailable for this language or device. Use the keyboard; Android requires Android 12 or later with an installed local recognizer.';
+
+  @override
+  String get deliveryHistory => 'Delivery outcomes';
+
+  @override
+  String get deliveryReference => 'Delivery reference';
+
+  @override
+  String get deliverySending => 'Sending';
+
+  @override
+  String get deliverySent => 'Accepted by mail service';
+
+  @override
+  String get deliveryFailed => 'Not sent';
+
+  @override
+  String get deliveryUnknown => 'Outcome needs verification';
+
+  @override
+  String get deliveryChecked =>
+      'I checked the outcome with the mail service and confirmed the attempt is no longer running. If the process was stuck, I had it stopped.';
+
+  @override
+  String get deliveryConfirmSent => 'Confirm acceptance';
+
+  @override
+  String get deliveryConfirmFailed => 'Confirm not sent';
+
+  @override
+  String get deliveryResolved => 'Outcome recorded. No new message was sent.';
+
+  @override
+  String get deliveryEmpty => 'No delivery attempts recorded.';
+
+  @override
+  String get errorDeliveryUnknown =>
+      'The mail service may have accepted the message. Check Delivery outcomes and verify with the provider before retrying.';
+
+  @override
+  String get errorDeliverySending =>
+      'A delivery for this pending reply is already in progress. Do not retry.';
+
+  @override
+  String get errorDeliveryConflict =>
+      'This request was already handled or has different content. Check Delivery outcomes.';
+
+  @override
+  String get errorDeliveryCheckRequired =>
+      'Verify the outcome with the mail service before confirming it.';
+
+  @override
+  String get errorMailNotAccepted =>
+      'The attempt failed before mail service acceptance. Fix the issue and retry.';
+
+  @override
+  String get errorMailDeliveryUnknown =>
+      'The delivery outcome is uncertain. Check with the mail service before retrying.';
+
+  @override
+  String get biometricErrorCancelled =>
+      'Biometric verification cancelled. You can sign in with your password.';
+
+  @override
+  String get biometricErrorUnavailable =>
+      'Biometric storage is unavailable. Use your password; if you changed fingerprints or Face ID, enable biometrics again in settings.';
+
+  @override
+  String get biometricErrorReenroll =>
+      'This device authorization has expired or is no longer valid. Sign in manually and enable biometrics again in settings.';
+
+  @override
+  String get errorReauthenticationRequired =>
+      'Sign in to your account again before authorizing this device.';
 }

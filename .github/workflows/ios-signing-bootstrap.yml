@@ -25,10 +25,10 @@ jobs:
     # macos-26 (Xcode 26): Apple rifiuta materiale di firma piu' vecchio dell'SDK iOS 26.
     runs-on: macos-26
     steps:
-      - uses: actions/checkout@v5
-      - uses: ruby/setup-ruby@v1
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: ruby/setup-ruby@bec3f19a76460dbe12f60def7d1a77585f07516c # v1
         with:
-          ruby-version: '3.3'
+          ruby-version: '3.3.12'
           bundler-cache: true
           working-directory: ios
       - name: Installa la ASC API key per fastlane

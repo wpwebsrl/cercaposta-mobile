@@ -57,6 +57,7 @@ class ApiException implements Exception {
   static ApiException from(Object error) {
     if (error is ApiException) return error;
     if (error is DioException) {
+      if (error.error is ApiException) return error.error! as ApiException;
       final status = error.response?.statusCode;
       final parsed = _fromBody(error.response?.data, status);
       if (parsed != null) return parsed;

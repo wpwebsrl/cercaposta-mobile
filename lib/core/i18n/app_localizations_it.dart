@@ -9,6 +9,10 @@ class AppLocalizationsIt extends AppLocalizations {
   AppLocalizationsIt([String locale = 'it']) : super(locale);
 
   @override
+  String get errorSessionChanged =>
+      'La sessione è cambiata. Ripeti l\'operazione con l\'account corrente.';
+
+  @override
   String get appName => 'CercaPosta';
 
   @override
@@ -117,7 +121,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get loginEnableBiometricBody =>
-      'Vuoi accedere con Face ID / impronta la prossima volta? Le credenziali vengono salvate in modo sicuro sul dispositivo.';
+      'Vuoi accedere con Face ID o impronta la prossima volta? Il dispositivo conserverà un’autorizzazione revocabile, protetta dalla biometria. La password dell’account non verrà salvata dall’app.';
 
   @override
   String sharedFromLabel(String name) {
@@ -162,7 +166,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get unlockEnableBiometricBody =>
-      'Vuoi sbloccare l\'archivio con la biometria ai prossimi avvii? La password viene salvata in modo sicuro sul dispositivo.';
+      'Vuoi usare Face ID o impronta per sbloccare l’archivio? Il dispositivo conserverà un’autorizzazione revocabile protetta dalla biometria.';
 
   @override
   String get unlockEnableBiometricYes => 'Sì, abilita';
@@ -691,7 +695,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get settingsBiometricEnablePrompt =>
-      'Inserisci la password del tuo account per abilitare l\'accesso e lo sblocco con la biometria.';
+      'Conferma la password per autorizzare questo dispositivo, poi completa la verifica biometrica. L’app non conserverà la password.';
 
   @override
   String get settingsSessions => 'Dispositivi e sessioni';
@@ -1872,4 +1876,87 @@ class AppLocalizationsIt extends AppLocalizations {
   @override
   String get notifPlanChangeActionRequiredBody =>
       'Controlla Piano e pagamenti o contatta l’assistenza.';
+
+  @override
+  String get passkeyUnsupportedServer =>
+      'Le passkey non sono disponibili su questo server con questa versione dell’app. Usa password, Google o Apple; puoi gestire le passkey dal sito Web del server.';
+
+  @override
+  String get searchVoiceLocalUnavailable =>
+      'Riconoscimento locale non disponibile per questa lingua o dispositivo. Usa la tastiera; su Android serve Android 12 o successivo con un riconoscitore locale installato.';
+
+  @override
+  String get deliveryHistory => 'Esiti degli invii';
+
+  @override
+  String get deliveryReference => 'Riferimento invio';
+
+  @override
+  String get deliverySending => 'Invio in corso';
+
+  @override
+  String get deliverySent => 'Accettato dal servizio di posta';
+
+  @override
+  String get deliveryFailed => 'Non inviato';
+
+  @override
+  String get deliveryUnknown => 'Esito da verificare';
+
+  @override
+  String get deliveryChecked =>
+      'Ho verificato l’esito presso il servizio di posta e che il tentativo non sia più in corso. Se il processo è bloccato, ne ho fatto interrompere l’esecuzione.';
+
+  @override
+  String get deliveryConfirmSent => 'Conferma accettazione';
+
+  @override
+  String get deliveryConfirmFailed => 'Conferma mancato invio';
+
+  @override
+  String get deliveryResolved =>
+      'Esito registrato. Nessun nuovo messaggio inviato.';
+
+  @override
+  String get deliveryEmpty => 'Nessun tentativo di invio registrato.';
+
+  @override
+  String get errorDeliveryUnknown =>
+      'Il servizio potrebbe aver accettato il messaggio. Controlla Esiti degli invii e verifica il provider prima di riprovare.';
+
+  @override
+  String get errorDeliverySending =>
+      'Un invio per questa attesa è già in corso. Non riprovare.';
+
+  @override
+  String get errorDeliveryConflict =>
+      'La richiesta di invio è già stata gestita o ha un contenuto diverso. Controlla Esiti degli invii.';
+
+  @override
+  String get errorDeliveryCheckRequired =>
+      'Verifica l’esito presso il servizio di posta prima di confermarlo.';
+
+  @override
+  String get errorMailNotAccepted =>
+      'Il servizio di posta ha rifiutato il tentativo prima dell’accettazione. Puoi correggere il problema e riprovare.';
+
+  @override
+  String get errorMailDeliveryUnknown =>
+      'Esito dell’invio incerto: verifica presso il servizio di posta prima di riprovare.';
+
+  @override
+  String get biometricErrorCancelled =>
+      'Verifica biometrica annullata. Puoi accedere con la password.';
+
+  @override
+  String get biometricErrorUnavailable =>
+      'La memoria biometrica non è disponibile. Usa la password; se hai modificato le impronte o Face ID, riabilita la biometria nelle impostazioni.';
+
+  @override
+  String get biometricErrorReenroll =>
+      'L’autorizzazione di questo dispositivo è scaduta o non è più valida. Accedi manualmente e riabilita la biometria nelle impostazioni.';
+
+  @override
+  String get errorReauthenticationRequired =>
+      'Accedi di nuovo al tuo account prima di autorizzare il dispositivo.';
 }

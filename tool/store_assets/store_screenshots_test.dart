@@ -4,7 +4,7 @@ import 'package:cercaposta/core/api/api_providers.dart';
 import 'package:cercaposta/core/api/services/followup_api.dart';
 import 'package:cercaposta/core/api/services/message_api.dart';
 import 'package:cercaposta/core/auth/auth_controller.dart';
-import 'package:cercaposta/core/auth/secure_store.dart';
+import 'package:cercaposta/core/auth/device_grant.dart';
 import 'package:cercaposta/core/i18n/app_localizations.dart';
 import 'package:cercaposta/core/providers.dart';
 import 'package:cercaposta/core/theme/app_theme.dart';
@@ -310,7 +310,7 @@ class _PreviewAuthController extends AuthController {
   Future<LoginResult?> resumeAppleLogin() async => null;
 
   @override
-  Future<SavedCredentials?> savedCredentials() async => null;
+  Future<DeviceGrantInfo?> savedGrantInfo() async => null;
 }
 
 class _PreviewSearchController extends SearchController {

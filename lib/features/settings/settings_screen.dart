@@ -32,8 +32,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   }
 
   Future<void> _loadBiometric() async {
-    final pwd = await ref.read(authProvider.notifier).savedPassword();
-    if (mounted) setState(() => _hasBiometric = pwd != null);
+    try {
+      final available = await ref
+          .read(authProvider.notifier)
+          .hasBiometricForCurrentUser();
+      if (mounted) setState(() => _hasBiometric = available);
+    } on Object {
+      // The settings page may disappear during account/server changes.
+    }
   }
 
   /// Pull-to-refresh: re-fetch the live figures (storage usage) and the biometric
@@ -78,10 +84,25 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   }
 
   /// Enable biometric unlock: ask for the account password, verify it against
-  /// the server (POST /auth/unlock also refreshes the DEK) and only then save
-  /// it in the secure enclave. A wrong password never gets stored.
+  /// the server, then authorize a revocable credential in the OS biometric store.
   Future<bool> _enableBiometricDialog() async {
     final l = AppLocalizations.of(context)!;
+    if (ref.read(authProvider).user?.passwordLoginEnabled == false) {
+      try {
+        await ref
+            .read(authProvider.notifier)
+            .enableBiometricFromSession(
+              reason: l.loginBiometricReason,
+              cancel: l.actionCancel,
+            );
+        return true;
+      } on Object catch (error) {
+        if (mounted) {
+          showSnack(context, localizeApiError(l, error), error: true);
+        }
+        return false;
+      }
+    }
     final controller = TextEditingController();
     var busy = false;
     String? errorText;
@@ -93,10 +114,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             if (controller.text.isEmpty || busy) return;
             setDialogState(() => busy = true);
             try {
-              final ok = await ref
+              await ref
                   .read(authProvider.notifier)
-                  .unlock(controller.text, saveForBiometric: true);
-              if (ctx.mounted) Navigator.pop(ctx, ok);
+                  .enableBiometricWithPassword(
+                    controller.text,
+                    reason: l.loginBiometricReason,
+                    cancel: l.actionCancel,
+                  );
+              if (ctx.mounted) Navigator.pop(ctx, true);
             } on Object catch (e) {
               if (ctx.mounted) {
                 setDialogState(() {
@@ -272,21 +297,30 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               },
             ),
             const Divider(),
-            if (auth.isEncrypted)
-              SwitchListTile(
-                secondary: const Icon(Icons.fingerprint),
-                title: Text(l.settingsBiometric),
-                value: _hasBiometric,
-                onChanged: (v) async {
-                  if (!v) {
+            SwitchListTile(
+              secondary: const Icon(Icons.fingerprint),
+              title: Text(l.settingsBiometric),
+              value: _hasBiometric,
+              onChanged: (v) async {
+                if (!v) {
+                  try {
                     await ref.read(authProvider.notifier).disableBiometric();
                     if (mounted) setState(() => _hasBiometric = false);
-                    return;
+                  } on Object catch (error) {
+                    if (context.mounted) {
+                      showSnack(
+                        context,
+                        localizeApiError(l, error),
+                        error: true,
+                      );
+                    }
                   }
-                  final ok = await _enableBiometricDialog();
-                  if (ok && mounted) setState(() => _hasBiometric = true);
-                },
-              ),
+                  return;
+                }
+                final ok = await _enableBiometricDialog();
+                if (ok && mounted) setState(() => _hasBiometric = true);
+              },
+            ),
             ListTile(
               leading: const Icon(Icons.key_outlined),
               title: Text(l.passkeysTitle),

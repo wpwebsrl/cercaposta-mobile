@@ -29,6 +29,19 @@ String localizePasskeyError(AppLocalizations l, Object error) {
 String localizeApiError(AppLocalizations l, Object error) {
   final e = ApiException.from(error);
   switch (e.code) {
+    case 'biometric.cancelled':
+      return l.biometricErrorCancelled;
+    case 'biometric.unavailable':
+      return l.biometricErrorUnavailable;
+    case 'biometric.reenroll':
+    case 'trusted_device.not_available':
+      return l.biometricErrorReenroll;
+    case 'auth.reauthentication_required':
+      return l.errorReauthenticationRequired;
+    case 'passkeys.domain_not_associated':
+      return l.passkeyUnsupportedServer;
+    case 'auth.session_changed':
+      return l.errorSessionChanged;
     case 'google.cancelled':
       return l.googleErrorCancelled;
     case 'google.state':
@@ -153,6 +166,18 @@ String localizeApiError(AppLocalizations l, Object error) {
       return l.errorFollowupNoCounterpart;
     case 'sources.send_consent_required':
       return l.errorSendConsentRequired;
+    case 'followup.delivery_unknown':
+      return l.errorDeliveryUnknown;
+    case 'followup.delivery_sending':
+      return l.errorDeliverySending;
+    case 'followup.delivery_conflict':
+      return l.errorDeliveryConflict;
+    case 'followup.delivery_check_required':
+      return l.errorDeliveryCheckRequired;
+    case 'mail.not_accepted':
+      return l.errorMailNotAccepted;
+    case 'mail.delivery_unknown':
+      return l.errorMailDeliveryUnknown;
     case 'mail.auth_failed':
       return l.errorMailAuthFailed;
     case 'mail.send_failed':

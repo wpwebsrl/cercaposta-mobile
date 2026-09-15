@@ -7,7 +7,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:passkeys/authenticator.dart';
 import 'package:passkeys/types.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -17,7 +16,10 @@ import '../../shared/models/user.dart';
 import '../api/api_exception.dart';
 import '../background/bg_constants.dart';
 import '../providers.dart';
+import '../notify/notify_service.dart';
 import 'secure_store.dart';
+import 'device_grant.dart';
+import 'passkey_policy.dart';
 
 /// One-shot flag raised after a successful MANUAL login when biometric sign-in
 /// isn't enabled yet: HomeShell shows the enable offer on its first frame (a
@@ -44,6 +46,7 @@ class AuthState {
     this.dekAvailable = true,
     this.totpToken,
     this.updateMinVersion,
+    this.sessionId = 0,
   });
 
   final AuthStatus status;
@@ -52,6 +55,7 @@ class AuthState {
   final String encStatus;
   final bool dekAvailable;
   final String? totpToken;
+  final int sessionId;
   final String?
   updateMinVersion; // minimum version the server requires (updateRequired state)
 
@@ -73,6 +77,7 @@ class AuthState {
     dekAvailable: dekAvailable ?? this.dekAvailable,
     totpToken: totpToken ?? this.totpToken,
     updateMinVersion: updateMinVersion ?? this.updateMinVersion,
+    sessionId: sessionId,
   );
 }
 
@@ -86,12 +91,70 @@ class AuthController extends Notifier<AuthState> {
   /// Session credentials, RAM ONLY (never storage): the password powers the
   /// silent DEK re-unlock on 423 while the process lives; together with the
   /// username it also feeds the biometric enable flows. The biometric storage
-  /// copy is separate (SecureStore), gated by the OS prompt.
+  /// grant is separate and requires OS authorization for every secret read.
   String? _sessionPassword;
-  String? _sessionUsername;
+  String? _biometricLoginUserId;
+  int _generation = 0;
+  bool _disposed = false;
+  Future<void> _storageTail = Future<void>.value();
 
   @override
-  AuthState build() => const AuthState(status: AuthStatus.unknown);
+  AuthState build() {
+    ref.onDispose(() {
+      _disposed = true;
+      _generation++;
+    });
+    ref.listen(activeServerProvider, (previous, next) {
+      if (previous != next) {
+        _generation++;
+        _sessionPassword = null;
+        _biometricLoginUserId = null;
+        _refreshing = null;
+        _autoUnlocking = null;
+        state = AuthState(status: AuthStatus.loggedOut, sessionId: _generation);
+      }
+    });
+    return const AuthState(status: AuthStatus.unknown);
+  }
+
+  /// Stable across refresh; replaced on login/logout or server change.
+  String get requestIdentity =>
+      '$_generation::${ref.read(activeServerProvider)}';
+
+  bool isCurrent(String expected) => !_disposed && requestIdentity == expected;
+
+  void requireIdentity(String expected) {
+    if (!isCurrent(expected)) throw ApiException('auth.session_changed');
+  }
+
+  String _beginLogin() {
+    _generation++;
+    _sessionPassword = null;
+    _biometricLoginUserId = null;
+    _refreshing = null;
+    _autoUnlocking = null;
+    state = AuthState(status: AuthStatus.loggedOut, sessionId: _generation);
+    return requestIdentity;
+  }
+
+  Future<T> _guard<T>(String expected, Future<T> Function() operation) async {
+    requireIdentity(expected);
+    try {
+      final result = await operation();
+      requireIdentity(expected);
+      return result;
+    } on Object {
+      requireIdentity(expected);
+      rethrow;
+    }
+  }
+
+  /// Serializes foreground storage mutations and revalidates before execution.
+  Future<T> _persist<T>(String expected, Future<T> Function() operation) {
+    final result = _storageTail.then((_) => _guard(expected, operation));
+    _storageTail = result.then<void>((_) {}, onError: (Object _) {});
+    return result;
+  }
 
   Dio get _dio => ref.read(authDioProvider);
 
@@ -131,36 +194,54 @@ class AuthController extends Notifier<AuthState> {
 
   /// Called once at startup: resume the session via the stored refresh token.
   Future<void> bootstrap() async {
-    if (ref.read(activeServerProvider) == null) {
-      state = const AuthState(status: AuthStatus.loggedOut);
-      return;
-    }
-    final rt = await ref.read(secureStoreProvider).readRefreshToken();
-    if (rt == null) {
+    final expected = requestIdentity;
+    final server = ref.read(activeServerProvider);
+    await _persist(
+      expected,
+      () => ref.read(secureStoreProvider).purgeLegacyPasswords(),
+    );
+    if (server == null) {
       state = const AuthState(status: AuthStatus.loggedOut);
       return;
     }
     try {
+      await _persist(
+        expected,
+        () => ref.read(sessionCoordinatorProvider).migrateLegacy(server),
+      );
       final token = await performRefresh();
-      if (token == null) return; // 401: _doRefresh already forced the logout
+      if (token == null || !isCurrent(expected)) return;
       await _syncEncryption();
     } on Object {
-      // Network error at cold start: KEEP the stored credentials (next launch
-      // retries) and land on the login screen instead of nuking the session.
-      state = const AuthState(status: AuthStatus.loggedOut);
+      if (isCurrent(expected)) {
+        state = const AuthState(status: AuthStatus.loggedOut);
+      }
     }
   }
 
   Future<LoginResult> login(String username, String password) async {
+    final expected = _beginLogin();
+    await _persist(
+      expected,
+      () => ref
+          .read(sessionCoordinatorProvider)
+          .clear(
+            afterClear: () =>
+                _resetBackgroundNotifications(ref.read(secureStoreProvider)),
+          ),
+    );
     final Response<dynamic> resp;
     try {
-      resp = await _dio.post<dynamic>(
-        '/auth/login',
-        data: <String, dynamic>{
-          'username': username,
-          'password': password,
-          ..._deviceFields(),
-        },
+      resp = await _guard(
+        expected,
+        () => _dio.post<dynamic>(
+          '/auth/login',
+          data: <String, dynamic>{
+            'username': username,
+            'password': password,
+            ..._deviceFields(),
+          },
+        ),
       );
     } on DioException catch (e) {
       // Too old for this server: switch to the mandatory-update screen (state change drives the
@@ -174,7 +255,6 @@ class AuthController extends Notifier<AuthState> {
     // Credentials verified (also when 2FA follows): keep them in RAM for silent
     // DEK re-unlocks and for the biometric enable/upgrade after _completeLogin.
     _sessionPassword = password;
-    _sessionUsername = username;
     if (result.requiresTotp) {
       state = state.copyWith(
         status: AuthStatus.needsTotp,
@@ -190,26 +270,51 @@ class AuthController extends Notifier<AuthState> {
   /// credential and proves user presence/verification; no private key leaves
   /// the device or its passkey provider.
   Future<LoginResult> passkeyLogin() async {
-    final optionsResponse = await _dio.post<dynamic>(
-      '/auth/passkeys/options',
-      data: _deviceFields(),
+    requirePasskeyServer(
+      ref.read(appInfoProvider).client,
+      ref.read(activeServerProvider),
+    );
+    final expected = _beginLogin();
+    await _persist(
+      expected,
+      () => ref
+          .read(sessionCoordinatorProvider)
+          .clear(
+            afterClear: () =>
+                _resetBackgroundNotifications(ref.read(secureStoreProvider)),
+          ),
+    );
+    final optionsResponse = await _guard(
+      expected,
+      () => _dio.post<dynamic>('/auth/passkeys/options', data: _deviceFields()),
     );
     final options = _asMap(optionsResponse.data);
+    requirePasskeyServer(
+      ref.read(appInfoProvider).client,
+      ref.read(activeServerProvider),
+      rpId: _asMap(options['public_key'])['rpId'] as String? ?? '',
+    );
     final request = AuthenticateRequestType.fromJsonString(
       jsonEncode(_asMap(options['public_key'])),
     );
     final authenticator = PasskeyAuthenticator();
-    final assertion = await authenticator.authenticate(request);
-    final verifyResponse = await _dio.post<dynamic>(
-      '/auth/passkeys/verify',
-      data: <String, dynamic>{
-        'flow_id': options['flow_id'],
-        'credential': jsonDecode(assertion.toJsonString()),
-      },
+    final assertion = await _guard(
+      expected,
+      () => authenticator.authenticate(request),
+    );
+    final verifyResponse = await _guard(
+      expected,
+      () => _dio.post<dynamic>(
+        '/auth/passkeys/verify',
+        data: <String, dynamic>{
+          'flow_id': options['flow_id'],
+          'credential': jsonDecode(assertion.toJsonString()),
+        },
+      ),
     );
     final result = LoginResult.fromJson(_asMap(verifyResponse.data));
     _sessionPassword = null;
-    _sessionUsername = null;
+    _biometricLoginUserId = null;
     if (result.requiresTotp) {
       state = state.copyWith(
         status: AuthStatus.needsTotp,
@@ -225,6 +330,16 @@ class AuthController extends Notifier<AuthState> {
   /// Google credentials/tokens never enter this app. The one-shot CercaPosta code is protected by
   /// PKCE and the verifier is kept in Keychain/Keystore so a cold-start callback is recoverable.
   Future<LoginResult> googleLogin() async {
+    final expected = _beginLogin();
+    await _persist(
+      expected,
+      () => ref
+          .read(sessionCoordinatorProvider)
+          .clear(
+            afterClear: () =>
+                _resetBackgroundNotifications(ref.read(secureStoreProvider)),
+          ),
+    );
     final server = ref.read(activeServerProvider);
     if (server == null) throw ApiException('common.generic');
     final stateToken = _randomBase64Url(32);
@@ -238,50 +353,60 @@ class AuthController extends Notifier<AuthState> {
       verifier: verifier,
     );
     final store = ref.read(secureStoreProvider);
-    await store.writePendingGoogleOAuth(pending);
+    await _persist(expected, () => store.writePendingGoogleOAuth(pending));
     try {
-      final response = await _dio.post<dynamic>(
-        '/auth/google/native/start',
-        data: <String, dynamic>{
-          'callback_url': 'it.cercaposta.app://oauth/google',
-          'state': stateToken,
-          'code_challenge': challenge,
-          'language': state.user?.language ?? 'it',
-          ..._deviceFields(),
-        },
+      final response = await _guard(
+        expected,
+        () => _dio.post<dynamic>(
+          '/auth/google/native/start',
+          data: <String, dynamic>{
+            'callback_url': 'it.cercaposta.app://oauth/google',
+            'state': stateToken,
+            'code_challenge': challenge,
+            'language': state.user?.language ?? 'it',
+            ..._deviceFields(),
+          },
+        ),
       );
       final data = _asMap(response.data);
       final rawUrl = data['authorization_url'];
       if (rawUrl is! String || rawUrl.isEmpty) {
         throw ApiException('google.unavailable');
       }
-      final opened = await launchUrl(
-        Uri.parse(rawUrl),
-        mode: LaunchMode.externalApplication,
+      final opened = await _guard(
+        expected,
+        () =>
+            launchUrl(Uri.parse(rawUrl), mode: LaunchMode.externalApplication),
       );
       if (!opened) throw ApiException('google.browser_open_failed');
-      final callback = await ref
-          .read(googleOAuthBridgeProvider)
-          .waitForState(stateToken);
+      final callback = await _guard(
+        expected,
+        () => ref.read(googleOAuthBridgeProvider).waitForState(stateToken),
+      );
       return await _completeGoogleCallback(callback, pending);
     } on Object {
-      await store.clearPendingGoogleOAuth();
+      await _persist(expected, () => store.clearPendingGoogleOAuth());
       rethrow;
     }
   }
 
   /// Finish a callback that launched a fresh process after the OS evicted the app in the browser.
   Future<LoginResult?> resumeGoogleLogin() async {
+    final expected = requestIdentity;
     final callback = ref.read(googleOAuthBridgeProvider).takeInitial();
     if (callback == null) return null;
-    final pending = await ref
-        .read(secureStoreProvider)
-        .readPendingGoogleOAuth();
+    final pending = await _guard(
+      expected,
+      () => ref.read(secureStoreProvider).readPendingGoogleOAuth(),
+    );
     if (pending == null || pending.server != ref.read(activeServerProvider)) {
       return null;
     }
     if (callback.queryParameters['state'] != pending.state) {
-      await ref.read(secureStoreProvider).clearPendingGoogleOAuth();
+      await _persist(
+        expected,
+        () => ref.read(secureStoreProvider).clearPendingGoogleOAuth(),
+      );
       throw ApiException('google.code_invalid');
     }
     return _completeGoogleCallback(callback, pending);
@@ -291,6 +416,7 @@ class AuthController extends Notifier<AuthState> {
     Uri callback,
     PendingGoogleOAuth pending,
   ) async {
+    final expected = requestIdentity;
     final store = ref.read(secureStoreProvider);
     try {
       if (callback.queryParameters['state'] != pending.state) {
@@ -306,12 +432,15 @@ class AuthController extends Notifier<AuthState> {
       }
       final Response<dynamic> response;
       try {
-        response = await _dio.post<dynamic>(
-          '/auth/google/exchange',
-          data: <String, dynamic>{
-            'code': code,
-            'code_verifier': pending.verifier,
-          },
+        response = await _guard(
+          expected,
+          () => _dio.post<dynamic>(
+            '/auth/google/exchange',
+            data: <String, dynamic>{
+              'code': code,
+              'code_verifier': pending.verifier,
+            },
+          ),
         );
       } on DioException catch (e) {
         if (handleUpdateRequired(e)) {
@@ -321,7 +450,7 @@ class AuthController extends Notifier<AuthState> {
       }
       final result = LoginResult.fromJson(_asMap(response.data));
       _sessionPassword = null;
-      _sessionUsername = null;
+      _biometricLoginUserId = null;
       if (result.requiresTotp) {
         state = state.copyWith(
           status: AuthStatus.needsTotp,
@@ -332,7 +461,7 @@ class AuthController extends Notifier<AuthState> {
       }
       return result;
     } finally {
-      await store.clearPendingGoogleOAuth();
+      await _persist(expected, () => store.clearPendingGoogleOAuth());
     }
   }
 
@@ -343,14 +472,27 @@ class AuthController extends Notifier<AuthState> {
   }
 
   Future<LoginResult> _appleNativeLogin() async {
+    final expected = _beginLogin();
+    await _persist(
+      expected,
+      () => ref
+          .read(sessionCoordinatorProvider)
+          .clear(
+            afterClear: () =>
+                _resetBackgroundNotifications(ref.read(secureStoreProvider)),
+          ),
+    );
     final stateToken = _randomBase64Url(32);
-    final optionsResponse = await _dio.post<dynamic>(
-      '/auth/apple/native/options',
-      data: <String, dynamic>{
-        'state': stateToken,
-        'language': state.user?.language ?? 'it',
-        ..._deviceFields(),
-      },
+    final optionsResponse = await _guard(
+      expected,
+      () => _dio.post<dynamic>(
+        '/auth/apple/native/options',
+        data: <String, dynamic>{
+          'state': stateToken,
+          'language': state.user?.language ?? 'it',
+          ..._deviceFields(),
+        },
+      ),
     );
     final options = _asMap(optionsResponse.data);
     final flowId = options['flow_id'];
@@ -359,13 +501,16 @@ class AuthController extends Notifier<AuthState> {
       throw ApiException('apple.unavailable');
     }
     try {
-      final credential = await SignInWithApple.getAppleIDCredential(
-        scopes: const <AppleIDAuthorizationScopes>[
-          AppleIDAuthorizationScopes.email,
-          AppleIDAuthorizationScopes.fullName,
-        ],
-        nonce: sha256.convert(utf8.encode(rawNonce)).toString(),
-        state: stateToken,
+      final credential = await _guard(
+        expected,
+        () => SignInWithApple.getAppleIDCredential(
+          scopes: const <AppleIDAuthorizationScopes>[
+            AppleIDAuthorizationScopes.email,
+            AppleIDAuthorizationScopes.fullName,
+          ],
+          nonce: sha256.convert(utf8.encode(rawNonce)).toString(),
+          state: stateToken,
+        ),
       );
       if (credential.state != null && credential.state != stateToken) {
         throw ApiException('apple.state');
@@ -374,20 +519,23 @@ class AuthController extends Notifier<AuthState> {
       if (identityToken == null || identityToken.isEmpty) {
         throw ApiException('apple.identity');
       }
-      final response = await _dio.post<dynamic>(
-        '/auth/apple/native/verify',
-        data: <String, dynamic>{
-          'flow_id': flowId,
-          'state': stateToken,
-          'authorization_code': credential.authorizationCode,
-          'identity_token': identityToken,
-          'given_name': credential.givenName ?? '',
-          'family_name': credential.familyName ?? '',
-        },
+      final response = await _guard(
+        expected,
+        () => _dio.post<dynamic>(
+          '/auth/apple/native/verify',
+          data: <String, dynamic>{
+            'flow_id': flowId,
+            'state': stateToken,
+            'authorization_code': credential.authorizationCode,
+            'identity_token': identityToken,
+            'given_name': credential.givenName ?? '',
+            'family_name': credential.familyName ?? '',
+          },
+        ),
       );
       final result = LoginResult.fromJson(_asMap(response.data));
       _sessionPassword = null;
-      _sessionUsername = null;
+      _biometricLoginUserId = null;
       if (result.requiresTotp) {
         state = state.copyWith(
           status: AuthStatus.needsTotp,
@@ -406,6 +554,16 @@ class AuthController extends Notifier<AuthState> {
   }
 
   Future<LoginResult> _appleBrowserLogin() async {
+    final expected = _beginLogin();
+    await _persist(
+      expected,
+      () => ref
+          .read(sessionCoordinatorProvider)
+          .clear(
+            afterClear: () =>
+                _resetBackgroundNotifications(ref.read(secureStoreProvider)),
+          ),
+    );
     final server = ref.read(activeServerProvider);
     if (server == null) throw ApiException('common.generic');
     final stateToken = _randomBase64Url(32);
@@ -419,47 +577,59 @@ class AuthController extends Notifier<AuthState> {
       verifier: verifier,
     );
     final store = ref.read(secureStoreProvider);
-    await store.writePendingAppleOAuth(pending);
+    await _persist(expected, () => store.writePendingAppleOAuth(pending));
     try {
-      final response = await _dio.post<dynamic>(
-        '/auth/apple/native/start',
-        data: <String, dynamic>{
-          'callback_url': 'it.cercaposta.app://oauth/apple',
-          'state': stateToken,
-          'code_challenge': challenge,
-          'language': state.user?.language ?? 'it',
-          ..._deviceFields(),
-        },
+      final response = await _guard(
+        expected,
+        () => _dio.post<dynamic>(
+          '/auth/apple/native/start',
+          data: <String, dynamic>{
+            'callback_url': 'it.cercaposta.app://oauth/apple',
+            'state': stateToken,
+            'code_challenge': challenge,
+            'language': state.user?.language ?? 'it',
+            ..._deviceFields(),
+          },
+        ),
       );
       final rawUrl = _asMap(response.data)['authorization_url'];
       if (rawUrl is! String || rawUrl.isEmpty) {
         throw ApiException('apple.unavailable');
       }
-      final opened = await launchUrl(
-        Uri.parse(rawUrl),
-        mode: LaunchMode.externalApplication,
+      final opened = await _guard(
+        expected,
+        () =>
+            launchUrl(Uri.parse(rawUrl), mode: LaunchMode.externalApplication),
       );
       if (!opened) throw ApiException('apple.browser_open_failed');
-      final callback = await ref
-          .read(appleOAuthBridgeProvider)
-          .waitForState(stateToken);
+      final callback = await _guard(
+        expected,
+        () => ref.read(appleOAuthBridgeProvider).waitForState(stateToken),
+      );
       return await _completeAppleCallback(callback, pending);
     } on Object {
-      await store.clearPendingAppleOAuth();
+      await _persist(expected, () => store.clearPendingAppleOAuth());
       rethrow;
     }
   }
 
   Future<LoginResult?> resumeAppleLogin() async {
+    final expected = requestIdentity;
     if (Platform.isIOS) return null;
     final callback = ref.read(appleOAuthBridgeProvider).takeInitial();
     if (callback == null) return null;
-    final pending = await ref.read(secureStoreProvider).readPendingAppleOAuth();
+    final pending = await _guard(
+      expected,
+      () => ref.read(secureStoreProvider).readPendingAppleOAuth(),
+    );
     if (pending == null || pending.server != ref.read(activeServerProvider)) {
       return null;
     }
     if (callback.queryParameters['state'] != pending.state) {
-      await ref.read(secureStoreProvider).clearPendingAppleOAuth();
+      await _persist(
+        expected,
+        () => ref.read(secureStoreProvider).clearPendingAppleOAuth(),
+      );
       throw ApiException('apple.code_invalid');
     }
     return _completeAppleCallback(callback, pending);
@@ -469,6 +639,7 @@ class AuthController extends Notifier<AuthState> {
     Uri callback,
     PendingAppleOAuth pending,
   ) async {
+    final expected = requestIdentity;
     final store = ref.read(secureStoreProvider);
     try {
       if (callback.queryParameters['state'] != pending.state) {
@@ -482,16 +653,19 @@ class AuthController extends Notifier<AuthState> {
       if (code == null || code.isEmpty) {
         throw ApiException('apple.code_invalid');
       }
-      final response = await _dio.post<dynamic>(
-        '/auth/apple/exchange',
-        data: <String, dynamic>{
-          'code': code,
-          'code_verifier': pending.verifier,
-        },
+      final response = await _guard(
+        expected,
+        () => _dio.post<dynamic>(
+          '/auth/apple/exchange',
+          data: <String, dynamic>{
+            'code': code,
+            'code_verifier': pending.verifier,
+          },
+        ),
       );
       final result = LoginResult.fromJson(_asMap(response.data));
       _sessionPassword = null;
-      _sessionUsername = null;
+      _biometricLoginUserId = null;
       if (result.requiresTotp) {
         state = state.copyWith(
           status: AuthStatus.needsTotp,
@@ -502,14 +676,15 @@ class AuthController extends Notifier<AuthState> {
       }
       return result;
     } finally {
-      await store.clearPendingAppleOAuth();
+      await _persist(expected, () => store.clearPendingAppleOAuth());
     }
   }
 
   Future<List<PasskeyInfo>> listPasskeys() async {
-    final response = await _dio.get<dynamic>(
-      '/me/passkeys',
-      options: _bearer(),
+    final expected = requestIdentity;
+    final response = await _guard(
+      expected,
+      () => _dio.get<dynamic>('/me/passkeys', options: _bearer()),
     );
     final rows = response.data;
     if (rows is! List) return const <PasskeyInfo>[];
@@ -520,52 +695,83 @@ class AuthController extends Notifier<AuthState> {
   }
 
   Future<PasskeyInfo> registerPasskey(String name) async {
-    final optionsResponse = await _dio.post<dynamic>(
-      '/me/passkeys/options',
-      data: _deviceFields(),
-      options: _bearer(),
+    requirePasskeyServer(
+      ref.read(appInfoProvider).client,
+      ref.read(activeServerProvider),
+    );
+    final expected = requestIdentity;
+    final optionsResponse = await _guard(
+      expected,
+      () => _dio.post<dynamic>(
+        '/me/passkeys/options',
+        data: _deviceFields(),
+        options: _bearer(),
+      ),
     );
     final options = _asMap(optionsResponse.data);
+    requirePasskeyServer(
+      ref.read(appInfoProvider).client,
+      ref.read(activeServerProvider),
+      rpId: _asMap(_asMap(options['public_key'])['rp'])['id'] as String? ?? '',
+    );
     final request = RegisterRequestType.fromJsonString(
       jsonEncode(_asMap(options['public_key'])),
     );
     final authenticator = PasskeyAuthenticator();
-    final attestation = await authenticator.register(request);
-    final response = await _dio.post<dynamic>(
-      '/me/passkeys',
-      data: <String, dynamic>{
-        'flow_id': options['flow_id'],
-        'credential': jsonDecode(attestation.toJsonString()),
-        'name': name,
-      },
-      options: _bearer(),
+    final attestation = await _guard(
+      expected,
+      () => authenticator.register(request),
+    );
+    final response = await _guard(
+      expected,
+      () => _dio.post<dynamic>(
+        '/me/passkeys',
+        data: <String, dynamic>{
+          'flow_id': options['flow_id'],
+          'credential': jsonDecode(attestation.toJsonString()),
+          'name': name,
+        },
+        options: _bearer(),
+      ),
     );
     return PasskeyInfo.fromJson(_asMap(response.data));
   }
 
   Future<PasskeyInfo> renamePasskey(String id, String name) async {
-    final response = await _dio.patch<dynamic>(
-      '/me/passkeys/$id',
-      data: <String, dynamic>{'name': name},
-      options: _bearer(),
+    final expected = requestIdentity;
+    final response = await _guard(
+      expected,
+      () => _dio.patch<dynamic>(
+        '/me/passkeys/$id',
+        data: <String, dynamic>{'name': name},
+        options: _bearer(),
+      ),
     );
     return PasskeyInfo.fromJson(_asMap(response.data));
   }
 
   Future<void> deletePasskey(String id) async {
-    await _dio.delete<dynamic>('/me/passkeys/$id', options: _bearer());
+    final expected = requestIdentity;
+    await _guard(
+      expected,
+      () => _dio.delete<dynamic>('/me/passkeys/$id', options: _bearer()),
+    );
   }
 
   Future<LoginResult> verifyTotp(String code) async {
+    final expected = requestIdentity;
     final Response<dynamic> resp;
     try {
-      resp = await _dio.post<dynamic>(
-        '/auth/totp',
-        data: <String, dynamic>{
-          'totp_token': state.totpToken,
-          'code': code,
-          ..._deviceFields(),
-        },
+      resp = await _guard(
+        expected,
+        () => _dio.post<dynamic>(
+          '/auth/totp',
+          data: <String, dynamic>{
+            'totp_token': state.totpToken,
+            'code': code,
+            ..._deviceFields(),
+          },
+        ),
       );
     } on DioException catch (e) {
       if (handleUpdateRequired(e)) {
@@ -579,6 +785,7 @@ class AuthController extends Notifier<AuthState> {
   }
 
   Future<void> _completeLogin(LoginResult r) async {
+    final expected = requestIdentity;
     if (r.totpSetupRequired) {
       // Admin enforces 2FA but it isn't enrolled yet: enrollment lives on the web.
       // Don't keep the session; the login screen surfaces the dedicated message.
@@ -586,27 +793,39 @@ class AuthController extends Notifier<AuthState> {
       return;
     }
     final store = ref.read(secureStoreProvider);
+    if (_biometricLoginUserId != null && r.user?.id != _biometricLoginUserId) {
+      throw ApiException('auth.session_changed');
+    }
     final rt = r.refreshToken;
-    if (rt != null) await store.writeRefreshToken(rt);
-    // Biometric sign-in housekeeping (RAM credentials exist on manual/biometric
-    // logins; a cold-start refresh resume skips all of this):
-    // - already enabled → refresh the record (new password after a change, a
-    //   different account on this device, legacy unlock-only key → full record);
-    // - not enabled → raise the one-shot offer consumed by HomeShell.
-    if (_sessionPassword != null && _sessionUsername != null) {
-      final server = ref.read(activeServerProvider);
-      if (server != null) {
-        if (await store.hasSavedPassword) {
-          await store.writeCredentials(
-            SavedCredentials(
-              server: server,
-              username: _sessionUsername!,
-              password: _sessionPassword!,
-            ),
-          );
-        } else {
+    if (rt == null ||
+        rt.isEmpty ||
+        r.accessToken == null ||
+        r.accessToken!.isEmpty ||
+        r.user == null ||
+        r.user!.id.isEmpty) {
+      throw ApiException('common.network');
+    }
+    await _persist(
+      expected,
+      () => ref
+          .read(sessionCoordinatorProvider)
+          .install(
+            server: ref.read(activeServerProvider)!,
+            userId: r.user!.id,
+            refreshToken: rt,
+            accessToken: r.accessToken!,
+          ),
+    );
+    // Optional offer uses metadata only; storage failures cannot invalidate login.
+    if (_sessionPassword != null) {
+      try {
+        final saved = await _guard(expected, () => store.readGrantInfo());
+        if (saved?.server != ref.read(activeServerProvider) ||
+            saved?.userId != r.user?.id) {
           ref.read(biometricOfferProvider.notifier).state = true;
         }
+      } on Object {
+        requireIdentity(expected);
       }
     }
     state = AuthState(
@@ -616,34 +835,149 @@ class AuthController extends Notifier<AuthState> {
         user: r.user,
       ),
       accessToken: r.accessToken,
+      sessionId: _generation,
       user: r.user,
       encStatus: r.encStatus,
       dekAvailable: r.dekAvailable,
     );
   }
 
-  /// Credentials saved for biometric sign-in, but ONLY when they belong to the
-  /// active server (multi-server app): elsewhere the button must not appear.
-  Future<SavedCredentials?> savedCredentials() async {
-    final creds = await ref.read(secureStoreProvider).readCredentials();
-    final server = ref.read(activeServerProvider);
-    if (creds == null || server == null || creds.server != server) return null;
-    return creds;
+  Future<DeviceGrantInfo?> savedGrantInfo() async {
+    final expected = requestIdentity;
+    final info = await _guard(
+      expected,
+      () => ref.read(secureStoreProvider).readGrantInfo(),
+    );
+    return info?.server == ref.read(activeServerProvider) ? info : null;
   }
 
-  /// Biometric sign-in: replay the saved credentials through the normal login.
-  /// A rejected password (changed elsewhere) wipes the record so repeated
-  /// attempts can never burn brute-force tries — the caller falls back to the
-  /// manual form. The OS biometric prompt happens BEFORE this call (UI layer).
-  Future<LoginResult> biometricLogin() async {
-    final creds = await savedCredentials();
-    if (creds == null) throw ApiException('auth.invalid_credentials');
+  Future<bool> hasBiometricForCurrentUser() async {
+    final expected = requestIdentity;
+    final info = await savedGrantInfo();
+    requireIdentity(expected);
+    return info != null && info.userId == state.user?.id;
+  }
+
+  Future<DeviceGrant> _readBiometric({
+    required String reason,
+    required String cancel,
+    required bool currentUser,
+  }) async {
+    final expected = requestIdentity;
+    final info = await savedGrantInfo();
+    requireIdentity(expected);
+    if (info == null || (currentUser && info.userId != state.user?.id)) {
+      throw ApiException('biometric.reenroll');
+    }
+    return _guard(
+      expected,
+      () => ref
+          .read(secureStoreProvider)
+          .readGrant(info, reason: reason, cancel: cancel),
+    );
+  }
+
+  Future<void> _forgetRejectedGrant(Object error, String expected) async {
+    final code = ApiException.from(error).code;
+    if (isCurrent(expected) &&
+        (code == 'trusted_device.not_available' ||
+            code == 'biometric.reenroll')) {
+      await _persist(
+        expected,
+        () => ref.read(secureStoreProvider).clearGrant(),
+      );
+    }
+  }
+
+  /// The native read performs the biometric operation. No UI-only boolean authorizes login.
+  Future<LoginResult> biometricLogin({
+    required String reason,
+    required String cancel,
+  }) async {
+    var expected = requestIdentity;
     try {
-      return await login(creds.username, creds.password);
-    } on Object catch (e) {
-      if (ApiException.from(e).code == 'auth.invalid_credentials') {
-        await ref.read(secureStoreProvider).clearCredentials();
+      final grant = await _readBiometric(
+        reason: reason,
+        cancel: cancel,
+        currentUser: false,
+      );
+      requireIdentity(expected);
+      expected = _beginLogin();
+      _biometricLoginUserId = grant.info.userId;
+      await _persist(
+        expected,
+        () => ref
+            .read(sessionCoordinatorProvider)
+            .clear(
+              afterClear: () =>
+                  _resetBackgroundNotifications(ref.read(secureStoreProvider)),
+            ),
+      );
+      final response = await _guard(
+        expected,
+        () => _dio.post<dynamic>(
+          '/auth/mobile-device/login',
+          data: <String, dynamic>{...grant.credential, ..._deviceFields()},
+        ),
+      );
+      final result = LoginResult.fromJson(_asMap(response.data));
+      if (result.requiresTotp) {
+        state = state.copyWith(
+          status: AuthStatus.needsTotp,
+          totpToken: result.totpToken,
+        );
+      } else {
+        await _completeLogin(result);
       }
+      return result;
+    } on Object catch (error) {
+      if (error is DioException &&
+          isCurrent(expected) &&
+          handleUpdateRequired(error)) {
+        return LoginResult.fromJson(const <String, dynamic>{});
+      }
+      await _forgetRejectedGrant(error, expected);
+      rethrow;
+    }
+  }
+
+  Future<bool> biometricUnlock({
+    required String reason,
+    required String cancel,
+  }) async {
+    final expected = requestIdentity;
+    try {
+      final grant = await _readBiometric(
+        reason: reason,
+        cancel: cancel,
+        currentUser: true,
+      );
+      Future<Response<dynamic>> post() => _dio.post<dynamic>(
+        '/auth/trusted-device/unlock',
+        data: grant.credential,
+        options: _bearer(),
+      );
+      Response<dynamic> response;
+      try {
+        response = await _guard(expected, post);
+      } on DioException catch (error) {
+        if (error.response?.statusCode != 401) rethrow;
+        if (await _guard(expected, performRefresh) == null) rethrow;
+        response = await _guard(expected, post);
+      }
+      final enc = EncryptionState.fromJson(_asMap(response.data));
+      state = state.copyWith(
+        status: _resolveStatus(
+          recoveryRequired: enc.recoveryRequired,
+          needsUnlock: enc.needsUnlock,
+          user: state.user,
+        ),
+        encStatus: enc.encStatus,
+        dekAvailable: enc.dekAvailable,
+      );
+      return !enc.needsUnlock;
+    } on Object catch (error) {
+      await _forgetRejectedGrant(error, expected);
       rethrow;
     }
   }
@@ -651,7 +985,8 @@ class AuthController extends Notifier<AuthState> {
   /// Re-derive the DEK after a cold start / expiry. Returns true on success.
   /// A 401 from an EXPIRED access token is transparently retried after one
   /// refresh — only a wrong password surfaces as auth.invalid_credentials.
-  Future<bool> unlock(String password, {bool saveForBiometric = false}) async {
+  Future<bool> unlock(String password) async {
+    final expected = requestIdentity;
     Future<Response<dynamic>> post() => _dio.post<dynamic>(
       '/auth/unlock',
       data: <String, dynamic>{'password': password},
@@ -659,13 +994,13 @@ class AuthController extends Notifier<AuthState> {
     );
     Response<dynamic> resp;
     try {
-      resp = await post();
+      resp = await _guard(expected, () => post());
     } on DioException catch (e) {
       final code = ApiException.from(e).code;
       if (e.response?.statusCode == 401 && code != 'auth.invalid_credentials') {
-        final token = await performRefresh();
+        final token = await _guard(expected, () => performRefresh());
         if (token == null) rethrow;
-        resp = await post();
+        resp = await _guard(expected, () => post());
       } else {
         rethrow;
       }
@@ -673,9 +1008,6 @@ class AuthController extends Notifier<AuthState> {
     final enc = EncryptionState.fromJson(_asMap(resp.data));
     if (!enc.needsUnlock) {
       _sessionPassword = password; // valid: reuse for silent re-unlocks
-      if (saveForBiometric) {
-        await _saveBiometricCredentials(password);
-      }
       state = state.copyWith(
         status: _resolveStatus(
           recoveryRequired: enc.recoveryRequired,
@@ -695,10 +1027,14 @@ class AuthController extends Notifier<AuthState> {
   /// stays needsPasswordChange until [finishPasswordChange]: flipping it here
   /// would redirect away and kill the kit dialog before the user saved it.
   Future<String?> firstPassword(String newPassword) async {
-    final resp = await _dio.post<dynamic>(
-      '/auth/first-password',
-      data: <String, dynamic>{'new_password': newPassword},
-      options: _bearer(),
+    final expected = requestIdentity;
+    final resp = await _guard(
+      expected,
+      () => _dio.post<dynamic>(
+        '/auth/first-password',
+        data: <String, dynamic>{'new_password': newPassword},
+        options: _bearer(),
+      ),
     );
     final j = _asMap(resp.data);
     final enc = EncryptionState.fromJson(j);
@@ -724,15 +1060,19 @@ class AuthController extends Notifier<AuthState> {
 
   /// Break-glass after an admin password reset: recovery secret + new password.
   Future<void> recover(String secret, String newPassword) async {
-    final resp = await _dio.post<dynamic>(
-      '/auth/recovery',
-      data: <String, dynamic>{'secret': secret, 'new_password': newPassword},
-      options: _bearer(),
+    final expected = requestIdentity;
+    final resp = await _guard(
+      expected,
+      () => _dio.post<dynamic>(
+        '/auth/recovery',
+        data: <String, dynamic>{'secret': secret, 'new_password': newPassword},
+        options: _bearer(),
+      ),
     );
     final enc = EncryptionState.fromJson(_asMap(resp.data));
     // Any saved biometric credentials are now stale: drop them so auto-unlock
     // can't burn brute-force attempts with the old password.
-    await ref.read(secureStoreProvider).clearCredentials();
+    await _persist(expected, () => ref.read(secureStoreProvider).clearGrant());
     _sessionPassword = newPassword; // the DEK is re-wrapped under it
     state = state.copyWith(
       status: _resolveStatus(
@@ -745,42 +1085,134 @@ class AuthController extends Notifier<AuthState> {
     );
   }
 
-  /// Persist the full biometric record (server + username + password). The
-  /// username comes from the RAM copy or, for the Settings flow on a resumed
-  /// session, from the logged-in user.
-  Future<void> _saveBiometricCredentials(String password) async {
+  Future<void> _saveBiometricGrant({
+    String? password,
+    required String reason,
+    required String cancel,
+  }) async {
+    final expected = requestIdentity;
     final server = ref.read(activeServerProvider);
-    final username = _sessionUsername ?? state.user?.username;
-    if (server == null || username == null) return;
-    await ref
-        .read(secureStoreProvider)
-        .writeCredentials(
-          SavedCredentials(
-            server: server,
-            username: username,
-            password: password,
-          ),
-        );
+    final user = state.user;
+    if (server == null || user == null) {
+      throw ApiException('auth.reauthentication_required');
+    }
+    final store = ref.read(secureStoreProvider);
+    final dio = _dio;
+    final bearer = _bearer();
+    final response = await dio.post<dynamic>(
+      '/auth/mobile-device/enroll',
+      data: <String, dynamic>{
+        'name': ref.read(appInfoProvider).deviceName,
+        'password': password,
+      },
+      options: bearer,
+    );
+    final value = _asMap(response.data);
+    final id = value['id'];
+    final secret = value['device_secret'];
+    if (id is! String ||
+        id.isEmpty ||
+        secret is! String ||
+        !RegExp(r'^[A-Za-z0-9_-]{43}$').hasMatch(secret)) {
+      throw ApiException('common.network');
+    }
+    final info = DeviceGrantInfo(
+      server: server,
+      userId: user.id,
+      username: user.username,
+      deviceId: id,
+    );
+    DeviceGrantInfo? previous;
+    try {
+      requireIdentity(expected);
+      previous = await _persist(
+        expected,
+        () => store.writeGrant(
+          DeviceGrant(info, secret),
+          reason: reason,
+          cancel: cancel,
+          beforePublish: () => requireIdentity(expected),
+        ),
+      );
+    } on Object {
+      // Captured origin and bearer can clean up an interrupted enrollment after a server switch.
+      try {
+        await dio.delete<dynamic>('/me/trusted-devices/$id', options: bearer);
+      } on Object {
+        /* Unpublished opaque credential is inaccessible; expiry remains enforced. */
+      }
+      rethrow;
+    }
+    // New selector is already durable. Cleanup failures must not revoke the new grant.
+    if (previous != null) {
+      if (previous.server == server && previous.userId == user.id) {
+        try {
+          await dio.delete<dynamic>(
+            '/me/trusted-devices/${previous.deviceId}',
+            options: bearer,
+          );
+        } on Object {
+          /* old grant remains visible in account security for explicit revocation */
+        }
+      }
+      await store.deleteGrantFile(previous);
+    }
   }
 
-  /// Post-login offer («use Face ID / fingerprint next time?»): the verified
-  /// credentials are still in RAM, no re-typing needed.
-  Future<void> enableBiometricFromSession() async {
-    final pw = _sessionPassword;
-    if (pw != null) await _saveBiometricCredentials(pw);
+  Future<void> enableBiometricFromSession({
+    required String reason,
+    required String cancel,
+  }) => _saveBiometricGrant(
+    password: _sessionPassword,
+    reason: reason,
+    cancel: cancel,
+  );
+
+  Future<void> enableBiometricWithPassword(
+    String password, {
+    required String reason,
+    required String cancel,
+  }) async {
+    if (state.isEncrypted) {
+      if (!await unlock(password)) throw ApiException('enc.dek_locked');
+    }
+    await _saveBiometricGrant(
+      password: password,
+      reason: reason,
+      cancel: cancel,
+    );
   }
 
-  Future<void> disableBiometric() =>
-      ref.read(secureStoreProvider).clearCredentials();
-
-  Future<String?> savedPassword() =>
-      ref.read(secureStoreProvider).readPassword();
+  Future<void> disableBiometric() async {
+    final expected = requestIdentity;
+    final info = await savedGrantInfo();
+    requireIdentity(expected);
+    if (info == null || info.userId != state.user?.id) return;
+    try {
+      await _guard(
+        expected,
+        () => _dio.delete<dynamic>(
+          '/me/trusted-devices/${info.deviceId}',
+          options: _bearer(),
+        ),
+      );
+    } on DioException catch (error) {
+      if (error.response?.statusCode != 404 ||
+          ApiException.from(error).code != 'trusted_device.not_found') {
+        rethrow;
+      }
+    }
+    await _persist(expected, () => ref.read(secureStoreProvider).clearGrant());
+  }
 
   /// Serialized refresh: a single in-flight call is shared by concurrent callers.
   /// Returns null when the server REJECTED the token (forced logout already done);
   /// throws ApiException('common.network') on transport failures (session kept).
   Future<String?> performRefresh() {
-    return _refreshing ??= _doRefresh().whenComplete(() => _refreshing = null);
+    final expected = requestIdentity;
+    return _refreshing ??= _doRefresh().whenComplete(() {
+      if (isCurrent(expected)) _refreshing = null;
+    });
   }
 
   /// Proactive keepalive tick (foreground timer / resume): one rotation slides the
@@ -802,33 +1234,15 @@ class AuthController extends Notifier<AuthState> {
   /// with a token it already rotated and race it. The backend's 60s reuse grace keeps even a rare
   /// race benign, but adopting avoids it entirely (and a redundant rotation).
   Future<void> onResume() async {
+    final expected = requestIdentity;
     if (state.accessToken == null) return;
     final prefs = ref.read(sharedPreferencesProvider);
-    // Mark the foreground active NOW so an about-to-fire background isolate stands down.
-    await prefs.setInt(kBgHeartbeatMs, DateTime.now().millisecondsSinceEpoch);
-    // Adopted → the session is already fresh, so skip our own (racing) refresh.
-    if (await _adoptBackgroundTokens(prefs)) {
-      return;
-    }
-    await keepaliveTick();
-  }
-
-  Future<bool> _adoptBackgroundTokens(SharedPreferences prefs) async {
-    try {
-      await prefs.reload(); // the flag/token were written from another isolate
-    } on Object {
-      return false;
-    }
-    if (!(prefs.getBool(kBgRotated) ?? false)) return false;
-    final store = ref.read(secureStoreProvider);
-    final access = await store.readBackgroundAccessToken();
-    await store.clearBackgroundAccessToken();
-    await prefs.setBool(kBgRotated, false);
-    if (access == null || access.isEmpty) return false;
-    // The refresh token on disk is already the fresh one the isolate wrote; adopt the matching
-    // access token so the next request doesn't 401 into a redundant, racing refresh.
-    state = state.copyWith(accessToken: access);
-    return true;
+    await _persist(
+      expected,
+      () => prefs.setInt(kBgHeartbeatMs, DateTime.now().millisecondsSinceEpoch),
+    );
+    // The coordinator reads the latest pair under the same lock used by background work.
+    await _guard(expected, () => keepaliveTick());
   }
 
   /// Silent DEK re-unlock with the RAM-held session password (single-flight).
@@ -836,16 +1250,18 @@ class AuthController extends Notifier<AuthState> {
   /// A stale password (changed elsewhere) is forgotten immediately so repeated
   /// 423s can never hammer the failed-login counter and lock the account.
   Future<bool> tryAutoUnlock() {
-    return _autoUnlocking ??= _doAutoUnlock().whenComplete(
-      () => _autoUnlocking = null,
-    );
+    final expected = requestIdentity;
+    return _autoUnlocking ??= _doAutoUnlock().whenComplete(() {
+      if (isCurrent(expected)) _autoUnlocking = null;
+    });
   }
 
   Future<bool> _doAutoUnlock() async {
+    final expected = requestIdentity;
     final pw = _sessionPassword;
     if (pw == null || state.accessToken == null) return false;
     try {
-      final ok = await unlock(pw);
+      final ok = await _guard(expected, () => unlock(pw));
       if (!ok) _sessionPassword = null; // accepted but wrap stale (recovery)
       return ok;
     } on DioException catch (e) {
@@ -859,65 +1275,87 @@ class AuthController extends Notifier<AuthState> {
   }
 
   Future<String?> _doRefresh() async {
-    final store = ref.read(secureStoreProvider);
-    final rt = await store.readRefreshToken();
-    if (rt == null) {
+    final expected = requestIdentity;
+    final server = ref.read(activeServerProvider);
+    if (server == null) return null;
+    final coordinator = ref.read(sessionCoordinatorProvider);
+    final saved = await _guard(expected, () => coordinator.read(server));
+    if (saved == null) {
       await forceLogout();
       return null;
     }
-    final Response<dynamic> resp;
+    final lease = await coordinator.acquire(server);
+    if (!isCurrent(expected)) {
+      if (lease != null) await coordinator.release(lease);
+      requireIdentity(expected);
+    }
+    if (lease == null) throw ApiException('common.network');
     try {
-      resp = await _dio.post<dynamic>(
-        '/auth/refresh',
-        data: <String, dynamic>{
-          'refresh_token': rt,
-          // Re-declare the CURRENT version each refresh so the server re-checks it against the
-          // compatibility floor (e.g. after a store update) and refreshes the stored value.
-          'app_version': ref.read(appInfoProvider).version,
-        },
+      final Response<dynamic> resp;
+      try {
+        resp = await _guard(
+          expected,
+          () => _dio.post<dynamic>(
+            '/auth/refresh',
+            data: <String, dynamic>{
+              'refresh_token': lease.session.refreshToken,
+              'app_version': ref.read(appInfoProvider).version,
+            },
+          ),
+        );
+      } on DioException catch (e) {
+        if (e.response?.statusCode == 426) {
+          handleUpdateRequired(e);
+          return null;
+        }
+        if (e.response?.statusCode == 401) {
+          await forceLogout();
+          return null;
+        }
+        throw ApiException.from(e);
+      }
+      final pair = TokenPair.fromJson(_asMap(resp.data));
+      if (pair.accessToken.isEmpty ||
+          pair.refreshToken.isEmpty ||
+          pair.user == null ||
+          pair.user!.id.isEmpty ||
+          (state.user != null && pair.user!.id != state.user!.id)) {
+        throw ApiException('common.network');
+      }
+      final stored = await _persist(
+        expected,
+        () => coordinator.complete(
+          lease,
+          refreshToken: pair.refreshToken,
+          accessToken: pair.accessToken,
+          userId: pair.user!.id,
+        ),
       );
-    } on DioException catch (e) {
-      if (e.response?.statusCode == 426) {
-        // Below the supported floor. The server rolled back the rotation, so the token is
-        // intact: don't log out — route to the mandatory-update screen and keep the session.
-        handleUpdateRequired(e);
-        return null;
-      }
-      if (e.response?.statusCode == 401) {
-        // The server rejected the token (rotated/revoked/expired): forced logout.
-        await forceLogout();
-        return null;
-      }
-      // Network / 5xx / captive portal: do NOT destroy the session — propagate.
-      throw ApiException.from(e);
+      if (stored == null) throw ApiException('common.network');
+      state = state.copyWith(
+        status: state.status == AuthStatus.unknown
+            ? _resolveStatus(
+                recoveryRequired: false,
+                needsUnlock: false,
+                user: pair.user,
+              )
+            : null,
+        accessToken: pair.accessToken,
+        user: pair.user,
+      );
+      return pair.accessToken;
+    } finally {
+      await coordinator.release(lease);
     }
-    final pair = TokenPair.fromJson(_asMap(resp.data));
-    if (pair.accessToken.isEmpty || pair.refreshToken.isEmpty) {
-      // 200 with a non-token body (captive portal, misrouted proxy): keep the
-      // stored token instead of overwriting it with garbage.
-      throw ApiException('common.network');
-    }
-    await store.writeRefreshToken(pair.refreshToken);
-    state = state.copyWith(
-      status: state.status == AuthStatus.unknown
-          ? _resolveStatus(
-              recoveryRequired: false,
-              needsUnlock: false,
-              user: pair.user,
-            )
-          : null,
-      accessToken: pair.accessToken,
-      user: pair.user,
-    );
-    return pair.accessToken;
   }
 
   Future<void> _syncEncryption() async {
+    final expected = requestIdentity;
     if (state.accessToken == null) return;
     try {
-      final resp = await _dio.get<dynamic>(
-        '/me/encryption',
-        options: _bearer(),
+      final resp = await _guard(
+        expected,
+        () => _dio.get<dynamic>('/me/encryption', options: _bearer()),
       );
       final enc = EncryptionState.fromJson(_asMap(resp.data));
       state = state.copyWith(
@@ -975,44 +1413,54 @@ class AuthController extends Notifier<AuthState> {
     }
   }
 
-  Future<void> logout() async {
+  Future<void> logout() => _endSession(revoke: true);
+
+  Future<void> forceLogout() => _endSession(revoke: false);
+
+  Future<void> _endSession({required bool revoke}) async {
+    final dio = _dio;
+    final server = ref.read(activeServerProvider);
+    final coordinator = ref.read(sessionCoordinatorProvider);
     final store = ref.read(secureStoreProvider);
-    final rt = await store.readRefreshToken();
-    if (rt != null) {
+    // Clearing is ordered before every later login write, even if a new login
+    // starts before this asynchronous secure-storage transaction has finished.
+    final clearing = _storageTail.then(
+      (_) => coordinator.clear(
+        afterClear: () => _resetBackgroundNotifications(store),
+      ),
+    );
+    _storageTail = clearing.then<void>((_) {}, onError: (Object _) {});
+    _generation++;
+    _refreshing = null;
+    _autoUnlocking = null;
+    _sessionPassword = null;
+    _biometricLoginUserId = null;
+    state = AuthState(status: AuthStatus.loggedOut, sessionId: _generation);
+    final previous = await clearing;
+    if (revoke && previous != null && previous.server == server) {
       try {
-        await _dio.post<dynamic>(
+        await dio.post<dynamic>(
           '/auth/logout',
-          data: <String, dynamic>{'refresh_token': rt},
+          data: <String, dynamic>{'refresh_token': previous.refreshToken},
         );
       } on DioException {
-        // best effort
+        // Local logout is already complete; remote revocation is best effort.
       }
     }
-    await forceLogout();
-  }
-
-  Future<void> forceLogout() async {
-    _sessionPassword = null;
-    _sessionUsername = null;
-    // Drop the session only: the biometric credentials must SURVIVE logout,
-    // revocation and expiry — those are exactly the moments the login screen
-    // reappears and Face ID / fingerprint is supposed to help. They are wiped
-    // by the Settings toggle, a rejected password, or the recovery flow.
-    final store = ref.read(secureStoreProvider);
-    await store.clearSession();
-    // Reset the background notification state so the NEXT session re-baselines instead of diffing
-    // against another user's ids. The periodic task keeps running but self-guards on the now-absent
-    // refresh token (no-op), and resumes cleanly on the next login. Best-effort (D10).
-    await _resetBackgroundNotifications(store);
-    state = const AuthState(status: AuthStatus.loggedOut);
   }
 
   Future<void> _resetBackgroundNotifications(SecureStore store) async {
     try {
       await store.clearBackgroundAccessToken();
+      try {
+        await NotifyService.cancelAll();
+      } on Object {
+        /* plugin unavailable */
+      }
       final prefs = ref.read(sharedPreferencesProvider);
       await prefs.remove(kBgRotated);
       await prefs.remove(kBgSeenIds);
+      await prefs.remove(kBgSessionId);
       await prefs.remove(kBgBaselineMs);
       await prefs.remove(kBgLastRev);
       await prefs.remove(kBgRefreshStartedMs);
@@ -1032,7 +1480,9 @@ final authProvider = NotifierProvider<AuthController, AuthState>(
 /// otherwise user B sees user A's data on a shared device. Selecting only the
 /// id keeps token refreshes (same user) from wiping state.
 final sessionKeyProvider = Provider<String?>((ref) {
-  final userId = ref.watch(authProvider.select((s) => s.user?.id));
+  final identity = ref.watch(
+    authProvider.select((s) => (s.user?.id, s.sessionId)),
+  );
   final server = ref.watch(activeServerProvider);
-  return userId == null ? null : '$server::$userId';
+  return identity.$1 == null ? null : '$server::${identity.$1}::${identity.$2}';
 });

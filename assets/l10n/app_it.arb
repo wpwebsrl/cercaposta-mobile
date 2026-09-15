@@ -1,5 +1,6 @@
 {
   "@@locale": "it",
+  "errorSessionChanged": "La sessione è cambiata. Ripeti l'operazione con l'account corrente.",
   "appName": "CercaPosta",
   "actionCancel": "Annulla",
   "actionConfirm": "Conferma",
@@ -35,7 +36,7 @@
   "loginBiometric": "Accedi con la biometria",
   "loginBiometricReason": "Accedi al tuo archivio email",
   "loginEnableBiometricTitle": "Accesso rapido",
-  "loginEnableBiometricBody": "Vuoi accedere con Face ID / impronta la prossima volta? Le credenziali vengono salvate in modo sicuro sul dispositivo.",
+  "loginEnableBiometricBody": "Vuoi accedere con Face ID o impronta la prossima volta? Il dispositivo conserverà un’autorizzazione revocabile, protetta dalla biometria. La password dell’account non verrà salvata dall’app.",
   "sharedFromLabel": "da {name}",
   "@sharedFromLabel": {
     "placeholders": {
@@ -62,7 +63,7 @@
   "unlockButton": "Sblocca",
   "unlockBiometric": "Sblocca con la biometria",
   "unlockEnableBiometricTitle": "Sblocco rapido",
-  "unlockEnableBiometricBody": "Vuoi sbloccare l'archivio con la biometria ai prossimi avvii? La password viene salvata in modo sicuro sul dispositivo.",
+  "unlockEnableBiometricBody": "Vuoi usare Face ID o impronta per sbloccare l’archivio? Il dispositivo conserverà un’autorizzazione revocabile protetta dalla biometria.",
   "unlockEnableBiometricYes": "Sì, abilita",
   "unlockEnableBiometricNo": "No, grazie",
   "unlockReason": "Sblocca il tuo archivio cifrato",
@@ -299,7 +300,7 @@
   "settingsOsNotificationsHint": "Mostra le nuove notifiche nel centro notifiche del telefono. Su Android il controllo avviene circa ogni 15 minuti; su iOS quando il sistema lo consente.",
   "settingsOsNotificationsDenied": "Permesso negato: attiva le notifiche di CercaPosta nelle impostazioni di sistema.",
   "settingsBiometric": "Accesso e sblocco con biometria",
-  "settingsBiometricEnablePrompt": "Inserisci la password del tuo account per abilitare l'accesso e lo sblocco con la biometria.",
+  "settingsBiometricEnablePrompt": "Conferma la password per autorizzare questo dispositivo, poi completa la verifica biometrica. L’app non conserverà la password.",
   "settingsSessions": "Dispositivi e sessioni",
   "passkeysTitle": "Passkey",
   "passkeysSettingsHint": "Accedi senza digitare la password",
@@ -310,11 +311,19 @@
   "passkeysDeviceBound": "Solo su questo dispositivo",
   "passkeysCreated": "Creata il {date}",
   "@passkeysCreated": {
-    "placeholders": { "date": { "type": "String" } }
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
   },
   "passkeysLastUsed": "Ultimo utilizzo: {date}",
   "@passkeysLastUsed": {
-    "placeholders": { "date": { "type": "String" } }
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
   },
   "passkeysRename": "Rinomina",
   "passkeysRenameTitle": "Rinomina passkey",
@@ -322,7 +331,11 @@
   "passkeysRemoveTitle": "Rimuovi passkey",
   "passkeysRemoveConfirm": "Rimuovere la passkey «{name}»? Non potrai più usarla per accedere.",
   "@passkeysRemoveConfirm": {
-    "placeholders": { "name": { "type": "String" } }
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   },
   "passkeysPasswordStays": "La passkey è facoltativa: password e accesso Google restano disponibili. Per un archivio cifrato, su un dispositivo non autorizzato la password o il kit di recupero servono ancora a sbloccare i contenuti.",
   "passkeyErrorCancelled": "Operazione annullata",
@@ -1001,26 +1014,73 @@
   "notifPlanChangeProposalBody": "Apri Piano e pagamenti per controllare prezzo, credito e decorrenza.",
   "notifPlanChangeProposalExpiringTitle": "La proposta sta per scadere",
   "notifPlanChangeProposalExpiringBody": "Valutala entro il {date}.",
-  "@notifPlanChangeProposalExpiringBody": {"placeholders":{"date":{"type":"String"}}},
+  "@notifPlanChangeProposalExpiringBody": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "notifPlanChangeExpiredTitle": "Il cambio piano è scaduto",
   "notifPlanChangeExpiredBody": "La modifica non è stata applicata e il piano precedente è rimasto invariato.",
   "notifPlanChangeScheduledTitle": "Il cambio piano è programmato",
   "notifPlanChangeScheduledBody": "Il passaggio avverrà il {date}; fino ad allora resta attivo il piano attuale.",
-  "@notifPlanChangeScheduledBody": {"placeholders":{"date":{"type":"String"}}},
+  "@notifPlanChangeScheduledBody": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "notifPlanChangeAppliedTitle": "Il nuovo piano è attivo",
   "notifPlanChangeAppliedBody": "Le nuove quote e funzionalità sono ora disponibili.",
   "notifPlanChangeCanceledTitle": "Il cambio piano è stato annullato",
   "notifPlanChangeCanceledBody": "Il piano attuale resta invariato.",
   "notifPlanChangePaymentFailedTitle": "Il pagamento non è riuscito",
   "notifPlanChangePaymentFailedBody": "Il piano precedente resta attivo. Riprova entro il {date}.",
-  "@notifPlanChangePaymentFailedBody": {"placeholders":{"date":{"type":"String"}}},
+  "@notifPlanChangePaymentFailedBody": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "notifPlanChangeRetryTitle": "Puoi riprovare il pagamento",
   "notifPlanChangeRetryBody": "Apri Piano e pagamenti per completare il nuovo tentativo.",
   "notifPlanChangeGraceExpiringTitle": "Il periodo di tolleranza sta per terminare",
   "notifPlanChangeGraceExpiringBody": "Completa il pagamento entro il {date}.",
-  "@notifPlanChangeGraceExpiringBody": {"placeholders":{"date":{"type":"String"}}},
+  "@notifPlanChangeGraceExpiringBody": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "notifPlanChangeGraceExpiredTitle": "Il periodo di tolleranza è terminato",
   "notifPlanChangeGraceExpiredBody": "Il cambio non è stato applicato perché il pagamento non è stato completato.",
   "notifPlanChangeActionRequiredTitle": "Il cambio piano richiede assistenza",
-  "notifPlanChangeActionRequiredBody": "Controlla Piano e pagamenti o contatta l’assistenza."
+  "notifPlanChangeActionRequiredBody": "Controlla Piano e pagamenti o contatta l’assistenza.",
+  "passkeyUnsupportedServer": "Le passkey non sono disponibili su questo server con questa versione dell’app. Usa password, Google o Apple; puoi gestire le passkey dal sito Web del server.",
+  "searchVoiceLocalUnavailable": "Riconoscimento locale non disponibile per questa lingua o dispositivo. Usa la tastiera; su Android serve Android 12 o successivo con un riconoscitore locale installato.",
+  "deliveryHistory": "Esiti degli invii",
+  "deliveryReference": "Riferimento invio",
+  "deliverySending": "Invio in corso",
+  "deliverySent": "Accettato dal servizio di posta",
+  "deliveryFailed": "Non inviato",
+  "deliveryUnknown": "Esito da verificare",
+  "deliveryChecked": "Ho verificato l’esito presso il servizio di posta e che il tentativo non sia più in corso. Se il processo è bloccato, ne ho fatto interrompere l’esecuzione.",
+  "deliveryConfirmSent": "Conferma accettazione",
+  "deliveryConfirmFailed": "Conferma mancato invio",
+  "deliveryResolved": "Esito registrato. Nessun nuovo messaggio inviato.",
+  "deliveryEmpty": "Nessun tentativo di invio registrato.",
+  "errorDeliveryUnknown": "Il servizio potrebbe aver accettato il messaggio. Controlla Esiti degli invii e verifica il provider prima di riprovare.",
+  "errorDeliverySending": "Un invio per questa attesa è già in corso. Non riprovare.",
+  "errorDeliveryConflict": "La richiesta di invio è già stata gestita o ha un contenuto diverso. Controlla Esiti degli invii.",
+  "errorDeliveryCheckRequired": "Verifica l’esito presso il servizio di posta prima di confermarlo.",
+  "errorMailNotAccepted": "Il servizio di posta ha rifiutato il tentativo prima dell’accettazione. Puoi correggere il problema e riprovare.",
+  "errorMailDeliveryUnknown": "Esito dell’invio incerto: verifica presso il servizio di posta prima di riprovare.",
+  "biometricErrorCancelled": "Verifica biometrica annullata. Puoi accedere con la password.",
+  "biometricErrorUnavailable": "La memoria biometrica non è disponibile. Usa la password; se hai modificato le impronte o Face ID, riabilita la biometria nelle impostazioni.",
+  "biometricErrorReenroll": "L’autorizzazione di questo dispositivo è scaduta o non è più valida. Accedi manualmente e riabilita la biometria nelle impostazioni.",
+  "errorReauthenticationRequired": "Accedi di nuovo al tuo account prima di autorizzare il dispositivo."
 }

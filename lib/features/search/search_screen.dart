@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:speech_to_text/speech_to_text.dart';
 
 import '../../core/api/error_messages.dart';
 import '../../core/auth/auth_controller.dart';
 import '../../core/i18n/app_localizations.dart';
 import '../../core/live/live_refresh.dart';
+import '../../core/voice/offline_voice.dart';
 import '../../shared/format.dart';
 import '../../shared/models/search.dart';
 import '../../shared/tag_colors.dart';
@@ -23,10 +23,12 @@ class SearchScreen extends ConsumerStatefulWidget {
   ConsumerState<SearchScreen> createState() => _SearchScreenState();
 }
 
-class _SearchScreenState extends ConsumerState<SearchScreen> {
+class _SearchScreenState extends ConsumerState<SearchScreen>
+    with WidgetsBindingObserver {
   final _query = TextEditingController();
   final _scroll = ScrollController();
-  final _speech = SpeechToText();
+  final _speech = OfflineVoice();
+  int _voiceGeneration = 0;
   bool _listening = false;
   bool _hasQueryText = false;
   // Result order: newest-first by default (like web/desktop). 'relevance' | 'date_desc' | 'date_asc'.
@@ -38,18 +40,26 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _scroll.addListener(_onScroll);
     _query.addListener(_onQueryChanged);
   }
 
   @override
   void dispose() {
+    _voiceGeneration++;
+    WidgetsBinding.instance.removeObserver(this);
     // Stop a live recognition session: the mic must not stay open (and its
     // callbacks must not touch a disposed controller) after leaving the tab.
     _speech.stop();
     _query.dispose();
     _scroll.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state != AppLifecycleState.resumed) _stopListeningIfActive();
   }
 
   void _onScroll() {
@@ -99,6 +109,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   /// Stop a live mic session when leaving the search tab: the IndexedStack keeps
   /// this screen alive, so dispose() won't fire on a tab switch.
   void _stopListeningIfActive() {
+    _voiceGeneration++;
     if (_listening) {
       _speech.stop();
       setState(() => _listening = false);
@@ -107,47 +118,58 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
   Future<void> _toggleVoice() async {
     final l = AppLocalizations.of(context)!;
+    final generation = ++_voiceGeneration;
     if (_listening) {
       await _speech.stop();
       setState(() => _listening = false);
       return;
     }
-    final available = await _speech.initialize(
-      onStatus: (s) {
-        if (s == 'done' || s == 'notListening') {
-          if (mounted) setState(() => _listening = false);
-        }
-      },
-      onError: (e) {
+    try {
+      final available = await _speech.initialize(
+        onStatus: (s) {
+          if (s == 'done' || s == 'notListening') {
+            if (mounted) setState(() => _listening = false);
+          }
+        },
+        onError: (e) {
+          if (mounted) {
+            setState(() => _listening = false);
+            final denied =
+                e.contains('permission') || e.contains('not-allowed');
+            showSnack(
+              context,
+              denied ? l.searchVoicePermission : l.searchVoiceLocalUnavailable,
+              error: true,
+            );
+          }
+        },
+      );
+      if (!mounted || generation != _voiceGeneration) return;
+      if (!available) {
         if (mounted) {
-          setState(() => _listening = false);
-          final denied =
-              e.errorMsg.contains('permission') ||
-              e.errorMsg.contains('not-allowed');
-          showSnack(
-            context,
-            denied ? l.searchVoicePermission : l.searchVoiceUnavailable,
-            error: true,
-          );
+          showSnack(context, l.searchVoiceLocalUnavailable, error: true);
         }
-      },
-    );
-    if (!available) {
-      if (mounted) showSnack(context, l.searchVoiceUnavailable, error: true);
-      return;
-    }
-    final lang = ref.read(authProvider).user?.language ?? 'it';
-    setState(() => _listening = true);
-    await _speech.listen(
-      listenOptions: SpeechListenOptions(
+        return;
+      }
+      final lang = ref.read(authProvider).user?.language ?? 'it';
+      setState(() => _listening = true);
+      await _speech.listen(
         localeId: lang == 'en' ? 'en_US' : 'it_IT',
-      ),
-      onResult: (r) {
-        _query.text = r.recognizedWords;
-        _query.selection = TextSelection.collapsed(offset: _query.text.length);
-        if (r.finalResult) _run();
-      },
-    );
+        onResult: (words, finalResult) {
+          if (!mounted || generation != _voiceGeneration) return;
+          _query.text = words;
+          _query.selection = TextSelection.collapsed(
+            offset: _query.text.length,
+          );
+          if (finalResult) _run();
+        },
+      );
+    } on Object {
+      if (mounted && generation == _voiceGeneration) {
+        setState(() => _listening = false);
+        showSnack(context, l.searchVoiceLocalUnavailable, error: true);
+      }
+    }
   }
 
   Future<void> _openFilters() async {

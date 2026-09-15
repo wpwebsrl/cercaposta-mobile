@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:local_auth/local_auth.dart';
 
 import '../../core/api/api_providers.dart';
+import '../../core/api/error_messages.dart';
+import '../../shared/widgets/snack.dart';
 import '../../core/auth/auth_controller.dart';
 import '../../core/i18n/app_localizations.dart';
 import '../../shared/models/capabilities.dart';
@@ -38,7 +40,12 @@ class _HomeShellState extends ConsumerState<HomeShell> {
   Future<void> _maybeOfferBiometric() async {
     if (!ref.read(biometricOfferProvider)) return;
     ref.read(biometricOfferProvider.notifier).state = false; // consume the flag
-    final supported = await LocalAuthentication().isDeviceSupported();
+    bool supported;
+    try {
+      supported = await LocalAuthentication().canCheckBiometrics;
+    } on Object {
+      return;
+    }
     if (!supported || !mounted) return;
     final l = AppLocalizations.of(context)!;
     final yes = await showDialog<bool>(
@@ -59,7 +66,19 @@ class _HomeShellState extends ConsumerState<HomeShell> {
       ),
     );
     if (yes == true) {
-      await ref.read(authProvider.notifier).enableBiometricFromSession();
+      if (!mounted) return;
+      try {
+        await ref
+            .read(authProvider.notifier)
+            .enableBiometricFromSession(
+              reason: l.loginBiometricReason,
+              cancel: l.actionCancel,
+            );
+      } on Object catch (error) {
+        if (mounted) {
+          showSnack(context, localizeApiError(l, error), error: true);
+        }
+      }
     }
   }
 

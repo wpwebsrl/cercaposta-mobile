@@ -132,6 +132,7 @@ class FollowupApi {
     required String body,
     String bodyHtml = '',
     bool? includeOriginal,
+    String? requestId,
   }) async {
     final resp = await _dio.post<dynamic>(
       '/followups/$id/send-reminder',
@@ -140,9 +141,25 @@ class FollowupApi {
         'body': body,
         'body_html': bodyHtml,
         'include_original': includeOriginal,
+        'request_id': requestId,
       },
     );
     return jsonStr(mapOf(resp.data), 'from_address');
+  }
+
+  Future<List<Map<String, dynamic>>> deliveries(String expectationId) async {
+    final resp = await _dio.get<dynamic>(
+      '/followups/deliveries',
+      queryParameters: <String, dynamic>{'expectation_id': expectationId},
+    );
+    return jsonObjList(mapOf(resp.data), 'items');
+  }
+
+  Future<void> resolveDelivery(String id, {required bool accepted}) async {
+    await _dio.post<dynamic>(
+      '/followups/deliveries/$id/resolve',
+      data: <String, dynamic>{'accepted': accepted, 'provider_checked': true},
+    );
   }
 
   /// «Ricorda per questo contatto» (solleciti v2): merge the tu/lei register into the

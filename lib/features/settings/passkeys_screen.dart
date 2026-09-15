@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 
 import '../../core/api/error_messages.dart';
 import '../../core/auth/auth_controller.dart';
+import '../../core/auth/passkey_policy.dart';
 import '../../core/i18n/app_localizations.dart';
 import '../../core/providers.dart';
 import '../../shared/models/passkey.dart';
@@ -136,6 +137,10 @@ class _PasskeysScreenState extends ConsumerState<PasskeysScreen> {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
     final locale = Localizations.localeOf(context).toLanguageTag();
+    final passkeySupported = passkeyServerSupported(
+      ref.watch(appInfoProvider).client,
+      ref.watch(activeServerProvider),
+    );
     return Scaffold(
       appBar: AppBar(title: Text(l.passkeysTitle)),
       body: RefreshIndicator(
@@ -158,10 +163,11 @@ class _PasskeysScreenState extends ConsumerState<PasskeysScreen> {
             ),
             const SizedBox(height: 12),
             FilledButton.icon(
-              onPressed: _busy ? null : _add,
+              onPressed: _busy || !passkeySupported ? null : _add,
               icon: const Icon(Icons.add),
               label: Text(l.passkeysAdd),
             ),
+            if (!passkeySupported) Text(l.passkeyUnsupportedServer),
             if (_error != null) ...<Widget>[
               const SizedBox(height: 10),
               Text(
