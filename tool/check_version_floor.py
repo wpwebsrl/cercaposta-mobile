@@ -60,8 +60,19 @@ def main(argv=None) -> int:
             head = subprocess.check_output(["git", "-C", str(args.source.parent), "rev-parse", "HEAD"], text=True).strip()
             if head != args.expected_commit:
                 raise ValueError("Server checkout does not match approved commit")
-            dirty = subprocess.check_output(["git", "-C", str(args.source.parent), "status", "--porcelain", "--", args.source.name], text=True)
-            if dirty.strip():
+            # Do not run `git status` here: Actions sparse-checkout uses a promisor remote and
+            # deliberately removes its credential after checkout. Status refreshes the whole
+            # sparse index and may try to fetch unrelated missing objects. Comparing the checked
+            # file with its already-fetched HEAD blob proves the same immutability without any
+            # network access.
+            prefix = subprocess.check_output(
+                ["git", "-C", str(args.source.parent), "rev-parse", "--show-prefix"], text=True
+            ).strip()
+            committed = subprocess.check_output(
+                ["git", "-C", str(args.source.parent), "show", f"HEAD:{prefix}{args.source.name}"],
+                text=True,
+            )
+            if args.source.read_text(encoding="utf-8") != committed:
                 raise ValueError("Server registry has uncommitted changes")
         source = args.source.read_text(encoding="utf-8")
         floors = {client: floor_for(source, client) for client in ("ios", "android")}

@@ -48,9 +48,20 @@ class VersionFloor(unittest.TestCase):
         with TemporaryDirectory() as directory:
             source = Path(directory) / "compat.py"; source.write_text(SOURCE, encoding="utf-8")
             args = ["--require-source", "--source", str(source), "--expected-commit", "a" * 40]
-            for outputs in (["b" * 40], ["a" * 40, " M compat.py"]):
+            for outputs in (["b" * 40], ["a" * 40, "", SOURCE + "\n"]):
                 with patch.object(guard.subprocess, "check_output", side_effect=outputs), self.assertRaises(ValueError):
                     guard.main(args)
+
+    def test_exact_revision_and_unchanged_registry_pass(self):
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = root / "compat.py"; source.write_text(SOURCE, encoding="utf-8")
+            (root / "pubspec.yaml").write_text("version: 1.6.0+1\n", encoding="utf-8")
+            args = ["--require-source", "--source", str(source), "--expected-commit", "a" * 40]
+            with patch.object(guard, "MOBILE", root), patch.object(
+                guard.subprocess, "check_output", side_effect=["a" * 40, "", SOURCE]
+            ):
+                self.assertEqual(guard.main(args), 0)
 
     def test_missing_or_invalid_snapshot_fails(self):
         with TemporaryDirectory() as directory:
