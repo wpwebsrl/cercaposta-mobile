@@ -1736,6 +1736,30 @@ class AppLocalizationsIt extends AppLocalizations {
   String get billingPeriodEnd => 'Fine del periodo';
 
   @override
+  String get billingPlanValidity => 'Validità del piano';
+
+  @override
+  String get billingNoExpiration => 'Nessuna scadenza';
+
+  @override
+  String get billingPeriodicity => 'Periodicità';
+
+  @override
+  String get billingIntervalMonthly => 'Mensile';
+
+  @override
+  String get billingIntervalAnnual => 'Annuale';
+
+  @override
+  String get billingNextRenewal => 'Prossimo rinnovo';
+
+  @override
+  String get billingNextRenewalAmount => 'Importo del prossimo rinnovo';
+
+  @override
+  String get billingDateUnavailable => 'Data non ancora disponibile';
+
+  @override
   String get billingGraceUntil => 'Periodo di tolleranza fino al';
 
   @override
@@ -1958,7 +1982,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get errorReauthenticationRequired =>
-      'Accedi di nuovo al tuo account prima di autorizzare il dispositivo.';
+      'Per sicurezza, esci e accedi di nuovo con il tuo metodo abituale, quindi abilita la biometria entro 5 minuti.';
 
   @override
   String get aiReportAction => 'Segnala risposta';

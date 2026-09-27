@@ -3032,6 +3032,54 @@ abstract class AppLocalizations {
   /// **'Fine del periodo'**
   String get billingPeriodEnd;
 
+  /// No description provided for @billingPlanValidity.
+  ///
+  /// In it, this message translates to:
+  /// **'Validità del piano'**
+  String get billingPlanValidity;
+
+  /// No description provided for @billingNoExpiration.
+  ///
+  /// In it, this message translates to:
+  /// **'Nessuna scadenza'**
+  String get billingNoExpiration;
+
+  /// No description provided for @billingPeriodicity.
+  ///
+  /// In it, this message translates to:
+  /// **'Periodicità'**
+  String get billingPeriodicity;
+
+  /// No description provided for @billingIntervalMonthly.
+  ///
+  /// In it, this message translates to:
+  /// **'Mensile'**
+  String get billingIntervalMonthly;
+
+  /// No description provided for @billingIntervalAnnual.
+  ///
+  /// In it, this message translates to:
+  /// **'Annuale'**
+  String get billingIntervalAnnual;
+
+  /// No description provided for @billingNextRenewal.
+  ///
+  /// In it, this message translates to:
+  /// **'Prossimo rinnovo'**
+  String get billingNextRenewal;
+
+  /// No description provided for @billingNextRenewalAmount.
+  ///
+  /// In it, this message translates to:
+  /// **'Importo del prossimo rinnovo'**
+  String get billingNextRenewalAmount;
+
+  /// No description provided for @billingDateUnavailable.
+  ///
+  /// In it, this message translates to:
+  /// **'Data non ancora disponibile'**
+  String get billingDateUnavailable;
+
   /// No description provided for @billingGraceUntil.
   ///
   /// In it, this message translates to:
@@ -3407,7 +3455,7 @@ abstract class AppLocalizations {
   /// No description provided for @errorReauthenticationRequired.
   ///
   /// In it, this message translates to:
-  /// **'Accedi di nuovo al tuo account prima di autorizzare il dispositivo.'**
+  /// **'Per sicurezza, esci e accedi di nuovo con il tuo metodo abituale, quindi abilita la biometria entro 5 minuti.'**
   String get errorReauthenticationRequired;
 
   /// No description provided for @aiReportAction.

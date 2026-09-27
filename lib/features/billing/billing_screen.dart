@@ -155,19 +155,33 @@ class _BillingScreenState extends ConsumerState<BillingScreen> {
                     l.billingStatus,
                     _subscriptionStatus(l, overview.status),
                   ),
-                  _line(
-                    l.billingPaymentMethod,
-                    _providerLabel(l, overview.provider),
-                  ),
-                  _line(
-                    l.billingRecurringPrice,
-                    _money(overview.priceCents, overview.currency, locale),
-                  ),
-                  if (overview.periodEnd != null)
+                  if (overview.isFree)
                     _line(
-                      l.billingPeriodEnd,
-                      formatDateShort(overview.periodEnd!, locale),
+                      l.billingPlanValidity,
+                      overview.periodEnd == null
+                          ? l.billingNoExpiration
+                          : formatDateShort(overview.periodEnd!, locale),
                     ),
+                  if (!overview.isFree) ...<Widget>[
+                    _line(
+                      l.billingPaymentMethod,
+                      _providerLabel(l, overview.provider),
+                    ),
+                    _line(
+                      l.billingPeriodicity,
+                      _intervalLabel(l, overview.interval),
+                    ),
+                    _line(
+                      l.billingNextRenewal,
+                      overview.periodEnd == null
+                          ? l.billingDateUnavailable
+                          : formatDateShort(overview.periodEnd!, locale),
+                    ),
+                    _line(
+                      l.billingNextRenewalAmount,
+                      _money(overview.priceCents, overview.currency, locale),
+                    ),
+                  ],
                   if (overview.graceUntil != null)
                     _line(
                       l.billingGraceUntil,
@@ -267,5 +281,11 @@ class _BillingScreenState extends ConsumerState<BillingScreen> {
     'stripe' => 'Stripe',
     'paypal' => 'PayPal',
     _ => value,
+  };
+
+  String _intervalLabel(AppLocalizations l, String value) => switch (value) {
+    'monthly' => l.billingIntervalMonthly,
+    'annual' => l.billingIntervalAnnual,
+    _ => value.replaceAll('_', ' '),
   };
 }

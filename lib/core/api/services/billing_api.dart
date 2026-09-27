@@ -60,6 +60,8 @@ class BillingOverview {
   final int priceCents;
   final DateTime? periodEnd;
   final DateTime? graceUntil;
+
+  bool get isFree => provider == 'free';
 }
 
 class PlanChangeSummary {
