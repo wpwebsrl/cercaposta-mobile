@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/i18n/app_localizations.dart';
+import '../../core/api/api_providers.dart';
 import '../../core/providers.dart';
 
 /// Full-screen, non-dismissible block shown when the server rejects this app
@@ -20,8 +21,20 @@ class _UpdateRequiredScreenState extends ConsumerState<UpdateRequiredScreen> {
 
   Future<void> _openStore() async {
     final l = AppLocalizations.of(context)!;
-    final uris = ref.read(appInfoProvider).storeUpdateUris();
+    final info = ref.read(appInfoProvider);
+    final uris = <Uri>[];
     setState(() => _busy = true);
+    // Prefer the centrally configured listing. An auth-breaking 426 may make this
+    // unavailable, so the build-time/platform fallbacks remain mandatory.
+    try {
+      final configured = await ref
+          .read(clientUpdatesApiProvider)
+          .storeUrl(info.client);
+      if (configured != null) uris.add(configured);
+    } on Object {
+      // Continue with the offline-safe local fallback.
+    }
+    uris.addAll(info.storeUpdateUris().where((uri) => !uris.contains(uri)));
     var opened = false;
     for (final uri in uris) {
       try {

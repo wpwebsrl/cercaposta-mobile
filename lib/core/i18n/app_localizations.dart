@@ -3409,6 +3409,198 @@ abstract class AppLocalizations {
   /// In it, this message translates to:
   /// **'Accedi di nuovo al tuo account prima di autorizzare il dispositivo.'**
   String get errorReauthenticationRequired;
+
+  /// No description provided for @aiReportAction.
+  ///
+  /// In it, this message translates to:
+  /// **'Segnala risposta'**
+  String get aiReportAction;
+
+  /// No description provided for @aiReportTitle.
+  ///
+  /// In it, this message translates to:
+  /// **'Segnala risposta AI'**
+  String get aiReportTitle;
+
+  /// No description provided for @aiReportIntro.
+  ///
+  /// In it, this message translates to:
+  /// **'La risposta e il tuo commento saranno inviati in modo sicuro agli amministratori per la revisione.'**
+  String get aiReportIntro;
+
+  /// No description provided for @aiReportReason.
+  ///
+  /// In it, this message translates to:
+  /// **'Motivo'**
+  String get aiReportReason;
+
+  /// No description provided for @aiReportReasonMisleading.
+  ///
+  /// In it, this message translates to:
+  /// **'Fuorviante o errata'**
+  String get aiReportReasonMisleading;
+
+  /// No description provided for @aiReportReasonHarmful.
+  ///
+  /// In it, this message translates to:
+  /// **'Dannosa'**
+  String get aiReportReasonHarmful;
+
+  /// No description provided for @aiReportReasonIllegal.
+  ///
+  /// In it, this message translates to:
+  /// **'Contenuto illecito'**
+  String get aiReportReasonIllegal;
+
+  /// No description provided for @aiReportReasonPrivacy.
+  ///
+  /// In it, this message translates to:
+  /// **'Problema di privacy'**
+  String get aiReportReasonPrivacy;
+
+  /// No description provided for @aiReportReasonOther.
+  ///
+  /// In it, this message translates to:
+  /// **'Altro'**
+  String get aiReportReasonOther;
+
+  /// No description provided for @aiReportComment.
+  ///
+  /// In it, this message translates to:
+  /// **'Commento facoltativo'**
+  String get aiReportComment;
+
+  /// No description provided for @aiReportCommentHint.
+  ///
+  /// In it, this message translates to:
+  /// **'Spiega cosa non va nella risposta'**
+  String get aiReportCommentHint;
+
+  /// No description provided for @aiReportSend.
+  ///
+  /// In it, this message translates to:
+  /// **'Invia segnalazione'**
+  String get aiReportSend;
+
+  /// No description provided for @aiReportSent.
+  ///
+  /// In it, this message translates to:
+  /// **'Segnalazione inviata'**
+  String get aiReportSent;
+
+  /// No description provided for @aiReportAlreadySent.
+  ///
+  /// In it, this message translates to:
+  /// **'Questa risposta era già stata segnalata'**
+  String get aiReportAlreadySent;
+
+  /// No description provided for @tagsTitle.
+  ///
+  /// In it, this message translates to:
+  /// **'Tag'**
+  String get tagsTitle;
+
+  /// No description provided for @tagsAssignHint.
+  ///
+  /// In it, this message translates to:
+  /// **'Assegna tag al messaggio o gestisci quelli disponibili'**
+  String get tagsAssignHint;
+
+  /// No description provided for @tagsManageMessage.
+  ///
+  /// In it, this message translates to:
+  /// **'Gestisci tag'**
+  String get tagsManageMessage;
+
+  /// No description provided for @tagsEmpty.
+  ///
+  /// In it, this message translates to:
+  /// **'Non hai ancora creato alcun tag.'**
+  String get tagsEmpty;
+
+  /// No description provided for @tagsCreate.
+  ///
+  /// In it, this message translates to:
+  /// **'Crea tag'**
+  String get tagsCreate;
+
+  /// No description provided for @tagsCreateTitle.
+  ///
+  /// In it, this message translates to:
+  /// **'Nuovo tag'**
+  String get tagsCreateTitle;
+
+  /// No description provided for @tagsEdit.
+  ///
+  /// In it, this message translates to:
+  /// **'Modifica'**
+  String get tagsEdit;
+
+  /// No description provided for @tagsEditTitle.
+  ///
+  /// In it, this message translates to:
+  /// **'Modifica tag'**
+  String get tagsEditTitle;
+
+  /// No description provided for @tagsDelete.
+  ///
+  /// In it, this message translates to:
+  /// **'Elimina'**
+  String get tagsDelete;
+
+  /// No description provided for @tagsDeleteTitle.
+  ///
+  /// In it, this message translates to:
+  /// **'Elimina tag'**
+  String get tagsDeleteTitle;
+
+  /// No description provided for @tagsDeleteConfirm.
+  ///
+  /// In it, this message translates to:
+  /// **'Eliminare il tag «{name}» da tutto l\'archivio?'**
+  String tagsDeleteConfirm(String name);
+
+  /// No description provided for @tagsName.
+  ///
+  /// In it, this message translates to:
+  /// **'Nome'**
+  String get tagsName;
+
+  /// No description provided for @actionDone.
+  ///
+  /// In it, this message translates to:
+  /// **'Fine'**
+  String get actionDone;
+
+  /// No description provided for @errorTagNameRequired.
+  ///
+  /// In it, this message translates to:
+  /// **'Inserisci un nome per il tag.'**
+  String get errorTagNameRequired;
+
+  /// No description provided for @errorTagNameTaken.
+  ///
+  /// In it, this message translates to:
+  /// **'Esiste già un tag con questo nome.'**
+  String get errorTagNameTaken;
+
+  /// No description provided for @errorTagInvalidColor.
+  ///
+  /// In it, this message translates to:
+  /// **'Il colore scelto non è valido.'**
+  String get errorTagInvalidColor;
+
+  /// No description provided for @errorAiReportMessageNotFound.
+  ///
+  /// In it, this message translates to:
+  /// **'Questa risposta non è più disponibile per la segnalazione.'**
+  String get errorAiReportMessageNotFound;
+
+  /// No description provided for @errorAiReportAssistantOnly.
+  ///
+  /// In it, this message translates to:
+  /// **'È possibile segnalare soltanto le risposte dell’assistente.'**
+  String get errorAiReportAssistantOnly;
 }
 
 class _AppLocalizationsDelegate

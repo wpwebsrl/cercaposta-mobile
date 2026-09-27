@@ -228,6 +228,7 @@ class ChatController extends Notifier<ChatState> {
             assistant.citations = citations;
             assistant.applied = ev.applied;
             assistant.paging = ev.paging;
+            assistant.id = ev.messageId;
             _conversationId = ev.conversationId ?? _conversationId;
             state = state.copyWith(
               messages: <ChatMessage>[...msgs],

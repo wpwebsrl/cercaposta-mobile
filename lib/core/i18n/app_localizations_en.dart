@@ -1941,4 +1941,106 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get errorReauthenticationRequired =>
       'Sign in to your account again before authorizing this device.';
+
+  @override
+  String get aiReportAction => 'Report answer';
+
+  @override
+  String get aiReportTitle => 'Report AI answer';
+
+  @override
+  String get aiReportIntro =>
+      'The answer and your comment will be securely sent to administrators for review.';
+
+  @override
+  String get aiReportReason => 'Reason';
+
+  @override
+  String get aiReportReasonMisleading => 'Misleading or incorrect';
+
+  @override
+  String get aiReportReasonHarmful => 'Harmful';
+
+  @override
+  String get aiReportReasonIllegal => 'Illegal content';
+
+  @override
+  String get aiReportReasonPrivacy => 'Privacy issue';
+
+  @override
+  String get aiReportReasonOther => 'Other';
+
+  @override
+  String get aiReportComment => 'Optional comment';
+
+  @override
+  String get aiReportCommentHint => 'Explain what is wrong with the answer';
+
+  @override
+  String get aiReportSend => 'Send report';
+
+  @override
+  String get aiReportSent => 'Report sent';
+
+  @override
+  String get aiReportAlreadySent => 'This answer had already been reported';
+
+  @override
+  String get tagsTitle => 'Tags';
+
+  @override
+  String get tagsAssignHint =>
+      'Assign tags to this message or manage the available tags';
+
+  @override
+  String get tagsManageMessage => 'Manage tags';
+
+  @override
+  String get tagsEmpty => 'You haven\'t created any tags yet.';
+
+  @override
+  String get tagsCreate => 'Create tag';
+
+  @override
+  String get tagsCreateTitle => 'New tag';
+
+  @override
+  String get tagsEdit => 'Edit';
+
+  @override
+  String get tagsEditTitle => 'Edit tag';
+
+  @override
+  String get tagsDelete => 'Delete';
+
+  @override
+  String get tagsDeleteTitle => 'Delete tag';
+
+  @override
+  String tagsDeleteConfirm(String name) {
+    return 'Delete the tag “$name” from the entire archive?';
+  }
+
+  @override
+  String get tagsName => 'Name';
+
+  @override
+  String get actionDone => 'Done';
+
+  @override
+  String get errorTagNameRequired => 'Enter a name for the tag.';
+
+  @override
+  String get errorTagNameTaken => 'A tag with this name already exists.';
+
+  @override
+  String get errorTagInvalidColor => 'The selected color is invalid.';
+
+  @override
+  String get errorAiReportMessageNotFound =>
+      'This answer is no longer available for reporting.';
+
+  @override
+  String get errorAiReportAssistantOnly =>
+      'Only assistant answers can be reported.';
 }

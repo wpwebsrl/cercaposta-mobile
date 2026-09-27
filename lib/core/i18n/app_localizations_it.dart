@@ -1959,4 +1959,106 @@ class AppLocalizationsIt extends AppLocalizations {
   @override
   String get errorReauthenticationRequired =>
       'Accedi di nuovo al tuo account prima di autorizzare il dispositivo.';
+
+  @override
+  String get aiReportAction => 'Segnala risposta';
+
+  @override
+  String get aiReportTitle => 'Segnala risposta AI';
+
+  @override
+  String get aiReportIntro =>
+      'La risposta e il tuo commento saranno inviati in modo sicuro agli amministratori per la revisione.';
+
+  @override
+  String get aiReportReason => 'Motivo';
+
+  @override
+  String get aiReportReasonMisleading => 'Fuorviante o errata';
+
+  @override
+  String get aiReportReasonHarmful => 'Dannosa';
+
+  @override
+  String get aiReportReasonIllegal => 'Contenuto illecito';
+
+  @override
+  String get aiReportReasonPrivacy => 'Problema di privacy';
+
+  @override
+  String get aiReportReasonOther => 'Altro';
+
+  @override
+  String get aiReportComment => 'Commento facoltativo';
+
+  @override
+  String get aiReportCommentHint => 'Spiega cosa non va nella risposta';
+
+  @override
+  String get aiReportSend => 'Invia segnalazione';
+
+  @override
+  String get aiReportSent => 'Segnalazione inviata';
+
+  @override
+  String get aiReportAlreadySent => 'Questa risposta era già stata segnalata';
+
+  @override
+  String get tagsTitle => 'Tag';
+
+  @override
+  String get tagsAssignHint =>
+      'Assegna tag al messaggio o gestisci quelli disponibili';
+
+  @override
+  String get tagsManageMessage => 'Gestisci tag';
+
+  @override
+  String get tagsEmpty => 'Non hai ancora creato alcun tag.';
+
+  @override
+  String get tagsCreate => 'Crea tag';
+
+  @override
+  String get tagsCreateTitle => 'Nuovo tag';
+
+  @override
+  String get tagsEdit => 'Modifica';
+
+  @override
+  String get tagsEditTitle => 'Modifica tag';
+
+  @override
+  String get tagsDelete => 'Elimina';
+
+  @override
+  String get tagsDeleteTitle => 'Elimina tag';
+
+  @override
+  String tagsDeleteConfirm(String name) {
+    return 'Eliminare il tag «$name» da tutto l\'archivio?';
+  }
+
+  @override
+  String get tagsName => 'Nome';
+
+  @override
+  String get actionDone => 'Fine';
+
+  @override
+  String get errorTagNameRequired => 'Inserisci un nome per il tag.';
+
+  @override
+  String get errorTagNameTaken => 'Esiste già un tag con questo nome.';
+
+  @override
+  String get errorTagInvalidColor => 'Il colore scelto non è valido.';
+
+  @override
+  String get errorAiReportMessageNotFound =>
+      'Questa risposta non è più disponibile per la segnalazione.';
+
+  @override
+  String get errorAiReportAssistantOnly =>
+      'È possibile segnalare soltanto le risposte dell’assistente.';
 }

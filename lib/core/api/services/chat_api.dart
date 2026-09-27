@@ -49,6 +49,7 @@ class ChatApi {
     return listOf(resp.data)
         .map(
           (j) => ChatMessage(
+            id: jsonStrOrNull(j, 'id'),
             role: jsonStr(j, 'role', 'assistant'),
             content: jsonStr(j, 'content'),
             citations: jsonObjList(

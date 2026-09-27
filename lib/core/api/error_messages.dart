@@ -150,6 +150,16 @@ String localizeApiError(AppLocalizations l, Object error) {
       return l.errorChatNotConfigured;
     case 'chat.llm_error':
       return l.errorChatLlmError(e.detail ?? '');
+    case 'ai_reports.message_not_found':
+      return l.errorAiReportMessageNotFound;
+    case 'ai_reports.assistant_only':
+      return l.errorAiReportAssistantOnly;
+    case 'tags.name_required':
+      return l.errorTagNameRequired;
+    case 'tags.name_taken':
+      return l.errorTagNameTaken;
+    case 'tags.invalid_color':
+      return l.errorTagInvalidColor;
     case 'followup.not_remindable':
       return l.errorFollowupNotRemindable;
     case 'followup.not_configured':

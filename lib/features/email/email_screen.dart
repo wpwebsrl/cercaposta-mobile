@@ -14,10 +14,11 @@ import '../../shared/tag_colors.dart';
 import '../../shared/widgets/mail_web_view.dart';
 import '../../shared/widgets/snack.dart';
 import 'mark_followup_sheet.dart';
+import 'message_tags_sheet.dart';
 import 'share_actions.dart';
 
 /// Overflow menu of the reader.
-enum _MenuAction { markFollowup, headers }
+enum _MenuAction { markFollowup, tags, headers }
 
 class EmailScreen extends ConsumerStatefulWidget {
   const EmailScreen({required this.messageId, super.key});
@@ -113,6 +114,21 @@ class _EmailScreenState extends ConsumerState<EmailScreen> {
         if (created && mounted) {
           showSnack(context, AppLocalizations.of(context)!.followupMarkCreated);
         }
+      case _MenuAction.tags:
+        if (d.sharedOwnerName != null) return;
+        final tags = await showMessageTagsSheet(
+          context,
+          ref,
+          messageId: d.id,
+          selected: d.tags,
+        );
+        if (tags != null && mounted) {
+          setState(() {
+            d.tags
+              ..clear()
+              ..addAll(tags);
+          });
+        }
     }
   }
 
@@ -147,6 +163,16 @@ class _EmailScreenState extends ConsumerState<EmailScreen> {
                           contentPadding: EdgeInsets.zero,
                           leading: const Icon(Icons.hourglass_empty, size: 20),
                           title: Text(l.followupMarkTitle),
+                        ),
+                      ),
+                    if (d.sharedOwnerName == null)
+                      PopupMenuItem<_MenuAction>(
+                        value: _MenuAction.tags,
+                        child: ListTile(
+                          dense: true,
+                          contentPadding: EdgeInsets.zero,
+                          leading: const Icon(Icons.label_outline, size: 20),
+                          title: Text(l.tagsManageMessage),
                         ),
                       ),
                     PopupMenuItem<_MenuAction>(

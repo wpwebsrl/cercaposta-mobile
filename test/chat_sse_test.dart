@@ -82,6 +82,7 @@ void main() {
           'type': 'message-metadata',
           'messageMetadata': <String, dynamic>{
             'conversation_id': 'c1',
+            'message_id': 'a1',
             'final_answer': 'Ciao mondo',
             'embedding_failed': false,
           },
@@ -117,6 +118,7 @@ void main() {
       final done = events.last;
       expect(done.answer, 'Ciao mondo'); // renumbered final_answer
       expect(done.conversationId, 'c1');
+      expect(done.messageId, 'a1');
       expect(done.embeddingFailed, false);
     },
   );

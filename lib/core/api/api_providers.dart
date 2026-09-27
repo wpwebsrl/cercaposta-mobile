@@ -7,8 +7,10 @@ import '../providers.dart';
 import 'dio_factory.dart';
 import 'api_exception.dart';
 import 'services/billing_api.dart';
+import 'services/ai_report_api.dart';
 import 'services/capabilities_api.dart';
 import 'services/chat_api.dart';
+import 'services/client_updates_api.dart';
 import 'services/events_api.dart';
 import 'services/followup_api.dart';
 import 'services/health_api.dart';
@@ -176,6 +178,12 @@ final eventsApiProvider = Provider<EventsApi>(
 );
 final chatApiProvider = Provider<ChatApi>(
   (ref) => ChatApi(ref.watch(apiDioProvider)),
+);
+final clientUpdatesApiProvider = Provider<ClientUpdatesApi>(
+  (ref) => ClientUpdatesApi(ref.watch(apiDioProvider)),
+);
+final aiReportApiProvider = Provider<AiReportApi>(
+  (ref) => AiReportApi(ref.watch(apiDioProvider)),
 );
 final billingApiProvider = Provider<BillingApi>(
   (ref) => BillingApi(ref.watch(apiDioProvider)),

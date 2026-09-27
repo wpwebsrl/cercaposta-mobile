@@ -71,6 +71,7 @@ class ChatStreamEvent {
     this.text,
     this.answer,
     this.conversationId,
+    this.messageId,
     this.title,
     this.citations = const <Citation>[],
     this.learned,
@@ -88,6 +89,7 @@ class ChatStreamEvent {
   final String? text;
   final String? answer;
   final String? conversationId;
+  final String? messageId;
   final String? title;
   final List<Citation> citations;
 
@@ -142,6 +144,7 @@ class ChatStreamEvent {
           type: ChatEventType.done,
           answer: jsonStr(meta, 'final_answer'),
           conversationId: jsonStrOrNull(meta, 'conversation_id'),
+          messageId: jsonStrOrNull(meta, 'message_id'),
           title: jsonStrOrNull(meta, 'title'),
           embeddingFailed: jsonBool(meta, 'embedding_failed'),
           paging: PagingNote.tryParse(jsonMap(meta, 'paging')),
@@ -226,6 +229,7 @@ class PagingNote {
 
 class ChatMessage {
   ChatMessage({
+    this.id,
     required this.role,
     required this.content,
     this.citations = const <Citation>[],
@@ -234,6 +238,8 @@ class ChatMessage {
     this.paging,
   });
 
+  /// Persisted server ID. Only persisted assistant messages can be reported.
+  String? id;
   final String role; // user | assistant
   String content;
   List<Citation> citations;

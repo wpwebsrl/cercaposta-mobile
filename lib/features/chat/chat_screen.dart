@@ -9,6 +9,7 @@ import '../../shared/format.dart';
 import '../../shared/models/chat.dart';
 import '../../shared/widgets/snack.dart';
 import 'chat_controller.dart';
+import 'ai_report_dialog.dart';
 import 'citation_block.dart';
 import 'memory_announcement.dart';
 
@@ -271,6 +272,15 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: theme.colorScheme.outline,
                   ),
+                ),
+              ),
+            if (!isUser && m.id != null)
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton.icon(
+                  onPressed: () => showAiReportDialog(context, ref, m.id!),
+                  icon: const Icon(Icons.flag_outlined, size: 16),
+                  label: Text(AppLocalizations.of(context)!.aiReportAction),
                 ),
               ),
           ],
