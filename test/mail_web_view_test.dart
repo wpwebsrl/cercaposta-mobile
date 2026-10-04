@@ -43,6 +43,14 @@ void main() {
       expect(doc, contains('height:auto!important'));
     });
 
+    test('keeps blank one by one tracking pixels invisible', () {
+      final String doc = buildReaderDocument('<p>x</p>', allowRemote: true);
+      expect(
+        doc,
+        contains('img[width="1"][height="1"][alt=""]{display:none!important}'),
+      );
+    });
+
     test('lays out at the device width, not a desktop window', () {
       // The one part not shared with web/desktop, and not optional: with no viewport an Android
       // WebView assumes ~980px and scales the whole email down to something unreadable.

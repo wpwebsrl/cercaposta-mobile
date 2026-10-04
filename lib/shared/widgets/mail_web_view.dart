@@ -61,6 +61,8 @@ String buildReaderDocument(String bodyHtml, {required bool allowRemote}) {
    1x1 file) inflates, because once loaded the engine uses the file's real ratio, not the declared
    one. That needs the server to rewrite the markup. */
 img{max-width:100%;height:auto!important}
+/* Defense-in-depth for an older server: blank 1x1 read beacons must stay invisible. */
+img[width="1"][height="1"]:not([alt]),img[width="1"][height="1"][alt=""]{display:none!important}
 /* Always white, in BOTH themes: mail is authored against an implicit white canvas and carries the
    sender's own colours, so on a dark surface a sender's color:#1a1a1a would be unreadable. Same
    rule as web and desktop. Our rules are in <head>; the email's <style> lands in <body> and so

@@ -49,9 +49,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   Future<void> _refresh() async {
     ref.invalidate(usageProvider);
     ref.invalidate(capabilitiesProvider);
+    ref.invalidate(remoteImagePreferencesProvider);
     await Future.wait<void>(<Future<void>>[
       ref.read(usageProvider.future).then((_) {}, onError: (_) {}),
       ref.read(capabilitiesProvider.future).then((_) {}, onError: (_) {}),
+      ref
+          .read(remoteImagePreferencesProvider.future)
+          .then((_) {}, onError: (_) {}),
       _loadBiometric(),
     ]);
   }
@@ -178,6 +182,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     final server = ref.watch(activeServerProvider);
     final info = ref.watch(appInfoProvider);
     final usage = ref.watch(usageProvider).valueOrNull;
+    final remoteImages = ref.watch(remoteImagePreferencesProvider);
     final caps =
         ref.watch(capabilitiesProvider).valueOrNull ?? const Capabilities();
     final locale = auth.user?.locale ?? 'it-IT';
@@ -272,6 +277,33 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 onSelectionChanged: (sel) =>
                     ref.read(settingsProvider.notifier).setTheme(sel.first),
               ),
+            ),
+            const Divider(),
+            _sectionLabel(context, l.settingsRemoteImages),
+            SwitchListTile(
+              secondary: const Icon(Icons.image_outlined),
+              title: Text(l.settingsRemoteImagesAlways),
+              subtitle: Text(l.settingsRemoteImagesWarning),
+              isThreeLine: true,
+              value: remoteImages.valueOrNull?.alwaysAllow ?? false,
+              onChanged: remoteImages.isLoading
+                  ? null
+                  : (value) async {
+                      try {
+                        await ref
+                            .read(messageApiProvider)
+                            .setAlwaysAllowRemoteImages(value);
+                        ref.invalidate(remoteImagePreferencesProvider);
+                      } on Object catch (error) {
+                        if (context.mounted) {
+                          showSnack(
+                            context,
+                            localizeApiError(l, error),
+                            error: true,
+                          );
+                        }
+                      }
+                    },
             ),
             const Divider(),
             _sectionLabel(context, l.settingsNotifications),

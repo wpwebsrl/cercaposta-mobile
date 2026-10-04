@@ -410,6 +410,10 @@ class AppLocalizationsIt extends AppLocalizations {
   String get emailShowRemoteImages => 'Mostra immagini remote';
 
   @override
+  String get emailAlwaysShowRemoteImagesFromSender =>
+      'Mostra sempre da questo mittente';
+
+  @override
   String get emailPecBadge => 'PEC';
 
   @override
@@ -678,6 +682,16 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get settingsNotifications => 'Notifiche';
+
+  @override
+  String get settingsRemoteImages => 'Immagini nelle email';
+
+  @override
+  String get settingsRemoteImagesAlways => 'Mostra sempre le immagini remote';
+
+  @override
+  String get settingsRemoteImagesWarning =>
+      'Più comodo, ma può comunicare ai mittenti che hai aperto un\'email. Per maggiore privacy autorizza soltanto i mittenti fidati.';
 
   @override
   String get settingsOsNotifications => 'Notifiche di sistema';

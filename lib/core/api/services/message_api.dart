@@ -17,18 +17,56 @@ const _headersCapBytes = 256 * 1024;
 /// encryption posture in docs/mobile-apps.md §6).
 typedef PreviewData = ({Uint8List bytes, String contentType});
 
+class RemoteImagePreferences {
+  const RemoteImagePreferences({
+    required this.alwaysAllow,
+    required this.trustedSenders,
+  });
+
+  final bool alwaysAllow;
+  final List<String> trustedSenders;
+
+  factory RemoteImagePreferences.fromJson(Map<String, dynamic> json) =>
+      RemoteImagePreferences(
+        alwaysAllow: jsonBool(json, 'always_allow'),
+        trustedSenders: jsonStrList(json, 'trusted_senders'),
+      );
+}
+
 class MessageApi {
   MessageApi(this._dio);
   final Dio _dio;
 
-  Future<MessageDetail> get(String id, {bool allowRemote = false}) async {
+  Future<MessageDetail> get(String id, {bool? allowRemote}) async {
     final resp = await _dio.get<dynamic>(
       '/messages/$id',
-      queryParameters: allowRemote
-          ? <String, dynamic>{'allow_remote': true}
-          : null,
+      queryParameters: allowRemote == null
+          ? null
+          : <String, dynamic>{'allow_remote': allowRemote},
     );
     return MessageDetail.fromJson(mapOf(resp.data));
+  }
+
+  Future<void> allowRemoteImages(String id, {required String scope}) async {
+    await _dio.post<dynamic>(
+      '/messages/$id/remote-images',
+      data: <String, dynamic>{'scope': scope},
+    );
+  }
+
+  Future<RemoteImagePreferences> remoteImagePreferences() async {
+    final response = await _dio.get<dynamic>(
+      '/messages/remote-image-preferences',
+    );
+    return RemoteImagePreferences.fromJson(mapOf(response.data));
+  }
+
+  Future<RemoteImagePreferences> setAlwaysAllowRemoteImages(bool value) async {
+    final response = await _dio.patch<dynamic>(
+      '/messages/remote-image-preferences',
+      data: <String, dynamic>{'always_allow': value},
+    );
+    return RemoteImagePreferences.fromJson(mapOf(response.data));
   }
 
   Future<List<ThreadEntry>> thread(String id) async {

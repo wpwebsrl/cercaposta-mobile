@@ -114,6 +114,8 @@ class MessageDetail {
     required this.bodyHtml,
     required this.bodyText,
     required this.hasRemoteImages,
+    this.remoteImagesAllowed = false,
+    this.remoteImagesPermission = 'blocked',
     required this.rawMissing,
     required this.isPec,
     required this.pec,
@@ -135,6 +137,8 @@ class MessageDetail {
   final String? bodyHtml;
   final String bodyText;
   final bool hasRemoteImages;
+  final bool remoteImagesAllowed;
+  final String remoteImagesPermission;
   final bool rawMissing;
   final bool isPec;
   final PecInfo? pec;
@@ -167,6 +171,9 @@ class MessageDetail {
       bodyHtml: jsonStrOrNull(j, 'body_html'),
       bodyText: jsonStr(j, 'body_text'),
       hasRemoteImages: jsonBool(j, 'has_remote_images'),
+      remoteImagesAllowed: jsonBool(j, 'remote_images_allowed'),
+      remoteImagesPermission:
+          jsonStrOrNull(j, 'remote_images_permission') ?? 'blocked',
       rawMissing: jsonBool(j, 'raw_missing'),
       isPec: jsonBool(j, 'is_pec'),
       pec: j['pec'] is Map<String, dynamic>

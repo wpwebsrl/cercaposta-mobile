@@ -32,7 +32,6 @@ class _EmailScreenState extends ConsumerState<EmailScreen> {
   MessageDetail? _detail;
   List<ThreadEntry> _thread = const <ThreadEntry>[];
   bool _loading = true;
-  bool _allowRemote = false;
   // Open by default: the one-line header alone hides who the mail was addressed to, and
   // recipients are part of reading it, not an extra. Still collapsible for a long body.
   bool _detailsOpen = true;
@@ -50,9 +49,7 @@ class _EmailScreenState extends ConsumerState<EmailScreen> {
       _error = null;
     });
     try {
-      final detail = await ref
-          .read(messageApiProvider)
-          .get(widget.messageId, allowRemote: _allowRemote);
+      final detail = await ref.read(messageApiProvider).get(widget.messageId);
       if (!mounted) return;
       setState(() {
         _detail = detail;
@@ -73,6 +70,24 @@ class _EmailScreenState extends ConsumerState<EmailScreen> {
       if (mounted) setState(() => _thread = t);
     } on Object {
       // thread optional
+    }
+  }
+
+  Future<void> _allowRemoteImages(String scope) async {
+    try {
+      await ref
+          .read(messageApiProvider)
+          .allowRemoteImages(widget.messageId, scope: scope);
+      if (!mounted) return;
+      await _load();
+    } on Object catch (error) {
+      if (mounted) {
+        showSnack(
+          context,
+          localizeApiError(AppLocalizations.of(context)!, error),
+          error: true,
+        );
+      }
     }
   }
 
@@ -269,16 +284,23 @@ class _EmailScreenState extends ConsumerState<EmailScreen> {
         const Divider(height: 1),
         if (d.rawMissing)
           _notice(context, l.emailRawMissing)
-        else if (d.hasRemoteImages && !_allowRemote)
-          Align(
-            alignment: Alignment.centerLeft,
-            child: TextButton.icon(
-              onPressed: () {
-                setState(() => _allowRemote = true);
-                _load();
-              },
-              icon: const Icon(Icons.image_outlined),
-              label: Text(l.emailShowRemoteImages),
+        else if (d.hasRemoteImages && !d.remoteImagesAllowed)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4),
+            child: Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: <Widget>[
+                TextButton.icon(
+                  onPressed: () => _allowRemoteImages('message'),
+                  icon: const Icon(Icons.image_outlined),
+                  label: Text(l.emailShowRemoteImages),
+                ),
+                if (d.fromAddress.trim().isNotEmpty)
+                  TextButton(
+                    onPressed: () => _allowRemoteImages('sender'),
+                    child: Text(l.emailAlwaysShowRemoteImagesFromSender),
+                  ),
+              ],
             ),
           ),
         if (!d.hasBody && !d.rawMissing) _notice(context, l.emailNoBody),
@@ -292,7 +314,10 @@ class _EmailScreenState extends ConsumerState<EmailScreen> {
   Widget _body(BuildContext context, MessageDetail d) {
     if (d.bodyHtml != null && d.bodyHtml!.isNotEmpty) {
       return MailWebView(
-        document: buildReaderDocument(d.bodyHtml!, allowRemote: _allowRemote),
+        document: buildReaderDocument(
+          d.bodyHtml!,
+          allowRemote: d.remoteImagesAllowed,
+        ),
         onTapUrl: _onTapUrl,
       );
     }

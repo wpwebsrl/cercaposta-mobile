@@ -38,8 +38,7 @@ class _FakeMessageApi extends MessageApi {
   final MessageDetail _detail;
 
   @override
-  Future<MessageDetail> get(String id, {bool allowRemote = false}) async =>
-      _detail;
+  Future<MessageDetail> get(String id, {bool? allowRemote}) async => _detail;
 
   @override
   Future<List<ThreadEntry>> thread(String id) async => const <ThreadEntry>[];

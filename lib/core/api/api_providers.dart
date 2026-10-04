@@ -167,6 +167,18 @@ final searchApiProvider = Provider<SearchApi>(
 final messageApiProvider = Provider<MessageApi>(
   (ref) => MessageApi(ref.watch(apiDioProvider)),
 );
+final remoteImagePreferencesProvider = FutureProvider<RemoteImagePreferences>((
+  ref,
+) async {
+  final key = ref.watch(sessionKeyProvider);
+  if (key == null) {
+    return const RemoteImagePreferences(
+      alwaysAllow: false,
+      trustedSenders: <String>[],
+    );
+  }
+  return ref.watch(messageApiProvider).remoteImagePreferences();
+});
 final notificationApiProvider = Provider<NotificationApi>(
   (ref) => NotificationApi(ref.watch(apiDioProvider)),
 );

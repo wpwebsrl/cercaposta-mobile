@@ -824,6 +824,12 @@ abstract class AppLocalizations {
   /// **'Mostra immagini remote'**
   String get emailShowRemoteImages;
 
+  /// No description provided for @emailAlwaysShowRemoteImagesFromSender.
+  ///
+  /// In it, this message translates to:
+  /// **'Mostra sempre da questo mittente'**
+  String get emailAlwaysShowRemoteImagesFromSender;
+
   /// No description provided for @emailPecBadge.
   ///
   /// In it, this message translates to:
@@ -1267,6 +1273,24 @@ abstract class AppLocalizations {
   /// In it, this message translates to:
   /// **'Notifiche'**
   String get settingsNotifications;
+
+  /// No description provided for @settingsRemoteImages.
+  ///
+  /// In it, this message translates to:
+  /// **'Immagini nelle email'**
+  String get settingsRemoteImages;
+
+  /// No description provided for @settingsRemoteImagesAlways.
+  ///
+  /// In it, this message translates to:
+  /// **'Mostra sempre le immagini remote'**
+  String get settingsRemoteImagesAlways;
+
+  /// No description provided for @settingsRemoteImagesWarning.
+  ///
+  /// In it, this message translates to:
+  /// **'Più comodo, ma può comunicare ai mittenti che hai aperto un\'email. Per maggiore privacy autorizza soltanto i mittenti fidati.'**
+  String get settingsRemoteImagesWarning;
 
   /// No description provided for @settingsOsNotifications.
   ///

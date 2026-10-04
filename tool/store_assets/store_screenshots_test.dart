@@ -346,8 +346,7 @@ class _PreviewMessageApi extends MessageApi {
   final MessageDetail preview;
 
   @override
-  Future<MessageDetail> get(String id, {bool allowRemote = false}) async =>
-      preview;
+  Future<MessageDetail> get(String id, {bool? allowRemote}) async => preview;
 
   @override
   Future<List<ThreadEntry>> thread(String id) async => const <ThreadEntry>[];
