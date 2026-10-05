@@ -1675,6 +1675,18 @@ class AppLocalizationsEn extends AppLocalizations {
       'The document reader returned an error';
 
   @override
+  String get diagnosticsReasonTikaBusy =>
+      'The document reader is temporarily busy';
+
+  @override
+  String get diagnosticsReasonTikaPartial =>
+      'Only part of the document text was recovered';
+
+  @override
+  String get diagnosticsReasonTikaInvalidLimits =>
+      'The extraction limits are invalid: contact the administrator';
+
+  @override
   String get diagnosticsReasonTikaRejected =>
       'The document reader refused the file';
 

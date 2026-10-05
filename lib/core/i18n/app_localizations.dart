@@ -2948,6 +2948,24 @@ abstract class AppLocalizations {
   /// **'Il lettore dei documenti ha dato errore'**
   String get diagnosticsReasonTikaServerError;
 
+  /// No description provided for @diagnosticsReasonTikaBusy.
+  ///
+  /// In it, this message translates to:
+  /// **'Il lettore dei documenti è temporaneamente occupato'**
+  String get diagnosticsReasonTikaBusy;
+
+  /// No description provided for @diagnosticsReasonTikaPartial.
+  ///
+  /// In it, this message translates to:
+  /// **'È stata recuperata solo una parte del testo del documento'**
+  String get diagnosticsReasonTikaPartial;
+
+  /// No description provided for @diagnosticsReasonTikaInvalidLimits.
+  ///
+  /// In it, this message translates to:
+  /// **'I limiti di estrazione non sono validi: contatta l’amministratore'**
+  String get diagnosticsReasonTikaInvalidLimits;
+
   /// No description provided for @diagnosticsReasonTikaRejected.
   ///
   /// In it, this message translates to:

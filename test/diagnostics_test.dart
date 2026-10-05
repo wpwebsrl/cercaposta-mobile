@@ -113,6 +113,21 @@ Future<void> _pump(WidgetTester tester, _FakeHealthApi api) async {
 }
 
 void main() {
+  test('Tika 4 diagnostic codes have labels in both languages', () {
+    for (final Locale locale in <Locale>[
+      const Locale('it'),
+      const Locale('en'),
+    ]) {
+      final AppLocalizations l = lookupAppLocalizations(locale);
+      for (final String code in <String>[
+        'tika_busy',
+        'tika_partial',
+        'tika_invalid_limits',
+      ]) {
+        expect(reasonLabel(l, code), isNot(code));
+      }
+    }
+  });
   group('model', () {
     test('the two lists answer two different questions', () {
       final ArchiveHealth h = ArchiveHealth.fromJson(_payload);

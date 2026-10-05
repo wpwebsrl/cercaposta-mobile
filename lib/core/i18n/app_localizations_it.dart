@@ -1687,6 +1687,18 @@ class AppLocalizationsIt extends AppLocalizations {
       'Il lettore dei documenti ha dato errore';
 
   @override
+  String get diagnosticsReasonTikaBusy =>
+      'Il lettore dei documenti è temporaneamente occupato';
+
+  @override
+  String get diagnosticsReasonTikaPartial =>
+      'È stata recuperata solo una parte del testo del documento';
+
+  @override
+  String get diagnosticsReasonTikaInvalidLimits =>
+      'I limiti di estrazione non sono validi: contatta l’amministratore';
+
+  @override
   String get diagnosticsReasonTikaRejected =>
       'Il lettore dei documenti ha rifiutato il file';
 
