@@ -36,6 +36,13 @@ visibile ma non riutilizzabile.
    Push = dual-push automatico: `origin` scrive sia sul mirror privato OneDev sia su GitHub
    (due `pushurl` configurati in locale). Il remote `github` esiste per la CLI `gh`.
 
+7. **Unità di spazio coerenti con tutto il prodotto**: `1 GB = 1.000.000.000 byte`.
+   Piano, override e utilizzo usano GB decimali; i calcoli binari mostrano KiB/MiB/GiB.
+   iOS e Android usano gli stessi helper Dart, senza conversioni specifiche di piattaforma.
+   Prima di modificare quote, formatter o filtri leggere
+   [docs/storage-units.md](docs/storage-units.md). Il contratto autorevole è
+   `docs/unita-spazio.md` nel repo server; aggiornare entrambi se il contratto cambia.
+
 ## Comandi
 
 - Setup: `flutter pub get`

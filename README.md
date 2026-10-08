@@ -10,6 +10,9 @@ The server is a separate, private codebase. This repository contains the
 mobile client only and is public so that CI builds (including iOS) can run
 on GitHub-hosted runners.
 
+Storage units follow the shared [GB/GiB contract](docs/storage-units.md):
+`1 GB = 1,000,000,000 bytes` on iOS, Android, web, desktop and server.
+
 ## Build
 
 Requirements: Flutter (see `FLUTTER_VERSION` in

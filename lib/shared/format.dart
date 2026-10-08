@@ -48,14 +48,23 @@ String formatCount(int n, String locale) {
 
 String formatSize(int bytes, String locale) {
   if (bytes <= 0) return '0 B';
-  const units = <String>['B', 'KB', 'MB', 'GB'];
+  const units = <String>['B', 'kB', 'MB', 'GB', 'TB', 'PB'];
   var value = bytes.toDouble();
   var unit = 0;
-  while (value >= 1024 && unit < units.length - 1) {
-    value /= 1024;
+  var factor = 1;
+  while (value >= 1000 && unit < units.length - 1) {
+    value /= 1000;
     unit++;
+    factor *= 1000;
   }
-  final pattern = unit == 0 ? '#,##0' : '#,##0.#';
+  if (unit > 0) {
+    // Round from original integer bytes: intl's double rounding can lose exact ties.
+    final scaled =
+        (BigInt.from(bytes) * BigInt.from(1000) + BigInt.from(factor ~/ 2)) ~/
+        BigInt.from(factor);
+    value = scaled.toDouble() / 1000;
+  }
+  final pattern = unit == 0 ? '#,##0' : '#,##0.###';
   NumberFormat fmt;
   try {
     fmt = NumberFormat(pattern, locale);

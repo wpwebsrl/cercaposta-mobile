@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/api/api_providers.dart';
 import '../../core/i18n/app_localizations.dart';
 import '../../shared/models/taxonomy.dart';
+import '../../shared/storage_units.dart';
 
 /// Opens the filter form and returns a composed omnibox query string (operators),
 /// or null if cancelled. Mirrors the web FilterBuilder: it writes operators that
@@ -51,12 +52,7 @@ class _FilterSheetState extends ConsumerState<_FilterSheet> {
   String _freeText = '';
   List<String> _folders = const <String>[];
 
-  static const Map<String, int> _sizeUnits = <String, int>{
-    'B': 1,
-    'KB': 1024,
-    'MB': 1024 * 1024,
-    'GB': 1024 * 1024 * 1024,
-  };
+  static const _sizeUnits = storageUnitBytes;
 
   @override
   void initState() {
@@ -136,7 +132,7 @@ class _FilterSheetState extends ConsumerState<_FilterSheet> {
     final bytes = sizeGt ?? sizeLt;
     if (bytes == null || bytes <= 0) return;
     _sizeOp = sizeGt != null ? '>' : '<';
-    for (final unit in <String>['GB', 'MB', 'KB', 'B']) {
+    for (final unit in <String>['GB', 'MB', 'kB', 'B']) {
       final m = _sizeUnits[unit]!;
       if (bytes % m == 0) {
         _sizeUnit = unit;
@@ -150,9 +146,8 @@ class _FilterSheetState extends ConsumerState<_FilterSheet> {
   int? _sizeBytes() {
     final raw = _sizeValue.text.trim().replaceAll(',', '.');
     if (raw.isEmpty) return null;
-    final n = double.tryParse(raw);
-    if (n == null || n <= 0) return null;
-    return (n * _sizeUnits[_sizeUnit]!).round();
+    final bytes = storageInputBytes(raw, _sizeUnit);
+    return bytes != null && bytes > 0 ? bytes : null;
   }
 
   String _iso(DateTime d) =>
