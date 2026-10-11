@@ -98,6 +98,24 @@ abstract class AppLocalizations {
     Locale('it'),
   ];
 
+  /// No description provided for @personalAiLabel.
+  ///
+  /// In it, this message translates to:
+  /// **'AI personale'**
+  String get personalAiLabel;
+
+  /// No description provided for @managedAiLabel.
+  ///
+  /// In it, this message translates to:
+  /// **'AI CercaPosta'**
+  String get managedAiLabel;
+
+  /// No description provided for @errorPersonalAiUnavailable.
+  ///
+  /// In it, this message translates to:
+  /// **'AI personale in pausa: verifica piano, consenso e sblocco dell’archivio nelle impostazioni web.'**
+  String get errorPersonalAiUnavailable;
+
   /// No description provided for @errorSessionChanged.
   ///
   /// In it, this message translates to:

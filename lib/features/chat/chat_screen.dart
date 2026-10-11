@@ -100,7 +100,19 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(l.chatTitle),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(l.chatTitle),
+            if (state.model.isNotEmpty)
+              Text(
+                '${state.aiMode == 'personal' ? l.personalAiLabel : l.managedAiLabel} · ${state.model}',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.labelSmall,
+              ),
+          ],
+        ),
         actions: <Widget>[
           IconButton(
             tooltip: l.chatHistory,

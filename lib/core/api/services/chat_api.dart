@@ -7,15 +7,27 @@ import '../api_exception.dart';
 import '../json.dart';
 
 class ChatStatus {
-  const ChatStatus({required this.aiEnabled, required this.llmConfigured});
+  const ChatStatus({
+    required this.aiEnabled,
+    required this.llmConfigured,
+    this.model = '',
+    this.aiMode = 'managed',
+    this.contextWindow = 0,
+  });
   final bool aiEnabled;
   final bool llmConfigured;
+  final String model;
+  final String aiMode;
+  final int contextWindow;
 
   bool get available => aiEnabled && llmConfigured;
 
   factory ChatStatus.fromJson(Map<String, dynamic> j) => ChatStatus(
     aiEnabled: jsonBool(j, 'ai_enabled'),
     llmConfigured: jsonBool(j, 'llm_configured'),
+    model: jsonStr(j, 'model'),
+    aiMode: jsonStr(j, 'ai_mode', 'managed'),
+    contextWindow: jsonInt(j, 'context_window'),
   );
 }
 

@@ -10,6 +10,14 @@ The server is a separate, private codebase. This repository contains the
 mobile client only and is public so that CI builds (including iOS) can run
 on GitHub-hosted runners.
 
+## Personal AI (local source changes, not released)
+
+Personal models and credentials are configured in the server's web profile, never in the mobile
+client. Chat displays the actual model and AI origin; the server enforces the same permissions,
+dedicated indexes and separate personal metering on iOS, Android, web and desktop. Older server
+responses default to managed AI. Local tests and source changes do not certify a distributed
+iOS/Android build, physical-device testing, or production activation.
+
 Storage units follow the shared [GB/GiB contract](docs/storage-units.md):
 `1 GB = 1,000,000,000 bytes` on iOS, Android, web, desktop and server.
 

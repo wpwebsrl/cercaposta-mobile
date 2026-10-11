@@ -9,6 +9,16 @@ class AppLocalizationsIt extends AppLocalizations {
   AppLocalizationsIt([String locale = 'it']) : super(locale);
 
   @override
+  String get personalAiLabel => 'AI personale';
+
+  @override
+  String get managedAiLabel => 'AI CercaPosta';
+
+  @override
+  String get errorPersonalAiUnavailable =>
+      'AI personale in pausa: verifica piano, consenso e sblocco dell’archivio nelle impostazioni web.';
+
+  @override
   String get errorSessionChanged =>
       'La sessione è cambiata. Ripeti l\'operazione con l\'account corrente.';
 

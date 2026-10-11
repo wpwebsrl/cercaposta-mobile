@@ -1,4 +1,7 @@
 {
+  "personalAiLabel": "AI personale",
+  "managedAiLabel": "AI CercaPosta",
+  "errorPersonalAiUnavailable": "AI personale in pausa: verifica piano, consenso e sblocco dell’archivio nelle impostazioni web.",
   "@@locale": "it",
   "errorSessionChanged": "La sessione è cambiata. Ripeti l'operazione con l'account corrente.",
   "appName": "CercaPosta",

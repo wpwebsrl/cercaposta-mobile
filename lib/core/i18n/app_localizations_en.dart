@@ -9,6 +9,16 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get personalAiLabel => 'Personal AI';
+
+  @override
+  String get managedAiLabel => 'CercaPosta AI';
+
+  @override
+  String get errorPersonalAiUnavailable =>
+      'Personal AI is paused: check your plan, consent and archive unlock in web settings.';
+
+  @override
   String get errorSessionChanged =>
       'The session changed. Try again with the current account.';
 

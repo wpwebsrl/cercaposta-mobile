@@ -111,6 +111,10 @@ String localizeApiError(AppLocalizations l, Object error) {
       return l.errorForbidden;
     case 'billing.feature_not_in_plan':
       return l.errorFeatureNotInPlan;
+    case 'personal_ai.unavailable':
+    case 'personal_ai.disabled':
+    case 'personal_ai.not_in_plan':
+      return l.errorPersonalAiUnavailable;
     case 'auth.admin_not_on_mobile':
       return l.errorAdminNotOnMobile;
     case 'passkeys.invalid':

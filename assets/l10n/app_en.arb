@@ -1,4 +1,7 @@
 {
+  "personalAiLabel": "Personal AI",
+  "managedAiLabel": "CercaPosta AI",
+  "errorPersonalAiUnavailable": "Personal AI is paused: check your plan, consent and archive unlock in web settings.",
   "@@locale": "en",
   "errorSessionChanged": "The session changed. Try again with the current account.",
   "appName": "CercaPosta",

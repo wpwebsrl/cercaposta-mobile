@@ -18,6 +18,8 @@ class ChatState {
     this.aiEnabled,
     this.embeddingFailed = false,
     this.statusFailed = false,
+    this.model = '',
+    this.aiMode = 'managed',
   });
 
   final List<ChatMessage> messages;
@@ -34,6 +36,8 @@ class ChatState {
   /// The chat status check failed on the network (not "server says disabled"):
   /// the UI offers a retry instead of the misleading "not configured" message.
   final bool statusFailed;
+  final String model;
+  final String aiMode;
 
   ChatState copyWith({
     List<ChatMessage>? messages,
@@ -45,6 +49,8 @@ class ChatState {
     bool? aiEnabled,
     bool? embeddingFailed,
     bool? statusFailed,
+    String? model,
+    String? aiMode,
   }) => ChatState(
     messages: messages ?? this.messages,
     streaming: streaming ?? this.streaming,
@@ -55,6 +61,8 @@ class ChatState {
     aiEnabled: aiEnabled ?? this.aiEnabled,
     embeddingFailed: embeddingFailed ?? this.embeddingFailed,
     statusFailed: statusFailed ?? this.statusFailed,
+    model: model ?? this.model,
+    aiMode: aiMode ?? this.aiMode,
   );
 }
 
@@ -93,6 +101,8 @@ class ChatController extends Notifier<ChatState> {
       state = state.copyWith(
         available: s.available,
         aiEnabled: s.aiEnabled,
+        model: s.model,
+        aiMode: s.aiMode,
         statusFailed: false,
       );
     } on Object {
@@ -109,7 +119,12 @@ class ChatController extends Notifier<ChatState> {
     _cancel = null;
     _lastSent = null;
     _conversationId = null;
-    state = ChatState(available: state.available, aiEnabled: state.aiEnabled);
+    state = ChatState(
+      available: state.available,
+      aiEnabled: state.aiEnabled,
+      model: state.model,
+      aiMode: state.aiMode,
+    );
   }
 
   /// Load a persisted conversation from the server-side history.
