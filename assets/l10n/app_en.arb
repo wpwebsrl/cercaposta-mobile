@@ -889,12 +889,23 @@
   "tagsDelete": "Delete",
   "tagsDeleteTitle": "Delete tag",
   "tagsDeleteConfirm": "Delete the tag “{name}” from the entire archive?",
-  "@tagsDeleteConfirm": {"placeholders": {"name": {"type": "String"}}},
+  "@tagsDeleteConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "tagsName": "Name",
   "actionDone": "Done",
   "errorTagNameRequired": "Enter a name for the tag.",
   "errorTagNameTaken": "A tag with this name already exists.",
   "errorTagInvalidColor": "The selected color is invalid.",
   "errorAiReportMessageNotFound": "This answer is no longer available for reporting.",
-  "errorAiReportAssistantOnly": "Only assistant answers can be reported."
+  "errorAiReportAssistantOnly": "Only assistant answers can be reported.",
+  "settingsLanguageUiHint": "This choice applies only to the interface on this device.",
+  "settingsProfileLanguage": "Server profile language",
+  "settingsProfileLanguageHint": "Used for emails and AI answers. It does not change the interface language or date and number formats.",
+  "searchVoiceChooseLanguage": "Language and variant for local dictation",
+  "searchVoiceHint": "Local dictation. Press and hold to choose a language and variant."
 }

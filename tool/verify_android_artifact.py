@@ -12,17 +12,17 @@ def verify(path: Path, expected: str, sdk: Path | None = None) -> None:
         raise ValueError("An approved upload certificate SHA-256 is required")
     java = Path(os.environ["JAVA_HOME"]) / "bin" / ("java.exe" if os.name == "nt" else "java") if "JAVA_HOME" in os.environ else "java"
     if path.suffix.lower() == ".aab":
-        args = [str(java), str(Path(__file__).with_name("VerifyAndroidBundle.java")), str(path), fingerprint]
+        args = [str(java), "-Dfile.encoding=UTF-8", str(Path(__file__).with_name("VerifyAndroidBundle.java")), str(path), fingerprint]
     elif path.suffix.lower() == ".apk":
         sdk = sdk or Path(os.environ.get("ANDROID_HOME") or os.environ.get("ANDROID_SDK_ROOT") or "")
         signers = sorted((sdk / "build-tools").glob("*/lib/apksigner.jar"),
                          key=lambda p: tuple(int(n) for n in re.findall(r"\d+", p.parent.parent.name)))
         if not signers:
             raise ValueError("Android SDK apksigner is required to verify an APK")
-        args = [str(java), "-jar", str(signers[-1]), "verify", "--verbose", "--print-certs", str(path)]
+        args = [str(java), "-Dfile.encoding=UTF-8", "-jar", str(signers[-1]), "verify", "--verbose", "--print-certs", str(path)]
     else:
         raise ValueError("Only APK and AAB artifacts are accepted")
-    result = subprocess.run(args, capture_output=True, text=True, timeout=300)
+    result = subprocess.run(args, capture_output=True, text=True, encoding="utf-8", timeout=300)
     if result.returncode:
         raise ValueError("Android artifact signature verification failed")
     if path.suffix.lower() == ".apk":

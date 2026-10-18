@@ -12,8 +12,11 @@
     <application
         android:label="CercaPosta"
         android:name="${applicationName}"
+        android:localeConfig="@xml/locales_config"
         android:icon="@mipmap/ic_launcher"
-        android:allowBackup="false"><!-- archivio email sensibile: niente auto-backup su cloud -->
+        android:allowBackup="false"
+        android:fullBackupContent="false"
+        android:dataExtractionRules="@xml/data_extraction_rules"><!-- Sensitive local data: no cloud backup or device transfer. -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -42,7 +45,7 @@
             </intent-filter>
             <!-- OAuth returns from the system browser. The authorization code is also PKCE-bound,
                  so another app claiming this scheme cannot redeem an intercepted code. -->
-            <intent-filter android:label="CercaPosta Google sign-in">
+            <intent-filter android:label="@string/google_sign_in_label">
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
@@ -51,7 +54,7 @@
                     android:host="oauth"
                     android:path="/google"/>
             </intent-filter>
-            <intent-filter android:label="CercaPosta Apple sign-in">
+            <intent-filter android:label="@string/apple_sign_in_label">
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>

@@ -4,6 +4,7 @@ import '../json.dart';
 
 class BillingOverview {
   const BillingOverview({
+    this.localizedPlanName,
     required this.hasSubscription,
     required this.planNameIt,
     required this.planNameEn,
@@ -33,6 +34,8 @@ class BillingOverview {
       );
     }
     final subscription = raw.cast<String, dynamic>();
+    final localized = subscription['localized_content'];
+    final content = localized is Map ? localized['content'] : null;
     DateTime? date(String key) => DateTime.tryParse(
       subscription[key] is String ? subscription[key] as String : '',
     );
@@ -40,6 +43,7 @@ class BillingOverview {
       hasSubscription: true,
       planNameIt: subscription['plan_name_it'] as String? ?? '',
       planNameEn: subscription['plan_name_en'] as String? ?? '',
+      localizedPlanName: content is Map ? content['name'] as String? : null,
       status: subscription['status'] as String? ?? '',
       provider: subscription['provider'] as String? ?? '',
       interval: subscription['billing_interval'] as String? ?? '',
@@ -53,6 +57,7 @@ class BillingOverview {
   final bool hasSubscription;
   final String planNameIt;
   final String planNameEn;
+  final String? localizedPlanName;
   final String status;
   final String provider;
   final String interval;
@@ -66,6 +71,7 @@ class BillingOverview {
 
 class PlanChangeSummary {
   const PlanChangeSummary({
+    this.localizedTargetName,
     required this.id,
     required this.targetNameIt,
     required this.targetNameEn,
@@ -85,6 +91,9 @@ class PlanChangeSummary {
       id: json['id'] as String? ?? '',
       targetNameIt: target['name_it'] as String? ?? '',
       targetNameEn: target['name_en'] as String? ?? '',
+      localizedTargetName:
+          mapOf(mapOf(target['localized_content'])['content'])['name']
+              as String?,
       status: json['status'] as String? ?? '',
       currency: json['currency'] as String? ?? 'EUR',
       amountDueCents: (quote['amount_due_cents'] as num?)?.toInt() ?? 0,
@@ -96,6 +105,7 @@ class PlanChangeSummary {
   final String id;
   final String targetNameIt;
   final String targetNameEn;
+  final String? localizedTargetName;
   final String status;
   final String currency;
   final int amountDueCents;
@@ -108,13 +118,23 @@ class BillingApi {
 
   final Dio _dio;
 
-  Future<BillingOverview> overview() async {
-    final response = await _dio.get<dynamic>('/me/billing');
+  Future<BillingOverview> overview({String? language}) async {
+    final response = await _dio.get<dynamic>(
+      '/me/billing',
+      queryParameters: language == null
+          ? null
+          : <String, dynamic>{'language': language},
+    );
     return BillingOverview.fromJson(mapOf(response.data));
   }
 
-  Future<List<PlanChangeSummary>> changes() async {
-    final response = await _dio.get<dynamic>('/me/billing/plan-changes');
+  Future<List<PlanChangeSummary>> changes({String? language}) async {
+    final response = await _dio.get<dynamic>(
+      '/me/billing/plan-changes',
+      queryParameters: language == null
+          ? null
+          : <String, dynamic>{'language': language},
+    );
     final raw = response.data;
     if (raw is! List) return const <PlanChangeSummary>[];
     return raw

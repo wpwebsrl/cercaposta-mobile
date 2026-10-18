@@ -2121,4 +2121,23 @@ class AppLocalizationsIt extends AppLocalizations {
   @override
   String get errorAiReportAssistantOnly =>
       'È possibile segnalare soltanto le risposte dell’assistente.';
+
+  @override
+  String get settingsLanguageUiHint =>
+      'Questa scelta vale solo per l’interfaccia su questo dispositivo.';
+
+  @override
+  String get settingsProfileLanguage => 'Lingua del profilo sul server';
+
+  @override
+  String get settingsProfileLanguageHint =>
+      'Usata per email e risposte AI. Non cambia la lingua dell’interfaccia o i formati di data e numeri.';
+
+  @override
+  String get searchVoiceChooseLanguage =>
+      'Lingua e variante della dettatura locale';
+
+  @override
+  String get searchVoiceHint =>
+      'Dettatura locale. Tieni premuto per scegliere lingua e variante.';
 }

@@ -6,6 +6,7 @@ import '../../core/api/api_providers.dart';
 import '../../core/api/error_messages.dart';
 import '../../core/auth/auth_controller.dart';
 import '../../core/i18n/app_localizations.dart';
+import '../../core/language_registry.dart';
 import '../../core/legal/legal_links.dart';
 import '../../core/providers.dart';
 import '../../shared/format.dart';
@@ -24,6 +25,7 @@ class SettingsScreen extends ConsumerStatefulWidget {
 
 class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   bool _hasBiometric = false;
+  bool _languageBusy = false;
 
   @override
   void initState() {
@@ -228,31 +230,77 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             _sectionLabel(context, l.settingsLanguage),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: SegmentedButton<String>(
-                segments: <ButtonSegment<String>>[
-                  ButtonSegment<String>(
+              child: DropdownButtonFormField<String>(
+                value: settings.locale?.languageCode ?? 'system',
+                isExpanded: true,
+                items: <DropdownMenuItem<String>>[
+                  DropdownMenuItem(
                     value: 'system',
-                    label: Text(l.settingsLanguageSystem),
+                    child: Text(l.settingsLanguageSystem),
                   ),
-                  ButtonSegment<String>(
-                    value: 'it',
-                    label: Text(l.settingsLanguageIt),
-                  ),
-                  ButtonSegment<String>(
-                    value: 'en',
-                    label: Text(l.settingsLanguageEn),
-                  ),
+                  for (final entry in languageNames.entries)
+                    DropdownMenuItem(
+                      value: entry.key,
+                      child: Text(entry.value),
+                    ),
                 ],
-                selected: <String>{settings.locale?.languageCode ?? 'system'},
-                showSelectedIcon: false,
-                onSelectionChanged: (sel) {
-                  final v = sel.first;
+                onChanged: (v) {
+                  if (v == null) return;
                   ref
                       .read(settingsProvider.notifier)
                       .setLocale(v == 'system' ? null : Locale(v));
                 },
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Text(l.settingsLanguageUiHint),
+            ),
+            if (auth.user != null)
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
+                child: DropdownButtonFormField<String>(
+                  key: ValueKey(auth.user!.language),
+                  value: normalizeLanguage(auth.user!.language),
+                  isExpanded: true,
+                  decoration: InputDecoration(
+                    labelText: l.settingsProfileLanguage,
+                    helperText: l.settingsProfileLanguageHint,
+                    helperMaxLines: 4,
+                  ),
+                  items: <DropdownMenuItem<String>>[
+                    for (final entry in languageNames.entries)
+                      DropdownMenuItem(
+                        value: entry.key,
+                        child: Text(entry.value),
+                      ),
+                  ],
+                  onChanged: _languageBusy
+                      ? null
+                      : (value) async {
+                          if (value == null) return;
+                          setState(() => _languageBusy = true);
+                          try {
+                            await ref
+                                .read(authProvider.notifier)
+                                .setProfileLanguage(value);
+                          } on Object catch (error) {
+                            if (context.mounted) {
+                              showSnack(
+                                context,
+                                localizeApiError(l, error),
+                                error: true,
+                              );
+                            }
+                          } finally {
+                            if (mounted) setState(() => _languageBusy = false);
+                          }
+                        },
+                ),
+              ),
             const Divider(),
             _sectionLabel(context, l.settingsTheme),
             Padding(

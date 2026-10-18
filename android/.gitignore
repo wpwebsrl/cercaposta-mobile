@@ -1,9 +1,8 @@
-gradle-wrapper.jar
+# Keep the verified Gradle wrapper JAR and launchers in version control.
 /.gradle
 /captures/
-/gradlew
-/gradlew.bat
 /local.properties
+/.sdk-paths-*.tmp
 GeneratedPluginRegistrant.java
 .cxx/
 

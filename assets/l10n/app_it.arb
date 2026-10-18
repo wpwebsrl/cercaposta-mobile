@@ -1126,12 +1126,23 @@
   "tagsDelete": "Elimina",
   "tagsDeleteTitle": "Elimina tag",
   "tagsDeleteConfirm": "Eliminare il tag «{name}» da tutto l'archivio?",
-  "@tagsDeleteConfirm": {"placeholders": {"name": {"type": "String"}}},
+  "@tagsDeleteConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "tagsName": "Nome",
   "actionDone": "Fine",
   "errorTagNameRequired": "Inserisci un nome per il tag.",
   "errorTagNameTaken": "Esiste già un tag con questo nome.",
   "errorTagInvalidColor": "Il colore scelto non è valido.",
   "errorAiReportMessageNotFound": "Questa risposta non è più disponibile per la segnalazione.",
-  "errorAiReportAssistantOnly": "È possibile segnalare soltanto le risposte dell’assistente."
+  "errorAiReportAssistantOnly": "È possibile segnalare soltanto le risposte dell’assistente.",
+  "settingsLanguageUiHint": "Questa scelta vale solo per l’interfaccia su questo dispositivo.",
+  "settingsProfileLanguage": "Lingua del profilo sul server",
+  "settingsProfileLanguageHint": "Usata per email e risposte AI. Non cambia la lingua dell’interfaccia o i formati di data e numeri.",
+  "searchVoiceChooseLanguage": "Lingua e variante della dettatura locale",
+  "searchVoiceHint": "Dettatura locale. Tieni premuto per scegliere lingua e variante."
 }

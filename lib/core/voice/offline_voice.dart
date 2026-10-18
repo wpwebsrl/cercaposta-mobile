@@ -1,6 +1,29 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:speech_to_text/speech_to_text.dart';
+import '../language_registry.dart';
+
+String? preferredVoiceLocale({
+  required List<String> candidates,
+  required String? explicit,
+  required String deviceLocale,
+  required String uiLanguage,
+}) {
+  String canonical(String value) => value.replaceAll('_', '-').toLowerCase();
+  String? match(String? value) => value == null
+      ? null
+      : candidates.cast<String?>().firstWhere(
+          (candidate) => canonical(candidate!) == canonical(value),
+          orElse: () => null,
+        );
+  if (explicit != null && explicit.isNotEmpty) {
+    return match(explicit);
+  }
+  if (canonical(deviceLocale).split('-').first == normalizeLanguage(uiLanguage)) {
+    return match(deviceLocale);
+  }
+  return null; // Never guess Spain, Mexico, the US, etc. from a neutral UI code.
+}
 
 /// Android uses an exclusively local native recognizer; iOS enforces onDevice.
 /// No branch retries a failed recognition with a remote/default recognizer.
@@ -84,6 +107,22 @@ class OfflineVoice {
         },
       );
     }
+  }
+
+  Future<List<String>> candidateLocales() async {
+    if (!_ready) return [];
+    final values = await _channel
+        .invokeListMethod<String>('locales')
+        .timeout(const Duration(seconds: 5));
+    return (values ?? [])
+        .where(
+          (value) => languageNames.containsKey(
+            value.replaceAll('_', '-').split('-').first.toLowerCase(),
+          ),
+        )
+        .toSet()
+        .toList()
+      ..sort();
   }
 
   Future<void> stop() async {

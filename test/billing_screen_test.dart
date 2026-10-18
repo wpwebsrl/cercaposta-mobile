@@ -13,10 +13,10 @@ class _FakeBillingApi extends BillingApi {
   final BillingOverview value;
 
   @override
-  Future<BillingOverview> overview() async => value;
+  Future<BillingOverview> overview({String? language}) async => value;
 
   @override
-  Future<List<PlanChangeSummary>> changes() async =>
+  Future<List<PlanChangeSummary>> changes({String? language}) async =>
       const <PlanChangeSummary>[];
 }
 
@@ -37,17 +37,28 @@ BillingOverview _overview({
   graceUntil: null,
 );
 
-Future<void> _mount(WidgetTester tester, BillingOverview overview) async {
+Future<void> _mount(
+  WidgetTester tester,
+  BillingOverview overview, {
+  Locale locale = const Locale('it'),
+  double textScale = 1,
+}) async {
   await tester.pumpWidget(
     ProviderScope(
       overrides: <Override>[
         billingApiProvider.overrideWithValue(_FakeBillingApi(overview)),
       ],
-      child: const MaterialApp(
-        locale: Locale('it'),
+      child: MaterialApp(
+        locale: locale,
+        builder: (context, child) => MediaQuery(
+          data: MediaQuery.of(
+            context,
+          ).copyWith(textScaler: TextScaler.linear(textScale)),
+          child: child!,
+        ),
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
-        home: BillingScreen(),
+        home: const BillingScreen(),
       ),
     ),
   );
@@ -55,6 +66,38 @@ Future<void> _mount(WidgetTester tester, BillingOverview overview) async {
 }
 
 void main() {
+  testWidgets(
+    'Spanish long plan text fits a narrow screen at 200 percent text scale',
+    (tester) async {
+      tester.view.physicalSize = const Size(360, 900);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      const name =
+          'Plan profesional de colaboración y almacenamiento compartido con el equipo';
+      await _mount(
+        tester,
+        const BillingOverview(
+          hasSubscription: true,
+          planNameIt: 'Originale',
+          planNameEn: 'Original',
+          localizedPlanName: name,
+          status: 'active',
+          provider: 'stripe',
+          interval: 'monthly',
+          currency: 'EUR',
+          priceCents: 12345,
+          periodEnd: null,
+          graceUntil: null,
+        ),
+        locale: const Locale('es'),
+        textScale: 2,
+      );
+      expect(find.text(name), findsOneWidget);
+      expect(find.text('Original'), findsNothing);
+      expect(tester.takeException(), isNull);
+    },
+  );
   testWidgets(
     'free plan shows unlimited validity and no recurring zero price',
     (tester) async {

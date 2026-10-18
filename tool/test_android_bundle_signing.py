@@ -34,7 +34,9 @@ class BundleSigningTests(unittest.TestCase):
     @classmethod
     def run_jdk(cls, tool, *args, check=True):
         executable = str(cls.tools / (tool + (".exe" if os.name == "nt" else ""))) if cls.tools else tool
-        return subprocess.run([executable, *args], capture_output=True, text=True, timeout=90, check=check)
+        encoding_option = "-Dfile.encoding=UTF-8" if tool == "java" else "-J-Dfile.encoding=UTF-8"
+        return subprocess.run([executable, encoding_option, *args], capture_output=True,
+                              text=True, encoding="utf-8", timeout=90, check=check)
 
     @classmethod
     def make_bundle(cls, path):

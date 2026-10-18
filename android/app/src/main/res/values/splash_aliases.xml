@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Identical artwork on both splash APIs and in both UI modes.
+         Keep both resource names; density selection follows the shared PNGs.
+         After regenerating flutter_native_splash, see docs/android-quality.md. -->
+    <item type="drawable" name="android12splash">@drawable/splash</item>
+</resources>

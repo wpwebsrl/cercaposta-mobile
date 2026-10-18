@@ -6,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_en.dart';
+import 'app_localizations_es.dart';
 import 'app_localizations_it.dart';
 
 // ignore_for_file: type=lint
@@ -95,6 +96,7 @@ abstract class AppLocalizations {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
+    Locale('es'),
     Locale('it'),
   ];
 
@@ -3709,6 +3711,36 @@ abstract class AppLocalizations {
   /// In it, this message translates to:
   /// **'È possibile segnalare soltanto le risposte dell’assistente.'**
   String get errorAiReportAssistantOnly;
+
+  /// No description provided for @settingsLanguageUiHint.
+  ///
+  /// In it, this message translates to:
+  /// **'Questa scelta vale solo per l’interfaccia su questo dispositivo.'**
+  String get settingsLanguageUiHint;
+
+  /// No description provided for @settingsProfileLanguage.
+  ///
+  /// In it, this message translates to:
+  /// **'Lingua del profilo sul server'**
+  String get settingsProfileLanguage;
+
+  /// No description provided for @settingsProfileLanguageHint.
+  ///
+  /// In it, this message translates to:
+  /// **'Usata per email e risposte AI. Non cambia la lingua dell’interfaccia o i formati di data e numeri.'**
+  String get settingsProfileLanguageHint;
+
+  /// No description provided for @searchVoiceChooseLanguage.
+  ///
+  /// In it, this message translates to:
+  /// **'Lingua e variante della dettatura locale'**
+  String get searchVoiceChooseLanguage;
+
+  /// No description provided for @searchVoiceHint.
+  ///
+  /// In it, this message translates to:
+  /// **'Dettatura locale. Tieni premuto per scegliere lingua e variante.'**
+  String get searchVoiceHint;
 }
 
 class _AppLocalizationsDelegate
@@ -3722,7 +3754,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en', 'it'].contains(locale.languageCode);
+      <String>['en', 'es', 'it'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -3733,6 +3765,8 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
   switch (locale.languageCode) {
     case 'en':
       return AppLocalizationsEn();
+    case 'es':
+      return AppLocalizationsEs();
     case 'it':
       return AppLocalizationsIt();
   }

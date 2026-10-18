@@ -6,6 +6,7 @@ import 'package:workmanager/workmanager.dart';
 import '../../features/notifications/notification_text.dart';
 import '../../shared/models/notification.dart';
 import '../i18n/app_localizations.dart';
+import '../language_registry.dart';
 import '../notify/notify_service.dart';
 import '../auth/secure_store.dart';
 import '../auth/session_coordinator.dart';
@@ -216,8 +217,7 @@ Future<Map<String, dynamic>?> _getJson(Dio dio, String path) async {
 
 AppLocalizations _localizations(SharedPreferences prefs) {
   final code = prefs.getString(kPrefLocale);
-  final lang = code == 'en'
-      ? 'en'
-      : 'it'; // catalog only ships it/en; default it
+  final system = WidgetsBinding.instance.platformDispatcher.locale.languageCode;
+  final lang = normalizeLanguage(code == null || code.isEmpty ? system : code);
   return lookupAppLocalizations(Locale(lang));
 }

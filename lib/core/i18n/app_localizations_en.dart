@@ -2103,4 +2103,23 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get errorAiReportAssistantOnly =>
       'Only assistant answers can be reported.';
+
+  @override
+  String get settingsLanguageUiHint =>
+      'This choice applies only to the interface on this device.';
+
+  @override
+  String get settingsProfileLanguage => 'Server profile language';
+
+  @override
+  String get settingsProfileLanguageHint =>
+      'Used for emails and AI answers. It does not change the interface language or date and number formats.';
+
+  @override
+  String get searchVoiceChooseLanguage =>
+      'Language and variant for local dictation';
+
+  @override
+  String get searchVoiceHint =>
+      'Local dictation. Press and hold to choose a language and variant.';
 }

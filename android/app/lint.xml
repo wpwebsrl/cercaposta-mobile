@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<lint>
+    <!-- Android 13+ consumes localeConfig; older systems ignore this manifest
+         attribute and retain Flutter's language picker. Keep minSdk 23.
+         Match only this advisory, not other API attributes or lint issues. -->
+    <issue id="UnusedAttribute">
+        <ignore regexp="^Attribute .localeConfig. is only used in API level 33 and higher \(current min is 23\)$" />
+    </issue>
+    <!-- Preserve the approved legacy white-background artwork on API 23-25.
+         API 26+ already selects the adaptive icon. No globs: new artwork must
+         be reviewed, and other icon checks remain enabled for these files. -->
+    <issue id="IconLauncherShape">
+        <ignore path="src/main/res/mipmap-mdpi/ic_launcher.png" />
+        <ignore path="src/main/res/mipmap-hdpi/ic_launcher.png" />
+        <ignore path="src/main/res/mipmap-xhdpi/ic_launcher.png" />
+        <ignore path="src/main/res/mipmap-xxhdpi/ic_launcher.png" />
+        <ignore path="src/main/res/mipmap-xxxhdpi/ic_launcher.png" />
+    </issue>
+</lint>
