@@ -3,3 +3,5 @@
 "NSSpeechRecognitionUsageDescription" = "Il riconoscimento vocale converte la tua voce in testo per la ricerca. L'elaborazione avviene sul dispositivo.";
 "NSFaceIDUsageDescription" = "Face ID sblocca l'accesso al tuo archivio cifrato.";
 "NSLocalNetworkUsageDescription" = "Si connette al tuo server CercaPosta, che può trovarsi sulla rete locale.";
+"NSPhotoLibraryUsageDescription" = "Consente all'editor dei messaggi di aggiungere immagini dalla libreria foto.";
+"NSPhotoLibraryAddUsageDescription" = "Consente all'editor dei messaggi di salvare immagini nella libreria foto.";

@@ -1,0 +1,7 @@
+/* iOS system permission descriptions — neutral Spanish. */
+"NSMicrophoneUsageDescription" = "El micrófono se usa para buscar por voz en tu archivo de correo.";
+"NSSpeechRecognitionUsageDescription" = "El reconocimiento de voz convierte tu voz en texto para la búsqueda. El procesamiento se realiza en el dispositivo.";
+"NSFaceIDUsageDescription" = "Face ID desbloquea el acceso a tu archivo cifrado.";
+"NSLocalNetworkUsageDescription" = "Se conecta a tu servidor de CercaPosta, que puede estar en tu red local.";
+"NSPhotoLibraryUsageDescription" = "Permite que el editor de mensajes añada imágenes de tu fototeca.";
+"NSPhotoLibraryAddUsageDescription" = "Permite que el editor de mensajes guarde imágenes en tu fototeca.";

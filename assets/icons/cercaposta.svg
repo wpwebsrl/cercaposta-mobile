@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="CercaPosta">
+  <defs>
+    <linearGradient id="cp-mail" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#57CC9E"/>
+      <stop offset="1" stop-color="#3CAE7E"/>
+    </linearGradient>
+  </defs>
+  <!-- Busta della posta (ingrandita, sfondo trasparente) -->
+  <rect x="2" y="10" width="54" height="42" rx="5" fill="url(#cp-mail)"/>
+  <path d="M5.5 14 L29 33 L52.5 14" fill="none" stroke="#ffffff"
+        stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Lente di ingrandimento (ricerca) — gambetta allungata -->
+  <circle cx="44" cy="44" r="11" fill="none" stroke="#4F46E5" stroke-width="6"/>
+  <line x1="53" y1="53" x2="60.5" y2="60.5" stroke="#4F46E5" stroke-width="6" stroke-linecap="round"/>
+</svg>

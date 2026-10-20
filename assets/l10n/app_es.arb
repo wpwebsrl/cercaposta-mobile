@@ -1,0 +1,913 @@
+{
+  "@@locale": "es",
+  "@sharedFromLabel": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@sharedReaderBanner": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@searchResultsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@attachmentsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@foldersMultiple": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@chatPagingRead": {
+    "placeholders": {
+      "read": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "@chatPagingAll": {
+    "placeholders": {
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "@passkeysCreated": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@passkeysLastUsed": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@passkeysRemoveConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@settingsVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "@sessionsLastSeen": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "@sessionsCreated": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "@sessionsIp": {
+    "placeholders": {
+      "ip": {
+        "type": "String"
+      }
+    }
+  },
+  "@errorWeakPasswordDetail": {
+    "placeholders": {
+      "requirements": {
+        "type": "String"
+      }
+    }
+  },
+  "@settingsStorageValue": {
+    "placeholders": {
+      "used": {
+        "type": "String"
+      },
+      "quota": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "@settingsStorageUnlimited": {
+    "placeholders": {
+      "used": {
+        "type": "String"
+      }
+    }
+  },
+  "@errorChatLlmError": {
+    "placeholders": {
+      "detail": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifSummaryTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@memoryAnnounceAlias": {
+    "placeholders": {
+      "key": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@memoryAnnounceGeneric": {
+    "placeholders": {
+      "key": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@memoryAnnounceTrial": {
+    "placeholders": {
+      "what": {
+        "type": "String"
+      }
+    }
+  },
+  "@memoryAppliedNote": {
+    "placeholders": {
+      "list": {
+        "type": "String"
+      }
+    }
+  },
+  "@memoryUsedTimes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@memoryDeleteConfirm": {
+    "placeholders": {
+      "key": {
+        "type": "String"
+      }
+    }
+  },
+  "@memorySuggestionsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@diagnosticsOf": {
+    "placeholders": {
+      "done": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "@diagnosticsAttachmentsPending": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "@diagnosticsMessagesPending": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "@diagnosticsEmbeddingLastError": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      },
+      "detail": {
+        "type": "String"
+      }
+    }
+  },
+  "@diagnosticsRetryAll": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "@diagnosticsRetryExhaustedHint": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "@diagnosticsReasonsTitle": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "@diagnosticsExpectedTitle": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "@diagnosticsEmbedReasonsTitle": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifPlanChangeProposalExpiringBody": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifPlanChangeScheduledBody": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifPlanChangePaymentFailedBody": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@notifPlanChangeGraceExpiringBody": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@tagsDeleteConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "personalAiLabel": "IA personal",
+  "managedAiLabel": "IA de CercaPosta",
+  "appName": "CercaPosta",
+  "actionCancel": "Cancelar",
+  "actionConfirm": "Confirmar",
+  "actionClose": "Cerrar",
+  "actionRetry": "Reintentar",
+  "actionSave": "Guardar",
+  "actionClear": "Limpiar",
+  "actionRemove": "Quitar",
+  "loading": "Cargando…",
+  "loginTitle": "Iniciar sesión",
+  "loginHeading": "Iniciar sesión en CercaPosta",
+  "loginTagline": "Tu archivo de correo, accesible desde cualquier lugar",
+  "loginUsername": "Nombre de usuario",
+  "loginPassword": "Contraseña",
+  "loginButton": "Iniciar sesión",
+  "totpTitle": "Verificación en dos pasos",
+  "totpButton": "Verificar",
+  "unlockPassword": "Contraseña",
+  "kitCopy": "Copiar",
+  "navSearch": "Buscar",
+  "navChat": "Chat de IA",
+  "navSettings": "Configuración",
+  "notificationsTitle": "Notificaciones",
+  "notificationsDismissAll": "Quitar selección",
+  "searchFilters": "Filtros",
+  "searchNewResults": "Nuevos resultados",
+  "sortRelevance": "Relevancia",
+  "sortNewest": "Más recientes",
+  "sortOldest": "Más antiguos",
+  "searchLoading": "Buscando…",
+  "filtersTitle": "Filtros",
+  "filterFrom": "De",
+  "filterSubject": "Asunto",
+  "filterHasAttachments": "Con archivos adjuntos",
+  "filterDateFrom": "Después de",
+  "filterDateTo": "Antes de",
+  "filterTags": "Etiquetas",
+  "filterFolders": "Carpetas",
+  "foldersTitle": "Carpetas",
+  "foldersAll": "Todas las carpetas",
+  "emailTo": "Para",
+  "emailFrom": "De",
+  "chatTitle": "Chat de IA",
+  "chatPhaseSearching": "Buscando…",
+  "settingsTitle": "Configuración",
+  "settingsAccount": "Cuenta",
+  "settingsNotifications": "Notificaciones",
+  "settingsLogout": "Cerrar sesión",
+  "searchClear": "Limpiar búsqueda",
+  "filterSize": "Tamaño",
+  "filterSizeGreater": "mayor que",
+  "filterSizeLess": "menor que",
+  "navFollowups": "En espera",
+  "followupsTitle": "En espera",
+  "followupsLoadMore": "Cargar más",
+  "reminderSubject": "Asunto",
+  "notifChannelName": "Notificaciones",
+  "actionCopy": "Copiar",
+  "memoryDelete": "Eliminar",
+  "diagnosticsActionRetry": "Reintentar",
+  "billingTitle": "Plan y pagos",
+  "tagsTitle": "Etiquetas",
+  "tagsEdit": "Editar",
+  "tagsDelete": "Eliminar",
+  "tagsName": "Nombre",
+  "passkeyErrorAlreadyRegistered": "Esta clave de acceso ya está registrada",
+  "errorInvalidToken": "La sesión ha caducado. Vuelve a iniciar sesión",
+  "errorAdminNotOnMobile": "Las funciones de administración no están disponibles en dispositivos móviles",
+  "errorPreviewUnsupported": "La vista previa no está disponible para este formato",
+  "billingPaymentMethod": "Método de pago",
+  "settingsLanguageUiHint": "Esta elección solo se aplica a la interfaz de este dispositivo.",
+  "settingsProfileLanguage": "Idioma de los correos, los recibos y las respuestas de IA",
+  "settingsProfileLanguageHint": "Se usa para correos, recibos y respuestas de IA. Los recibos de un espacio compartido siguen la preferencia de su titular. El idioma de la interfaz y los formatos de fecha y números son independientes. Los recibos ya emitidos no cambian.",
+  "errorPersonalAiUnavailable": "La IA personal está en pausa: revisa tu plan, el consentimiento y el desbloqueo del archivo en la configuración web.",
+  "errorSessionChanged": "La sesión ha cambiado. Inténtalo de nuevo con la cuenta actual.",
+  "actionApply": "Aplicar",
+  "actionContinue": "Continuar",
+  "actionOpenInBrowser": "Abrir en el navegador",
+  "today": "Hoy",
+  "yesterday": "Ayer",
+  "serverTitle": "Elegir servidor",
+  "serverSubtitle": "Introduce la dirección de tu servidor de CercaPosta.",
+  "serverUrlLabel": "Dirección del servidor",
+  "serverUrlHint": "https://mail.example.com",
+  "serverValidating": "Validando el servidor…",
+  "serverInvalid": "Dirección no válida o servidor inaccesible",
+  "serverNotCercaPosta": "Este servidor no es una instancia de CercaPosta",
+  "serverSavedTitle": "Servidores guardados",
+  "serverNeedsSetup": "Este servidor aún debe configurarse desde la web.",
+  "serverUpdateRequired": "Actualiza la aplicación para usar este servidor.",
+  "loginPasskey": "Iniciar sesión con una clave de acceso",
+  "loginGoogle": "Continuar con Google",
+  "loginApple": "Iniciar sesión con Apple",
+  "loginChangeServer": "Cambiar de servidor",
+  "loginBiometric": "Iniciar sesión con biometría",
+  "loginBiometricReason": "Acceder a tu archivo de correo",
+  "loginEnableBiometricTitle": "Inicio de sesión rápido",
+  "loginEnableBiometricBody": "¿Quieres usar Face ID o tu huella la próxima vez? Este dispositivo guardará una autorización revocable protegida mediante biometría. La aplicación no guardará la contraseña de tu cuenta.",
+  "sharedFromLabel": "de {name}",
+  "sharedReaderBanner": "Carpeta compartida por {name} — solo lectura",
+  "totpSubtitle": "Introduce el código de tu aplicación de autenticación.",
+  "totpCode": "Código de 6 dígitos",
+  "unlockTitle": "Desbloquear archivo",
+  "unlockDescription": "Tu archivo está cifrado. Introduce tu contraseña para acceder a su contenido.",
+  "unlockButton": "Desbloquear",
+  "unlockBiometric": "Desbloquear con biometría",
+  "unlockEnableBiometricTitle": "Desbloqueo rápido",
+  "unlockEnableBiometricBody": "¿Quieres usar Face ID o tu huella para desbloquear el archivo? Este dispositivo guardará una autorización revocable protegida mediante biometría.",
+  "unlockEnableBiometricYes": "Sí, habilitar",
+  "unlockEnableBiometricNo": "No, gracias",
+  "unlockReason": "Desbloquear tu archivo cifrado",
+  "firstPasswordTitle": "Establecer una nueva contraseña",
+  "firstPasswordSubtitle": "En el primer acceso debes elegir una contraseña personal (el administrador nunca la conocerá).",
+  "firstPasswordNew": "Nueva contraseña",
+  "firstPasswordConfirm": "Confirmar contraseña",
+  "firstPasswordMismatch": "Las contraseñas no coinciden",
+  "kitTitle": "Kit de emergencia",
+  "kitBody": "Guarda este código en un lugar seguro: permite recuperar tu archivo si olvidas la contraseña. SOLO se muestra ahora.",
+  "kitCopied": "Copiado al portapapeles",
+  "recoveryTitle": "Recuperación del archivo",
+  "recoverySubtitle": "El administrador ha restablecido tu contraseña. Introduce el código del kit de emergencia y elige una contraseña nueva.",
+  "recoverySecretLabel": "Código de recuperación",
+  "navNotifications": "Avisos",
+  "notificationsEmpty": "No hay notificaciones.",
+  "notificationsDismiss": "Descartar",
+  "notificationsDismissAllConfirm": "¿Eliminar todas las notificaciones? Esta acción no se puede deshacer.",
+  "notifReprocessTitle": "Reprocesa tu archivo para aplicar las últimas actualizaciones",
+  "notifReprocessBody": "Una actualización de la aplicación ha mejorado el tratamiento de los correos ya archivados (por ejemplo, las imágenes incrustadas en las firmas ya no cuentan como adjuntos). El reprocesamiento se inicia desde la aplicación web.",
+  "searchHint": "Buscar… (from:, tag:, has:pdf…)",
+  "searchVoice": "Búsqueda por voz",
+  "searchVoiceListening": "Escuchando…",
+  "searchVoiceUnavailable": "Reconocimiento de voz no disponible",
+  "searchVoicePermission": "Permiso de micrófono denegado",
+  "searchNoResults": "Sin resultados",
+  "sortTooltip": "Ordenar resultados",
+  "searchEmptyPrompt": "Busca en tu archivo con palabras clave u operadores.",
+  "searchResultsCount": "{count, plural, =0{Sin resultados} =1{1 resultado} other{{count} resultados}}",
+  "attachmentsCount": "{count, plural, =1{1 adjunto} other{{count} adjuntos}}",
+  "filterTo": "Para / CC",
+  "filterAttachmentExt": "Tipo de adjunto (p. ej., pdf)",
+  "foldersRefresh": "Actualizar",
+  "foldersEmpty": "No hay carpetas en el archivo",
+  "foldersExpand": "Expandir",
+  "foldersCollapse": "Contraer",
+  "foldersMultiple": "{count} carpetas",
+  "aboutTitle": "Acerca de",
+  "aboutCompany": "WpWeb S.r.l.",
+  "aboutBuildLabel": "compilación",
+  "aboutWebsite": "Visitar wpweb.com",
+  "aboutCredits": "CercaPosta es un producto de WpWeb: un archivo de correo inteligente, cifrado y con búsqueda.\nTodo tu correo, por fin en un solo lugar.\nAños de mensajes, conversaciones y adjuntos, reunidos y ordenados.\nSe acabaron los buzones dispersos, las copias de seguridad antiguas y los archivos olvidados.\nCercaPosta lo reúne todo en un archivo seguro, siempre a tu alcance.\nEncontrar un correo deja de ser una búsqueda del tesoro.\nEscribe lo que recuerdes, como lo dirías en voz alta.\nUn nombre, una fecha, una palabra: los resultados aparecen al instante.\n¿No recuerdas las palabras exactas? No hay problema.\nCercaPosta comprende el significado de tu búsqueda, no solo las palabras.\n¿Buscas «la cotización del fontanero del año pasado»?\nLa encuentra, aunque ese correo nunca usara la palabra «cotización».\nTambién hay un asistente inteligente que lee tu correo por ti.\nHazle preguntas con tus propias palabras y recibe respuestas claras.\n«¿Cuándo confirmé la cita con el dentista?»\n«¿Cuál es el IBAN que me envió el proveedor?»\nResponde citando los correos correctos, para que siempre puedas comprobarlo.\nLos adjuntos también se pueden buscar.\nPDF, documentos, hojas de cálculo e incluso el texto dentro de las imágenes.\nEsa factura, ese contrato, esa foto: a una búsqueda de distancia.\nSe acabaron las horas recorriendo la bandeja de entrada para encontrar un detalle.\nFiltra por carpeta, etiqueta, remitente o fecha.\nAcota la búsqueda con unos clics y ve directo a lo que necesitas.\nCada mensaje se abre de forma clara y fácil de leer.\nY, sobre todo, tus datos siguen siendo tuyos, y solo tuyos.\nTodo se cifra en reposo con tu clave personal.\nUna base de datos o copia de seguridad robada sigue siendo ilegible.\nLa clave de seguridad es tuya y solo tuya.\nCercaPosta es un archivo de solo lectura.\nNunca envía, responde ni cambia nada en tus buzones originales.\nConserva y protege, sin modificar nunca el origen.\nEstá pensado para quienes tienen mucho correo y poco tiempo.\nProfesionales, empresas, despachos, oficinas e instituciones.\nFácil de usar para cualquiera.\nSin manuales ni complicaciones.\nÁbrelo, escribe lo que buscas y encuéntralo. Eso es todo.\nLa memoria de tu correspondencia, siempre contigo.\nLo que necesitas, justo cuando lo necesitas.\nRecupera en segundos lo que creías perdido para siempre.\nEncuentra información, acuerdos y decisiones tomadas por correo.\nConvierte años de correo en un recurso vivo en el que puedes buscar.\nMás orden, menos estrés.\nMás tiempo para lo que de verdad importa.\nRápido al buscar, discreto al conservar.\nFiable siempre que lo necesitas.\nSeguro por diseño, sencillo por elección.\nTu archivo de correo, inteligente y protegido.\nBúsqueda en todo, claridad desde el principio.\nCercaPosta: encuentra todo, no pierdas nada.\nUn producto de WpWeb.\nTecnología que simplifica la vida digital.\nGracias por elegir CercaPosta.",
+  "emailLoading": "Cargando mensaje…",
+  "emailNoBody": "No hay contenido que mostrar.",
+  "emailRawMissing": "El mensaje original ya no está disponible: solo se muestran los metadatos.",
+  "emailAttachments": "Adjuntos",
+  "emailThread": "Conversación",
+  "emailOpenAttachment": "Abrir adjunto",
+  "emailShowRemoteImages": "Mostrar imágenes remotas",
+  "emailAlwaysShowRemoteImagesFromSender": "Mostrar siempre las de este remitente",
+  "emailPecBadge": "PEC",
+  "emailCc": "CC",
+  "emailDate": "Fecha",
+  "emailDetails": "Detalles",
+  "emailThreadEmpty": "No hay más mensajes en esta conversación.",
+  "attachmentLoading": "Cargando vista previa…",
+  "attachmentUnsupported": "La vista previa no está disponible para este tipo de archivo.",
+  "chatHint": "Haz una pregunta sobre tu archivo…",
+  "chatSend": "Enviar",
+  "chatNotConfigured": "El chat de IA no está configurado en este servidor.",
+  "chatDisabled": "El chat de IA está desactivado en este servidor.",
+  "chatNew": "Nueva conversación",
+  "chatHistory": "Historial",
+  "chatHistoryEmpty": "No hay conversaciones guardadas.",
+  "chatCitations": "Fuentes",
+  "chatPhaseUnderstanding": "Interpretando…",
+  "chatPhaseEmbedding": "Análisis semántico…",
+  "chatPhaseReranking": "Reordenando…",
+  "chatPhaseGenerating": "Generando respuesta…",
+  "chatActivitySearch": "Buscando: «{q}»",
+  "chatActivityThread": "Leyendo el hilo «{s}»",
+  "chatActivityThreadGeneric": "Leyendo una conversación",
+  "chatActivityFollowups": "Comprobando el seguimiento de respuestas",
+  "chatActivityStats": "Calculando estadísticas del archivo",
+  "chatActivityContact": "Recopilando el historial de {a}",
+  "chatActivityAttachments": "Leyendo adjuntos: «{q}»",
+  "chatActivityAttachmentsGeneric": "Leyendo adjuntos",
+  "chatCitationsCount": "{count, plural, =1{1 correo} other{{count} correos}}",
+  "chatCitationsOthers": "y {count} más",
+  "chatCitationsShowAll": "{count, plural, =1{Mostrar el último} other{Mostrar los otros {count}}}",
+  "chatCitationsUnusedLegend": "En gris: correos leídos que no se usaron en la respuesta.",
+  "chatPagingRead": "Se han leído {read} de {total} correos para esta búsqueda.",
+  "chatPagingAll": "Se han leído los {total} correos para esta búsqueda.",
+  "chatEmbeddingFailed": "Búsqueda semántica no disponible: los resultados usan solo palabras clave.",
+  "settingsLegalAndSupport": "Información legal y soporte",
+  "legalPrivacy": "Política de privacidad",
+  "legalTerms": "Condiciones de uso",
+  "legalSupport": "Soporte",
+  "legalSupportHint": "Contactos, teléfono y formas de solicitar ayuda",
+  "googleErrorCancelled": "Se canceló el inicio de sesión con Google",
+  "googleErrorState": "La sesión de Google ya no es válida: vuelve a iniciar sesión",
+  "googleErrorConfiguration": "El inicio de sesión con Google no está configurado correctamente en el servidor",
+  "googleErrorIdentity": "Google no pudo verificar tu identidad",
+  "googleErrorLinkRequired": "Esta dirección ya existe: vincula Google desde el perfil web antes de usarlo aquí",
+  "googleErrorRegistrationRequired": "Primero crea la cuenta en el sitio web y después inicia sesión desde esta aplicación",
+  "googleErrorInactive": "La cuenta de CercaPosta no está activa",
+  "googleErrorInvalid": "El inicio de sesión con Google no es válido o ha caducado: inténtalo de nuevo",
+  "googleErrorDisabled": "El inicio de sesión con Google no está habilitado en este servidor",
+  "googleErrorUnavailable": "El inicio de sesión con Google no está disponible",
+  "appleErrorCancelled": "Se canceló el inicio de sesión con Apple",
+  "appleErrorState": "La sesión de Apple ya no es válida: vuelve a iniciar sesión",
+  "appleErrorIdentity": "Apple no pudo verificar tu identidad",
+  "appleErrorLinkRequired": "Esta dirección ya existe: vincula Apple desde el perfil web antes de usarlo aquí",
+  "appleErrorRegistrationRequired": "Primero crea la cuenta en el sitio web y después inicia sesión desde esta aplicación",
+  "appleErrorInactive": "La cuenta de CercaPosta no está activa",
+  "appleErrorInvalid": "El inicio de sesión con Apple no es válido o ha caducado: inténtalo de nuevo",
+  "appleErrorDisabled": "El inicio de sesión con Apple no está habilitado en este servidor",
+  "appleErrorUnavailable": "El inicio de sesión con Apple no está disponible",
+  "settingsServer": "Servidor",
+  "settingsLanguage": "Idioma",
+  "settingsLanguageSystem": "Sistema",
+  "settingsLanguageIt": "Italiano",
+  "settingsLanguageEn": "Inglés",
+  "settingsTheme": "Tema",
+  "settingsThemeLight": "Claro",
+  "settingsThemeDark": "Oscuro",
+  "settingsThemeAuto": "Automático",
+  "settingsRemoteImages": "Imágenes en el correo",
+  "settingsRemoteImagesAlways": "Mostrar siempre imágenes remotas",
+  "settingsRemoteImagesWarning": "Es más cómodo, pero puede informar a los remitentes de que has abierto un correo. Para mayor privacidad, permite solo remitentes de confianza.",
+  "settingsOsNotifications": "Notificaciones del sistema",
+  "settingsOsNotificationsHint": "Muestra las nuevas notificaciones en el centro de notificaciones del teléfono. En Android se comprueban aproximadamente cada 15 minutos; en iOS, cuando lo permite el sistema.",
+  "settingsOsNotificationsDenied": "Permiso denegado: habilita las notificaciones de CercaPosta en la configuración del sistema.",
+  "settingsBiometric": "Inicio de sesión y desbloqueo con biometría",
+  "settingsBiometricEnablePrompt": "Confirma tu contraseña para autorizar este dispositivo y después completa la verificación biométrica. La aplicación no conservará tu contraseña.",
+  "settingsSessions": "Dispositivos y sesiones",
+  "passkeysTitle": "Claves de acceso",
+  "passkeysSettingsHint": "Inicia sesión sin escribir tu contraseña",
+  "passkeysDescription": "Las claves de acceso usan el desbloqueo seguro de tu dispositivo, como la huella, el rostro o el PIN. La clave privada nunca sale del dispositivo ni del proveedor de claves de acceso.",
+  "passkeysAdd": "Añadir una clave de acceso",
+  "passkeysEmpty": "Aún no has registrado ninguna clave de acceso.",
+  "passkeysSynced": "Sincronizada",
+  "passkeysDeviceBound": "Solo este dispositivo",
+  "passkeysCreated": "Creada el {date}",
+  "passkeysLastUsed": "Último uso: {date}",
+  "passkeysRename": "Cambiar nombre",
+  "passkeysRenameTitle": "Cambiar nombre de la clave de acceso",
+  "passkeysName": "Nombre de la clave de acceso",
+  "passkeysRemoveTitle": "Eliminar clave de acceso",
+  "passkeysRemoveConfirm": "¿Eliminar la clave de acceso «{name}»? Ya no podrás usarla para iniciar sesión.",
+  "passkeysPasswordStays": "Las claves de acceso son opcionales: la contraseña y el inicio de sesión con Google siguen disponibles. En un archivo cifrado, un dispositivo nuevo o que no sea de confianza sigue necesitando la contraseña o el kit de recuperación para desbloquear el contenido.",
+  "passkeyErrorCancelled": "Operación cancelada",
+  "passkeyErrorNoCredential": "No hay ninguna clave de acceso de CercaPosta disponible en este dispositivo",
+  "passkeyErrorDomainNotAssociated": "Este servidor aún no está asociado correctamente con la aplicación para las claves de acceso",
+  "passkeyErrorUnavailable": "Las claves de acceso no están disponibles en este dispositivo. Puedes seguir iniciando sesión con tu contraseña.",
+  "passkeyErrorTimeout": "La solicitud de clave de acceso superó el tiempo de espera. Inténtalo de nuevo.",
+  "passkeyErrorInvalid": "La clave de acceso no se reconoce o ya no es válida",
+  "passkeyErrorNotConfigured": "Las claves de acceso aún no están configuradas en este servidor",
+  "settingsAbout": "Acerca de",
+  "settingsVersion": "Versión {version}",
+  "sessionsTitle": "Dispositivos y sesiones",
+  "sessionsCurrent": "Este dispositivo",
+  "sessionsRevoke": "Desconectar",
+  "sessionsRevokeAll": "Desconectar todos",
+  "sessionsRevokeAllConfirm": "¿Desconectar todos los dispositivos? Tendrás que volver a iniciar sesión en cada uno.",
+  "sessionsEmpty": "No hay sesiones activas.",
+  "sessionsLastSeen": "Última actividad: {when}",
+  "sessionsCreated": "Activa desde: {when}",
+  "sessionsIp": "Dirección IP: {ip}",
+  "serverHttpsRequired": "El servidor debe usar HTTPS. No se permiten direcciones http:// sin cifrar.",
+  "serverRemoveSaved": "Eliminar de los servidores guardados",
+  "searchLoadMoreError": "No se pudo cargar. Toca para reintentar.",
+  "filterAccount": "Cuenta (ID del origen)",
+  "emailBcc": "CCO",
+  "emailLinkError": "No se pudo abrir el enlace",
+  "attachmentShare": "Compartir",
+  "attachmentShareError": "No se pudo compartir el adjunto",
+  "chatStop": "Detener",
+  "chatDelete": "Eliminar conversación",
+  "chatDeleteConfirm": "¿Eliminar esta conversación?",
+  "chatRename": "Cambiar nombre",
+  "chatRenameTitle": "Cambiar nombre de la conversación",
+  "chatStatusError": "No se pudo comprobar el estado del chat",
+  "settingsChangeServer": "Cambiar de servidor",
+  "settingsChangeServerConfirm": "¿Cambiar de servidor? Se cerrará la sesión en el actual.",
+  "errorWeakPasswordDetail": "La contraseña debe incluir: {requirements}",
+  "pwMinLength": "una longitud mayor",
+  "pwRequireLower": "una letra minúscula",
+  "pwRequireUpper": "una letra mayúscula",
+  "pwRequireDigit": "un dígito",
+  "pwRequireSymbol": "un símbolo",
+  "pwMinCharClasses": "más tipos de caracteres",
+  "updateAvailable": "Hay una versión más reciente de la aplicación.",
+  "updateRequiredTitle": "Actualización necesaria",
+  "updateRequiredBody": "El servidor ya no admite esta versión de la aplicación ({current}). Actualiza a la última versión para seguir usando CercaPosta.",
+  "updateRequiredButton": "Actualizar ahora",
+  "updateStoreError": "No se pudo abrir la tienda. Actualiza manualmente desde App Store o Play Store.",
+  "emailPecSection": "Sobre de transporte PEC",
+  "emailPecTransportFrom": "Transportado por",
+  "emailPecTransportSubject": "Asunto del sobre",
+  "emailPecTransportDate": "Fecha de transporte",
+  "emailPecDaticert": "Certificación (daticert.xml) presente",
+  "settingsStorage": "Almacenamiento",
+  "settingsStorageValue": "{used} de {quota} ({percent}%)",
+  "settingsStorageUnlimited": "{used} · sin límite",
+  "errorInvalidCredentials": "Credenciales no válidas",
+  "errorAccountBanned": "Cuenta bloqueada temporalmente por demasiados intentos",
+  "errorInvalidRefresh": "La sesión no es válida. Vuelve a iniciar sesión",
+  "errorForbidden": "Operación no permitida",
+  "errorFeatureNotInPlan": "Esta función no está incluida en el plan actual",
+  "errorTotpInvalidCode": "Código no válido",
+  "errorTotpExpired": "El código ha caducado. Vuelve a iniciar sesión",
+  "errorDekLocked": "Archivo bloqueado. Desbloquéalo con tu contraseña.",
+  "errorRecoveryFailed": "La recuperación falló. Revisa tu código de recuperación.",
+  "errorWeakPassword": "La contraseña no cumple los requisitos de seguridad",
+  "errorTotpSetupRequired": "Tu cuenta requiere verificación en dos pasos: configúrala desde la web antes de iniciar sesión en la aplicación",
+  "errorChatNotConfigured": "Chat de IA no configurado",
+  "errorChatLlmError": "Error del modelo de IA: {detail}",
+  "errorNotFound": "No encontrado",
+  "errorPreviewFailed": "No se pudo generar la vista previa",
+  "errorRawMissing": "El archivo ya no está disponible",
+  "errorValidation": "Datos no válidos",
+  "errorNetwork": "Error de red. Comprueba tu conexión.",
+  "errorGeneric": "Error inesperado",
+  "errorFollowupNotRemindable": "Ya no se puede enviar un recordatorio para este seguimiento.",
+  "errorFollowupNotConfigured": "El modelo de análisis no está configurado en este servidor.",
+  "errorFollowupDraftFailed": "No se pudo generar el recordatorio. Inténtalo de nuevo.",
+  "errorFollowupSendNoSource": "No hay ninguna cuenta de origen que pueda enviar este mensaje.",
+  "errorSendConsentRequired": "Debes volver a autorizar la cuenta de Microsoft 365 para enviar desde la aplicación web.",
+  "errorMailAuthFailed": "Falló la autenticación en la cuenta de correo.",
+  "errorMailSendFailed": "El envío falló. Inténtalo más tarde.",
+  "followupsTabTheirTurn": "En espera de respuesta",
+  "followupsTabMyTurn": "Por responder",
+  "followupsEmpty": "No hay seguimientos abiertos.",
+  "followupsRecentlyClosed": "Cerrados recientemente",
+  "followupsDisabledTitle": "Función no habilitada",
+  "followupsDisabledBody": "El seguimiento de respuestas se habilita desde tu perfil en la aplicación web.",
+  "followupsUnavailableTitle": "Requiere un servidor actualizado",
+  "followupsUnavailableBody": "Este servidor aún no ofrece la gestión del seguimiento de respuestas.",
+  "followupsPausedEndpoint": "Análisis en pausa: el endpoint de IA no responde. El archivo sigue sincronizándose.",
+  "followupsPausedCap": "Análisis en pausa: se alcanzó el límite diario.",
+  "followupsPausedBilling": "Análisis en pausa: se alcanzó el límite del plan de IA.",
+  "followupsActionOpen": "Abrir conversación",
+  "followupsActionReminder": "Preparar recordatorio",
+  "followupsActionDone": "Hecho",
+  "followupsActionSnooze1": "Aplazar 1 día",
+  "followupsActionSnooze3": "Aplazar 3 días",
+  "followupsActionDismiss": "Descartar",
+  "followupsActionError": "La acción falló",
+  "followupsChipAnswered": "Respondido",
+  "followupsChipDismissed": "Descartado",
+  "followupsChipSnoozed": "Aplazado hasta el {date}",
+  "followupsChipReminded": "Recordatorio enviado el {date}",
+  "followupsChipRemindedMany": "Recordatorio enviado el {date} ×{count}",
+  "followupsChipOverdue": "{days, plural, =1{1 día de retraso} other{{days} días de retraso}}",
+  "followupsChipDueToday": "Vence hoy",
+  "followupsChipDueTomorrow": "Vence mañana",
+  "followupsChipDueOn": "Vence el {date}",
+  "reminderTitle": "Preparar recordatorio",
+  "reminderGenerating": "Generando borrador…",
+  "reminderFailed": "No se pudo generar el borrador.",
+  "reminderMessage": "Mensaje",
+  "reminderRegister": "Registro",
+  "reminderRegisterAuto": "Automático",
+  "reminderRegisterTu": "Informal",
+  "reminderRegisterLei": "Formal",
+  "reminderRegisterUsed": "Registro: {register} ({source})",
+  "reminderRegisterSourceManual": "elegido",
+  "reminderRegisterSourceContact": "recordado para el contacto",
+  "reminderRegisterSourceDetected": "detectado a partir de tu estilo",
+  "reminderRegisterSourceDefault": "predeterminado",
+  "reminderRememberContact": "Recordar para el contacto",
+  "reminderRemembered": "Registro recordado para este contacto",
+  "reminderLanguage": "Idioma",
+  "reminderLanguageAuto": "Automático",
+  "reminderInstructionsHint": "Instrucciones para regenerar (opcional)",
+  "reminderRegenerate": "Regenerar",
+  "reminderExpand": "Pantalla completa",
+  "reminderInstructions": "Instrucciones",
+  "reminderIncludeOriginal": "Citar el correo original al final",
+  "reminderAppendedNote": "La firma, el aviso de IA y las citas se añaden automáticamente.",
+  "reminderSendFromNote": "Se enviará desde tu cuenta {from}",
+  "reminderPreview": "Vista previa del correo",
+  "reminderPreviewTitle": "Vista previa del correo",
+  "reminderSendNow": "Enviar desde CercaPosta",
+  "reminderSent": "Recordatorio enviado desde {from}",
+  "notifFollowupNoReplyTitle": "{name} no ha respondido",
+  "notifFollowupNoReplyBody": "«{summary}» — sin respuesta desde hace {days} días.",
+  "notifFollowupReplyDueTitle": "Debes responder a {name}",
+  "notifFollowupReplyDueBody": "«{summary}» — el plazo venció hace {days} días.",
+  "notifSummaryTitle": "{count} notificaciones nuevas",
+  "notifSummaryBody": "Abre CercaPosta para verlas todas.",
+  "notifFollowupDueSoonTitle": "Se acerca el vencimiento",
+  "notifFollowupDueSoonBody": "«{summary}» — {name}: vence el {date}.",
+  "notifFollowupReminderSentTitle": "Recordatorio enviado a {name}",
+  "notifFollowupReminderSentBody": "«{summary}» — se ha enviado el recordatorio automático.",
+  "notifFollowupDigestTitle": "Resumen del seguimiento de respuestas",
+  "notifFollowupDigestBody": "{overdue} vencidos · {dueToday} vencen hoy · {waitingMe} respuestas pendientes de enviar.",
+  "notifOpenConversation": "Abrir conversación",
+  "actionCopied": "Copiado al portapapeles",
+  "emailHeadersTitle": "Encabezados del mensaje",
+  "emailHeadersEmpty": "No hay encabezados disponibles",
+  "followupMarkTitle": "Marcar como pendiente de respuesta",
+  "followupMarkTheirTurn": "Estoy esperando una respuesta",
+  "followupMarkTheirTurnHint": "He escrito y estoy esperando que respondan",
+  "followupMarkMyTurn": "Debo responder",
+  "followupMarkMyTurnHint": "Me han escrito y me toca responder",
+  "followupMarkDue": "Plazo (opcional)",
+  "followupMarkPickDue": "Elegir una fecha",
+  "followupMarkConfirm": "Crear",
+  "followupMarkCreated": "Marcado como pendiente de respuesta",
+  "errorFollowupAlreadyActive": "Ya hay un seguimiento abierto en esta conversación.",
+  "errorFollowupNoCounterpart": "No se puede determinar quién debe responder: prueba la otra dirección.",
+  "memoryTitle": "Memoria del chat",
+  "memorySettingsHint": "Lo que el asistente ha aprendido sobre ti",
+  "memoryIntro": "Esto es todo lo que el asistente ha aprendido sobre ti: cómo llamas a las personas, cómo prefieres los listados y qué datos da por sabidos. Puedes pausar u olvidar cualquier elemento, y no se aprende nada sin avisarte. Para añadir un recuerdo, dilo en el chat: «recuerda que…».",
+  "memoryPolicyLearn": "Aprender de mis conversaciones",
+  "memoryPolicyLearnHint": "Cuando está activado, el asistente propone lo que observa mientras trabajan juntos: te avisa cada vez y puedes deshacerlo. Si lo desactivas, solo se conservan los recuerdos que escribas tú.",
+  "memoryPolicyEnabled": "Usar la memoria en las respuestas",
+  "memoryPolicyEnabledHint": "Desactivar esta opción conserva todos los recuerdos, pero deja de aplicarlos: es una pausa, no una eliminación.",
+  "memoryAnnounceAlias": "He aprendido que para ti «{key}» significa {value}.",
+  "memoryAnnounceGeneric": "He aprendido: {key} → {value}.",
+  "memoryAnnounceTrial": "{what} Por ahora lo mantengo en prueba: todavía no lo uso.",
+  "memoryAnnounceUndo": "Deshacer",
+  "memoryAnnounceUndone": "Deshecho: no lo he conservado.",
+  "memoryAnnounceRejected": "De acuerdo, no volveré a proponerlo.",
+  "memoryAppliedNote": "De la memoria: {list}",
+  "memoryListEmpty": "Aún no hay nada en la memoria. Puedes decirlo en el chat: «recuerda que…».",
+  "memoryListEmptyFiltered": "No hay recuerdos en este estado.",
+  "memoryFilterAll": "Todos",
+  "memoryFilterActive": "Activos",
+  "memoryFilterTrial": "En prueba",
+  "memoryFilterRejected": "Rechazados",
+  "memoryFilterDisabled": "En pausa",
+  "memoryStatusActive": "Activo",
+  "memoryStatusTrial": "En prueba",
+  "memoryStatusRejected": "Rechazado",
+  "memoryStatusDisabled": "En pausa",
+  "memoryStatusTrialHint": "aún lo estoy aprendiendo; todavía no lo uso",
+  "memoryStatusStaleHint": "no se usa desde hace meses: páusalo si ya no lo necesitas",
+  "memoryKindAlias": "Cómo llamas a las personas",
+  "memoryKindParam": "Cómo quieres las búsquedas",
+  "memoryKindRender": "Cómo quieres los listados",
+  "memoryKindFact": "Datos que tener en cuenta",
+  "memoryKindShortcut": "Preguntas frecuentes",
+  "memoryTriggerSearch": "al buscar",
+  "memoryTriggerListing": "en los listados",
+  "memoryTriggerContact": "sobre contactos",
+  "memoryTriggerAlways": "siempre",
+  "memorySourceExplicit": "lo dijiste tú",
+  "memorySourceCorrection": "a partir de una corrección tuya",
+  "memorySourceRecurrence": "a partir de un hábito",
+  "memorySourceSuggested": "propuesto por el archivo",
+  "memorySourceInferred": "deducido de algo que escribiste",
+  "memoryUsedTimes": "{count, plural, =1{usado una vez} other{usado {count} veces}}",
+  "memoryEnable": "Reanudar",
+  "memoryDisable": "Pausar",
+  "memoryReject": "No recordar esto nunca",
+  "memoryUnreject": "He cambiado de opinión",
+  "memoryDeleteConfirm": "¿Eliminar el recuerdo «{key}»? Si prefieres que no vuelva a proponerse, usa «No recordar esto nunca».",
+  "memorySuggestionsTitle": "Alias sugeridos por tu archivo",
+  "memorySuggestionsHint": "Nombres que en tu archivo solo pueden referirse a una persona. Si los aceptas, al mencionarlos en el chat se buscará directamente su dirección.",
+  "memorySuggestionsAccept": "Aceptar",
+  "memorySuggestionsCount": "{count, plural, =1{1 correo} other{{count} correos}}",
+  "diagnosticsTitle": "Diagnóstico",
+  "diagnosticsIntro": "Comprueba si realmente se puede buscar en todo lo importado. Si falta algo, verás el motivo y, cuando corresponda, qué puedes hacer.",
+  "diagnosticsStatusOk": "Todo correcto: el archivo está completo y se puede buscar en él.",
+  "diagnosticsStatusWorking": "El trabajo sigue en curso: aún no se puede buscar en parte del archivo. No tienes que hacer nada.",
+  "diagnosticsStatusAttention": "Hay algo que conviene revisar a continuación.",
+  "diagnosticsMessages": "Mensajes en la búsqueda con IA",
+  "diagnosticsAttachments": "Texto leído dentro de los adjuntos",
+  "diagnosticsOf": "{done} de {total}",
+  "diagnosticsAttachmentsPending": "{n} adjuntos en cola",
+  "diagnosticsMessagesPending": "{n} mensajes en cola",
+  "diagnosticsEmbeddingOff": "Búsqueda con IA desactivada",
+  "diagnosticsEmbeddingPaused": "en pausa: límites del plan de IA",
+  "diagnosticsEmbeddingActive": "cola en ejecución",
+  "diagnosticsEmbeddingLastError": "último error ({when}): {detail}",
+  "diagnosticsRetryAll": "Reintentar {n} adjuntos",
+  "diagnosticsRetryHint": "Se detuvieron por un fallo temporal: otro intento puede funcionar.",
+  "diagnosticsRetryExhaustedHint": "{n} de estos ya agotaron los cinco intentos automáticos: tiene sentido reintentar si ya se ha resuelto lo que los detuvo.",
+  "diagnosticsReasonsTitle": "Por qué {n} adjuntos no tienen texto",
+  "diagnosticsExpectedTitle": "{n} adjuntos no eran documentos que leer",
+  "diagnosticsEmbedReasonsTitle": "Por qué {n} mensajes no entraron en la búsqueda con IA",
+  "diagnosticsActionAskAdmin": "Requiere al administrador",
+  "diagnosticsActionNone": "No hay nada que hacer",
+  "diagnosticsReasonTikaHttpError": "El lector de documentos no respondía",
+  "diagnosticsReasonTikaTimeout": "El documento tardó demasiado",
+  "diagnosticsReasonTikaServerError": "El lector de documentos devolvió un error",
+  "diagnosticsReasonTikaBusy": "El lector de documentos está ocupado temporalmente",
+  "diagnosticsReasonTikaPartial": "Solo se recuperó parte del texto del documento",
+  "diagnosticsReasonTikaInvalidLimits": "Los límites de extracción no son válidos: contacta con el administrador",
+  "diagnosticsReasonTikaRejected": "El lector de documentos rechazó el archivo",
+  "diagnosticsReasonTikaUnsupported": "Tipo de archivo que no puedo leer",
+  "diagnosticsReasonExtractBacklogError": "Error inesperado durante la lectura",
+  "diagnosticsReasonUnmatchedPart": "No se encontró el adjunto dentro del mensaje",
+  "diagnosticsReasonOverSizeLimit": "Supera el límite de tamaño permitido",
+  "diagnosticsReasonEmpty": "Archivo vacío",
+  "diagnosticsReasonSignatureFile": "Firma digital, no es un documento",
+  "diagnosticsReasonInlineImage": "Imagen incrustada en el mensaje (logotipo, firma)",
+  "diagnosticsReasonUnknown": "Causa no registrada",
+  "diagnosticsSettingsHint": "Comprueba si se puede buscar en todo lo importado y qué falta",
+  "billingSettingsHint": "Plan actual, renovación y cambios programados",
+  "billingCurrentPlan": "Plan actual",
+  "billingNoPlan": "No hay ningún plan activo.",
+  "billingStatus": "Estado",
+  "billingRecurringPrice": "Precio recurrente",
+  "billingPeriodEnd": "Fin del período",
+  "billingPlanValidity": "Vigencia del plan",
+  "billingNoExpiration": "Sin vencimiento",
+  "billingPeriodicity": "Frecuencia de facturación",
+  "billingIntervalMonthly": "Mensual",
+  "billingIntervalAnnual": "Anual",
+  "billingNextRenewal": "Próxima renovación",
+  "billingNextRenewalAmount": "Importe de la próxima renovación",
+  "billingDateUnavailable": "La fecha aún no está disponible",
+  "billingGraceUntil": "Período de tolerancia hasta",
+  "billingPendingChanges": "Cambios de plan",
+  "billingEffectiveAt": "Fecha de entrada en vigor",
+  "billingAmountDue": "Importe previsto",
+  "billingManageInBrowser": "Gestionar el plan y los pagos",
+  "billingExternalCheckoutHint": "Para proteger tu pago, el proceso de pago, los reintentos y las cancelaciones se completan en el navegador seguro de CercaPosta.",
+  "billingStatusActive": "Activo",
+  "billingStatusFree": "Gratuito",
+  "billingStatusPastDue": "Pago vencido",
+  "billingStatusSuspended": "Suspendido",
+  "billingStatusCanceled": "Cancelado",
+  "billingProviderManual": "Pago manual",
+  "billingChangePendingAcceptance": "Pendiente de tu aceptación",
+  "billingChangePendingPayment": "Pendiente de pago",
+  "billingChangeScheduled": "Programado",
+  "billingChangeProcessing": "En proceso",
+  "billingChangePaymentGrace": "Pago fallido · período de tolerancia",
+  "billingChangeCanceling": "Cancelación en curso",
+  "notifPlanChangeProposalTitle": "Tienes una propuesta de cambio de plan",
+  "notifPlanChangeProposalBody": "Abre Plan y pagos para revisar el precio, el crédito y la fecha de entrada en vigor.",
+  "notifPlanChangeProposalExpiringTitle": "La propuesta está a punto de caducar",
+  "notifPlanChangeProposalExpiringBody": "Revísala antes del {date}.",
+  "notifPlanChangeExpiredTitle": "El cambio de plan ha caducado",
+  "notifPlanChangeExpiredBody": "El cambio no se aplicó y se mantuvo el plan anterior.",
+  "notifPlanChangeScheduledTitle": "El cambio de plan está programado",
+  "notifPlanChangeScheduledBody": "El cambio se aplicará el {date}; tu plan actual seguirá activo hasta entonces.",
+  "notifPlanChangeAppliedTitle": "Tu nuevo plan está activo",
+  "notifPlanChangeAppliedBody": "Las nuevas cuotas y funciones ya están disponibles.",
+  "notifPlanChangeCanceledTitle": "Se canceló el cambio de plan",
+  "notifPlanChangeCanceledBody": "Tu plan actual se mantiene sin cambios.",
+  "notifPlanChangePaymentFailedTitle": "El pago falló",
+  "notifPlanChangePaymentFailedBody": "Tu plan anterior sigue activo. Reintenta el pago antes del {date}.",
+  "notifPlanChangeRetryTitle": "Puedes reintentar el pago",
+  "notifPlanChangeRetryBody": "Abre Plan y pagos para completar el nuevo intento.",
+  "notifPlanChangeGraceExpiringTitle": "El período de tolerancia está a punto de finalizar",
+  "notifPlanChangeGraceExpiringBody": "Completa el pago antes del {date}.",
+  "notifPlanChangeGraceExpiredTitle": "El período de tolerancia ha finalizado",
+  "notifPlanChangeGraceExpiredBody": "El cambio no se aplicó porque no se completó el pago.",
+  "notifPlanChangeActionRequiredTitle": "El cambio de plan requiere asistencia",
+  "notifPlanChangeActionRequiredBody": "Revisa Plan y pagos o contacta con soporte.",
+  "passkeyUnsupportedServer": "Las claves de acceso no están disponibles para este servidor en esta versión de la aplicación. Usa contraseña, Google o Apple; puedes gestionar las claves de acceso en el sitio web del servidor.",
+  "searchVoiceLocalUnavailable": "El reconocimiento en el dispositivo no está disponible para este idioma o dispositivo. Usa el teclado; Android requiere Android 12 o posterior y un reconocedor local instalado.",
+  "deliveryHistory": "Resultados de los envíos",
+  "deliveryReference": "Referencia del envío",
+  "deliverySending": "Enviando",
+  "deliverySent": "Aceptado por el servicio de correo",
+  "deliveryFailed": "No enviado",
+  "deliveryUnknown": "Resultado pendiente de verificar",
+  "deliveryChecked": "He comprobado el resultado con el servicio de correo y he confirmado que el intento ya no está en curso. Si el proceso estaba bloqueado, he solicitado que se detuviera.",
+  "deliveryConfirmSent": "Confirmar aceptación",
+  "deliveryConfirmFailed": "Confirmar que no se envió",
+  "deliveryResolved": "Resultado registrado. No se envió ningún mensaje nuevo.",
+  "deliveryEmpty": "No hay intentos de envío registrados.",
+  "errorDeliveryUnknown": "El servicio de correo puede haber aceptado el mensaje. Consulta Resultados de los envíos y verifica el resultado con el proveedor antes de reintentar.",
+  "errorDeliverySending": "Ya hay un envío en curso para esta respuesta pendiente. No lo reintentes.",
+  "errorDeliveryConflict": "Esta solicitud ya se ha procesado o tiene un contenido diferente. Consulta Resultados de los envíos.",
+  "errorDeliveryCheckRequired": "Verifica el resultado con el servicio de correo antes de confirmarlo.",
+  "errorMailNotAccepted": "El intento falló antes de que el servicio de correo lo aceptara. Corrige el problema y reintenta.",
+  "errorMailDeliveryUnknown": "El resultado del envío es incierto. Compruébalo con el servicio de correo antes de reintentar.",
+  "biometricErrorCancelled": "Se canceló la verificación biométrica. Puedes iniciar sesión con tu contraseña.",
+  "biometricErrorUnavailable": "El almacenamiento biométrico no está disponible. Usa tu contraseña; si has cambiado las huellas o Face ID, vuelve a habilitar la biometría en la configuración.",
+  "biometricErrorReenroll": "La autorización de este dispositivo ha caducado o ya no es válida. Inicia sesión manualmente y vuelve a habilitar la biometría en la configuración.",
+  "errorReauthenticationRequired": "Por seguridad, cierra la sesión y vuelve a iniciarla con tu método habitual; después habilita la biometría antes de que transcurran 5 minutos.",
+  "aiReportAction": "Reportar respuesta",
+  "aiReportTitle": "Reportar respuesta de IA",
+  "aiReportIntro": "La respuesta y tu comentario se enviarán de forma segura a los administradores para su revisión.",
+  "aiReportReason": "Motivo",
+  "aiReportReasonMisleading": "Engañosa o incorrecta",
+  "aiReportReasonHarmful": "Perjudicial",
+  "aiReportReasonIllegal": "Contenido ilegal",
+  "aiReportReasonPrivacy": "Problema de privacidad",
+  "aiReportReasonOther": "Otro",
+  "aiReportComment": "Comentario opcional",
+  "aiReportCommentHint": "Explica qué problema tiene la respuesta",
+  "aiReportSend": "Enviar reporte",
+  "aiReportSent": "Reporte enviado",
+  "aiReportAlreadySent": "Esta respuesta ya se había reportado",
+  "tagsAssignHint": "Asigna etiquetas a este mensaje o gestiona las etiquetas disponibles",
+  "tagsManageMessage": "Gestionar etiquetas",
+  "tagsEmpty": "Aún no has creado ninguna etiqueta.",
+  "tagsCreate": "Crear etiqueta",
+  "tagsCreateTitle": "Nueva etiqueta",
+  "tagsEditTitle": "Editar etiqueta",
+  "tagsDeleteTitle": "Eliminar etiqueta",
+  "tagsDeleteConfirm": "¿Eliminar la etiqueta «{name}» de todo el archivo?",
+  "actionDone": "Hecho",
+  "errorTagNameRequired": "Introduce un nombre para la etiqueta.",
+  "errorTagNameTaken": "Ya existe una etiqueta con este nombre.",
+  "errorTagInvalidColor": "El color seleccionado no es válido.",
+  "errorAiReportMessageNotFound": "Esta respuesta ya no está disponible para reportarla.",
+  "errorAiReportAssistantOnly": "Solo se pueden reportar respuestas del asistente.",
+  "searchVoiceChooseLanguage": "Idioma y variante del dictado local",
+  "searchVoiceHint": "Dictado local. Mantén pulsado para elegir el idioma y la variante."
+}

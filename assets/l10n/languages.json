@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "default_language": "it",
+  "fallbacks": {
+    "commercial": "en",
+    "email": "it",
+    "receipt": "it"
+  },
+  "languages": [
+    {
+      "code": "it",
+      "native_name": "Italiano",
+      "direction": "ltr",
+      "plural_categories": [
+        "one",
+        "many",
+        "other"
+      ],
+      "english_name": "Italian",
+      "flag": "it"
+    },
+    {
+      "code": "en",
+      "native_name": "English",
+      "direction": "ltr",
+      "plural_categories": [
+        "one",
+        "other"
+      ],
+      "english_name": "English",
+      "flag": "en"
+    },
+    {
+      "code": "es",
+      "native_name": "Español",
+      "direction": "ltr",
+      "plural_categories": [
+        "one",
+        "many",
+        "other"
+      ],
+      "english_name": "Spanish",
+      "flag": "es"
+    }
+  ]
+}

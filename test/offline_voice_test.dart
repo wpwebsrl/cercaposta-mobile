@@ -22,6 +22,48 @@ class SpeechFake extends Fake implements SpeechToText {
 }
 
 void main() {
+  test(
+    'voice preferences preserve exact regional variants independently of the profile',
+    () {
+      const candidates = ['es-MX', 'es-ES', 'it-IT'];
+      expect(
+        preferredVoiceLocale(
+          candidates: candidates,
+          explicit: 'es_ES',
+          deviceLocale: 'es-MX',
+          uiLanguage: 'it',
+        ),
+        'es-ES',
+      );
+      expect(
+        preferredVoiceLocale(
+          candidates: candidates,
+          explicit: null,
+          deviceLocale: 'es-MX',
+          uiLanguage: 'es',
+        ),
+        'es-MX',
+      );
+      expect(
+        preferredVoiceLocale(
+          candidates: candidates,
+          explicit: null,
+          deviceLocale: 'it-IT',
+          uiLanguage: 'es',
+        ),
+        isNull,
+      );
+      expect(
+        preferredVoiceLocale(
+          candidates: candidates,
+          explicit: 'es-AR',
+          deviceLocale: 'es-MX',
+          uiLanguage: 'es',
+        ),
+        isNull,
+      );
+    },
+  );
   TestWidgetsFlutterBinding.ensureInitialized();
   const channel = MethodChannel('cercaposta/offline_speech');
   final messenger =

@@ -1,0 +1,1158 @@
+{
+  "format": 1,
+  "flutter_version": "3.32.3",
+  "jdk_major": 17,
+  "components": [
+    {
+      "name": "app_links",
+      "files": [
+        {
+          "path": "build.gradle",
+          "before_sha256": "e1b3670e0000bc6d82b7d6613c5289a55583514072b4a8129c2c98867c34a38c",
+          "after_sha256": "f9e92adfe2be086904fa14410b18a06ec666773687d09f84abd897b578e3ad76",
+          "replacements": [
+            {
+              "before": "group 'com.llfbandit.app_links'",
+              "after": "group = 'com.llfbandit.app_links'",
+              "count": 1
+            },
+            {
+              "before": "version '1.0'",
+              "after": "version = '1.0'",
+              "count": 1
+            },
+            {
+              "before": "    namespace 'com.llfbandit.app_links'",
+              "after": "    namespace = 'com.llfbandit.app_links'",
+              "count": 1
+            },
+            {
+              "before": "com.android.tools.build:gradle:8.6.1",
+              "after": "com.android.tools.build:gradle:8.13.2",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "path": "src/main/AndroidManifest.xml",
+          "before_sha256": "05fed04650879166aa0256e09ecb5ea512282a18dd15f25e5640e659e2e24173",
+          "after_sha256": "bfe643676c7bfecf2683b1ad8044a754bc53141c9e4fc6714ad58c1530937b6d",
+          "replacements": [
+            {
+              "before": "\n  package=\"com.llfbandit.app_links\"",
+              "after": "",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "biometric_storage",
+      "files": [
+        {
+          "path": "build.gradle",
+          "before_sha256": "26f0088ca5547ae754856dd06058dd047b7d882a2d261caef065465557e7b846",
+          "after_sha256": "66058c539d1c54a3fb3c04c0b1095c37a02552c654017f4428921e7ced514671",
+          "replacements": [
+            {
+              "before": "group 'design.codeux.biometric_storage'",
+              "after": "group = 'design.codeux.biometric_storage'",
+              "count": 1
+            },
+            {
+              "before": "version '1.0-SNAPSHOT'",
+              "after": "version = '1.0-SNAPSHOT'",
+              "count": 1
+            },
+            {
+              "before": "    namespace \"design.codeux.biometric_storage\"",
+              "after": "    namespace = \"design.codeux.biometric_storage\"",
+              "count": 1
+            },
+            {
+              "before": "com.android.tools.build:gradle:8.1.0",
+              "after": "com.android.tools.build:gradle:8.13.2",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "device_info_plus",
+      "files": [
+        {
+          "path": "build.gradle",
+          "before_sha256": "918016d5abdf6ce59098442b90247dc207cf18a057bbc2b24dbb77a7c2f5d58a",
+          "after_sha256": "0d674472fb8753feaa7c9cc11aea0ea78a73d17f0f20821912c58c6d100fb675",
+          "replacements": [
+            {
+              "before": "group 'dev.fluttercommunity.plus.device_info'",
+              "after": "group = 'dev.fluttercommunity.plus.device_info'",
+              "count": 1
+            },
+            {
+              "before": "version '1.0-SNAPSHOT'",
+              "after": "version = '1.0-SNAPSHOT'",
+              "count": 1
+            },
+            {
+              "before": "\n    namespace 'dev.fluttercommunity.plus.device_info'",
+              "after": "\n    namespace = 'dev.fluttercommunity.plus.device_info'",
+              "count": 1
+            },
+            {
+              "before": "com.android.tools.build:gradle:8.3.1",
+              "after": "com.android.tools.build:gradle:8.13.2",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "path": "src/main/AndroidManifest.xml",
+          "before_sha256": "3eb7c97a650161469eb5e1e4060e828d42a053c43afa7726912c0f216e7b5c04",
+          "after_sha256": "21058c692532098e42afc39cf09de946c38229ec414bb7ac32f4fc90ba9a5f45",
+          "replacements": [
+            {
+              "before": " package=\"dev.fluttercommunity.plus.device_info\"",
+              "after": "",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "flutter_keyboard_visibility_temp_fork",
+      "files": [
+        {
+          "path": "build.gradle",
+          "before_sha256": "e9f16c4b6d788952d080298735138e41b617327ddef9464ff983d19d9b01b9b5",
+          "after_sha256": "b9a45b359376d3ffbc33661a3e7fa616e9d3518962ff73b666af8032d37c148e",
+          "replacements": [
+            {
+              "before": "group 'com.jrai.flutter_keyboard_visibility_temp_fork'",
+              "after": "group = 'com.jrai.flutter_keyboard_visibility_temp_fork'",
+              "count": 1
+            },
+            {
+              "before": "version '1.0'",
+              "after": "version = '1.0'",
+              "count": 1
+            },
+            {
+              "before": "        namespace 'com.jrai.flutter_keyboard_visibility_temp_fork'",
+              "after": "        namespace = 'com.jrai.flutter_keyboard_visibility_temp_fork'",
+              "count": 1
+            },
+            {
+              "before": "com.android.tools.build:gradle:7.4.2",
+              "after": "com.android.tools.build:gradle:8.13.2",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "path": "src/main/AndroidManifest.xml",
+          "before_sha256": "35d708663bf121c0e98cb1b449208dcbf3ff4fec385f3f4c069859b8941b653c",
+          "after_sha256": "bfe643676c7bfecf2683b1ad8044a754bc53141c9e4fc6714ad58c1530937b6d",
+          "replacements": [
+            {
+              "before": "\n  package=\"com.jrai.flutter_keyboard_visibility_temp_fork\"",
+              "after": "",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "flutter_local_notifications",
+      "files": [
+        {
+          "path": "build.gradle",
+          "before_sha256": "7277cb9cb647af09f23566979bd61d1f84fa314e37c5e4706d3934258343eaa9",
+          "after_sha256": "63e8374a94f83f801e4bd5135db6d1dd074b4558f3345ccf7af2b5a8d444eec3",
+          "replacements": [
+            {
+              "before": "group 'com.dexterous.flutterlocalnotifications'",
+              "after": "group = 'com.dexterous.flutterlocalnotifications'",
+              "count": 1
+            },
+            {
+              "before": "version '1.0-SNAPSHOT'",
+              "after": "version = '1.0-SNAPSHOT'",
+              "count": 1
+            },
+            {
+              "before": "    namespace 'com.dexterous.flutterlocalnotifications'",
+              "after": "    namespace = 'com.dexterous.flutterlocalnotifications'",
+              "count": 1
+            },
+            {
+              "before": "        coreLibraryDesugaringEnabled true",
+              "after": "        coreLibraryDesugaringEnabled = true",
+              "count": 1
+            },
+            {
+              "before": "        multiDexEnabled true",
+              "after": "        multiDexEnabled = true",
+              "count": 1
+            },
+            {
+              "before": "com.android.tools.build:gradle:7.3.1",
+              "after": "com.android.tools.build:gradle:8.13.2",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "path": "src/main/AndroidManifest.xml",
+          "before_sha256": "2b26cb02e28e4c5bda51026d15f7652a37c607996e58b268e31ad513f59014be",
+          "after_sha256": "dd537eba088285545c7d8d6bd184a867a9b985de606f5d8ea6351def05554676",
+          "replacements": [
+            {
+              "before": "\n  package=\"com.dexterous.flutterlocalnotifications\"",
+              "after": "",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "flutter_native_splash",
+      "files": [
+        {
+          "path": "build.gradle",
+          "before_sha256": "e661f2ef6f9ebe3d78a8e5806a84085ec0b88ba8dfd83fc3e1daf67a8d887748",
+          "after_sha256": "29cc887620f5e10fd6b07438c90f69b37e8610ba967fa0d5cb4b46830d95b4ff",
+          "replacements": [
+            {
+              "before": "com.android.tools.build:gradle:8.7.0",
+              "after": "com.android.tools.build:gradle:8.13.2",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "path": "src/main/AndroidManifest.xml",
+          "before_sha256": "721f48f109bc6e2d878cfde4259317e14b633b0e3f22fdd03118c4164ccf8777",
+          "after_sha256": "bfe643676c7bfecf2683b1ad8044a754bc53141c9e4fc6714ad58c1530937b6d",
+          "replacements": [
+            {
+              "before": "\n  package=\"net.jonhanson.flutter_native_splash\"",
+              "after": "",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "flutter_plugin_android_lifecycle",
+      "files": [
+        {
+          "path": "build.gradle",
+          "before_sha256": "84d8c4374faabececb3cef1bc093b6159acafb51d4d7dea37d12e620772cc61a",
+          "after_sha256": "11cd7676748812ffe37745dbd170d9d4fc8ca701d3aa61514af7d5ef2fbd3a8a",
+          "replacements": [
+            {
+              "before": "com.android.tools.build:gradle:8.12.1",
+              "after": "com.android.tools.build:gradle:8.13.2",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "path": "src/main/AndroidManifest.xml",
+          "before_sha256": "9fc3806a78cd2abc3c5f8403c26c91c46856a202395be51c7913f06fff379324",
+          "after_sha256": "bfe643676c7bfecf2683b1ad8044a754bc53141c9e4fc6714ad58c1530937b6d",
+          "replacements": [
+            {
+              "before": "\n  package=\"io.flutter.plugins.flutter_plugin_android_lifecycle\"",
+              "after": "",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "flutter_secure_storage",
+      "files": [
+        {
+          "path": "build.gradle",
+          "before_sha256": "fd69c260d8c1af9ed6baa65928d32ba396fff05c3071cab02b29ab81cd4ce535",
+          "after_sha256": "a22dc037df574de4963e449d0d56f306c88b0441f5fb51566158db32b76c72cb",
+          "replacements": [
+            {
+              "before": "group 'com.it_nomads.fluttersecurestorage'",
+              "after": "group = 'com.it_nomads.fluttersecurestorage'",
+              "count": 1
+            },
+            {
+              "before": "version '1.0-SNAPSHOT'",
+              "after": "version = '1.0-SNAPSHOT'",
+              "count": 1
+            },
+            {
+              "before": "com.android.tools.build:gradle:8.5.1",
+              "after": "com.android.tools.build:gradle:8.13.2",
+              "count": 1
+            },
+            {
+              "before": "namespace(\"com.it_nomads.fluttersecurestorage\")",
+              "after": "namespace = \"com.it_nomads.fluttersecurestorage\"",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "path": "src/main/AndroidManifest.xml",
+          "before_sha256": "6aaaf7e290c13412c7220943588a94db06a4d1e59f738191be838d1d04837c89",
+          "after_sha256": "3762b3b3d5e0bb2e84f7e942150efa5f2534c81823538676225e113b61b5e41c",
+          "replacements": [
+            {
+              "before": "\n    package=\"com.it_nomads.fluttersecurestorage\"",
+              "after": "",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "local_auth_android",
+      "files": [
+        {
+          "path": "build.gradle",
+          "before_sha256": "0fbfff0b2f77edbfae31a5fb44d136bdd4e1e0b41ea1cb52e1857f29e526e464",
+          "after_sha256": "ef3c2e7f1d24892535519bbdeb349c4ba2963b5b9bf29855f5e322c395e54215",
+          "replacements": [
+            {
+              "before": "group 'io.flutter.plugins.localauth'",
+              "after": "group = 'io.flutter.plugins.localauth'",
+              "count": 1
+            },
+            {
+              "before": "version '1.0-SNAPSHOT'",
+              "after": "version = '1.0-SNAPSHOT'",
+              "count": 1
+            },
+            {
+              "before": "    namespace 'io.flutter.plugins.localauth'",
+              "after": "    namespace = 'io.flutter.plugins.localauth'",
+              "count": 1
+            },
+            {
+              "before": "        checkAllWarnings true",
+              "after": "        checkAllWarnings = true",
+              "count": 1
+            },
+            {
+              "before": "        warningsAsErrors true",
+              "after": "        warningsAsErrors = true",
+              "count": 1
+            },
+            {
+              "before": "com.android.tools.build:gradle:8.12.1",
+              "after": "com.android.tools.build:gradle:8.13.2",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "path": "src/main/AndroidManifest.xml",
+          "before_sha256": "a1fb3228427aeaffb2020da0ac8c11d1ac2110c9b029dd7b3fdc19595e459370",
+          "after_sha256": "0e88ec0dee44b891359592c8c8921e24947ff0e835bbeb11a0ff053802373509",
+          "replacements": [
+            {
+              "before": "\n  package=\"io.flutter.plugins.localauth\"",
+              "after": "",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "package_info_plus",
+      "files": [
+        {
+          "path": "build.gradle",
+          "before_sha256": "9316cefca0b101f59d9ff7a854ee3e469b7357b62690ce7e65efb3af0fec306a",
+          "after_sha256": "718579ca4e6addc3d6ff8f37ba1cc18d932dd5fba13cc49a13557455737c0e52",
+          "replacements": [
+            {
+              "before": "group 'dev.fluttercommunity.plus.packageinfo'",
+              "after": "group = 'dev.fluttercommunity.plus.packageinfo'",
+              "count": 1
+            },
+            {
+              "before": "version '1.0-SNAPSHOT'",
+              "after": "version = '1.0-SNAPSHOT'",
+              "count": 1
+            },
+            {
+              "before": "    namespace 'dev.fluttercommunity.plus.packageinfo'",
+              "after": "    namespace = 'dev.fluttercommunity.plus.packageinfo'",
+              "count": 1
+            },
+            {
+              "before": "com.android.tools.build:gradle:8.12.1",
+              "after": "com.android.tools.build:gradle:8.13.2",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "path": "src/main/AndroidManifest.xml",
+          "before_sha256": "1fed12f6ed66e599c7ac1f2fc73c688f46d7d8b56d7bfb2fc226b7057b1bf74e",
+          "after_sha256": "21058c692532098e42afc39cf09de946c38229ec414bb7ac32f4fc90ba9a5f45",
+          "replacements": [
+            {
+              "before": " package=\"dev.fluttercommunity.plus.packageinfo\"",
+              "after": "",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "passkeys_android",
+      "files": [
+        {
+          "path": "build.gradle",
+          "before_sha256": "b48620eeded383b8bca5f0ed8a15b3c1a210b1b8beb7ba267ad1f2d54fc0ade7",
+          "after_sha256": "4407115873b200d2ee8da1e83e30ef6799e60afb38654cf9ff1730858ea09318",
+          "replacements": [
+            {
+              "before": "group 'com.corbado.passkeys_android'",
+              "after": "group = 'com.corbado.passkeys_android'",
+              "count": 1
+            },
+            {
+              "before": "version '1.0-SNAPSHOT'",
+              "after": "version = '1.0-SNAPSHOT'",
+              "count": 1
+            },
+            {
+              "before": "        namespace 'com.corbado.passkeys_android'",
+              "after": "        namespace = 'com.corbado.passkeys_android'",
+              "count": 1
+            },
+            {
+              "before": "        multiDexEnabled true",
+              "after": "        multiDexEnabled = true",
+              "count": 1
+            },
+            {
+              "before": "com.android.tools.build:gradle:7.4.2",
+              "after": "com.android.tools.build:gradle:8.13.2",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "path": "src/main/AndroidManifest.xml",
+          "before_sha256": "27862750078df57d0b286fb13058cf22f34f8494d3a3454014daf71c31c76152",
+          "after_sha256": "e14386333589b0ded5755ce81639dbea6d0a8a96f884a6d294e47e72b85b28df",
+          "replacements": [
+            {
+              "before": "\n  package=\"com.corbado.passkeys_android\"",
+              "after": "",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "passkeys_doctor",
+      "files": [
+        {
+          "path": "build.gradle",
+          "before_sha256": "8591da2e8e12b090d27cbadbaa98b15869b2e0e872dbd8746ade218e92ba065a",
+          "after_sha256": "1c95a391eeba4ebf6a36dc3df5dc02acbbf4ef50b2c79ac7207d80dffae464f2",
+          "replacements": [
+            {
+              "before": "com.android.tools.build:gradle:8.7.0",
+              "after": "com.android.tools.build:gradle:8.13.2",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "path": "src/main/AndroidManifest.xml",
+          "before_sha256": "903eeb449565522212275474ac8605a80926bf243ccfbce60bf280d0728ddbda",
+          "after_sha256": "bfe643676c7bfecf2683b1ad8044a754bc53141c9e4fc6714ad58c1530937b6d",
+          "replacements": [
+            {
+              "before": "\n  package=\"com.corbado.passkeys_doctor\"",
+              "after": "",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "path": "src/main/java/com/corbado/passkeys_doctor/PasskeysDoctorPlugin.java",
+          "before_sha256": "c5ef0cd3229b46d0cd292a009f76fe76cce9ecfea845d9e41845a8bfd565d24b",
+          "after_sha256": "4f44ecd9b37a7c3827b4dc293f384aea15f96c743c2bf83f1669b93ea87b27a5",
+          "replacements": [
+            {
+              "before": "        pkgInfo = pm.getPackageInfo(\n                applicationContext.getPackageName(),\n                PackageManager.GET_SIGNING_CERTIFICATES\n        );",
+              "after": "        pkgInfo = Build.VERSION.SDK_INT >= 33\n                ? pm.getPackageInfo(applicationContext.getPackageName(),\n                    PackageManager.PackageInfoFlags.of(PackageManager.GET_SIGNING_CERTIFICATES))\n                : getSigningInfoBefore33(pm, applicationContext.getPackageName());",
+              "count": 1
+            },
+            {
+              "before": "        pkgInfo = pm.getPackageInfo(\n                applicationContext.getPackageName(),\n                PackageManager.GET_SIGNATURES\n        );\n        sigs = pkgInfo.signatures;",
+              "after": "        sigs = getSignaturesBefore28(pm, applicationContext.getPackageName());",
+              "count": 1
+            },
+            {
+              "before": "  @NonNull\n  @Override\n  public List<String> getFingerprints()",
+              "after": "  // Android 28-32 needs the int-flags overload; keep legacy use confined here.\n  @SuppressWarnings(\"deprecation\")\n  private static PackageInfo getSigningInfoBefore33(PackageManager pm, String name)\n          throws PackageManager.NameNotFoundException {\n    return pm.getPackageInfo(name, PackageManager.GET_SIGNING_CERTIFICATES);\n  }\n\n  // The API 23-27 contract requires these fields; the modern API does not exist there.\n  @SuppressWarnings(\"deprecation\")\n  private static Signature[] getSignaturesBefore28(PackageManager pm, String name)\n          throws PackageManager.NameNotFoundException {\n    return pm.getPackageInfo(name, PackageManager.GET_SIGNATURES).signatures;\n  }\n\n  @NonNull\n  @Override\n  public List<String> getFingerprints()",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "path_provider_android",
+      "files": [
+        {
+          "path": "build.gradle",
+          "before_sha256": "a7bbf99ee2abd676075284a5d69cf60a796691cdda6b102f87a5262992260e8b",
+          "after_sha256": "fb29ca2643bf212db89a1bb3c1d3b7b9394827131e3766f19437e05f85382f3a",
+          "replacements": [
+            {
+              "before": "com.android.tools.build:gradle:8.12.1",
+              "after": "com.android.tools.build:gradle:8.13.2",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "path": "src/main/AndroidManifest.xml",
+          "before_sha256": "aa2145e43e68e77541695b13e51a60318936cba47436f384e2e371ba18d37921",
+          "after_sha256": "bfe643676c7bfecf2683b1ad8044a754bc53141c9e4fc6714ad58c1530937b6d",
+          "replacements": [
+            {
+              "before": "\n  package=\"io.flutter.plugins.pathprovider\"",
+              "after": "",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "pdfx",
+      "files": [
+        {
+          "path": "build.gradle",
+          "before_sha256": "a30a3a7448376631548c4a25a59d886b19c4c637419d442dd39b73a313b53b10",
+          "after_sha256": "292bd8f6c432a47e1053ec21e20664f44abe4d87ea93f3f48d58d42f469817e0",
+          "replacements": [
+            {
+              "before": "group 'io.scer.pdf_renderer'",
+              "after": "group = 'io.scer.pdf_renderer'",
+              "count": 1
+            },
+            {
+              "before": "version '1.0-SNAPSHOT'",
+              "after": "version = '1.0-SNAPSHOT'",
+              "count": 1
+            },
+            {
+              "before": "        namespace 'io.scer.pdf_renderer'",
+              "after": "        namespace = 'io.scer.pdf_renderer'",
+              "count": 1
+            },
+            {
+              "before": "com.android.tools.build:gradle:8.5.2",
+              "after": "com.android.tools.build:gradle:8.13.2",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "quill_native_bridge_android",
+      "files": [
+        {
+          "path": "build.gradle",
+          "before_sha256": "8c05736236d077ea364d09215e9ada37ae31239e0f63f4f47096138302368050",
+          "after_sha256": "d0fd6d120e775449d9d7413709b3919d8f9f965d1d28510284b7b821c0fc0275",
+          "replacements": [
+            {
+              "before": "com.android.tools.build:gradle:8.1.0",
+              "after": "com.android.tools.build:gradle:8.13.2",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "path": "src/main/AndroidManifest.xml",
+          "before_sha256": "edeacda6669ca7cc91d4e7f00123fbf422135753cd9dfd3503acbe681d1c41ec",
+          "after_sha256": "bfe643676c7bfecf2683b1ad8044a754bc53141c9e4fc6714ad58c1530937b6d",
+          "replacements": [
+            {
+              "before": "\n  package=\"dev.flutterquill.quill_native_bridge\"",
+              "after": "",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "share_plus",
+      "files": [
+        {
+          "path": "build.gradle",
+          "before_sha256": "9f3c6dd13b48c2e333c8922e334dceb05e1b6ea812d28ce0b9e77e97969411ab",
+          "after_sha256": "52b58a008b487f5e8b70ef9372e7659deff4616e5f5ba35875819dfd8f38dcb9",
+          "replacements": [
+            {
+              "before": "group 'dev.fluttercommunity.plus.share'",
+              "after": "group = 'dev.fluttercommunity.plus.share'",
+              "count": 1
+            },
+            {
+              "before": "version '1.0-SNAPSHOT'",
+              "after": "version = '1.0-SNAPSHOT'",
+              "count": 1
+            },
+            {
+              "before": "    namespace 'dev.fluttercommunity.plus.share'",
+              "after": "    namespace = 'dev.fluttercommunity.plus.share'",
+              "count": 1
+            },
+            {
+              "before": "com.android.tools.build:gradle:8.12.1",
+              "after": "com.android.tools.build:gradle:8.13.2",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "path": "src/main/AndroidManifest.xml",
+          "before_sha256": "3e1c953fd617a2967a2f28fbd7018dc587554fb9d6f7b1e6a56646207aea2c55",
+          "after_sha256": "0d9e059f6adeb4197a98afb750384331090f41a3f20feeec40a1c3c7029061fd",
+          "replacements": [
+            {
+              "before": "\n  package=\"dev.fluttercommunity.plus.share\"",
+              "after": "",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "shared_preferences_android",
+      "files": [
+        {
+          "path": "build.gradle",
+          "before_sha256": "9bda7dd82c91eaf8de6ce4244296eb1bc250f3a2a412dc876821685b2fedb6c3",
+          "after_sha256": "c470f5bcd64b0e894d803d266d9c92519a019d90e500d1f845e0ac9ff46c6eec",
+          "replacements": [
+            {
+              "before": "group 'io.flutter.plugins.sharedpreferences'",
+              "after": "group = 'io.flutter.plugins.sharedpreferences'",
+              "count": 1
+            },
+            {
+              "before": "version '1.0-SNAPSHOT'",
+              "after": "version = '1.0-SNAPSHOT'",
+              "count": 1
+            },
+            {
+              "before": "    namespace 'io.flutter.plugins.sharedpreferences'",
+              "after": "    namespace = 'io.flutter.plugins.sharedpreferences'",
+              "count": 1
+            },
+            {
+              "before": "        checkAllWarnings true",
+              "after": "        checkAllWarnings = true",
+              "count": 1
+            },
+            {
+              "before": "        warningsAsErrors true",
+              "after": "        warningsAsErrors = true",
+              "count": 1
+            },
+            {
+              "before": "com.android.tools.build:gradle:8.12.1",
+              "after": "com.android.tools.build:gradle:8.13.2",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "path": "src/main/AndroidManifest.xml",
+          "before_sha256": "40c4f0d01fe04626ece76e3470ad233060bec2de9adc4c53071a51e2e39acd5b",
+          "after_sha256": "bfe643676c7bfecf2683b1ad8044a754bc53141c9e4fc6714ad58c1530937b6d",
+          "replacements": [
+            {
+              "before": "\n  package=\"io.flutter.plugins.sharedpreferences\"",
+              "after": "",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "path": "src/main/kotlin/io/flutter/plugins/sharedpreferences/SharedPreferencesPlugin.kt",
+          "before_sha256": "e32b161625485ef199f3431b43d494a4e544c19ac4eb8e4dff9aa37206d174c2",
+          "after_sha256": "b194435896738b7ecc131bfa8bd7ce514ec4e52fe1ed026f223ab2a822bb176c",
+          "replacements": [
+            {
+              "before": "!value!!.startsWith(JSON_LIST_PREFIX)",
+              "after": "!value.startsWith(JSON_LIST_PREFIX)",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "sign_in_with_apple",
+      "files": [
+        {
+          "path": "build.gradle",
+          "before_sha256": "4a51c7b1590a0f5a64f53e9bc7f79e19f5aacb6d825db2547569de4d5a43e3b8",
+          "after_sha256": "20eaf87f58950b77ae5867a1999a228efe82585685d17fe4c8c18326fbd41298",
+          "replacements": [
+            {
+              "before": "group 'com.aboutyou.dart_packages.sign_in_with_apple'",
+              "after": "group = 'com.aboutyou.dart_packages.sign_in_with_apple'",
+              "count": 1
+            },
+            {
+              "before": "version '1.0-SNAPSHOT'",
+              "after": "version = '1.0-SNAPSHOT'",
+              "count": 1
+            },
+            {
+              "before": "        namespace 'com.aboutyou.dart_packages.sign_in_with_apple'",
+              "after": "        namespace = 'com.aboutyou.dart_packages.sign_in_with_apple'",
+              "count": 1
+            },
+            {
+              "before": "com.android.tools.build:gradle:7.4.2",
+              "after": "com.android.tools.build:gradle:8.13.2",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "path": "src/main/AndroidManifest.xml",
+          "before_sha256": "936767aa8aea786720ca146a055016a67615c2382588277406edf6d5832ab2b5",
+          "after_sha256": "bfe643676c7bfecf2683b1ad8044a754bc53141c9e4fc6714ad58c1530937b6d",
+          "replacements": [
+            {
+              "before": "\n  package=\"com.aboutyou.dart_packages.sign_in_with_apple\"",
+              "after": "",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "speech_to_text",
+      "files": [
+        {
+          "path": "build.gradle",
+          "before_sha256": "df104306878240f8e445b42913ccc6abb471e87f9fcc917594e76a5d8592e635",
+          "after_sha256": "9ca16c21a8e7e8b793d217a3e1368abc3033f81fcf0ff70f7a53d69fbe936aed",
+          "replacements": [
+            {
+              "before": "group 'com.csdcorp.speech_to_text'",
+              "after": "group = 'com.csdcorp.speech_to_text'",
+              "count": 1
+            },
+            {
+              "before": "version '1.0-SNAPSHOT'",
+              "after": "version = '1.0-SNAPSHOT'",
+              "count": 1
+            },
+            {
+              "before": "    namespace 'com.csdcorp.speech_to_text'",
+              "after": "    namespace = 'com.csdcorp.speech_to_text'",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "path": "src/main/kotlin/com/csdcorp/speech_to_text/SpeechToTextPlugin.kt",
+          "before_sha256": "2cd94b5a09917965784f7128fe0fd2e9642eb8e7f5a2abd2ae92450ea63b577f",
+          "after_sha256": "b539dc0947ef57f6d690c20e826a4382f171a6becc01b9ff97d322d49a8a8deb",
+          "replacements": [
+            {
+              "before": "import android.bluetooth.BluetoothAdapter",
+              "after": "import android.bluetooth.BluetoothAdapter\nimport android.bluetooth.BluetoothManager",
+              "count": 1
+            },
+            {
+              "before": "recognizer?.checkRecognitionSupport",
+              "after": "recognizer.checkRecognitionSupport",
+              "count": 1
+            },
+            {
+              "before": "recognizer?.destroy()",
+              "after": "recognizer.destroy()",
+              "count": 2
+            },
+            {
+              "before": "bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()",
+              "after": "bluetoothAdapter = (pluginContext?.getSystemService(Context.BLUETOOTH_SERVICE) as? BluetoothManager)?.adapter",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "sqflite_android",
+      "files": [
+        {
+          "path": "build.gradle",
+          "before_sha256": "881ac3e5fc6586f47fdc3cd5a4d2b45a77c61b71236e83ae0f21c93bff2ccc76",
+          "after_sha256": "8717e0e7b47681ee3ff0206c8313bde32c4530c4c7176e78f2bcdcf2ede7360a",
+          "replacements": [
+            {
+              "before": "group 'com.tekartik.sqflite'",
+              "after": "group = 'com.tekartik.sqflite'",
+              "count": 1
+            },
+            {
+              "before": "version '1.0-SNAPSHOT'",
+              "after": "version = '1.0-SNAPSHOT'",
+              "count": 1
+            },
+            {
+              "before": "        namespace 'com.tekartik.sqflite'",
+              "after": "        namespace = 'com.tekartik.sqflite'",
+              "count": 1
+            },
+            {
+              "before": "com.android.tools.build:gradle:8.5.0",
+              "after": "com.android.tools.build:gradle:8.13.2",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "path": "src/main/AndroidManifest.xml",
+          "before_sha256": "e9ab5dc3669d81484b3a6194d0bcd67675e37f5047122bb9d86c93ca206d9e16",
+          "after_sha256": "bfe643676c7bfecf2683b1ad8044a754bc53141c9e4fc6714ad58c1530937b6d",
+          "replacements": [
+            {
+              "before": "\n    package=\"com.tekartik.sqflite\"",
+              "after": "",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ua_client_hints",
+      "files": [
+        {
+          "path": "build.gradle",
+          "before_sha256": "f36f7ed2973e972ec1a11d07a60517340bd97765e8801c8342d0f719f57c8884",
+          "after_sha256": "2d8c73042eec037dae3f4010ae299d25be6dd2958ef8d0cbd57c4f536fd83176",
+          "replacements": [
+            {
+              "before": "group 'jp.wasabeef.ua.client_hints'",
+              "after": "group = 'jp.wasabeef.ua.client_hints'",
+              "count": 1
+            },
+            {
+              "before": "version '1.5.0'",
+              "after": "version = '1.5.0'",
+              "count": 1
+            },
+            {
+              "before": "    namespace 'jp.wasabeef.ua.client_hints'",
+              "after": "    namespace = 'jp.wasabeef.ua.client_hints'",
+              "count": 1
+            },
+            {
+              "before": "com.android.tools.build:gradle:8.3.2",
+              "after": "com.android.tools.build:gradle:8.13.2",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "path": "src/main/AndroidManifest.xml",
+          "before_sha256": "63a6169c25e428116723e5483bc45438e743d2b083576962eea6386795f82233",
+          "after_sha256": "bfe643676c7bfecf2683b1ad8044a754bc53141c9e4fc6714ad58c1530937b6d",
+          "replacements": [
+            {
+              "before": "\n  package=\"jp.wasabeef.ua.client_hints\"",
+              "after": "",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "url_launcher_android",
+      "files": [
+        {
+          "path": "build.gradle",
+          "before_sha256": "4b7afb7c9f2916f31c98f3ebfc13d80734bc4191daebe3fd39de825d9b40f4c3",
+          "after_sha256": "072945d31b3f7863b46e2c43cd6ee2a9d7eb2a63cba2b1d9e3f37922b9342b2c",
+          "replacements": [
+            {
+              "before": "group 'io.flutter.plugins.urllauncher'",
+              "after": "group = 'io.flutter.plugins.urllauncher'",
+              "count": 1
+            },
+            {
+              "before": "version '1.0-SNAPSHOT'",
+              "after": "version = '1.0-SNAPSHOT'",
+              "count": 1
+            },
+            {
+              "before": "        buildConfig true",
+              "after": "        buildConfig = true",
+              "count": 1
+            },
+            {
+              "before": "    namespace 'io.flutter.plugins.urllauncher'",
+              "after": "    namespace = 'io.flutter.plugins.urllauncher'",
+              "count": 1
+            },
+            {
+              "before": "        checkAllWarnings true",
+              "after": "        checkAllWarnings = true",
+              "count": 1
+            },
+            {
+              "before": "        warningsAsErrors true",
+              "after": "        warningsAsErrors = true",
+              "count": 1
+            },
+            {
+              "before": "com.android.tools.build:gradle:8.12.1",
+              "after": "com.android.tools.build:gradle:8.13.2",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "path": "src/main/AndroidManifest.xml",
+          "before_sha256": "9480478876ea1108d083b7dfbe88b78b9c1b6d25e553dca52d76da2d5a39ad0c",
+          "after_sha256": "baf849b77c5b03c24ee8d9119b6f2f6816937f7c30f898a9e6940e4dc996ca2a",
+          "replacements": [
+            {
+              "before": "\n  package=\"io.flutter.plugins.urllauncher\"",
+              "after": "",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "webview_flutter_android",
+      "files": [
+        {
+          "path": "build.gradle",
+          "before_sha256": "cea031b2fd476d217911bc859e6c538eafc7549abc89034cc3be092ba4b74939",
+          "after_sha256": "5c683d8e2cb7792e9b61c69e59ce339c8afe72419c70b351aa66884ef3f4a629",
+          "replacements": [
+            {
+              "before": "group 'io.flutter.plugins.webviewflutter'",
+              "after": "group = 'io.flutter.plugins.webviewflutter'",
+              "count": 1
+            },
+            {
+              "before": "version '1.0-SNAPSHOT'",
+              "after": "version = '1.0-SNAPSHOT'",
+              "count": 1
+            },
+            {
+              "before": "    namespace 'io.flutter.plugins.webviewflutter'",
+              "after": "    namespace = 'io.flutter.plugins.webviewflutter'",
+              "count": 1
+            },
+            {
+              "before": "        checkAllWarnings true",
+              "after": "        checkAllWarnings = true",
+              "count": 1
+            },
+            {
+              "before": "        warningsAsErrors true",
+              "after": "        warningsAsErrors = true",
+              "count": 1
+            },
+            {
+              "before": "com.android.tools.build:gradle:8.12.1",
+              "after": "com.android.tools.build:gradle:8.13.2",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "path": "src/main/AndroidManifest.xml",
+          "before_sha256": "40beed6600c95712901f33e2232b0e86113689594163bba0bf236ded4aa79127",
+          "after_sha256": "21058c692532098e42afc39cf09de946c38229ec414bb7ac32f4fc90ba9a5f45",
+          "replacements": [
+            {
+              "before": " package=\"io.flutter.plugins.webviewflutter\"",
+              "after": "",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "workmanager_android",
+      "files": [
+        {
+          "path": "build.gradle",
+          "before_sha256": "e192db09d2e1cfc89a2e3fb0cae9a57dc96488f1af9a93f5637204cf7a336bd2",
+          "after_sha256": "3e6ea6261258628cc4f3271d4c1fb2d920e60bf0930f4b77555993fddf143573",
+          "replacements": [
+            {
+              "before": "group 'dev.fluttercommunity.workmanager'",
+              "after": "group = 'dev.fluttercommunity.workmanager'",
+              "count": 1
+            },
+            {
+              "before": "version '1.0-SNAPSHOT'",
+              "after": "version = '1.0-SNAPSHOT'",
+              "count": 1
+            },
+            {
+              "before": "        namespace 'dev.fluttercommunity.workmanager'",
+              "after": "        namespace = 'dev.fluttercommunity.workmanager'",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "path": "src/main/kotlin/dev/fluttercommunity/workmanager/BackgroundWorker.kt",
+          "before_sha256": "b95217330c7148585a747a9ced23cd7f968cb1cb1df3843c31ff4bdcf015d228",
+          "after_sha256": "3e4670c4e0da984af1650604dfa4130d4c4e441689828056a052ca3e3c582680",
+          "replacements": [
+            {
+              "before": "callbackInfo = callbackInfo?.callbackName",
+              "after": "callbackInfo = callbackInfo.callbackName",
+              "count": 1
+            },
+            {
+              "before": "// Convert payload to the format expected by Pigeon (Map<String?, Object?>)\n        val pigeonPayload = payload.mapKeys { it.key as String? }.mapValues { it.value as Object? }",
+              "after": "// Kotlin Any maps to java.lang.Object at the platform boundary.\n        val pigeonPayload = mutableMapOf<String?, Any?>().apply { putAll(payload) }",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "path": "src/main/kotlin/dev/fluttercommunity/workmanager/WorkManagerUtils.kt",
+          "before_sha256": "51eff387670ea837ec7a6a3b60528ce61961870491af450ee0da370365c1705b",
+          "after_sha256": "72f10545e37557f45d5a545d8af1da3dd2db50c8eba363c52c4968d94353fc47",
+          "replacements": [
+            {
+              "before": "backoffConfig.backoffDelayMillis.toLong()",
+              "after": "backoffConfig.backoffDelayMillis",
+              "count": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "$flutter",
+      "files": [
+        {
+          "path": "src/main/kotlin/FlutterPlugin.kt",
+          "before_sha256": "bb8a8101d3a49cc1a7e5edd6b5b238a90e5fa6bb961ea09d4c94f4f632548688",
+          "after_sha256": "bbf324c8e3c7d5a7541f9ef05ff1f1e8f880efd9f32e31ece1904837dcce4563",
+          "replacements": [
+            {
+              "before": "                    // TODO(gmackall): Replace with filePermissions.user.read/write = true once\n                    //   minimum supported Gradle version is 8.3.\n                    @Suppress(\"DEPRECATION\")\n                    fileMode = 420 // corresponds to unix 0644 in base 8",
+              "after": "                    filePermissions { unix(\"0644\") }",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "path": "src/main/kotlin/DependencyVersionChecker.kt",
+          "before_sha256": "954b6f00bfdb60b12a337bb561997aa39c214b0f8b0fada7494c16e526fcbd3f",
+          "after_sha256": "6130f28f3f73d3cb3c4410a0218ff47c6a1200255750db9653b6bfba64154101",
+          "replacements": [
+            {
+              "before": "        val agpVersion: AndroidPluginVersion? = getAGPVersion(project)\n        return if (agpVersion != null && agpVersion.major >= 8 && agpVersion.minor >= 1) {\n            MinSdkVersion(it.name, it.minSdk.apiLevel)\n        } else {\n            MinSdkVersion(it.name, it.minSdkVersion.apiLevel)\n        }",
+              "after": "        // This project qualifies AGP 8.13.2; the modern variant API is available.\n        return MinSdkVersion(it.name, it.minSdk.apiLevel)",
+              "count": 1
+            },
+            {
+              "before": "getMinSdkVersion(project, it)",
+              "after": "getMinSdkVersion(it)",
+              "count": 1
+            },
+            {
+              "before": "private fun getMinSdkVersion(\n        project: Project,\n        it: Variant",
+              "after": "private fun getMinSdkVersion(\n        it: Variant",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "path": "src/main/kotlin/tasks/BaseFlutterTask.kt",
+          "before_sha256": "d43a93b3dd77ebc106d84fe1d4570d53ff80013497dd8981b61d0d0d9a80695e",
+          "after_sha256": "aa373ab30354f033b55c30cb39528d5820da7c28958b89f2ac56227a3050c68e",
+          "replacements": [
+            {
+              "before": "import java.io.File",
+              "after": "import java.io.File\nimport javax.inject.Inject\nimport org.gradle.process.ExecOperations",
+              "count": 1
+            },
+            {
+              "before": "open class BaseFlutterTask : DefaultTask() {",
+              "after": "abstract class BaseFlutterTask : DefaultTask() {\n    @get:Inject\n    @get:Internal\n    abstract val execOperations: ExecOperations\n",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "path": "src/main/kotlin/tasks/BaseFlutterTaskHelper.kt",
+          "before_sha256": "20eacc73e409e706e961a8d1a7d7f25b4b0b2ec612a3cb9403f766e68280f1ea",
+          "after_sha256": "7640a143d2b8e3db4b88f614b0bfbf7ac11dacd7b1813b2c73c7f52c1d7aea14",
+          "replacements": [
+            {
+              "before": "import org.gradle.kotlin.dsl.support.serviceOf\n",
+              "after": "",
+              "count": 1
+            },
+            {
+              "before": "import org.gradle.process.ExecOperations\n",
+              "after": "",
+              "count": 1
+            },
+            {
+              "before": "val execOps = baseFlutterTask.project.serviceOf<ExecOperations>()",
+              "after": "val execOps = baseFlutterTask.execOperations",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -6,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_en.dart';
+import 'app_localizations_es.dart';
 import 'app_localizations_it.dart';
 
 // ignore_for_file: type=lint
@@ -95,6 +96,7 @@ abstract class AppLocalizations {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
+    Locale('es'),
     Locale('it'),
   ];
 
@@ -271,6 +273,18 @@ abstract class AppLocalizations {
   /// In it, this message translates to:
   /// **'Accedi'**
   String get loginTitle;
+
+  /// No description provided for @loginHeading.
+  ///
+  /// In it, this message translates to:
+  /// **'Accedi a CercaPosta'**
+  String get loginHeading;
+
+  /// No description provided for @loginTagline.
+  ///
+  /// In it, this message translates to:
+  /// **'Il tuo archivio email, ricercabile in tutto'**
+  String get loginTagline;
 
   /// No description provided for @loginUsername.
   ///
@@ -3709,6 +3723,36 @@ abstract class AppLocalizations {
   /// In it, this message translates to:
   /// **'È possibile segnalare soltanto le risposte dell’assistente.'**
   String get errorAiReportAssistantOnly;
+
+  /// No description provided for @settingsLanguageUiHint.
+  ///
+  /// In it, this message translates to:
+  /// **'Questa scelta vale solo per l’interfaccia su questo dispositivo.'**
+  String get settingsLanguageUiHint;
+
+  /// No description provided for @settingsProfileLanguage.
+  ///
+  /// In it, this message translates to:
+  /// **'Lingua di email, ricevute e risposte AI'**
+  String get settingsProfileLanguage;
+
+  /// No description provided for @settingsProfileLanguageHint.
+  ///
+  /// In it, this message translates to:
+  /// **'Usata per email, ricevute e risposte AI. Per le ricevute di uno spazio condiviso vale la preferenza del titolare. La lingua dell’interfaccia e i formati di data e numeri restano indipendenti. Le ricevute già emesse non cambiano.'**
+  String get settingsProfileLanguageHint;
+
+  /// No description provided for @searchVoiceChooseLanguage.
+  ///
+  /// In it, this message translates to:
+  /// **'Lingua e variante della dettatura locale'**
+  String get searchVoiceChooseLanguage;
+
+  /// No description provided for @searchVoiceHint.
+  ///
+  /// In it, this message translates to:
+  /// **'Dettatura locale. Tieni premuto per scegliere lingua e variante.'**
+  String get searchVoiceHint;
 }
 
 class _AppLocalizationsDelegate
@@ -3722,7 +3766,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en', 'it'].contains(locale.languageCode);
+      <String>['en', 'es', 'it'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -3733,6 +3777,8 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
   switch (locale.languageCode) {
     case 'en':
       return AppLocalizationsEn();
+    case 'es':
+      return AppLocalizationsEs();
     case 'it':
       return AppLocalizationsIt();
   }

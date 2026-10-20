@@ -26,6 +26,7 @@
 		<array>
 			<string>en</string>
 			<string>it</string>
+			<string>es</string>
 		</array>
 		<!-- Private-use OAuth callback. The returned one-shot code is protected by PKCE. -->
 		<key>CFBundleURLTypes</key>
@@ -68,7 +69,7 @@
 		<key>UIApplicationSupportsIndirectInputEvents</key>
 		<true/>
 		<!-- Valori base (dev region = en). Le traduzioni per lingua sono in
-	     Runner/{en,it}.lproj/InfoPlist.strings, ORA registrate come Variant Group
+	     Runner/{en,it,es}.lproj/InfoPlist.strings, registrate come Variant Group
 	     nel target Xcode (project.pbxproj): iOS mostra il testo tradotto e ripiega
 	     su questi valori base. -->
 		<key>NSMicrophoneUsageDescription</key>

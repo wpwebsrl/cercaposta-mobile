@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../core/api/api_exception.dart';
 import '../../core/api/error_messages.dart';
@@ -10,6 +10,8 @@ import '../../core/auth/passkey_policy.dart';
 import '../../core/i18n/app_localizations.dart';
 import '../../core/legal/legal_links.dart';
 import '../../core/providers.dart';
+import '../../shared/widgets/google_sign_in_mark.dart';
+import '../../shared/widgets/passkey_icon.dart';
 import '../about/animated_logo.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -197,6 +199,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       ref.watch(appInfoProvider).client,
       server,
     );
+    final theme = Theme.of(context);
+    // The same muted text/icon colours as the Web and Desktop login.
+    final mutedColor = theme.brightness == Brightness.dark
+        ? const Color(0xFF9AA4AE)
+        : const Color(0xFF5C6670);
+    final secondaryStyle = OutlinedButton.styleFrom(
+      foregroundColor: mutedColor,
+      minimumSize: const Size.fromHeight(44),
+      visualDensity: VisualDensity.standard,
+      textStyle: theme.textTheme.labelLarge?.copyWith(
+        fontSize: 13,
+        fontWeight: FontWeight.w500,
+      ),
+    );
     return Scaffold(
       appBar: AppBar(title: Text(l.loginTitle)),
       body: SingleChildScrollView(
@@ -206,16 +222,48 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               const SizedBox(height: 8),
-              // Brand logo (as on the web/desktop login). The wordmark ink is
-              // theme-aware (light in dark mode), so no white glow is needed.
-              const Center(child: AnimatedLogo(width: 100)),
-              const SizedBox(height: 4),
-              Center(
-                child: Text(
-                  l.appName,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
+              Row(
+                children: <Widget>[
+                  SvgPicture.asset(
+                    'assets/icons/cercaposta.svg',
+                    width: 36,
+                    height: 36,
+                    excludeFromSemantics: true,
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Semantics(
+                          header: true,
+                          child: Text(
+                            l.loginHeading,
+                            style: theme.textTheme.titleMedium?.copyWith(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              height: 1.25,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          l.loginTagline,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            height: 1.375,
+                            color: mutedColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  const ExcludeSemantics(child: AnimatedLogo(width: 56)),
+                ],
               ),
+              const SizedBox(height: 8),
               if (server != null)
                 Center(
                   child: Text(
@@ -268,31 +316,25 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               ),
               const SizedBox(height: 8),
               OutlinedButton.icon(
+                style: secondaryStyle,
                 onPressed: _busy || !passkeySupported ? null : _passkeyLogin,
-                icon: const Icon(Icons.key_outlined),
+                icon: const PasskeyIcon(size: 17),
                 label: Text(l.loginPasskey),
               ),
               if (!passkeySupported) Text(l.passkeyUnsupportedServer),
               const SizedBox(height: 8),
               OutlinedButton.icon(
+                style: secondaryStyle,
                 onPressed: _busy ? null : _googleLogin,
-                icon: const Text(
-                  'G',
-                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
-                ),
+                icon: const GoogleSignInMark(),
                 label: Text(l.loginGoogle),
               ),
               const SizedBox(height: 8),
-              SizedBox(
-                height: 44,
-                child: SignInWithAppleButton(
-                  onPressed: _busy ? null : _appleLogin,
-                  text: l.loginApple,
-                  style: Theme.of(context).brightness == Brightness.dark
-                      ? SignInWithAppleButtonStyle.white
-                      : SignInWithAppleButtonStyle.black,
-                  borderRadius: const BorderRadius.all(Radius.circular(8)),
-                ),
+              OutlinedButton.icon(
+                style: secondaryStyle,
+                onPressed: _busy ? null : _appleLogin,
+                icon: const AppleSignInMark(),
+                label: Text(l.loginApple),
               ),
               if (_hasSaved) ...<Widget>[
                 const SizedBox(height: 8),
@@ -339,6 +381,27 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           ),
         ),
       ),
+    );
+  }
+}
+
+/// The same Apple silhouette and 20px box used by the Web and Desktop login.
+class AppleSignInMark extends StatelessWidget {
+  const AppleSignInMark({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final iconTheme = IconTheme.of(context);
+    final ink = iconTheme.color ?? Theme.of(context).colorScheme.onSurface;
+    return SvgPicture.asset(
+      'assets/icons/apple-sign-in.svg',
+      width: 20,
+      height: 20,
+      colorFilter: ColorFilter.mode(
+        ink.withValues(alpha: ink.a * (iconTheme.opacity ?? 1)),
+        BlendMode.srcIn,
+      ),
+      excludeFromSemantics: true,
     );
   }
 }

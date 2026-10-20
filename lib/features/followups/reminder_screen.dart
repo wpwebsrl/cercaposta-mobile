@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/api/api_providers.dart';
 import '../../core/api/error_messages.dart';
 import '../../core/i18n/app_localizations.dart';
+import '../../core/language_registry.dart';
 import '../../shared/models/followup.dart';
 import '../../shared/widgets/snack.dart';
 import 'delta_html.dart';
@@ -390,24 +391,20 @@ class _ReminderScreenState extends ConsumerState<ReminderScreen> {
         Text(l.reminderLanguage),
         const SizedBox(width: 10),
         Expanded(
-          child: SegmentedButton<String>(
-            style: const ButtonStyle(
-              visualDensity: VisualDensity.compact,
-              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            ),
-            showSelectedIcon: false,
-            segments: <ButtonSegment<String>>[
-              ButtonSegment<String>(
-                value: '',
-                label: Text(l.reminderLanguageAuto),
-              ),
-              const ButtonSegment<String>(value: 'it', label: Text('IT')),
-              const ButtonSegment<String>(value: 'en', label: Text('EN')),
+          child: DropdownButtonFormField<String>(
+            value: _language,
+            isExpanded: true,
+            items: [
+              DropdownMenuItem(value: '', child: Text(l.reminderLanguageAuto)),
+              for (final language in languageNames.entries)
+                DropdownMenuItem(
+                  value: language.key,
+                  child: Text(language.value),
+                ),
             ],
-            selected: <String>{_language},
-            onSelectionChanged: _locked
+            onChanged: _locked
                 ? null
-                : (s) => setState(() => _language = s.first),
+                : (value) => setState(() => _language = value ?? ''),
           ),
         ),
       ],

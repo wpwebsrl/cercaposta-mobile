@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/providers.dart';
+import '../../core/language_registry.dart';
 
 class AppSettings {
   const AppSettings({required this.themeMode, required this.locale});
@@ -32,7 +33,9 @@ class SettingsController extends Notifier<AppSettings> {
     final lang = prefs.getString(_kLocale);
     return AppSettings(
       themeMode: theme,
-      locale: (lang == null || lang.isEmpty) ? null : Locale(lang),
+      locale: (lang == null || lang.isEmpty)
+          ? null
+          : Locale(normalizeLanguage(lang)),
     );
   }
 

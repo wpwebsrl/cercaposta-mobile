@@ -99,6 +99,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loginTitle => 'Sign in';
 
   @override
+  String get loginHeading => 'Sign in to CercaPosta';
+
+  @override
+  String get loginTagline => 'Your email archive, searchable everywhere';
+
+  @override
   String get loginUsername => 'Username';
 
   @override
@@ -2103,4 +2109,24 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get errorAiReportAssistantOnly =>
       'Only assistant answers can be reported.';
+
+  @override
+  String get settingsLanguageUiHint =>
+      'This choice applies only to the interface on this device.';
+
+  @override
+  String get settingsProfileLanguage =>
+      'Email, receipt and AI response language';
+
+  @override
+  String get settingsProfileLanguageHint =>
+      'Used for emails, receipts and AI responses. Receipts for a shared workspace follow its owner\'s preference. Interface language and date and number formats remain independent. Previously issued receipts do not change.';
+
+  @override
+  String get searchVoiceChooseLanguage =>
+      'Language and variant for local dictation';
+
+  @override
+  String get searchVoiceHint =>
+      'Local dictation. Press and hold to choose a language and variant.';
 }

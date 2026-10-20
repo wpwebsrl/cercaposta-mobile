@@ -1,0 +1,88 @@
+// Project-owned Android source compatibility patches. Never writes to Pub/Flutter caches.
+import groovy.json.JsonSlurper
+import java.nio.file.Files
+import java.nio.file.StandardCopyOption
+import java.security.MessageDigest
+import org.gradle.api.JavaVersion
+
+def configuration = settings
+def appRoot = configuration.settingsDir.parentFile
+def manifestFile = new File(appRoot, 'tool/android_compat_patches.json')
+def manifestBytes = manifestFile.bytes
+def manifest = new JsonSlurper().parse(manifestBytes)
+def digest = { byte[] bytes -> MessageDigest.getInstance('SHA-256').digest(bytes).encodeHex().toString() }
+def normalized = { File file -> file.getText('UTF-8').replace('\r\n', '\n') }
+def flutter = new File(configuration.ext.get('cercapostaOriginalFlutterSdk') as String)
+def dependencies = new JsonSlurper().parse(new File(appRoot, '.flutter-plugins-dependencies'))
+def plugins = dependencies.plugins.android.collectEntries { [(it.name): new File(it.path, 'android')] }
+def staging = new File(appRoot, '.dart_tool/android-compat/' + digest(manifestBytes).take(20))
+assert manifest.format == 1 : 'Unsupported Android compatibility manifest'
+assert JavaVersion.current().majorVersion == manifest.jdk_major.toString() : 'Android compatibility build requires JDK 17'
+assert dependencies.version == manifest.flutter_version : 'Review Android compatibility patches for the selected Flutter version'
+
+// Validate everything before writing a staged source. Failed hashes require a review,
+// never a best-effort patch or an automatic change to the approved hashes.
+def prepared = []
+manifest.components.each { component ->
+    assert component.name == '$flutter' || component.name ==~ /[a-z][a-z0-9_]*/ : 'Invalid compatibility component name'
+    def source = component.name == '$flutter' ? new File(flutter, 'packages/flutter_tools/gradle') : plugins[component.name]
+    assert source?.isDirectory() : "Missing Android compatibility component: ${component.name}"
+    def target = new File(staging, component.name == '$flutter' ? 'flutter-gradle' : "plugins/${component.name}/android")
+    def changes = []
+    component.files.each { patch ->
+        def input = new File(source, patch.path).canonicalFile
+        assert input.toPath().startsWith(source.canonicalFile.toPath()) : 'Compatibility patch path escapes its component'
+        def text = normalized(input)
+        assert digest(text.getBytes('UTF-8')) == patch.before_sha256 : "Android compatibility source changed: ${component.name}/${patch.path}"
+        patch.replacements.each { replacement ->
+            assert replacement.before && text.count(replacement.before) == replacement.count : "Compatibility patch context changed: ${component.name}/${patch.path}"
+            text = text.replace(replacement.before as String, replacement.after as String)
+        }
+        assert digest(text.getBytes('UTF-8')) == patch.after_sha256 : "Android compatibility result mismatch: ${component.name}/${patch.path}"
+        changes.add([path: patch.path, text: text])
+    }
+    prepared.add([name: component.name, source: source, target: target, changes: changes])
+}
+
+prepared.each { component ->
+    def marker = new File(component.target, '.cercaposta-staged')
+    if (!marker.exists()) {
+        Files.walk(component.source.toPath()).withCloseable { paths ->
+            paths.filter { Files.isRegularFile(it) }.forEach { input ->
+                def relative = component.source.toPath().relativize(input)
+                def parts = relative.collect { it.toString() }
+                if (!parts.any { it in ['build', '.gradle', '.git', 'local.properties', 'key.properties'] }) {
+                    def output = component.target.toPath().resolve(relative)
+                    Files.createDirectories(output.parent)
+                    Files.copy(input, output, StandardCopyOption.REPLACE_EXISTING)
+                }
+            }
+        }
+        // Keep package metadata and licence next to the relocated Android directory.
+        if (component.name != '$flutter') {
+            ['pubspec.yaml', 'LICENSE', 'LICENSE.md', 'LICENSE.txt'].each { name ->
+                def input = new File(component.source.parentFile, name)
+                if (input.isFile()) Files.copy(input.toPath(), new File(component.target.parentFile, name).toPath(), StandardCopyOption.REPLACE_EXISTING)
+            }
+        } else {
+            Files.copy(new File(flutter, 'LICENSE').toPath(), new File(component.target, 'LICENSE').toPath(), StandardCopyOption.REPLACE_EXISTING)
+        }
+    }
+    component.changes.each { change ->
+        def output = new File(component.target, change.path)
+        if (!output.isFile() || normalized(output) != change.text) output.setText(change.text, 'UTF-8')
+    }
+    marker.setText(digest(manifestBytes), 'UTF-8')
+}
+
+configuration.ext.set('cercapostaFlutterGradle', prepared.find { it.name == '$flutter' }.target.absolutePath)
+gradle.settingsEvaluated { selected ->
+    if (selected == configuration) {
+        prepared.findAll { it.name != '$flutter' }.each { component ->
+            def descriptor = selected.findProject(":" + component.name)
+            // Flutter deliberately excludes dev-only plugins from release variants.
+            if (descriptor != null) descriptor.projectDir = component.target
+        }
+    }
+}
+println("CercaPosta Android compatibility: ${prepared.size()} components, JDK ${JavaVersion.current().majorVersion}, verified source hashes")

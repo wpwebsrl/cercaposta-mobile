@@ -29,6 +29,8 @@
   "serverNeedsSetup": "This server still needs to be set up from the web.",
   "serverUpdateRequired": "Update the app to use this server.",
   "loginTitle": "Sign in",
+  "loginHeading": "Sign in to CercaPosta",
+  "loginTagline": "Your email archive, searchable everywhere",
   "loginUsername": "Username",
   "loginPassword": "Password",
   "loginButton": "Sign in",
@@ -889,12 +891,23 @@
   "tagsDelete": "Delete",
   "tagsDeleteTitle": "Delete tag",
   "tagsDeleteConfirm": "Delete the tag “{name}” from the entire archive?",
-  "@tagsDeleteConfirm": {"placeholders": {"name": {"type": "String"}}},
+  "@tagsDeleteConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "tagsName": "Name",
   "actionDone": "Done",
   "errorTagNameRequired": "Enter a name for the tag.",
   "errorTagNameTaken": "A tag with this name already exists.",
   "errorTagInvalidColor": "The selected color is invalid.",
   "errorAiReportMessageNotFound": "This answer is no longer available for reporting.",
-  "errorAiReportAssistantOnly": "Only assistant answers can be reported."
+  "errorAiReportAssistantOnly": "Only assistant answers can be reported.",
+  "settingsLanguageUiHint": "This choice applies only to the interface on this device.",
+  "settingsProfileLanguage": "Email, receipt and AI response language",
+  "settingsProfileLanguageHint": "Used for emails, receipts and AI responses. Receipts for a shared workspace follow its owner's preference. Interface language and date and number formats remain independent. Previously issued receipts do not change.",
+  "searchVoiceChooseLanguage": "Language and variant for local dictation",
+  "searchVoiceHint": "Local dictation. Press and hold to choose a language and variant."
 }

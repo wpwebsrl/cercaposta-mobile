@@ -7,7 +7,10 @@ pluginManagement {
         flutterSdkPath
     }
 
-    includeBuild("$flutterSdkPath/packages/flutter_tools/gradle")
+    // Stage reviewed native patches outside the shared Pub/Flutter installations.
+    settings.extra["cercapostaOriginalFlutterSdk"] = flutterSdkPath
+    apply(from = file("../tool/android_compat.gradle"))
+    includeBuild(settings.extra["cercapostaFlutterGradle"] as String)
 
     repositories {
         google()
@@ -18,10 +21,11 @@ pluginManagement {
 
 plugins {
     id("dev.flutter.flutter-plugin-loader") version "1.0.0"
-    // AGP 8.9.1 è il minimo della serie 8.x che supporta compileSdk 36 (Android 16);
-    // richiede Gradle 8.11.1+ (qui 8.12) e JDK 17. Vedi app/build.gradle.kts per il perché di 36.
-    id("com.android.application") version "8.9.1" apply false
-    id("org.jetbrains.kotlin.android") version "2.1.0" apply false
+    // Qualified together: SDK 36, bundled R8 Kotlin 2.3 support, Gradle 8.13, JDK 17.
+    // The installed plus_plugins require AGP >= 8.12.1 and Gradle >= 8.13.
+    // See docs/android-toolchain.md before changing any member of this set.
+    id("com.android.application") version "8.13.2" apply false
+    id("org.jetbrains.kotlin.android") version "2.3.21" apply false
 }
 
 include(":app")

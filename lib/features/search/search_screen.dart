@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/api/error_messages.dart';
 import '../../core/auth/auth_controller.dart';
 import '../../core/i18n/app_localizations.dart';
+import '../../core/providers.dart';
 import '../../core/live/live_refresh.dart';
 import '../../core/voice/offline_voice.dart';
 import '../../shared/format.dart';
@@ -116,7 +117,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
     }
   }
 
-  Future<void> _toggleVoice() async {
+  Future<void> _toggleVoice({bool chooseLocale = false}) async {
     final l = AppLocalizations.of(context)!;
     final generation = ++_voiceGeneration;
     if (_listening) {
@@ -151,10 +152,47 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
         }
         return;
       }
-      final lang = ref.read(authProvider).user?.language ?? 'it';
+      final candidates = await _speech.candidateLocales();
+      if (!mounted || generation != _voiceGeneration) return;
+      final preferences = ref.read(sharedPreferencesProvider);
+      final uiLanguage = Localizations.localeOf(context).languageCode;
+      var locale = chooseLocale
+          ? null
+          : preferredVoiceLocale(
+              candidates: candidates,
+              explicit: preferences.getString('pref_voice_locale'),
+              deviceLocale: WidgetsBinding.instance.platformDispatcher.locale
+                  .toLanguageTag(),
+              uiLanguage: uiLanguage,
+            );
+      if (locale == null && candidates.isNotEmpty) {
+        locale = await showDialog<String>(
+          context: context,
+          builder: (context) => SimpleDialog(
+            title: Text(l.searchVoiceChooseLanguage),
+            children: [
+              for (final candidate in candidates)
+                SimpleDialogOption(
+                  onPressed: () => Navigator.pop(context, candidate),
+                  child: Text(candidate),
+                ),
+            ],
+          ),
+        );
+        if (locale != null) {
+          await preferences.setString('pref_voice_locale', locale);
+        }
+      }
+      if (!mounted || generation != _voiceGeneration) return;
+      if (locale == null) {
+        if (candidates.isEmpty) {
+          showSnack(context, l.searchVoiceLocalUnavailable, error: true);
+        }
+        return;
+      }
       setState(() => _listening = true);
       await _speech.listen(
-        localeId: lang == 'en' ? 'en_US' : 'it_IT',
+        localeId: locale,
         onResult: (words, finalResult) {
           if (!mounted || generation != _voiceGeneration) return;
           _query.text = words;
@@ -317,12 +355,15 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
           ),
         ),
         actions: <Widget>[
-          IconButton(
-            tooltip: l.searchVoice,
-            onPressed: _toggleVoice,
-            icon: Icon(
-              _listening ? Icons.mic : Icons.mic_none,
-              color: _listening ? Theme.of(context).colorScheme.error : null,
+          GestureDetector(
+            onLongPress: () => _toggleVoice(chooseLocale: true),
+            child: IconButton(
+              tooltip: l.searchVoiceHint,
+              onPressed: _toggleVoice,
+              icon: Icon(
+                _listening ? Icons.mic : Icons.mic_none,
+                color: _listening ? Theme.of(context).colorScheme.error : null,
+              ),
             ),
           ),
           IconButton(

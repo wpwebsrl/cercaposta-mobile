@@ -29,6 +29,8 @@
   "serverNeedsSetup": "Questo server va ancora configurato dal web.",
   "serverUpdateRequired": "Aggiorna l'app per usare questo server.",
   "loginTitle": "Accedi",
+  "loginHeading": "Accedi a CercaPosta",
+  "loginTagline": "Il tuo archivio email, ricercabile in tutto",
   "loginUsername": "Nome utente",
   "loginPassword": "Password",
   "loginButton": "Accedi",
@@ -1126,12 +1128,23 @@
   "tagsDelete": "Elimina",
   "tagsDeleteTitle": "Elimina tag",
   "tagsDeleteConfirm": "Eliminare il tag «{name}» da tutto l'archivio?",
-  "@tagsDeleteConfirm": {"placeholders": {"name": {"type": "String"}}},
+  "@tagsDeleteConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "tagsName": "Nome",
   "actionDone": "Fine",
   "errorTagNameRequired": "Inserisci un nome per il tag.",
   "errorTagNameTaken": "Esiste già un tag con questo nome.",
   "errorTagInvalidColor": "Il colore scelto non è valido.",
   "errorAiReportMessageNotFound": "Questa risposta non è più disponibile per la segnalazione.",
-  "errorAiReportAssistantOnly": "È possibile segnalare soltanto le risposte dell’assistente."
+  "errorAiReportAssistantOnly": "È possibile segnalare soltanto le risposte dell’assistente.",
+  "settingsLanguageUiHint": "Questa scelta vale solo per l’interfaccia su questo dispositivo.",
+  "settingsProfileLanguage": "Lingua di email, ricevute e risposte AI",
+  "settingsProfileLanguageHint": "Usata per email, ricevute e risposte AI. Per le ricevute di uno spazio condiviso vale la preferenza del titolare. La lingua dell’interfaccia e i formati di data e numeri restano indipendenti. Le ricevute già emesse non cambiano.",
+  "searchVoiceChooseLanguage": "Lingua e variante della dettatura locale",
+  "searchVoiceHint": "Dettatura locale. Tieni premuto per scegliere lingua e variante."
 }

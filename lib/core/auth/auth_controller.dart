@@ -694,6 +694,23 @@ class AuthController extends Notifier<AuthState> {
         .toList(growable: false);
   }
 
+  Future<void> setProfileLanguage(String language) async {
+    final expected = requestIdentity;
+    final response = await _guard(
+      expected,
+      () => _dio.patch<dynamic>(
+        '/me',
+        options: _bearer(),
+        data: <String, dynamic>{
+          'language': language,
+          'expected_language': state.user?.language,
+        },
+      ),
+    );
+    requireIdentity(expected);
+    state = state.copyWith(user: UserInfo.fromJson(_asMap(response.data)));
+  }
+
   Future<PasskeyInfo> registerPasskey(String name) async {
     requirePasskeyServer(
       ref.read(appInfoProvider).client,

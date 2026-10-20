@@ -25,10 +25,16 @@ class _BillingScreenState extends ConsumerState<BillingScreen> {
   bool _loading = true;
 
   @override
-  void initState() {
-    super.initState();
-    _load();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final language = Localizations.localeOf(context).languageCode;
+    if (_loadedLanguage != language) {
+      _loadedLanguage = language;
+      _load();
+    }
   }
+
+  String? _loadedLanguage;
 
   Future<void> _load() async {
     setState(() {
@@ -38,8 +44,8 @@ class _BillingScreenState extends ConsumerState<BillingScreen> {
     try {
       final api = ref.read(billingApiProvider);
       final values = await Future.wait<Object>(<Future<Object>>[
-        api.overview(),
-        api.changes(),
+        api.overview(language: _loadedLanguage),
+        api.changes(language: _loadedLanguage),
       ]);
       if (!mounted) return;
       setState(() {
@@ -147,7 +153,8 @@ class _BillingScreenState extends ConsumerState<BillingScreen> {
                   ),
                   const SizedBox(height: 6),
                   Text(
-                    italian ? overview.planNameIt : overview.planNameEn,
+                    overview.localizedPlanName ??
+                        (italian ? overview.planNameIt : overview.planNameEn),
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),
                   const SizedBox(height: 12),
@@ -208,7 +215,8 @@ class _BillingScreenState extends ConsumerState<BillingScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            italian ? change.targetNameIt : change.targetNameEn,
+            change.localizedTargetName ??
+                (italian ? change.targetNameIt : change.targetNameEn),
             style: Theme.of(context).textTheme.titleMedium,
           ),
           const SizedBox(height: 8),

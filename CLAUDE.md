@@ -46,6 +46,9 @@ visibile ma non riutilizzabile.
 ## Comandi
 
 - Setup: `flutter pub get`
+- Build Android locale/CI: `python tool/build_android.py` con JDK 17 esplicito,
+  SDK isolato, controllo Gradle con avvisi attivi e postcheck Flutter completo.
+  Comandi e diagnostiche in [docs/android-build-logging.md](docs/android-build-logging.md).
 - Run (emulatore Android di sviluppo: AVD `cercaposta_pixel`): `flutter run`
 - Test: `flutter test` · Analisi: `flutter analyze` · Format: `dart format .`
 - Rigenerare i18n dopo aver toccato gli ARB: `flutter gen-l10n`
