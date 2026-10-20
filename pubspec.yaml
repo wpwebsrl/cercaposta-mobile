@@ -46,7 +46,7 @@ dependencies:
   go_router: ^15.1.2
 
   # i18n
-  intl: ^0.20.2
+  intl: ^0.20.3
 
   # Rendering del corpo email + anteprima fedele del sollecito, su un motore di browser VERO —
   # come il web (iframe) e il desktop (QtWebEngine): è la terza superficie dello stesso contratto.
