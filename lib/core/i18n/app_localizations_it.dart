@@ -100,6 +100,12 @@ class AppLocalizationsIt extends AppLocalizations {
   String get loginTitle => 'Accedi';
 
   @override
+  String get loginHeading => 'Accedi a CercaPosta';
+
+  @override
+  String get loginTagline => 'Il tuo archivio email, ricercabile in tutto';
+
+  @override
   String get loginUsername => 'Nome utente';
 
   @override
@@ -2127,11 +2133,12 @@ class AppLocalizationsIt extends AppLocalizations {
       'Questa scelta vale solo per l’interfaccia su questo dispositivo.';
 
   @override
-  String get settingsProfileLanguage => 'Lingua del profilo sul server';
+  String get settingsProfileLanguage =>
+      'Lingua di email, ricevute e risposte AI';
 
   @override
   String get settingsProfileLanguageHint =>
-      'Usata per email e risposte AI. Non cambia la lingua dell’interfaccia o i formati di data e numeri.';
+      'Usata per email, ricevute e risposte AI. Per le ricevute di uno spazio condiviso vale la preferenza del titolare. La lingua dell’interfaccia e i formati di data e numeri restano indipendenti. Le ricevute già emesse non cambiano.';
 
   @override
   String get searchVoiceChooseLanguage =>

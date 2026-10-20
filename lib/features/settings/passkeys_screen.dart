@@ -8,6 +8,7 @@ import '../../core/auth/passkey_policy.dart';
 import '../../core/i18n/app_localizations.dart';
 import '../../core/providers.dart';
 import '../../shared/models/passkey.dart';
+import '../../shared/widgets/passkey_icon.dart';
 
 class PasskeysScreen extends ConsumerStatefulWidget {
   const PasskeysScreen({super.key});
@@ -152,8 +153,7 @@ class _PasskeysScreenState extends ConsumerState<PasskeysScreen> {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Icon(
-                  Icons.key_outlined,
+                PasskeyIcon(
                   color: Theme.of(context).colorScheme.primary,
                   size: 28,
                 ),
@@ -192,7 +192,7 @@ class _PasskeysScreenState extends ConsumerState<PasskeysScreen> {
                 (item) => Card(
                   child: ListTile(
                     dense: true,
-                    leading: const Icon(Icons.fingerprint),
+                    leading: const PasskeyIcon(),
                     title: Text(item.name),
                     subtitle: Text(
                       [

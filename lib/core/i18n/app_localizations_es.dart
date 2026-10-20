@@ -102,6 +102,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get loginTitle => 'Iniciar sesión';
 
   @override
+  String get loginHeading => 'Iniciar sesión en CercaPosta';
+
+  @override
+  String get loginTagline =>
+      'Tu archivo de correo, accesible desde cualquier lugar';
+
+  @override
   String get loginUsername => 'Nombre de usuario';
 
   @override
@@ -2136,11 +2143,12 @@ class AppLocalizationsEs extends AppLocalizations {
       'Esta elección solo se aplica a la interfaz de este dispositivo.';
 
   @override
-  String get settingsProfileLanguage => 'Idioma del perfil en el servidor';
+  String get settingsProfileLanguage =>
+      'Idioma de los correos, los recibos y las respuestas de IA';
 
   @override
   String get settingsProfileLanguageHint =>
-      'Se usa para correos y respuestas de IA. No cambia el idioma de la interfaz ni los formatos de fecha y números.';
+      'Se usa para correos, recibos y respuestas de IA. Los recibos de un espacio compartido siguen la preferencia de su titular. El idioma de la interfaz y los formatos de fecha y números son independientes. Los recibos ya emitidos no cambian.';
 
   @override
   String get searchVoiceChooseLanguage => 'Idioma y variante del dictado local';

@@ -274,6 +274,18 @@ abstract class AppLocalizations {
   /// **'Accedi'**
   String get loginTitle;
 
+  /// No description provided for @loginHeading.
+  ///
+  /// In it, this message translates to:
+  /// **'Accedi a CercaPosta'**
+  String get loginHeading;
+
+  /// No description provided for @loginTagline.
+  ///
+  /// In it, this message translates to:
+  /// **'Il tuo archivio email, ricercabile in tutto'**
+  String get loginTagline;
+
   /// No description provided for @loginUsername.
   ///
   /// In it, this message translates to:
@@ -3721,13 +3733,13 @@ abstract class AppLocalizations {
   /// No description provided for @settingsProfileLanguage.
   ///
   /// In it, this message translates to:
-  /// **'Lingua del profilo sul server'**
+  /// **'Lingua di email, ricevute e risposte AI'**
   String get settingsProfileLanguage;
 
   /// No description provided for @settingsProfileLanguageHint.
   ///
   /// In it, this message translates to:
-  /// **'Usata per email e risposte AI. Non cambia la lingua dell’interfaccia o i formati di data e numeri.'**
+  /// **'Usata per email, ricevute e risposte AI. Per le ricevute di uno spazio condiviso vale la preferenza del titolare. La lingua dell’interfaccia e i formati di data e numeri restano indipendenti. Le ricevute già emesse non cambiano.'**
   String get settingsProfileLanguageHint;
 
   /// No description provided for @searchVoiceChooseLanguage.

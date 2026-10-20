@@ -11,6 +11,7 @@ import '../../core/legal/legal_links.dart';
 import '../../core/providers.dart';
 import '../../shared/format.dart';
 import '../../shared/models/capabilities.dart';
+import '../../shared/widgets/passkey_icon.dart';
 import '../../shared/widgets/snack.dart';
 import 'notify_settings.dart';
 import 'settings_controller.dart';
@@ -268,8 +269,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   isExpanded: true,
                   decoration: InputDecoration(
                     labelText: l.settingsProfileLanguage,
-                    helperText: l.settingsProfileLanguageHint,
-                    helperMaxLines: 4,
+                    helper: Text(l.settingsProfileLanguageHint),
                   ),
                   items: <DropdownMenuItem<String>>[
                     for (final entry in languageNames.entries)
@@ -402,7 +402,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.key_outlined),
+              leading: const PasskeyIcon(),
               title: Text(l.passkeysTitle),
               subtitle: Text(l.passkeysSettingsHint),
               trailing: const Icon(Icons.chevron_right),
