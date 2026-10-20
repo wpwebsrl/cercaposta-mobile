@@ -71,7 +71,7 @@ dependencies:
   # NIENTE push remoti (FCM/APNs) — coerenza con la privacy «zero terze parti». Il poll gira via
   # workmanager (Android ~15 min; iOS BGAppRefresh opportunistico) in un isolate separato.
   flutter_local_notifications: ^18.0.1
-  workmanager: ^0.9.0+3
+  workmanager: ^0.10.10
 
   # URL launcher (link nel corpo email e citazioni chat → browser)
   url_launcher: ^6.3.1
