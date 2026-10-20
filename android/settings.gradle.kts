@@ -25,7 +25,7 @@ plugins {
     // The installed plus_plugins require AGP >= 8.12.1 and Gradle >= 8.13.
     // See docs/android-toolchain.md before changing any member of this set.
     id("com.android.application") version "8.13.2" apply false
-    id("org.jetbrains.kotlin.android") version "2.3.21" apply false
+    id("org.jetbrains.kotlin.android") version "2.4.21" apply false
 }
 
 include(":app")
