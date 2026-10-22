@@ -1,5 +1,95 @@
 # Localization contract and local implementation status
 
+Local Android rebuild, **22 October 2026**. The debug APK now includes all five
+languages and the German/French/Spanish linguistic corrections described below.
+Build ID **`local-multilingua-reviewed-20261022`**, app version **1.6.0+1** retained.
+Artifact: `build/local/CercaPosta-Android-multilingua-local-jdk17-20261022.apk`,
+**216385865 bytes**, SHA-256
+`c5d75527de66242656b43e8524ce79fdbace7e49b5d399f72d636a98ff487c4c`.
+
+The shared runner used **Temurin JDK 17.0.20.1+1**, native LIFECYCLE logging with
+warning-mode all, `assembleDebug`, lint (**0 errors/0 warnings**) and the complete
+Flutter APK postcheck. Dependencies, lockfile, generated catalogs and toolchain
+were not changed. **9 targeted tests pass**, covering the localization contract,
+notification text and Spanish billing on a narrow screen with 200% text.
+The actual APK passes CRC/signature checks and contains all five compiled language
+declarations, localization classes and 25 current text samples checked against
+the ARB sources, plus the expected SVG icons and ARM/ARM64/x64 Flutter runtimes.
+The Android Debug signing certificate matches the previous local APK. Resources,
+native libraries, DEX and manifest are byte-identical to that APK; only the Dart
+kernel and three signature entries changed. Logs are in
+`build/check-logs/multilingua-reviewed-20261022-01/`.
+
+No agents, push, CI, release or device installation. Real-device login, language
+selection/persistence, background notifications, reminder dialogs, external-browser
+flows, local voice and accessibility checks remain pending. Native iOS still
+requires macOS and actual devices. The 227-test full suite cited below was run
+on 20 October, and was not rerun for this build. Older artifact hashes remain
+historical; use the 22 October APK to test the revised translations.
+
+Spanish linguistic follow-up, **20 October 2026**, local only. All **609** Spanish
+ARB entries were compared with English; **12 values** were corrected or clarified.
+“Clear all” in notifications now says **Eliminar todas**, accurately describing
+deletion rather than clearing a selection. Reminder controls use **Tratamiento**
+for tú/usted; payment grace-period terminology and the external-browser help are
+clearer. Neutral `es` and the existing **tú** interface tone are preserved; a formal
+outgoing reminder can still use **usted**. Keys, interpolation arguments and app
+behavior are unchanged. Native permission/OAuth strings were reviewed and needed
+no edits. Dart catalogs were regenerated and formatted; **227 tests pass** and
+Flutter analysis reports **no issues**. Independent linguistic review and actual
+device checks remain pending, especially notifications, reminder dialogs, large
+text, accessibility and the external-browser flow. No agents, push, CI or release.
+**No APK was rebuilt for either linguistic follow-up**; older artifacts below
+do not contain these corrections. Future Android builds must retain **JDK 17**.
+
+Linguistic review follow-up, **20 October 2026**, local only. All 609 entries in
+each German/French ARB were compared with English. Corrected 215 German and 201
+French values, including passkeys versus passwords, account/session terminology,
+recovery, reply reminders, payment deadlines, and the reversed French meaning of
+“Never remember this”. Generated Dart catalogs were regenerated. System permission
+descriptions and Android OAuth labels were reviewed; their text did not require
+changes. Formal Sie/vous, keys, interpolation parameters and application behavior
+are preserved. This is model review; independent linguistic and real-device
+validation remain pending. Fresh verification passed 227 Flutter tests and
+analysis reported no issues; another 80 simulated login rendering cases passed
+across five languages, Android/iOS, light/dark, 320/390 logical pixels and
+100%/200% text. The iOS simulations use local fonts on Windows and do not qualify
+native iOS typography or physical devices. No agents, push, CI or release.
+
+**The APK listed below predates these linguistic corrections and has not been
+rebuilt for this review.** Its hash and earlier test results remain historical.
+Any subsequent Android build must keep the project’s JDK 17 procedure.
+
+German/French follow-up, **20 October 2026**, local development only. The shared
+app now includes Italian, English, neutral Spanish, standard German (`de`, formal
+Sie) and standard French (`fr`, formal vous). Registry labels, ARB catalogs,
+generated Dart delegates, Android locale/OAuth resources and iOS permission
+descriptions/Xcode references cover all five languages. Language does not select
+a number format, date order, currency or regional voice variant.
+
+The full Flutter suite passed 227 tests; analysis reported no issues. Eighty
+private login rendering cases passed across the five languages, simulated
+Android/iOS, light/dark, 320/390 logical pixels and 100%/200% text. Native resource
+contract tests check the actual Xcode variant group and bundle language list,
+not just the existence of translated files. Simulated iOS uses local test fonts
+on Windows; native macOS/iOS builds, real permission sheets, physical devices,
+accessibility, background operation and offline speech still require validation.
+
+The local APK is built with the project's JDK **17** procedure, warning-mode all
+and native lint. Draft translations and local build success do not constitute
+independent linguistic approval, Store availability or a production release.
+Existing server-managed commercial content and issued documents are preserved;
+new editorial language variants must be completed and approved separately.
+The following Google-mark notes and their artifact describe the preceding build.
+
+Previous local five-language debug APK (before this linguistic review):
+`build/local/CercaPosta-Android-multilingua-local-jdk17-de-fr-20261020-reviewed.apk`,
+**216381708 bytes**, SHA-256
+`04a9ba9d1e2299c15018c543697e6eb10445b373b3794e86571d2b1b5faab8da`.
+JDK 17.0.20.1+1, native lint **0 errors/0 warnings**, Android Debug signature
+verified; compiled locale delegates and the three Flutter ABIs checked. No push,
+CI, Store submission or release. Native iOS and real-device checks remain open.
+
 Google mark follow-up, **20 October 2026**, local only. The shared iOS/Android
 login now uses `assets/icons/google-sign-in.svg`, identical to the Desktop
 asset and the four paths/colours in the Web component. `GoogleSignInMark` uses
@@ -16,7 +106,7 @@ with 200% text. iOS simulation on Windows uses local test fonts; it does not
 qualify native San Francisco metrics, an iOS build or a physical device.
 The earlier test counts below belong to the preceding login update.
 
-Current local debug APK:
+Previous Google-mark local debug APK:
 `build/local/CercaPosta-Android-multilingua-local-jdk17-google-20261020.apk`,
 **216273409 bytes**, SHA-256
 `1412923c93c73f6cdfc02914b270e27f2e318e96ec960d41c48a2f9cf2ba1146`,

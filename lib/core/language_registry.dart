@@ -3,6 +3,8 @@ const languageNames = <String, String>{
   'it': 'Italiano',
   'en': 'English',
   'es': 'Español',
+  'de': 'Deutsch',
+  'fr': 'Français',
 };
 const defaultLanguage = 'it';
 

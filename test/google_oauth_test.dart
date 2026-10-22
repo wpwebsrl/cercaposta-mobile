@@ -40,8 +40,16 @@ void main() {
         'https://cercaposta.it/legal/terms.en.html',
       );
       expect(
-        legalUri(LegalDestination.support, const Locale('de')).toString(),
+        legalUri(LegalDestination.support, const Locale('pt')).toString(),
         'https://cercaposta.it/legal/support.it.html',
+      );
+      expect(
+        legalUri(LegalDestination.support, const Locale('de')).toString(),
+        'https://cercaposta.it/legal/support.de.html',
+      );
+      expect(
+        legalUri(LegalDestination.privacy, const Locale('fr')).toString(),
+        'https://cercaposta.it/legal/privacy.fr.html',
       );
     });
   });

@@ -1,0 +1,7 @@
+/* iOS system permission descriptions — standard French, formal address. */
+"NSMicrophoneUsageDescription" = "Le microphone est utilisé pour la recherche vocale dans votre archive d’e-mails.";
+"NSSpeechRecognitionUsageDescription" = "La reconnaissance vocale convertit votre voix en texte pour la recherche. Le traitement s’effectue sur votre appareil.";
+"NSFaceIDUsageDescription" = "Face ID déverrouille l’accès à votre archive chiffrée.";
+"NSLocalNetworkUsageDescription" = "Se connecte à votre serveur CercaPosta, qui peut se trouver sur votre réseau local.";
+"NSPhotoLibraryUsageDescription" = "Permet à l’éditeur de messages d’ajouter des images de votre photothèque.";
+"NSPhotoLibraryAddUsageDescription" = "Permet à l’éditeur de messages d’enregistrer des images dans votre photothèque.";
