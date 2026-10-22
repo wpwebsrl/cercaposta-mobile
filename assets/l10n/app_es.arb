@@ -394,7 +394,7 @@
   "serverNeedsSetup": "Este servidor aún debe configurarse desde la web.",
   "serverUpdateRequired": "Actualiza la aplicación para usar este servidor.",
   "loginPasskey": "Iniciar sesión con una clave de acceso",
-  "loginGoogle": "Continuar con Google",
+  "loginGoogle": "Iniciar sesión con Google",
   "loginApple": "Iniciar sesión con Apple",
   "loginChangeServer": "Cambiar de servidor",
   "loginBiometric": "Iniciar sesión con biometría",

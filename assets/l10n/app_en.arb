@@ -35,7 +35,7 @@
   "loginPassword": "Password",
   "loginButton": "Sign in",
   "loginPasskey": "Sign in with a passkey",
-  "loginGoogle": "Continue with Google",
+  "loginGoogle": "Sign in with Google",
   "loginApple": "Sign in with Apple",
   "loginChangeServer": "Change server",
   "loginBiometric": "Sign in with biometrics",

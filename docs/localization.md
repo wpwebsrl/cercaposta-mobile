@@ -1,5 +1,43 @@
 # Localization contract and local implementation status
 
+Local APK rebuild with updated Google labels, **22 October 2026**. New build ID
+**`local-multilingua-google-labels-20261022`**, all five languages included, app
+version **1.6.0+1** retained. Artifact:
+`build/local/CercaPosta-Android-multilingua-local-jdk17-google-labels-20261022.apk`,
+**216385819 bytes**, SHA-256
+`8942a56ceffd3d2cb6ba0051d1ee4a773eecd39ec0ec0bb37d0fc842a6af6f2a`.
+
+The shared runner again used **Temurin JDK 17.0.20.1+1**, native LIFECYCLE logging
+with warning-mode all, assemble/lint (**0 errors/0 warnings**) and Flutter’s
+complete APK postcheck. Dependency resolution, generation and formatting leave
+the lockfile, dependencies and generated catalogs unchanged. Actual APK checks
+verify signing, CRC, API levels, five language declarations/classes, **30 compiled
+strings including the five new Google labels**, icons and ARM/ARM64/x64 Flutter
+runtimes. The Debug certificate matches the previous local APK; native resources,
+libraries, DEX and manifest are byte-identical. Only the Dart kernel and three
+signature files changed. The previous APK is preserved with its original hash.
+Logs: `build/check-logs/multilingua-google-labels-20261022-01/`.
+
+The 82 tests in the wording follow-up below preceded this build, using the same
+source inputs verified by hash; they were not rerun or counted as new build tests.
+Device login, language/persistence, large text and accessibility still need real
+device checks. No agents, commit, push, CI, release or device installation.
+
+Google button wording follow-up, **22 October 2026**, local source only. The shared
+iOS/Android label now matches the Web/Desktop sign-in wording in every language:
+**Accedi con Google**, **Sign in with Google**, **Iniciar sesión con Google**,
+**Mit Google anmelden**, **Se connecter avec Google**. Italian was already correct;
+only four ARB values and their four generated Dart getters changed. No OAuth,
+icon, layout, permission or API change. Generation, formatting and localization
+coverage pass. **82 tests pass**: two language contract tests and 80 simulated
+login cases across five languages, Android/iOS, light/dark, 320/390 logical pixels
+and 100%/200% text. Windows iOS simulation uses local fonts and does not qualify
+native iOS font metrics. Real-device/accessibility checks remain pending.
+At the end of that source-only step, **no APK had yet been rebuilt**. The new
+google-labels build above now includes the correction. The earlier artifact below
+retains the old labels and original hash; future Android builds must keep **JDK 17**.
+No agents, commit, push, CI, release or device installation in the wording step.
+
 Local Android rebuild, **22 October 2026**. The debug APK now includes all five
 languages and the German/French/Spanish linguistic corrections described below.
 Build ID **`local-multilingua-reviewed-20261022`**, app version **1.6.0+1** retained.

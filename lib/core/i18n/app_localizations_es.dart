@@ -121,7 +121,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get loginPasskey => 'Iniciar sesión con una clave de acceso';
 
   @override
-  String get loginGoogle => 'Continuar con Google';
+  String get loginGoogle => 'Iniciar sesión con Google';
 
   @override
   String get loginApple => 'Iniciar sesión con Apple';

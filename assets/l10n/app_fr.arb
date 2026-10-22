@@ -35,7 +35,7 @@
   "loginPassword": "Mot de passe",
   "loginButton": "Se connecter",
   "loginPasskey": "Se connecter avec une clé d’accès",
-  "loginGoogle": "Continuer avec Google",
+  "loginGoogle": "Se connecter avec Google",
   "loginApple": "Se connecter avec Apple",
   "loginChangeServer": "Modifier le serveur",
   "loginBiometric": "Connexion avec biométrie",

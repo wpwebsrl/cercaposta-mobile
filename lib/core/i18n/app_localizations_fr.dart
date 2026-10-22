@@ -120,7 +120,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get loginPasskey => 'Se connecter avec une clé d’accès';
 
   @override
-  String get loginGoogle => 'Continuer avec Google';
+  String get loginGoogle => 'Se connecter avec Google';
 
   @override
   String get loginApple => 'Se connecter avec Apple';

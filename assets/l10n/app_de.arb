@@ -35,7 +35,7 @@
   "loginPassword": "Passwort",
   "loginButton": "Anmelden",
   "loginPasskey": "Mit einem Passkey anmelden",
-  "loginGoogle": "Weiter mit Google",
+  "loginGoogle": "Mit Google anmelden",
   "loginApple": "Mit Apple anmelden",
   "loginChangeServer": "Server ändern",
   "loginBiometric": "Mit Biometrie anmelden",
