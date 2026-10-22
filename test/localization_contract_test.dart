@@ -29,7 +29,40 @@ void main() {
           .allMatches(File('ios/Runner/Info.plist').readAsStringSync())
           .map((match) => match.group(1)!)
           .toSet();
+      final plist = File('ios/Runner/Info.plist').readAsStringSync();
+      final declarations = RegExp(
+        r'<key>CFBundleLocalizations</key>\s*<array>([\s\S]*?)</array>',
+      ).firstMatch(plist)!.group(1)!;
+      expect(
+        RegExp(
+          r'<string>([^<]+)</string>',
+        ).allMatches(declarations).map((match) => match.group(1)).toSet(),
+        languageNames.keys.toSet(),
+      );
+      final project = File(
+        'ios/Runner.xcodeproj/project.pbxproj',
+      ).readAsStringSync();
       for (final language in languageNames.keys) {
+        final reference = RegExp(
+          r'([A-F0-9]{24}) /\* ' +
+              language +
+              r' \*/ = \{isa = PBXFileReference;[^\n]*path = ' +
+              language +
+              r'\.lproj/InfoPlist\.strings;',
+        ).firstMatch(project);
+        expect(
+          reference,
+          isNotNull,
+          reason: '$language must be included in Xcode',
+        );
+        final variants = RegExp(
+          r'isa = PBXVariantGroup;\s*children = \(([\s\S]*?)\);\s*name = InfoPlist.strings;',
+        ).firstMatch(project)!.group(1)!;
+        expect(
+          variants.contains(reference!.group(1)!),
+          isTrue,
+          reason: language,
+        );
         expect(
           androidKeys(
             'android/app/src/main/res/values${language == 'en' ? '' : '-$language'}/strings.xml',

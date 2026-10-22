@@ -1,0 +1,913 @@
+{
+  "personalAiLabel": "Persönliche KI",
+  "managedAiLabel": "CercaPosta KI",
+  "errorPersonalAiUnavailable": "Die persönliche KI ist pausiert: Prüfen Sie in den Webeinstellungen Ihren Tarif, Ihre Einwilligung und ob Ihr Archiv entsperrt ist.",
+  "@@locale": "de",
+  "errorSessionChanged": "Die Sitzung hat sich geändert. Versuchen Sie es mit dem aktuell angemeldeten Konto erneut.",
+  "appName": "CercaPosta",
+  "actionCancel": "Abbrechen",
+  "actionConfirm": "Bestätigen",
+  "actionClose": "Schließen",
+  "actionRetry": "Erneut versuchen",
+  "actionSave": "Speichern",
+  "actionApply": "Anwenden",
+  "actionClear": "Leeren",
+  "actionContinue": "Weiter",
+  "actionRemove": "Entfernen",
+  "actionOpenInBrowser": "Im Browser öffnen",
+  "loading": "Wird geladen…",
+  "today": "Heute",
+  "yesterday": "Gestern",
+  "serverTitle": "Wählen Sie den Server",
+  "serverSubtitle": "Geben Sie die Adresse Ihres CercaPosta-Servers ein.",
+  "serverUrlLabel": "Serveradresse",
+  "serverUrlHint": "https://mail.example.com",
+  "serverValidating": "Server validieren...",
+  "serverInvalid": "Ungültige Adresse oder Server nicht erreichbar",
+  "serverNotCercaPosta": "Dieser Server ist keine CercaPosta-Instanz",
+  "serverSavedTitle": "Gespeicherte Server",
+  "serverNeedsSetup": "Dieser Server muss noch über die Weboberfläche eingerichtet werden.",
+  "serverUpdateRequired": "Aktualisieren Sie die App, um diesen Server zu verwenden.",
+  "loginTitle": "Anmelden",
+  "loginHeading": "Bei CercaPosta anmelden",
+  "loginTagline": "Ihr E-Mail-Archiv, überall durchsuchbar",
+  "loginUsername": "Benutzername",
+  "loginPassword": "Passwort",
+  "loginButton": "Anmelden",
+  "loginPasskey": "Mit einem Passkey anmelden",
+  "loginGoogle": "Mit Google anmelden",
+  "loginApple": "Mit Apple anmelden",
+  "loginChangeServer": "Server ändern",
+  "loginBiometric": "Mit Biometrie anmelden",
+  "loginBiometricReason": "Zugriff auf Ihr E-Mail-Archiv",
+  "loginEnableBiometricTitle": "Schnelle Anmeldung",
+  "loginEnableBiometricBody": "Möchten Sie beim nächsten Mal Face ID oder Ihren Fingerabdruck verwenden? Dieses Gerät speichert eine widerrufbare, biometrisch geschützte Autorisierung. Die App speichert Ihr Kontopasswort nicht.",
+  "sharedFromLabel": "von {name}",
+  "@sharedFromLabel": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "sharedReaderBanner": "Von {name} freigegebener Ordner – schreibgeschützt",
+  "@sharedReaderBanner": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "totpTitle": "Zweistufige Überprüfung",
+  "totpSubtitle": "Geben Sie den Code aus Ihrer Authenticator-App ein.",
+  "totpCode": "6-stelliger Code",
+  "totpButton": "Prüfen",
+  "unlockTitle": "Archiv entsperren",
+  "unlockDescription": "Ihr Archiv ist verschlüsselt. Geben Sie Ihr Passwort ein, um auf den Inhalt zuzugreifen.",
+  "unlockPassword": "Passwort",
+  "unlockButton": "Entsperren",
+  "unlockBiometric": "Biometrisch entsperren",
+  "unlockEnableBiometricTitle": "Schnelles Entsperren",
+  "unlockEnableBiometricBody": "Möchten Sie Face ID oder Ihren Fingerabdruck zum Entsperren des Archivs verwenden? Dieses Gerät speichert eine widerrufbare, biometrisch geschützte Autorisierung.",
+  "unlockEnableBiometricYes": "Ja, aktivieren",
+  "unlockEnableBiometricNo": "Nein, danke",
+  "unlockReason": "Entsperren Sie Ihr verschlüsseltes Archiv",
+  "firstPasswordTitle": "Setzen Sie ein neues Passwort",
+  "firstPasswordSubtitle": "Beim ersten Zugriff müssen Sie ein persönliches Passwort auswählen (der Administrator wird es nie erfahren).",
+  "firstPasswordNew": "Neues Passwort",
+  "firstPasswordConfirm": "Passwort bestätigen",
+  "firstPasswordMismatch": "Die Passwörter stimmen nicht überein",
+  "kitTitle": "Wiederherstellungskit",
+  "kitBody": "Bewahren Sie diesen Code sicher auf: Damit können Sie Ihr Archiv wiederherstellen, falls Sie Ihr Passwort vergessen. Er wird NUR jetzt angezeigt.",
+  "kitCopy": "Kopieren",
+  "kitCopied": "In die Zwischenablage kopiert",
+  "recoveryTitle": "Archiv-Wiederherstellung",
+  "recoverySubtitle": "Ihr Passwort wurde vom Administrator zurückgesetzt. Geben Sie den Code Ihres Wiederherstellungskits ein und wählen Sie ein neues Passwort.",
+  "recoverySecretLabel": "Wiederherstellungscode",
+  "navSearch": "Suchen",
+  "navChat": "KI-Chat",
+  "navSettings": "Einstellungen",
+  "navNotifications": "Warnungen",
+  "notificationsTitle": "Benachrichtigungen",
+  "notificationsEmpty": "Keine Meldungen.",
+  "notificationsDismiss": "Ausblenden",
+  "notificationsDismissAll": "Alle löschen",
+  "notificationsDismissAllConfirm": "Alle Benachrichtigungen löschen? Dies kann nicht rückgängig gemacht werden.",
+  "notifReprocessTitle": "Archiv erneut verarbeiten, um aktuelle Verbesserungen anzuwenden",
+  "notifReprocessBody": "Ein App-Update verbessert die Verarbeitung bereits archivierter E-Mails. Beispielsweise zählen in Signaturen eingebettete Bilder nicht mehr als Anhänge. Die erneute Verarbeitung des Archivs starten Sie in der Web-App.",
+  "searchHint": "Suchen… (from:, tag:, has:pdf…)",
+  "searchVoice": "Sprachsuche",
+  "searchVoiceListening": "Spracherkennung läuft…",
+  "searchVoiceUnavailable": "Spracherkennung nicht verfügbar",
+  "searchVoicePermission": "Mikrofonzugriff verweigert",
+  "searchFilters": "Filter",
+  "searchNoResults": "Keine Ergebnisse",
+  "searchNewResults": "Neue Ergebnisse",
+  "sortTooltip": "Ergebnisse sortieren",
+  "sortRelevance": "Relevanz",
+  "sortNewest": "Neueste",
+  "sortOldest": "Älteste zuerst",
+  "searchLoading": "Durchsuchen...",
+  "searchEmptyPrompt": "Durchsuchen Sie Ihr Archiv mit Stichwörtern oder Suchoperatoren.",
+  "searchResultsCount": "{count, plural, =0{Keine Ergebnisse} =1{1 Ergebnis} other{{count} Ergebnisse}}",
+  "@searchResultsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "attachmentsCount": "{count, plural, =1{1 Anhang} other{{count} Anhänge}}",
+  "@attachmentsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "filtersTitle": "Filter",
+  "filterFrom": "Von",
+  "filterTo": "An / CC",
+  "filterSubject": "Betreff",
+  "filterHasAttachments": "Hat Anhänge",
+  "filterAttachmentExt": "Dateityp des Anhangs (z. B. pdf)",
+  "filterDateFrom": "Nach",
+  "filterDateTo": "Vorher",
+  "filterTags": "Tags",
+  "filterFolders": "Ordner",
+  "foldersTitle": "Ordner",
+  "foldersAll": "Alle Ordner",
+  "foldersRefresh": "Aktualisieren",
+  "foldersEmpty": "Keine Ordner im Archiv",
+  "foldersExpand": "Aufklappen",
+  "foldersCollapse": "Zuklappen",
+  "foldersMultiple": "{count} Ordner",
+  "@foldersMultiple": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "aboutTitle": "Über CercaPosta",
+  "aboutCompany": "WpWeb S.r.l.",
+  "aboutBuildLabel": "Build",
+  "aboutWebsite": "Besuchen Sie wpweb.com",
+  "aboutCredits": "CercaPosta ist ein Produkt von WpWeb: ein intelligentes, verschlüsseltes und durchsuchbares E-Mail-Archiv.\nAlle Ihre E-Mails, endlich an einem Ort.\nJahrelange Nachrichten, Unterhaltungen und Anhänge, gesammelt und geordnet.\nKeine verstreuten Postfächer, alten Backups oder vergessenen Dateien mehr.\nCercaPosta führt alles in einem sicheren Archiv zusammen, das stets griffbereit ist.\nEine E-Mail zu finden, ist keine Schatzsuche mehr.\nGeben Sie ein, woran Sie sich erinnern, so wie Sie es sagen würden.\nEin Name, ein Datum, ein Wort: Die Ergebnisse erscheinen im Handumdrehen.\nSie erinnern sich nicht an den genauen Wortlaut? Kein Problem.\nCercaPosta versteht den Sinn Ihrer Suche, nicht nur die Wörter.\nSuchen Sie nach dem „Angebot des Klempners vom letzten Jahr“?\nSie finden es, auch wenn in der E-Mail das Wort „Angebot“ gar nicht vorkam.\nEin intelligenter Assistent liest Ihre E-Mails für Sie.\nStellen Sie Fragen in Ihren eigenen Worten und erhalten Sie klare Antworten.\n„Wann habe ich den Zahnarzttermin bestätigt?“\n„Welche IBAN hat mir der Lieferant geschickt?“\nDer Assistent nennt die passenden E-Mails als Quellen, damit Sie die Angaben selbst überprüfen können.\nAuch Anhänge werden durchsuchbar.\nPDFs, Dokumente, Tabellen und sogar Text in Bildern.\nDiese Rechnung, dieser Vertrag, dieses Foto: nur eine Suche entfernt.\nSie müssen nicht mehr stundenlang Ihren Posteingang nach einem Detail durchsuchen.\nFiltern Sie nach Ordner, Tag, Absender oder Datum.\nGrenzen Sie Ihre Suche mit wenigen Klicks ein und kommen Sie direkt zum Ziel.\nJede Nachricht wird übersichtlich und gut lesbar geöffnet.\nUnd vor allem: Ihre Daten gehören Ihnen, und nur Ihnen.\nAlle gespeicherten Daten werden mit Ihrem persönlichen Schlüssel verschlüsselt.\nEine gestohlene Datenbank oder ein gestohlenes Backup bleibt unlesbar.\nDer Sicherheitsschlüssel gehört Ihnen allein.\nCercaPosta ist ein schreibgeschütztes Archiv.\nEs sendet und beantwortet keine Nachrichten und ändert nichts in Ihren ursprünglichen Postfächern.\nEs bewahrt und schützt, ohne die Quelle anzutasten.\nFür Menschen mit vielen E-Mails und wenig Zeit.\nFür Fachleute, Unternehmen, Kanzleien, Büros und Einrichtungen.\nFür alle einfach zu bedienen.\nOhne Handbuch und ohne Umstände.\nÖffnen Sie die App, geben Sie ein, was Sie suchen, und finden Sie es. Das ist alles.\nDas Gedächtnis Ihrer Korrespondenz, immer dabei.\nWas Sie brauchen, genau dann, wenn Sie es brauchen.\nFinden Sie in Sekunden wieder, was Sie für immer verloren glaubten.\nRufen Sie Informationen, Vereinbarungen und Entscheidungen aus Ihren E-Mails ab.\nMachen Sie aus jahrelanger Korrespondenz eine lebendige, durchsuchbare Informationsquelle.\nMehr Ordnung, weniger Stress.\nMehr Zeit für das, was wirklich zählt.\nSchnell beim Suchen, diskret beim Aufbewahren.\nZuverlässig, wann immer Sie es brauchen.\nVon Grund auf sicher, bewusst einfach.\nIhr E-Mail-Archiv, intelligent und geschützt.\nAlles durchsuchbar, von Anfang an übersichtlich.\nCercaPosta: Alles finden, nichts verlieren.\nEin Produkt von WpWeb.\nTechnologie, die das digitale Leben vereinfacht.\nVielen Dank, dass Sie sich für CercaPosta entschieden haben.",
+  "emailLoading": "Nachricht wird geladen…",
+  "emailNoBody": "Kein Inhalt zum Anzeigen.",
+  "emailRawMissing": "Die ursprüngliche Nachricht ist nicht mehr verfügbar: Es werden nur Metadaten angezeigt.",
+  "emailAttachments": "Anhänge",
+  "emailThread": "Gespräch",
+  "emailOpenAttachment": "Anhang öffnen",
+  "emailShowRemoteImages": "Remote-Bilder anzeigen",
+  "emailAlwaysShowRemoteImagesFromSender": "Bilder dieses Absenders immer anzeigen",
+  "emailPecBadge": "PEC",
+  "emailTo": "An",
+  "emailCc": "CC",
+  "emailDate": "Datum",
+  "emailFrom": "Von",
+  "emailDetails": "Details",
+  "emailThreadEmpty": "Keine anderen Nachrichten in diesem Gespräch.",
+  "attachmentLoading": "Ladevorschau...",
+  "attachmentUnsupported": "Vorschau nicht verfügbar für diesen Dateityp.",
+  "chatTitle": "KI-Chat",
+  "chatHint": "Stellen Sie eine Frage zu Ihrem Archiv...",
+  "chatSend": "Senden",
+  "chatNotConfigured": "Der KI-Chat ist auf diesem Server nicht konfiguriert.",
+  "chatDisabled": "Der KI-Chat ist auf diesem Server deaktiviert.",
+  "chatNew": "Neues Gespräch",
+  "chatHistory": "Verlauf",
+  "chatHistoryEmpty": "Keine gespeicherten Gespräche.",
+  "chatCitations": "Quellen",
+  "chatPhaseUnderstanding": "Verstehen...",
+  "chatPhaseSearching": "Durchsuchen...",
+  "chatPhaseEmbedding": "Semantische Analyse...",
+  "chatPhaseReranking": "Rangfolge...",
+  "chatPhaseGenerating": "Antwort generieren...",
+  "chatActivitySearch": "Suche nach „{q}“",
+  "chatActivityThread": "Unterhaltung „{s}“ wird gelesen",
+  "chatActivityThreadGeneric": "Ein Gespräch lesen",
+  "chatActivityFollowups": "Prüfung der Antworterwartungen",
+  "chatActivityStats": "Archivstatistiken werden berechnet",
+  "chatActivityContact": "Verlauf für {a} wird zusammengestellt",
+  "chatActivityAttachments": "Anhänge zu „{q}“ werden gelesen",
+  "chatActivityAttachmentsGeneric": "Anhänge werden gelesen",
+  "chatCitationsCount": "{count, plural, =1{1 E-Mail} other{{count} E-Mails}}",
+  "chatCitationsOthers": "und {count} weitere",
+  "chatCitationsShowAll": "{count, plural, =1{Letzte E-Mail anzeigen} other{Die übrigen {count} anzeigen}}",
+  "chatCitationsUnusedLegend": "Ausgegraut: gelesene E-Mails, die nicht für die Antwort verwendet wurden.",
+  "chatPagingRead": "Für diese Suche wurden {read} von {total} E-Mails gelesen.",
+  "@chatPagingRead": {
+    "placeholders": {
+      "read": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "chatPagingAll": "Für diese Suche wurden alle {total} E-Mails gelesen.",
+  "@chatPagingAll": {
+    "placeholders": {
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "chatEmbeddingFailed": "Semantische Suche nicht verfügbar: Die Ergebnisse basieren nur auf Stichwörtern.",
+  "settingsTitle": "Einstellungen",
+  "settingsLegalAndSupport": "Rechtliche Hinweise und Support",
+  "legalPrivacy": "Datenschutzerklärung",
+  "legalTerms": "Nutzungsbedingungen",
+  "legalSupport": "Support",
+  "legalSupportHint": "Kontakte, Telefonnummer und Möglichkeiten, Hilfe anzufordern",
+  "googleErrorCancelled": "Google-Anmeldung wurde abgesagt",
+  "googleErrorState": "Die Google-Sitzung ist nicht mehr gültig: Melden Sie sich erneut an",
+  "googleErrorConfiguration": "Google-Anmeldung ist auf dem Server nicht korrekt konfiguriert",
+  "googleErrorIdentity": "Google konnte Ihre Identität nicht überprüfen",
+  "googleErrorLinkRequired": "Diese Adresse ist bereits registriert: Verknüpfen Sie Google zunächst in Ihrem Webprofil, bevor Sie es hier verwenden.",
+  "googleErrorRegistrationRequired": "Erstellen Sie zuerst das Konto auf der Website und melden Sie sich dann von dieser App an",
+  "googleErrorInactive": "Das CercaPosta-Konto ist nicht aktiv",
+  "googleErrorInvalid": "Google-Anmeldung ist ungültig oder abgelaufen: Versuchen Sie es erneut",
+  "googleErrorDisabled": "Google-Anmeldung ist auf diesem Server nicht aktiviert",
+  "googleErrorUnavailable": "Google-Anmeldung ist nicht verfügbar",
+  "appleErrorCancelled": "Apple-Anmeldung wurde abgesagt",
+  "appleErrorState": "Die Apple-Sitzung ist nicht mehr gültig: Melden Sie sich erneut an",
+  "appleErrorIdentity": "Apple konnte Ihre Identität nicht überprüfen",
+  "appleErrorLinkRequired": "Diese Adresse ist bereits registriert: Verknüpfen Sie Apple zunächst in Ihrem Webprofil, bevor Sie es hier verwenden.",
+  "appleErrorRegistrationRequired": "Erstellen Sie zuerst das Konto auf der Website und melden Sie sich dann von dieser App an",
+  "appleErrorInactive": "Das CercaPosta-Konto ist nicht aktiv",
+  "appleErrorInvalid": "Apple-Anmeldung ist ungültig oder abgelaufen: Versuchen Sie es erneut",
+  "appleErrorDisabled": "Apple-Anmeldung ist auf diesem Server nicht aktiviert",
+  "appleErrorUnavailable": "Apple-Anmeldung ist nicht verfügbar",
+  "settingsServer": "Server",
+  "settingsAccount": "Konto",
+  "settingsLanguage": "Sprache",
+  "settingsLanguageSystem": "System",
+  "settingsLanguageIt": "Italienisch",
+  "settingsLanguageEn": "Englisch",
+  "settingsTheme": "Erscheinungsbild",
+  "settingsThemeLight": "Hell",
+  "settingsThemeDark": "Dunkel",
+  "settingsThemeAuto": "Automatisch",
+  "settingsNotifications": "Benachrichtigungen",
+  "settingsRemoteImages": "Bilder in E-Mail",
+  "settingsRemoteImagesAlways": "Immer Remote-Bilder anzeigen",
+  "settingsRemoteImagesWarning": "Bequemer, kann Absendern jedoch verraten, dass Sie eine E-Mail geöffnet haben. Erlauben Sie zum Schutz Ihrer Privatsphäre nur vertrauenswürdige Absender.",
+  "settingsOsNotifications": "Systemmeldungen",
+  "settingsOsNotificationsHint": "Zeigt neue Benachrichtigungen in der Mitteilungszentrale des Telefons an. Unter Android erfolgt die Prüfung etwa alle 15 Minuten, unter iOS, sobald das System dies erlaubt.",
+  "settingsOsNotificationsDenied": "Berechtigung verweigert: Aktivieren Sie CercaPosta-Benachrichtigungen in den Systemeinstellungen.",
+  "settingsBiometric": "Biometrisches Anmelden und Entsperren",
+  "settingsBiometricEnablePrompt": "Bestätigen Sie Ihr Passwort, um dieses Gerät zu autorisieren, und vervollständigen Sie dann die biometrische Verifizierung. Die App behält Ihr Passwort nicht.",
+  "settingsSessions": "Geräte & Sessions",
+  "passkeysTitle": "Passkeys",
+  "passkeysSettingsHint": "Melden Sie sich an, ohne Ihr Passwort einzugeben",
+  "passkeysDescription": "Passkeys nutzen die sichere Entsperrung Ihres Geräts, etwa Fingerabdruck, Gesichtserkennung oder PIN. Der private Schlüssel verlässt niemals das Gerät oder Ihren Passkey-Anbieter.",
+  "passkeysAdd": "Passkey hinzufügen",
+  "passkeysEmpty": "Sie haben noch keine Passkeys registriert.",
+  "passkeysSynced": "Synchronisiert",
+  "passkeysDeviceBound": "Nur dieses Gerät",
+  "passkeysCreated": "Erstellt am {date}",
+  "@passkeysCreated": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "passkeysLastUsed": "Zuletzt verwendet: {date}",
+  "@passkeysLastUsed": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "passkeysRename": "Umbenennen",
+  "passkeysRenameTitle": "Passkey umbenennen",
+  "passkeysName": "Passkey-Name",
+  "passkeysRemoveTitle": "Passkey entfernen",
+  "passkeysRemoveConfirm": "Passkey „{name}“ entfernen? Sie können ihn danach nicht mehr zur Anmeldung verwenden.",
+  "@passkeysRemoveConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "passkeysPasswordStays": "Passkeys sind optional: Passwort und Google-Anmeldung bleiben verfügbar. Bei einem verschlüsselten Archiv benötigt ein neues oder nicht vertrauenswürdiges Gerät weiterhin das Passwort oder das Wiederherstellungskit zum Entsperren der Inhalte.",
+  "passkeyErrorCancelled": "Vorgang abgebrochen",
+  "passkeyErrorNoCredential": "Auf diesem Gerät ist kein CercaPosta-Passkey verfügbar",
+  "passkeyErrorDomainNotAssociated": "Dieser Server ist noch nicht korrekt mit der App für Passkeys verknüpft",
+  "passkeyErrorUnavailable": "Passkeys sind auf diesem Gerät nicht verfügbar. Sie können sich weiterhin mit Ihrem Passwort anmelden.",
+  "passkeyErrorTimeout": "Die Zeit für die Passkey-Anfrage ist abgelaufen. Versuchen Sie es erneut.",
+  "passkeyErrorInvalid": "Der Passkey wurde nicht erkannt oder ist nicht mehr gültig",
+  "passkeyErrorNotConfigured": "Passkeys sind auf diesem Server noch nicht konfiguriert",
+  "passkeyErrorAlreadyRegistered": "Dieser Passkey ist bereits registriert",
+  "settingsLogout": "Abmelden",
+  "settingsAbout": "Über CercaPosta",
+  "settingsVersion": "Version {version}",
+  "@settingsVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "sessionsTitle": "Geräte & Sessions",
+  "sessionsCurrent": "Dieses Gerät",
+  "sessionsRevoke": "Trennen",
+  "sessionsRevokeAll": "Alle Geräte trennen",
+  "sessionsRevokeAllConfirm": "Trennen Sie alle Geräte? Sie müssen sich bei jedem erneut anmelden.",
+  "sessionsEmpty": "Keine aktiven Sitzungen.",
+  "sessionsLastSeen": "Zuletzt aktiv: {when}",
+  "@sessionsLastSeen": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "sessionsCreated": "Aktiv seit: {when}",
+  "@sessionsCreated": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "sessionsIp": "IP-Adresse: {ip}",
+  "@sessionsIp": {
+    "placeholders": {
+      "ip": {
+        "type": "String"
+      }
+    }
+  },
+  "serverHttpsRequired": "Der Server muss HTTPS verwenden. Einfache http://-Adressen sind nicht zulässig.",
+  "serverRemoveSaved": "Entfernen von gespeicherten Servern",
+  "searchClear": "Suche löschen",
+  "searchLoadMoreError": "Laden fehlgeschlagen. Tippen Sie, um es erneut zu versuchen.",
+  "filterSize": "Größe",
+  "filterSizeGreater": "größer als",
+  "filterSizeLess": "weniger als",
+  "filterAccount": "Konto (Quell-ID)",
+  "emailBcc": "BCC",
+  "emailLinkError": "Kann den Link nicht öffnen",
+  "attachmentShare": "Teilen",
+  "attachmentShareError": "Konnte den Anhang nicht teilen",
+  "chatStop": "Stoppen",
+  "chatDelete": "Gespräch löschen",
+  "chatDeleteConfirm": "Löschen Sie dieses Gespräch?",
+  "chatRename": "Umbenennen",
+  "chatRenameTitle": "Unterhaltung umbenennen",
+  "chatStatusError": "Chat-Status konnte nicht überprüft werden",
+  "settingsChangeServer": "Server ändern",
+  "settingsChangeServerConfirm": "Server wechseln? Sie werden vom aktuellen Server abgemeldet.",
+  "errorWeakPasswordDetail": "Das Passwort muss enthalten: {requirements}",
+  "@errorWeakPasswordDetail": {
+    "placeholders": {
+      "requirements": {
+        "type": "String"
+      }
+    }
+  },
+  "pwMinLength": "eine größere Länge",
+  "pwRequireLower": "einen Kleinbuchstaben",
+  "pwRequireUpper": "einen Großbuchstaben",
+  "pwRequireDigit": "eine Ziffer",
+  "pwRequireSymbol": "ein Symbol",
+  "pwMinCharClasses": "mehr Zeichentypen",
+  "updateAvailable": "Eine neuere Version der App ist verfügbar.",
+  "updateRequiredTitle": "Update erforderlich",
+  "updateRequiredBody": "Diese App-Version ({current}) wird vom Server nicht mehr unterstützt. Aktualisieren Sie auf die neueste Version, um CercaPosta weiterhin zu verwenden.",
+  "updateRequiredButton": "Jetzt aktualisieren",
+  "updateStoreError": "Der Store konnte nicht geöffnet werden. Aktualisieren Sie die App manuell über den App Store oder Play Store.",
+  "emailPecSection": "PEC-Transportumschlag",
+  "emailPecTransportFrom": "Transportiert von",
+  "emailPecTransportSubject": "Betreff des Transportumschlags",
+  "emailPecTransportDate": "Beförderungsdatum",
+  "emailPecDaticert": "Zertifizierung (daticert.xml) vorhanden",
+  "settingsStorage": "Speicherplatz",
+  "settingsStorageValue": "{used} von {quota} ({percent} %)",
+  "@settingsStorageValue": {
+    "placeholders": {
+      "used": {
+        "type": "String"
+      },
+      "quota": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsStorageUnlimited": "{used} · unbegrenzt",
+  "@settingsStorageUnlimited": {
+    "placeholders": {
+      "used": {
+        "type": "String"
+      }
+    }
+  },
+  "errorInvalidCredentials": "Ungültige Zugangsdaten",
+  "errorAccountBanned": "Konto vorübergehend gesperrt wegen zu vielen Versuchen",
+  "errorInvalidToken": "Sitzung abgelaufen, bitte melden Sie sich erneut an",
+  "errorInvalidRefresh": "Sitzung ungültig, bitte melden Sie sich erneut an",
+  "errorForbidden": "Vorgang nicht zulässig",
+  "errorFeatureNotInPlan": "Diese Funktion ist nicht im aktuellen Plan enthalten",
+  "errorAdminNotOnMobile": "Admin-Funktionen sind auf Mobilgeräten nicht verfügbar",
+  "errorTotpInvalidCode": "Ungültiger Code",
+  "errorTotpExpired": "Code abgelaufen, bitte melden Sie sich erneut an",
+  "errorDekLocked": "Archiv gesperrt. Entsperren Sie mit Ihrem Passwort.",
+  "errorRecoveryFailed": "Wiederherstellung fehlgeschlagen. Überprüfen Sie Ihren Wiederherstellungscode.",
+  "errorWeakPassword": "Das Passwort erfüllt nicht die Sicherheitsanforderungen",
+  "errorTotpSetupRequired": "Ihr Konto erfordert eine zweistufige Überprüfung: Richten Sie es aus dem Web ein, bevor Sie sich von der App aus anmelden",
+  "errorChatNotConfigured": "KI-Chat nicht konfiguriert",
+  "errorChatLlmError": "Fehler des KI-Modells: {detail}",
+  "@errorChatLlmError": {
+    "placeholders": {
+      "detail": {
+        "type": "String"
+      }
+    }
+  },
+  "errorNotFound": "Nicht gefunden",
+  "errorPreviewUnsupported": "Vorschau nicht verfügbar für dieses Format",
+  "errorPreviewFailed": "konnte die Vorschau nicht erzeugen",
+  "errorRawMissing": "Datei nicht mehr verfügbar",
+  "errorValidation": "Ungültige Daten",
+  "errorNetwork": "Netzwerkfehler. Überprüfen Sie Ihre Verbindung.",
+  "errorGeneric": "Unerwarteter Fehler",
+  "errorFollowupNotRemindable": "Für diese ausstehende Antwort kann keine Erinnerung mehr gesendet werden.",
+  "errorFollowupNotConfigured": "Das Analysemodell ist auf diesem Server nicht konfiguriert.",
+  "errorFollowupDraftFailed": "Die Erinnerung konnte nicht erstellt werden. Versuchen Sie es erneut.",
+  "errorFollowupSendNoSource": "Kein Ursprungskonto, das diese Nachricht senden kann.",
+  "errorSendConsentRequired": "Das Microsoft 365-Konto muss von der Web-App erneut zum Senden autorisiert werden.",
+  "errorMailAuthFailed": "Die Authentifizierung gegenüber dem E-Mail-Konto ist fehlgeschlagen.",
+  "errorMailSendFailed": "Senden fehlgeschlagen. Versuchen Sie es später erneut.",
+  "navFollowups": "Ausstehende Antworten",
+  "followupsTitle": "Ausstehende Antworten",
+  "followupsTabTheirTurn": "Warten auf die Antwort",
+  "followupsTabMyTurn": "Zu beantworten",
+  "followupsEmpty": "Keine offenen Erwartungen.",
+  "followupsRecentlyClosed": "Vor kurzem geschlossen",
+  "followupsLoadMore": "Mehr laden",
+  "followupsDisabledTitle": "Feature nicht aktiviert",
+  "followupsDisabledBody": "Aktivieren Sie ausstehende Antworten in Ihrem Profil in der Web-App.",
+  "followupsUnavailableTitle": "Erfordert einen aktualisierten Server",
+  "followupsUnavailableBody": "Dieser Server bietet die Verwaltung ausstehender Antworten noch nicht an.",
+  "followupsPausedEndpoint": "Analyse pausiert: Der KI-Endpunkt antwortet nicht. Das Archiv wird weiterhin synchronisiert.",
+  "followupsPausedCap": "Analyse pausiert: Tageslimit erreicht.",
+  "followupsPausedBilling": "Analyse pausiert: KI-Limit des Tarifs erreicht.",
+  "followupsActionOpen": "Unterhaltung öffnen",
+  "followupsActionReminder": "Erinnerung vorbereiten",
+  "followupsActionDone": "Fertig",
+  "followupsActionSnooze1": "Um 1 Tag verschieben",
+  "followupsActionSnooze3": "Um 3 Tage verschieben",
+  "followupsActionDismiss": "Ignorieren",
+  "followupsActionError": "Aktion fehlgeschlagen",
+  "followupsChipAnswered": "Beantwortet",
+  "followupsChipDismissed": "Ignoriert",
+  "followupsChipSnoozed": "Verschoben bis {date}",
+  "followupsChipReminded": "Erinnerung gesendet am {date}",
+  "followupsChipRemindedMany": "Erinnerung gesendet am {date} ×{count}",
+  "followupsChipOverdue": "{days, plural, =1{Seit 1 Tag überfällig} other{Seit {days} Tagen überfällig}}",
+  "followupsChipDueToday": "Heute fällig",
+  "followupsChipDueTomorrow": "Morgen fällig",
+  "followupsChipDueOn": "Fällig am {date}",
+  "reminderTitle": "Erinnerung vorbereiten",
+  "reminderGenerating": "Generierung des Entwurfs...",
+  "reminderFailed": "Konnte den Entwurf nicht erzeugen.",
+  "reminderSubject": "Betreff",
+  "reminderMessage": "Nachricht",
+  "reminderRegister": "Anredeform",
+  "reminderRegisterAuto": "Auto",
+  "reminderRegisterTu": "Informell",
+  "reminderRegisterLei": "Formal",
+  "reminderRegisterUsed": "Anredeform: {register} ({source})",
+  "reminderRegisterSourceManual": "gewählt",
+  "reminderRegisterSourceContact": "für diesen Kontakt gespeichert",
+  "reminderRegisterSourceDetected": "anhand Ihres Stils erkannt",
+  "reminderRegisterSourceDefault": "Standard",
+  "reminderRememberContact": "Für diesen Kontakt speichern",
+  "reminderRemembered": "Anredeform für diesen Kontakt gespeichert",
+  "reminderLanguage": "Sprache",
+  "reminderLanguageAuto": "Auto",
+  "reminderInstructionsHint": "Anweisungen für die Neuerstellung (optional)",
+  "reminderRegenerate": "Neu erstellen",
+  "reminderExpand": "Vollständiger Bildschirm",
+  "reminderInstructions": "Anweisungen",
+  "reminderIncludeOriginal": "Zitieren Sie die ursprüngliche E-Mail am Ende",
+  "reminderAppendedNote": "Signatur, KI-Hinweis und gegebenenfalls das Originalzitat werden automatisch angefügt.",
+  "reminderSendFromNote": "Die E-Mail wird von Ihrem Konto {from} gesendet",
+  "reminderPreview": "E-Mail-Vorschau",
+  "reminderPreviewTitle": "E-Mail-Vorschau",
+  "reminderSendNow": "Senden von CercaPosta",
+  "reminderSent": "Erinnerung gesendet von {from}",
+  "notifFollowupNoReplyTitle": "{name} hat nicht geantwortet",
+  "notifFollowupNoReplyBody": "«{summary}» — seit {days} Tagen keine Antwort.",
+  "notifFollowupReplyDueTitle": "Sie sollten auf {name} antworten",
+  "notifFollowupReplyDueBody": "«{summary}» — die Frist ist seit {days} Tagen abgelaufen.",
+  "notifChannelName": "Benachrichtigungen",
+  "notifSummaryTitle": "{count} neue Benachrichtigungen",
+  "@notifSummaryTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notifSummaryBody": "Öffnen Sie CercaPosta, um sie alle zu sehen.",
+  "notifFollowupDueSoonTitle": "Näher rückende Frist",
+  "notifFollowupDueSoonBody": "«{summary}» — {name}: fällig am {date}.",
+  "notifFollowupReminderSentTitle": "Erinnerung an {name} gesendet",
+  "notifFollowupReminderSentBody": "« {summary} » — die automatische Erinnerung wurde gesendet.",
+  "notifFollowupDigestTitle": "Zusammenfassung der Antworterwartungen",
+  "notifFollowupDigestBody": "{overdue} überfällig · {dueToday} heute fällig · {waitingMe} ausstehende eigene Antworten.",
+  "notifOpenConversation": "Unterhaltung öffnen",
+  "actionCopy": "Kopieren",
+  "actionCopied": "In die Zwischenablage kopiert",
+  "emailHeadersTitle": "Nachrichtenkopfzeilen",
+  "emailHeadersEmpty": "Keine Header verfügbar",
+  "followupMarkTitle": "Als ausstehende Antwort markieren",
+  "followupMarkTheirTurn": "Ich warte auf eine Antwort",
+  "followupMarkTheirTurnHint": "Ich habe geschrieben und warte darauf, dass sie antworten.",
+  "followupMarkMyTurn": "Ich schulde eine Antwort",
+  "followupMarkMyTurnHint": "Ich habe eine Nachricht erhalten und bin mit der Antwort an der Reihe",
+  "followupMarkDue": "Frist (optional)",
+  "followupMarkPickDue": "Wählen Sie ein Datum",
+  "followupMarkConfirm": "Erstellen",
+  "followupMarkCreated": "Als ausstehende Antwort markiert",
+  "errorFollowupAlreadyActive": "Es gibt bereits eine offene Erwartung an dieses Gespräch.",
+  "errorFollowupNoCounterpart": "Kann nicht sagen, wer antworten soll: versuchen Sie die andere Richtung.",
+  "memoryTitle": "Chat-Gedächtnis",
+  "memorySettingsHint": "Was der Assistent über Sie gelernt hat",
+  "memoryIntro": "Hier steht alles, was der Assistent über Sie gelernt hat: wie Sie Personen nennen, wie Sie Auflistungen wünschen und welche Fakten er voraussetzt. Sie können jeden Eintrag pausieren oder löschen. Nichts wird ohne einen Hinweis an Sie gelernt. Um einen Eintrag hinzuzufügen, schreiben Sie im Chat: «Merken Sie sich, dass…».",
+  "memoryPolicyLearn": "Lernen Sie aus meinen Gesprächen",
+  "memoryPolicyLearnHint": "Wenn diese Option aktiviert ist, schlägt der Assistent vor, was er während Ihrer Zusammenarbeit bemerkt. Er informiert Sie jedes Mal, und Sie können dies rückgängig machen. Wenn Sie die Option deaktivieren, bleiben nur die von Ihnen selbst eingegebenen Einträge erhalten.",
+  "memoryPolicyEnabled": "Verwenden Sie das Gedächtnis in Antworten",
+  "memoryPolicyEnabledHint": "Wenn Sie diese Option deaktivieren, bleiben alle Einträge erhalten, werden aber nicht mehr angewendet. Sie werden pausiert, nicht gelöscht.",
+  "memoryAnnounceAlias": "Ich habe gelernt, dass für Sie « {key} » bedeutet {value} .",
+  "@memoryAnnounceAlias": {
+    "placeholders": {
+      "key": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "memoryAnnounceGeneric": "Ich habe gelernt: {key} → {value} .",
+  "@memoryAnnounceGeneric": {
+    "placeholders": {
+      "key": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "memoryAnnounceTrial": "{what} Ich behalte diesen Eintrag vorerst zur Erprobung und verwende ihn noch nicht.",
+  "@memoryAnnounceTrial": {
+    "placeholders": {
+      "what": {
+        "type": "String"
+      }
+    }
+  },
+  "memoryAnnounceUndo": "Rückgängig",
+  "memoryAnnounceUndone": "Rückgängig gemacht: Ich habe den Eintrag nicht behalten.",
+  "memoryAnnounceRejected": "In Ordnung, ich werde es nicht noch einmal vorschlagen.",
+  "memoryAppliedNote": "Aus dem Speicher: {list}",
+  "@memoryAppliedNote": {
+    "placeholders": {
+      "list": {
+        "type": "String"
+      }
+    }
+  },
+  "memoryListEmpty": "Noch keine Einträge im Gedächtnis. Schreiben Sie im Chat: «Merken Sie sich, dass…».",
+  "memoryListEmptyFiltered": "Keine Erinnerungen in diesem Zustand.",
+  "memoryFilterAll": "Alle",
+  "memoryFilterActive": "Aktiv",
+  "memoryFilterTrial": "Zur Erprobung",
+  "memoryFilterRejected": "Verweigert",
+  "memoryFilterDisabled": "Angehalten",
+  "memoryStatusActive": "Aktiv",
+  "memoryStatusTrial": "Zur Erprobung",
+  "memoryStatusRejected": "Verweigert",
+  "memoryStatusDisabled": "Angehalten",
+  "memoryStatusTrialHint": "wird noch erlernt und noch nicht verwendet",
+  "memoryStatusStaleHint": "Monatelang unbenutzt: pausieren, wenn Sie es nicht mehr brauchen",
+  "memoryKindAlias": "Wie Sie Personen nennen",
+  "memoryKindParam": "Wie Sie suchen möchten",
+  "memoryKindRender": "Wie Sie Auflistungen wünschen",
+  "memoryKindFact": "Fakten, die man im Auge behalten sollte",
+  "memoryKindShortcut": "Wiederkehrende Fragen",
+  "memoryTriggerSearch": "bei der Suche",
+  "memoryTriggerListing": "in Auflistungen",
+  "memoryTriggerContact": "über Kontakte",
+  "memoryTriggerAlways": "immer",
+  "memorySourceExplicit": "Sie sagten:",
+  "memorySourceCorrection": "aus einer Ihrer Korrekturen",
+  "memorySourceRecurrence": "Aus einer Gewohnheit",
+  "memorySourceSuggested": "vom Archiv vorgeschlagen",
+  "memorySourceInferred": "aus etwas abgeleitet, das Sie geschrieben haben",
+  "memoryUsedTimes": "{count, plural, =1{einmal verwendet} other{{count}-mal verwendet}}",
+  "@memoryUsedTimes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "memoryEnable": "Fortsetzen",
+  "memoryDisable": "Pause",
+  "memoryReject": "Dies nie speichern",
+  "memoryUnreject": "Ich änderte meine Meinung",
+  "memoryDelete": "Löschen",
+  "memoryDeleteConfirm": "Eintrag «{key}» löschen? Wenn er nie wieder vorgeschlagen werden soll, wählen Sie «Dies nie speichern».",
+  "@memoryDeleteConfirm": {
+    "placeholders": {
+      "key": {
+        "type": "String"
+      }
+    }
+  },
+  "memorySuggestionsTitle": "Aliases, die von Ihrem Archiv vorgeschlagen werden",
+  "memorySuggestionsHint": "Namen, die in Ihrem Archiv eindeutig einer Person zugeordnet sind. Wenn Sie einen Vorschlag annehmen, sucht der Chat direkt nach der zugehörigen Adresse, sobald Sie diesen Namen nennen.",
+  "memorySuggestionsAccept": "Akzeptieren",
+  "memorySuggestionsCount": "{count, plural, =1{1 E-Mail} other{{count} E-Mails}}",
+  "@memorySuggestionsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "diagnosticsTitle": "Diagnose",
+  "diagnosticsIntro": "Ob alles, was importiert wurde, tatsächlich durchsuchbar ist. Wenn etwas fehlt, bekommen Sie den Grund und, wo es einen gibt, was Sie dagegen tun können.",
+  "diagnosticsStatusOk": "Alles gut: Das Archiv ist vollständig und durchsuchbar.",
+  "diagnosticsStatusWorking": "Die Verarbeitung läuft noch: Ein Teil des Archivs ist noch nicht durchsuchbar. Sie müssen nichts unternehmen.",
+  "diagnosticsStatusAttention": "Prüfen Sie die unten aufgeführten Hinweise.",
+  "diagnosticsMessages": "Nachrichten in der KI-Suche",
+  "diagnosticsAttachments": "Text gelesen in Anhängen",
+  "diagnosticsOf": "{done} von {total}",
+  "@diagnosticsOf": {
+    "placeholders": {
+      "done": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "diagnosticsAttachmentsPending": "{n} Anhänge in der Warteschlange",
+  "@diagnosticsAttachmentsPending": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "diagnosticsMessagesPending": "{n} Nachrichten in der Warteschlange",
+  "@diagnosticsMessagesPending": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "diagnosticsEmbeddingOff": "KI-Suche deaktiviert",
+  "diagnosticsEmbeddingPaused": "pausiert: KI-Plan Limits",
+  "diagnosticsEmbeddingActive": "Warteschlange läuft",
+  "diagnosticsEmbeddingLastError": "letzter Fehler ( {when} ): {detail}",
+  "@diagnosticsEmbeddingLastError": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      },
+      "detail": {
+        "type": "String"
+      }
+    }
+  },
+  "diagnosticsRetryAll": "Bei {n} Anhängen erneut versuchen",
+  "@diagnosticsRetryAll": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "diagnosticsRetryHint": "Die Verarbeitung wurde durch einen vorübergehenden Fehler gestoppt. Ein neuer Versuch kann erfolgreich sein.",
+  "diagnosticsRetryExhaustedHint": "{n} dieser Anhänge haben bereits alle fünf automatischen Versuche verbraucht. Ein neuer Versuch ist sinnvoll, wenn die Ursache der Unterbrechung behoben wurde.",
+  "@diagnosticsRetryExhaustedHint": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "diagnosticsReasonsTitle": "Warum {n} Anhänge keinen Text haben",
+  "@diagnosticsReasonsTitle": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "diagnosticsExpectedTitle": "{n}-Anhänge waren keine Dokumente zum Lesen",
+  "@diagnosticsExpectedTitle": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "diagnosticsEmbedReasonsTitle": "Warum {n}-Nachrichten es nicht in die KI-Suche geschafft haben",
+  "@diagnosticsEmbedReasonsTitle": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "diagnosticsActionRetry": "Erneut versuchen",
+  "diagnosticsActionAskAdmin": "Administrator erforderlich",
+  "diagnosticsActionNone": "Nichts zu tun",
+  "diagnosticsReasonTikaHttpError": "Der Dokumentenleser reagierte nicht",
+  "diagnosticsReasonTikaTimeout": "Das Dokument dauerte zu lange",
+  "diagnosticsReasonTikaServerError": "Der Dokumentenleser hat einen Fehler zurückgegeben",
+  "diagnosticsReasonTikaBusy": "Der Dokumentenleser ist vorübergehend beschäftigt",
+  "diagnosticsReasonTikaPartial": "Nur ein Teil des Dokumenttextes wurde wiederhergestellt",
+  "diagnosticsReasonTikaInvalidLimits": "Die Extraktionslimits sind ungültig: Kontaktieren Sie den Administrator",
+  "diagnosticsReasonTikaRejected": "Der Dokumentenleser lehnte die Datei ab",
+  "diagnosticsReasonTikaUnsupported": "Ein Dateityp, den ich nicht lesen kann",
+  "diagnosticsReasonExtractBacklogError": "Unerwarteter Fehler beim Lesen",
+  "diagnosticsReasonUnmatchedPart": "Anlage, die in der Nachricht nicht gefunden wurde",
+  "diagnosticsReasonOverSizeLimit": "Größer als das erlaubte Limit",
+  "diagnosticsReasonEmpty": "Leere Datei",
+  "diagnosticsReasonSignatureFile": "Digitale Signatur, kein Dokument",
+  "diagnosticsReasonInlineImage": "Bild eingebettet in die Nachricht (Logo, Signatur)",
+  "diagnosticsReasonUnknown": "Ursache nicht erfasst",
+  "diagnosticsSettingsHint": "Ob alles, was Sie importiert haben, wirklich durchsuchbar ist und was fehlt",
+  "billingTitle": "Tarif und Zahlungen",
+  "billingSettingsHint": "Aktueller Tarif, Verlängerung und geplante Änderungen",
+  "billingCurrentPlan": "Aktueller Tarif",
+  "billingNoPlan": "Kein aktiver Tarif.",
+  "billingStatus": "Status",
+  "billingPaymentMethod": "Zahlungsmethode",
+  "billingRecurringPrice": "Wiederkehrender Preis",
+  "billingPeriodEnd": "Periodenende",
+  "billingPlanValidity": "Gültigkeit des Tarifs",
+  "billingNoExpiration": "Kein Ablauf",
+  "billingPeriodicity": "Abrechnungshäufigkeit",
+  "billingIntervalMonthly": "Monatlich",
+  "billingIntervalAnnual": "Jährlich",
+  "billingNextRenewal": "Nächste Erneuerung",
+  "billingNextRenewalAmount": "Nächster Verlängerungsbetrag",
+  "billingDateUnavailable": "Datum noch nicht verfügbar",
+  "billingGraceUntil": "Nachfrist bis",
+  "billingPendingChanges": "Tarifänderungen",
+  "billingEffectiveAt": "Datum des Inkrafttretens",
+  "billingAmountDue": "Voraussichtlicher Betrag",
+  "billingManageInBrowser": "Tarif und Zahlungen verwalten",
+  "billingExternalCheckoutHint": "Zum Schutz Ihrer Zahlung erfolgen Kaufabschluss, erneute Zahlungsversuche und Stornierungen im sicheren Browserbereich von CercaPosta.",
+  "billingStatusActive": "Aktiv",
+  "billingStatusFree": "Kostenlos",
+  "billingStatusPastDue": "Überfällige Zahlungen",
+  "billingStatusSuspended": "ausgesetzt",
+  "billingStatusCanceled": "Storniert",
+  "billingProviderManual": "Manuelle Zahlung",
+  "billingChangePendingAcceptance": "Warten auf Ihre Annahme",
+  "billingChangePendingPayment": "Warten auf Zahlung",
+  "billingChangeScheduled": "Geplant",
+  "billingChangeProcessing": "Verarbeitung",
+  "billingChangePaymentGrace": "Zahlung fehlgeschlagen · Nachfrist",
+  "billingChangeCanceling": "Annullierung im Gange",
+  "notifPlanChangeProposalTitle": "Sie haben einen Plan-Änderungsvorschlag",
+  "notifPlanChangeProposalBody": "Öffnen Sie „Tarif und Zahlungen“, um Preis, Guthaben und Wirksamkeitsdatum zu prüfen.",
+  "notifPlanChangeProposalExpiringTitle": "Der Vorschlag läuft bald aus",
+  "notifPlanChangeProposalExpiringBody": "Prüfen Sie den Vorschlag bis zum {date}.",
+  "@notifPlanChangeProposalExpiringBody": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "notifPlanChangeExpiredTitle": "Die Tarifänderung ist abgelaufen",
+  "notifPlanChangeExpiredBody": "Die Änderung wurde nicht angewendet und Ihr vorheriger Plan blieb unverändert.",
+  "notifPlanChangeScheduledTitle": "Die Planänderung ist geplant",
+  "notifPlanChangeScheduledBody": "Die Änderung wird am {date} wirksam. Ihr aktueller Tarif bleibt bis dahin aktiv.",
+  "@notifPlanChangeScheduledBody": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "notifPlanChangeAppliedTitle": "Ihr neuer Plan ist aktiv",
+  "notifPlanChangeAppliedBody": "Ihre neuen Kontingente und Funktionen sind jetzt verfügbar.",
+  "notifPlanChangeCanceledTitle": "Die Tarifänderung wurde storniert",
+  "notifPlanChangeCanceledBody": "Ihr aktueller Plan bleibt unverändert.",
+  "notifPlanChangePaymentFailedTitle": "Die Zahlung ist fehlgeschlagen",
+  "notifPlanChangePaymentFailedBody": "Ihr bisheriger Tarif bleibt aktiv. Versuchen Sie die Zahlung bis zum {date} erneut.",
+  "@notifPlanChangePaymentFailedBody": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "notifPlanChangeRetryTitle": "Sie können die Zahlung wiederholen",
+  "notifPlanChangeRetryBody": "Öffnen Sie „Tarif und Zahlungen“, um die Zahlung erneut zu versuchen.",
+  "notifPlanChangeGraceExpiringTitle": "Die Nachfrist endet bald",
+  "notifPlanChangeGraceExpiringBody": "Schließen Sie die Zahlung bis zum {date} ab.",
+  "@notifPlanChangeGraceExpiringBody": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "notifPlanChangeGraceExpiredTitle": "Die Nachfrist ist abgelaufen",
+  "notifPlanChangeGraceExpiredBody": "Die Änderung wurde nicht angewendet, weil die Zahlung nicht abgeschlossen wurde.",
+  "notifPlanChangeActionRequiredTitle": "Planänderung braucht Unterstützung",
+  "notifPlanChangeActionRequiredBody": "Prüfen Sie „Tarif und Zahlungen“ oder wenden Sie sich an den Support.",
+  "passkeyUnsupportedServer": "Passkeys sind für diesen Server in dieser App-Version nicht verfügbar. Verwenden Sie Ihr Passwort, Google oder Apple. Sie können Passkeys auf der Website des Servers verwalten.",
+  "searchVoiceLocalUnavailable": "Die lokale Spracherkennung ist für diese Sprache oder dieses Gerät nicht verfügbar. Verwenden Sie die Tastatur. Android benötigt Android 12 oder neuer sowie einen installierten lokalen Spracherkennungsdienst.",
+  "deliveryHistory": "Versandstatus",
+  "deliveryReference": "Versandreferenz",
+  "deliverySending": "Versendung",
+  "deliverySent": "Vom E-Mail-Dienst angenommen",
+  "deliveryFailed": "Nicht gesendet",
+  "deliveryUnknown": "Ergebnis muss überprüft werden",
+  "deliveryChecked": "Ich habe das Ergebnis beim E-Mail-Dienst geprüft und bestätigt, dass der Versuch nicht mehr läuft. Falls der Vorgang blockiert war, habe ich ihn stoppen lassen.",
+  "deliveryConfirmSent": "Bestätigung der Annahme",
+  "deliveryConfirmFailed": "Als nicht gesendet bestätigen",
+  "deliveryResolved": "Ergebnis aufgezeichnet. Es wurde keine neue Nachricht gesendet.",
+  "deliveryEmpty": "Es wurden keine Lieferversuche registriert.",
+  "errorDeliveryUnknown": "Der E-Mail-Dienst hat die Nachricht möglicherweise angenommen. Prüfen Sie „Versandstatus“ und klären Sie das Ergebnis mit dem Anbieter, bevor Sie es erneut versuchen.",
+  "errorDeliverySending": "Eine Zustellung für diese ausstehende Antwort ist bereits im Gange. Versuchen Sie es nicht noch einmal.",
+  "errorDeliveryConflict": "Diese Anfrage wurde bereits bearbeitet oder enthält andere Inhalte. Prüfen Sie „Versandstatus“.",
+  "errorDeliveryCheckRequired": "Überprüfen Sie das Ergebnis beim E-Mail-Dienst, bevor Sie es bestätigen.",
+  "errorMailNotAccepted": "Der Versuch scheiterte vor der Annahme des Postdienstes. Beheben Sie das Problem und versuchen Sie es erneut.",
+  "errorMailDeliveryUnknown": "Das Lieferergebnis ist ungewiss. Erkundigen Sie sich beim Postdienst, bevor Sie es erneut versuchen.",
+  "biometricErrorCancelled": "Biometrische Überprüfung abgebrochen. Sie können sich mit Ihrem Passwort anmelden.",
+  "biometricErrorUnavailable": "Die biometrisch geschützte Speicherung ist nicht verfügbar. Verwenden Sie Ihr Passwort. Wenn Sie Fingerabdrücke oder Face ID geändert haben, aktivieren Sie die Biometrie erneut in den Einstellungen.",
+  "biometricErrorReenroll": "Diese Geräteberechtigung ist abgelaufen oder nicht mehr gültig. Melden Sie sich manuell an und aktivieren Sie die Biometrie erneut in den Einstellungen.",
+  "errorReauthenticationRequired": "Melden Sie sich aus Sicherheitsgründen ab und mit Ihrer üblichen Methode wieder an. Aktivieren Sie die Biometrie anschließend innerhalb von 5 Minuten.",
+  "aiReportAction": "Antwort melden",
+  "aiReportTitle": "KI-Antwort melden",
+  "aiReportIntro": "Die Antwort und Ihr Kommentar werden sicher an Administratoren zur Überprüfung gesendet.",
+  "aiReportReason": "Grund",
+  "aiReportReasonMisleading": "Irreführend oder falsch",
+  "aiReportReasonHarmful": "Schädlich",
+  "aiReportReasonIllegal": "Illegale Inhalte",
+  "aiReportReasonPrivacy": "Datenschutzproblem",
+  "aiReportReasonOther": "andere",
+  "aiReportComment": "Optionaler Kommentar",
+  "aiReportCommentHint": "Erklären Sie, was mit der Antwort falsch ist",
+  "aiReportSend": "Versenden des Berichts",
+  "aiReportSent": "Versendeter Bericht",
+  "aiReportAlreadySent": "Diese Antwort wurde bereits gemeldet",
+  "tagsTitle": "Tags",
+  "tagsAssignHint": "Weisen Sie dieser Nachricht Tags zu oder verwalten Sie die verfügbaren Tags",
+  "tagsManageMessage": "Tags verwalten",
+  "tagsEmpty": "Sie haben noch keine Tags erstellt.",
+  "tagsCreate": "Tag erstellen",
+  "tagsCreateTitle": "Neuer Tag",
+  "tagsEdit": "Bearbeiten",
+  "tagsEditTitle": "Tag bearbeiten",
+  "tagsDelete": "Löschen",
+  "tagsDeleteTitle": "Tag löschen",
+  "tagsDeleteConfirm": "Möchten Sie das Tag „{name}“ aus dem gesamten Archiv löschen?",
+  "@tagsDeleteConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "tagsName": "Name",
+  "actionDone": "Fertig",
+  "errorTagNameRequired": "Geben Sie einen Namen für das Tag ein.",
+  "errorTagNameTaken": "Ein Tag mit diesem Namen existiert bereits.",
+  "errorTagInvalidColor": "Die gewählte Farbe ist ungültig.",
+  "errorAiReportMessageNotFound": "Diese Antwort kann nicht mehr gemeldet werden.",
+  "errorAiReportAssistantOnly": "Nur Antworten des Assistenten können gemeldet werden.",
+  "settingsLanguageUiHint": "Diese Wahl gilt nur für die Schnittstelle auf diesem Gerät.",
+  "settingsProfileLanguage": "Sprache für E-Mails, Zahlungsbelege und KI-Antworten",
+  "settingsProfileLanguageHint": "Wird für E-Mails, Zahlungsbelege und KI-Antworten verwendet. Bei freigegebenen Arbeitsbereichen gilt für Zahlungsbelege die Spracheinstellung des Inhabers. Die Sprache der Benutzeroberfläche sowie Datums- und Zahlenformate bleiben davon unabhängig. Bereits ausgestellte Belege bleiben unverändert.",
+  "searchVoiceChooseLanguage": "Sprache und Variante für lokales Diktat",
+  "searchVoiceHint": "Lokales Diktat. Drücken und halten, um eine Sprache und Variante zu wählen."
+}

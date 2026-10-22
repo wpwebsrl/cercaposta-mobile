@@ -117,7 +117,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loginPasskey => 'Sign in with a passkey';
 
   @override
-  String get loginGoogle => 'Continue with Google';
+  String get loginGoogle => 'Sign in with Google';
 
   @override
   String get loginApple => 'Sign in with Apple';

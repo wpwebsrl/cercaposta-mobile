@@ -1,0 +1,7 @@
+/* iOS system permission descriptions — standard German, formal address. */
+"NSMicrophoneUsageDescription" = "Das Mikrofon wird für die Sprachsuche in Ihrem E-Mail-Archiv verwendet.";
+"NSSpeechRecognitionUsageDescription" = "Die Spracherkennung wandelt Ihre Sprache in Text für die Suche um. Die Verarbeitung erfolgt auf Ihrem Gerät.";
+"NSFaceIDUsageDescription" = "Face ID entsperrt den Zugriff auf Ihr verschlüsseltes Archiv.";
+"NSLocalNetworkUsageDescription" = "Stellt eine Verbindung zu Ihrem CercaPosta-Server her, der sich in Ihrem lokalen Netzwerk befinden kann.";
+"NSPhotoLibraryUsageDescription" = "Erlaubt dem Nachrichteneditor, Bilder aus Ihrer Fotomediathek hinzuzufügen.";
+"NSPhotoLibraryAddUsageDescription" = "Erlaubt dem Nachrichteneditor, Bilder in Ihrer Fotomediathek zu speichern.";

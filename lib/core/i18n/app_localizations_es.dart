@@ -121,7 +121,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get loginPasskey => 'Iniciar sesión con una clave de acceso';
 
   @override
-  String get loginGoogle => 'Continuar con Google';
+  String get loginGoogle => 'Iniciar sesión con Google';
 
   @override
   String get loginApple => 'Iniciar sesión con Apple';
@@ -258,7 +258,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get notificationsDismiss => 'Descartar';
 
   @override
-  String get notificationsDismissAll => 'Quitar selección';
+  String get notificationsDismissAll => 'Eliminar todas';
 
   @override
   String get notificationsDismissAllConfirm =>
@@ -1230,7 +1230,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get reminderMessage => 'Mensaje';
 
   @override
-  String get reminderRegister => 'Registro';
+  String get reminderRegister => 'Tratamiento';
 
   @override
   String get reminderRegisterAuto => 'Automático';
@@ -1243,14 +1243,14 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String reminderRegisterUsed(String register, String source) {
-    return 'Registro: $register ($source)';
+    return 'Tratamiento: $register ($source)';
   }
 
   @override
   String get reminderRegisterSourceManual => 'elegido';
 
   @override
-  String get reminderRegisterSourceContact => 'recordado para el contacto';
+  String get reminderRegisterSourceContact => 'guardado para el contacto';
 
   @override
   String get reminderRegisterSourceDetected =>
@@ -1263,7 +1263,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get reminderRememberContact => 'Recordar para el contacto';
 
   @override
-  String get reminderRemembered => 'Registro recordado para este contacto';
+  String get reminderRemembered => 'Tratamiento guardado para este contacto';
 
   @override
   String get reminderLanguage => 'Idioma';
@@ -1289,7 +1289,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get reminderAppendedNote =>
-      'La firma, el aviso de IA y las citas se añaden automáticamente.';
+      'La firma, el aviso de IA y, si corresponde, la cita del correo original se añaden automáticamente.';
 
   @override
   String reminderSendFromNote(String from) {
@@ -1322,7 +1322,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String notifFollowupReplyDueTitle(String name) {
-    return 'Debes responder a $name';
+    return 'Deberías responder a $name';
   }
 
   @override
@@ -1811,7 +1811,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get billingDateUnavailable => 'La fecha aún no está disponible';
 
   @override
-  String get billingGraceUntil => 'Período de tolerancia hasta';
+  String get billingGraceUntil => 'Período de gracia hasta';
 
   @override
   String get billingPendingChanges => 'Cambios de plan';
@@ -1827,7 +1827,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get billingExternalCheckoutHint =>
-      'Para proteger tu pago, el proceso de pago, los reintentos y las cancelaciones se completan en el navegador seguro de CercaPosta.';
+      'Para proteger tu pago, la compra, los reintentos de pago y las cancelaciones se completan en el área segura de CercaPosta en tu navegador.';
 
   @override
   String get billingStatusActive => 'Activo';
@@ -1860,8 +1860,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get billingChangeProcessing => 'En proceso';
 
   @override
-  String get billingChangePaymentGrace =>
-      'Pago fallido · período de tolerancia';
+  String get billingChangePaymentGrace => 'Pago fallido · período de gracia';
 
   @override
   String get billingChangeCanceling => 'Cancelación en curso';
@@ -1930,7 +1929,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get notifPlanChangeGraceExpiringTitle =>
-      'El período de tolerancia está a punto de finalizar';
+      'El período de gracia está a punto de finalizar';
 
   @override
   String notifPlanChangeGraceExpiringBody(String date) {
@@ -1939,7 +1938,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get notifPlanChangeGraceExpiredTitle =>
-      'El período de tolerancia ha finalizado';
+      'El período de gracia ha finalizado';
 
   @override
   String get notifPlanChangeGraceExpiredBody =>

@@ -41,6 +41,29 @@
       ],
       "english_name": "Spanish",
       "flag": "es"
+    },
+    {
+      "code": "de",
+      "native_name": "Deutsch",
+      "direction": "ltr",
+      "plural_categories": [
+        "one",
+        "other"
+      ],
+      "english_name": "German",
+      "flag": "de"
+    },
+    {
+      "code": "fr",
+      "native_name": "Français",
+      "direction": "ltr",
+      "plural_categories": [
+        "one",
+        "many",
+        "other"
+      ],
+      "english_name": "French",
+      "flag": "fr"
     }
   ]
 }
